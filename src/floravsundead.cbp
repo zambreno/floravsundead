@@ -15,16 +15,18 @@
 				<Option parameters="-D 60  default.fpl" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add option="-std=c++11" />
 					<Add option="-g" />
+					<Add option="-DSFML_STATIC" />
 					<Add directory="./include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add library="sfml-graphics" />
-					<Add library="sfml-audio" />
-					<Add library="sfml-window" />
-					<Add library="sfml-network" />
-					<Add library="sfml-system" />
+					<Add library="sfml-graphics-s" />
+					<Add library="sfml-audio-s" />
+					<Add library="sfml-window-s" />
+					<Add library="sfml-network-s" />
+					<Add library="sfml-system-s" />
 					<Add library="opengl32" />
 					<Add directory="./lib" />
 				</Linker>
