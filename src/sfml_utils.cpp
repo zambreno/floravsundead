@@ -25,40 +25,25 @@ namespace fvu {
     *****************************************************************************/
     void Game::loadResources() {
 
+
         /* Load the sound buffers. These can safely fit in memory */
         if (myConfig.debug_level > 3)
             printf("Loading sound buffers...");
 
-        if (!mySoundBuffers[0].loadFromFile("audio/sfx/groan.ogg"))
-            raise_error(ERR_AUDIO, "audio/sfx/groan.ogg");
-        if (!mySoundBuffers[1].loadFromFile("audio/sfx/groan2.ogg"))
-            raise_error(ERR_AUDIO, "audio/sfx/groan2.ogg");
-        if (!mySoundBuffers[2].loadFromFile("audio/sfx/groan3.ogg"))
-            raise_error(ERR_AUDIO, "audio/sfx/groan3.ogg");
-        if (!mySoundBuffers[3].loadFromFile("audio/sfx/groan4.ogg"))
-            raise_error(ERR_AUDIO, "audio/sfx/groan4.ogg");
-        if (!mySoundBuffers[4].loadFromFile("audio/sfx/groan5.ogg"))
-            raise_error(ERR_AUDIO, "audio/sfx/groan5.ogg");
-        if (!mySoundBuffers[5].loadFromFile("audio/sfx/groan6.ogg"))
-            raise_error(ERR_AUDIO, "audio/sfx/groan6.ogg");
-
+        for (int16_t i = 0; i < NUM_SFX; i++) {
+            if (!mySoundBuffers[i].loadFromFile(sfxFiles[i]))
+                raise_error(ERR_AUDIO, sfxFiles[i].c_str());
+        }
 
         /* Load the background audio. These should stream from the files */
-        if (!myMusic[0].openFromFile("audio/music/intro1.ogg"))
-            raise_error(ERR_AUDIO, "audio/music/intro1.ogg");
-        if (!myMusic[1].openFromFile("audio/music/main1.ogg"))
-            raise_error(ERR_AUDIO, "audio/music/main1.ogg");
-
-
-        /* Our music will be generally looping */
-        for (int16_t i=0; i < NUM_MUSIC; i++) {
+        for (int16_t i = 0; i < NUM_MUSIC; i++) {
+            if (!myMusic[i].openFromFile(musicFiles[i]))
+                raise_error(ERR_AUDIO, musicFiles[i].c_str());
             myMusic[i].setLoop(true);
             myMusic[i].setVolume(100);
         }
         if (myConfig.debug_level > 3)
             printf("done.\n");
-
-
 
 
         /* Load the various textures from the appropriate files */
@@ -68,22 +53,22 @@ namespace fvu {
             printf("Loading texture data...");
 
 
-        // myTextures[0] is the background sprite
-        if (!pixels.loadFromFile("sprites/background.png"))
-            raise_error(ERR_NOFILE1, "sprites/background.png");
-        myTextures[0].scale = 1.0;
-        myTextures[0].width = pixels.getSize().x;
-        myTextures[0].height = pixels.getSize().y;
+        for (int16_t i = 0; i < NUM_TEXTURES; i++) {
+            if (!pixels.loadFromFile(texFiles[i]))
+                raise_error(ERR_NOFILE1, texFiles[i].c_str());
+            myTextures[i].scale = 1.0;
+            myTextures[i].width = pixels.getSize().x;
+            myTextures[i].height = pixels.getSize().y;
 
-        glBindTexture(GL_TEXTURE_2D, myTextureHandles[0]);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP );
-        glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, myTextures[0].width,
-                    myTextures[0].height, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels.getPixelsPtr());
-
+            glBindTexture(GL_TEXTURE_2D, myTextureHandles[i]);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP );
+            glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, myTextures[i].width,
+                    myTextures[i].height, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels.getPixelsPtr());
+        }
 
 
         if (myConfig.debug_level > 3)

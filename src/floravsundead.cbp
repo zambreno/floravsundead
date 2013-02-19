@@ -15,7 +15,6 @@
 				<Option parameters="-D 60  default.fpl" />
 				<Compiler>
 					<Add option="-O2" />
-					<Add option="-std=c++11" />
 					<Add option="-g" />
 					<Add option="-DSFML_STATIC" />
 					<Add directory="./include" />
@@ -37,6 +36,8 @@
 		</Compiler>
 		<Unit filename="floravsundead.cpp" />
 		<Unit filename="floravsundead.hpp" />
+		<Unit filename="resources.cpp" />
+		<Unit filename="resources.hpp" />
 		<Unit filename="sfml_utils.cpp" />
 		<Unit filename="utils.cpp" />
 		<Extensions>

@@ -19,6 +19,7 @@
 #pragma once
 
 
+
 #include <SFML/Graphics.hpp>
 #include <SFML/OpenGL.hpp>
 #include <SFML/Audio.hpp>
@@ -27,7 +28,7 @@
 #include <string>
 #include <cstring>
 #include <iostream>
-
+#include "resources.hpp"
 
 #define EXEC_NAME "floravsundead"
 #define WINDOW_TITLE "FloraVsUndead, v-1.0a"
@@ -53,14 +54,11 @@
 #define DEBUG_DEFAULT 0
 #define ZOM_FNAME_DEFAULT "default.zom"
 #define TEAM_FNAME_DEFAULT "default.fpl"
-#define NUM_TEXTURES 9
-#define NUM_SOUND_BUFFERS 128
-#define NUM_MUSIC 6
 
-/* Depth enum */
-typedef enum {FRONT_DEPTH=0, SCOREBOARD, COURT, BACKGROUND, BACK_DEPTH} DEPTH_ENUM;
-
-
+/* Globals for resource data (resources.cpp) */
+extern std::string sfxFiles[NUM_SFX];
+extern std::string musicFiles[NUM_MUSIC];
+extern std::string texFiles[NUM_TEXTURES];
 
 /* Function prototypes (utils.cpp) */
 void strlower(char *in);
@@ -114,7 +112,7 @@ namespace fvu {
             Texture myTextures[NUM_TEXTURES];
             GLuint myTextureHandles[NUM_TEXTURES];
             sf::Music myMusic[NUM_MUSIC];
-            sf::SoundBuffer mySoundBuffers[NUM_SOUND_BUFFERS];
+            sf::SoundBuffer mySoundBuffers[NUM_SFX];
             sf::Sound mySound;
             sf::Clock myClock;
 

@@ -72,14 +72,14 @@ namespace fvu {
                         mySound.setBuffer(mySoundBuffers[i]);
                         mySound.play();
                          i++;
-                        i %= 4;
+                        i %= NUM_SFX;
                     }
 
                 }
             }
 
             glClear(GL_DEPTH_BUFFER_BIT);
-            glBindTexture(GL_TEXTURE_2D, myTextureHandles[0]);
+            glBindTexture(GL_TEXTURE_2D, myTextureHandles[TEX_BACKGROUND]);
             glBegin(GL_QUADS);
                 glTexCoord2d(1.0, 0.0);
                 glVertex3f(2.0, 1.5, 0.0);
