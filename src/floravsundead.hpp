@@ -55,6 +55,8 @@
 #define ZOM_FNAME_DEFAULT "default.zom"
 #define TEAM_FNAME_DEFAULT "default.fpl"
 
+typedef enum {DEMO_START, DEMO_MID, DEMO_END, GAME_START, GAME_MID, GAME_END} MODE_TYPE;
+
 /* Globals for resource data (resources.cpp) */
 extern std::string sfxFiles[NUM_SFX];
 extern std::string musicFiles[NUM_MUSIC];
@@ -84,6 +86,15 @@ namespace fvu {
             float scale;
     };
 
+    /* Status structure that contains score and other details */
+    class Status {
+        public:
+            float pan;
+            MODE_TYPE mode;
+    };
+
+
+
     /* Main Game class */
     class Game {
         public:
@@ -94,10 +105,19 @@ namespace fvu {
             void compileZombies();
             void compileTeams();
             void mainLoop();
+            void updateGame();
+            void updateObjects();
+            void restartGame();
+            void demoMode();
+            void endGame();
 
             /* SFML functions (sfml_utils.cpp) */
             void initSFML();
             void loadResources();
+            void drawWorld();
+            void drawMap();
+            void drawScoreboard();
+            void processEvents();
 
             /* Utility functions (utils.cpp) */
             void print_help();
@@ -107,9 +127,10 @@ namespace fvu {
 
         private:
             fvu::Config myConfig;
+            fvu::Status myStatus;
             sf::ContextSettings mySettings;
             sf::RenderWindow myWindow;
-            Texture myTextures[NUM_TEXTURES];
+            fvu::Texture myTextures[NUM_TEXTURES];
             GLuint myTextureHandles[NUM_TEXTURES];
             sf::Music myMusic[NUM_MUSIC];
             sf::SoundBuffer mySoundBuffers[NUM_SFX];

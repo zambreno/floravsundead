@@ -130,18 +130,19 @@ namespace fvu {
     *****************************************************************************/
     void Game::printConfig() {
 
-        printf("\nCurrent configuration information:\n");
-        printf("\tDebug level:           %d\n", myConfig.debug_level);
-        printf("\tScreen pixel width:  %d\n", myConfig.screen_width);
-        printf("\tScreen pixel height: %d\n", myConfig.screen_height);
+        if (myConfig.debug_level > 5) {
+            printf("\nCurrent configuration information:\n");
+            printf("\tDebug level:           %d\n", myConfig.debug_level);
+            printf("\tScreen pixel width:  %d\n", myConfig.screen_width);
+            printf("\tScreen pixel height: %d\n", myConfig.screen_height);
 
-        for (int8_t i = 0; i < 4; i++) {
-            printf("\t\tTeam %d file name:        %s\n", i, myConfig.team_fname[i]);
+            for (int8_t i = 0; i < 4; i++) {
+                printf("\t\tTeam %d file name:        %s\n", i, myConfig.team_fname[i]);
+            }
+
+            printf("\t\tZombie file name:        %s\n", myConfig.zom_fname);
+            printf("\n");
         }
-
-        printf("\t\tZombie file name:        %s\n", myConfig.zom_fname);
-        printf("\n");
-
     }
 
 

@@ -17,6 +17,127 @@
 
 namespace fvu {
 
+    /*****************************************************************************
+    * Function: Game::drawWorld
+    * Description: Draws the various static background objects.
+    *****************************************************************************/
+    void Game::drawWorld() {
+
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        /* Move everything by the pan amount */
+        glMatrixMode(GL_MODELVIEW);
+        glLoadIdentity();
+        glTranslatef(myStatus.pan, 0.0, 0.0);
+
+
+        /* Draw the court texture */
+        glBindTexture(GL_TEXTURE_2D, myTextureHandles[TEX_COURT]);
+        glBegin(GL_QUADS);
+            glTexCoord2d(1.0, 0.0);
+            glVertex3f(210.0, 394.8, COURT_DEPTH);
+            glTexCoord2d(0.0, 0.0);
+            glVertex3f(-210.0, 394.8, COURT_DEPTH);
+            glTexCoord2d(0.0, 1.0);
+            glVertex3f(-210.0, -394.8, COURT_DEPTH);
+            glTexCoord2d(1.0, 1.0);
+            glVertex3f(210.0, -394.8, COURT_DEPTH);
+        glEnd();
+
+        /* Draw the background textures */
+        glBindTexture(GL_TEXTURE_2D, myTextureHandles[TEX_BACKGROUND]);
+        glBegin(GL_QUADS);
+            glTexCoord2d(1.0, 0.0);
+            glVertex3f(1385.0, 581.0, BACKGROUND_DEPTH);
+            glTexCoord2d(0.0, 0.0);
+            glVertex3f(0.0, 581.0, BACKGROUND_DEPTH);
+            glTexCoord2d(0.0, 1.0);
+            glVertex3f(0.0, -581.0, BACKGROUND_DEPTH);
+            glTexCoord2d(1.0, 1.0);
+            glVertex3f(1385.0, -581.0, BACKGROUND_DEPTH);
+
+            glTexCoord2d(1.0, 0.0);
+            glVertex3f(-1385.0, 581.0, BACKGROUND_DEPTH);
+            glTexCoord2d(0.0, 0.0);
+            glVertex3f(0.0, 581.0, BACKGROUND_DEPTH);
+            glTexCoord2d(0.0, 1.0);
+            glVertex3f(0.0, -581.0, BACKGROUND_DEPTH);
+            glTexCoord2d(1.0, 1.0);
+            glVertex3f(-1385.0, -581.0, BACKGROUND_DEPTH);
+        glEnd();
+
+
+
+    }
+
+    /*****************************************************************************
+    * Function: Game::drawScoreboard
+    * Description: Draws the various dynamic in-game objects.
+    *****************************************************************************/
+    void Game::drawScoreboard() {
+
+        /* Draw the bottom scoreboard */
+        glBindTexture(GL_TEXTURE_2D, myTextureHandles[TEX_SCOREBOARD_BOTTOM]);
+        glBegin(GL_QUADS);
+            glTexCoord2d(1.0, 0.0);
+            glVertex3f(247.0, -395.0, SCOREBOARD_DEPTH);
+            glTexCoord2d(0.0, 0.0);
+            glVertex3f(-247.0, -395.0, SCOREBOARD_DEPTH);
+            glTexCoord2d(0.0, 1.0);
+            glVertex3f(-247.0, -578.0, SCOREBOARD_DEPTH);
+            glTexCoord2d(1.0, 1.0);
+            glVertex3f(247.0, -578.0, SCOREBOARD_DEPTH);
+        glEnd();
+
+        /* Draw the top scoreboard */
+        glBindTexture(GL_TEXTURE_2D, myTextureHandles[TEX_SCOREBOARD_TOP]);
+        glBegin(GL_QUADS);
+            glTexCoord2d(1.0, 0.0);
+            glVertex3f(247.0, 578.0, SCOREBOARD_DEPTH);
+            glTexCoord2d(0.0, 0.0);
+            glVertex3f(-247.0, 578.0, SCOREBOARD_DEPTH);
+            glTexCoord2d(0.0, 1.0);
+            glVertex3f(-247.0, 395.0, SCOREBOARD_DEPTH);
+            glTexCoord2d(1.0, 1.0);
+            glVertex3f(247.0, 395.0, SCOREBOARD_DEPTH);
+        glEnd();
+
+
+    }
+
+
+    /*****************************************************************************
+    * Function: Game::drawMap
+    * Description: Draws the various dynamic in-game objects.
+    *****************************************************************************/
+    void Game::drawMap() {
+    }
+
+    /*****************************************************************************
+    * Function: Game::processEvents
+    * Description: Processes keyboard and other SFML events.
+    *****************************************************************************/
+    void Game::processEvents() {
+
+        sf::Event event;
+        int16_t i = 0;
+        while (myWindow.pollEvent(event)) {
+            if (event.type == sf::Event::KeyPressed) {
+                if (event.key.code == sf::Keyboard::Escape) {
+                    myWindow.close();
+                }
+                else {
+                    mySound.setBuffer(mySoundBuffers[i]);
+                    mySound.play();
+                    i++;
+                    i %= NUM_SFX;
+                }
+
+            }
+        }
+
+    }
+
 
     /*****************************************************************************
     * Function: Game::loadResources
@@ -24,7 +145,6 @@ namespace fvu {
     * application.
     *****************************************************************************/
     void Game::loadResources() {
-
 
         /* Load the sound buffers. These can safely fit in memory */
         if (myConfig.debug_level > 3)
@@ -129,14 +249,15 @@ namespace fvu {
 
 
         /* Configure OpenGL default state */
-        glClearColor(10.0/255, 19.0/255, 57.0/255, 1.0);
+        glClearColor(0.0, 0.0, 0.0, 1.0);
         glClearDepth(BACK_DEPTH);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glDepthFunc(GL_LEQUAL);
         glEnable(GL_DEPTH_TEST);
 
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
-        glOrtho(-2.0, 2.0, -1.5, 1.5, FRONT_DEPTH, -BACK_DEPTH);
+        glOrtho(-1032.5, 1032.5, -581.0, 581.0, FRONT_DEPTH, -BACK_DEPTH);
         glMatrixMode(GL_MODELVIEW);
 
         glEnable(GL_TEXTURE_2D);

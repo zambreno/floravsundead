@@ -45,8 +45,10 @@ namespace fvu {
     void Game::init() {
 
         //TODO: implement these eventually
-        //myGame->compileZombies();
-        //myGame->compileTeams();
+        //compileZombies();
+        //compileTeams();
+        myStatus.pan = 0.0;
+        myStatus.mode = DEMO_START;
 
     }
 
@@ -59,46 +61,19 @@ namespace fvu {
         //NOTE: These tasks can be split into multiple threads, in that case we would
         //have to take care regarding which thread has the active window context.
 
-        myMusic[0].play();
-        int16_t i = 0;
         while (myWindow.isOpen()) {
-            sf::Event event;
-            while (myWindow.pollEvent(event)) {
-                if (event.type == sf::Event::KeyPressed) {
-                    if (event.key.code == sf::Keyboard::Escape) {
-                        myWindow.close();
-                    }
-                    else {
-                        mySound.setBuffer(mySoundBuffers[i]);
-                        mySound.play();
-                         i++;
-                        i %= NUM_SFX;
-                    }
+            processEvents();
 
-                }
+            switch (myStatus.mode) {
+                case DEMO_START:
+                case DEMO_MID:
+                case DEMO_END:
+                    demoMode();
+                    break;
+                default:
+                    break;
             }
 
-            glClear(GL_DEPTH_BUFFER_BIT);
-            glBindTexture(GL_TEXTURE_2D, myTextureHandles[TEX_BACKGROUND]);
-            glBegin(GL_QUADS);
-                glTexCoord2d(1.0, 0.0);
-                glVertex3f(2.0, 1.5, 0.0);
-                glTexCoord2d(0.0, 0.0);
-                glVertex3f(0.0, 1.5, 0.0);
-                glTexCoord2d(0.0, 1.0);
-                glVertex3f(0.0, -1.5,0.0);
-                glTexCoord2d(1.0, 1.0);
-                glVertex3f(2.0, -1.5,0.0);
-
-                glTexCoord2d(1.0, 0.0);
-                glVertex3f(-2.0, 1.5, 0.0);
-                glTexCoord2d(0.0, 0.0);
-                glVertex3f(0.0, 1.5, 0.0);
-                glTexCoord2d(0.0, 1.0);
-                glVertex3f(0.0, -1.5,0.0);
-                glTexCoord2d(1.0, 1.0);
-                glVertex3f(-2.0, -1.5,0.0);
-            glEnd();
             myWindow.display();
         }
 
@@ -106,8 +81,36 @@ namespace fvu {
 
     }
 
+    /*****************************************************************************
+    * Function: Game::demoMode()
+    * Description: Runs the initial screen pan before the game start.
+    *****************************************************************************/
+    void Game::demoMode() {
+
+        static float dir = 2.5;
+
+        if (myStatus.mode == DEMO_START) {
+            myMusic[0].play();
+            myStatus.mode = DEMO_MID;
+        }
+
+        drawWorld();
+        drawScoreboard();
+        drawMap();
+
+        myStatus.pan += dir;
+        if (myStatus.pan >= 352.5) {
+            myStatus.pan = 352.5;
+            dir = -dir;
+        }
+        if (myStatus.pan <= -352.5) {
+            myStatus.pan = -352.5;
+            dir = -dir;
+        }
 
 
+
+    }
 
     /*****************************************************************************
     * Function: Game::Game()
