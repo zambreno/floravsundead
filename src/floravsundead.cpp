@@ -87,7 +87,7 @@ namespace fvu {
     *****************************************************************************/
     void Game::demoMode() {
 
-        static float dir = 2.5;
+        static float dir = 3.0;
 
         if (myStatus.mode == DEMO_START) {
             myMusic[0].play();

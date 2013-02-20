@@ -28,20 +28,20 @@ namespace fvu {
         /* Move everything by the pan amount */
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
-        glTranslatef(myStatus.pan, 0.0, 0.0);
+        glTranslatef(myStatus.pan+0.375, 0.375, 0.0);
 
 
         /* Draw the court texture */
         glBindTexture(GL_TEXTURE_2D, myTextureHandles[TEX_COURT]);
         glBegin(GL_QUADS);
             glTexCoord2d(1.0, 0.0);
-            glVertex3f(210.0, 394.8, COURT_DEPTH);
+            glVertex3f(210.0, 395.0, COURT_DEPTH);
             glTexCoord2d(0.0, 0.0);
-            glVertex3f(-210.0, 394.8, COURT_DEPTH);
+            glVertex3f(-210.0, 395.0, COURT_DEPTH);
             glTexCoord2d(0.0, 1.0);
-            glVertex3f(-210.0, -394.8, COURT_DEPTH);
+            glVertex3f(-210.0, -395.0, COURT_DEPTH);
             glTexCoord2d(1.0, 1.0);
-            glVertex3f(210.0, -394.8, COURT_DEPTH);
+            glVertex3f(210.0, -395.0, COURT_DEPTH);
         glEnd();
 
         /* Draw the background textures */
@@ -183,7 +183,7 @@ namespace fvu {
             glBindTexture(GL_TEXTURE_2D, myTextureHandles[i]);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP );
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP );
             glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, myTextures[i].width,
@@ -244,8 +244,8 @@ namespace fvu {
             printf("\tOpenGL v%u.%u\n\n", mySettings.majorVersion, mySettings.minorVersion);
         }
 
-        //myWindow.setVerticalSyncEnabled(true);
-        myWindow.setFramerateLimit(FRAME_RATE);
+        myWindow.setVerticalSyncEnabled(true);
+        //myWindow.setFramerateLimit(FRAME_RATE);
 
 
         /* Configure OpenGL default state */
