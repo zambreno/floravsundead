@@ -38,6 +38,25 @@ typedef enum {MUSIC_INTRO1, MUSIC_MAIN1, MUSIC_MAIN2, MUSIC_MAIN3, MUSIC_MAIN4, 
 extern std::string musicFiles[NUM_MUSIC];
 
 
+/* Sprite enums for the various font maps. We do this so that the resource arrays can be
+ * accessed simply from getTexCoords() */
+/* Sprite enum for TEX_BACKGROUND */
+typedef enum {BACKGROUND_ALL=0, NUM_TEX_BACKGROUND} TEX_BACKGROUND_ENUM;
+extern uint16_t tex_background_spriteMap[][4];
+
+/* Sprite enum for TEX_COURT */
+typedef enum {COURT_ALL=0, NUM_TEX_COURT} TEX_COURT_ENUM;
+extern uint16_t tex_court_spriteMap[][4];
+
+/* Sprite enum for TEX_SCOREBOARD_BOTTOM */
+typedef enum {SCOREBOARD_BOTTOM_ALL=0, NUM_TEX_SCOREBOARD_BOTTOM} TEX_SCOREBOARD_BOTTOM_ENUM;
+extern uint16_t tex_scoreboard_bottom_spriteMap[][4];
+
+/* Sprite enum for TEX_SCOREBOARD_TOP */
+typedef enum {SCOREBOARD_TOP_ALL=0, NUM_TEX_SCOREBOARD_TOP} TEX_SCOREBOARD_TOP_ENUM;
+extern uint16_t tex_scoreboard_top_spriteMap[][4];
+
+
 /* Sprite enum for GREEN_FONT */
 typedef enum {GREEN_ZERO=0, GREEN_1, GREEN_2, GREEN_3, GREEN_4, GREEN_5, GREEN_6, GREEN_7, GREEN_8, GREEN_9, GREEN_NEG, NUM_GREEN_FONT} GREEN_FONT_ENUM;
 extern uint16_t green_font_spriteMap[][4];

@@ -31,32 +31,52 @@ std::string texFiles[NUM_TEXTURES] = {
     "sprites/fonts/red.png"
     };
 
+/* Sprite map for TEX_BACKGROUND */
+uint16_t tex_background_spriteMap[NUM_TEX_BACKGROUND][4] = {
+    {  0,  0,  1384, 1161}
+    };
+
+/* Sprite map for TEX_COURT */
+uint16_t tex_court_spriteMap[NUM_TEX_COURT][4] = {
+    {  0,  0,  499, 939}
+    };
+
+/* Sprite map for TEX_SCOREBOARD_BOTTOM */
+uint16_t tex_scoreboard_bottom_spriteMap[NUM_TEX_SCOREBOARD_BOTTOM][4] = {
+    {  0,  0,  493, 182}
+    };
+
+/* Sprite map for TEX_SCOREBOARD_TOP */
+uint16_t tex_scoreboard_top_spriteMap[NUM_TEX_SCOREBOARD_TOP][4] = {
+    {  0,  0,  493, 182}
+    };
+
 /* Sprite map for GREEN_FONT */
 uint16_t green_font_spriteMap[NUM_GREEN_FONT][4] = {
     {  0  , 0 ,  30 , 44},
-    {  31 , 0 ,  60 , 44},
-    {  61 , 0 ,  90 , 44},
-    {  91 , 0 , 120 , 44},
-    { 121 , 0 , 150 , 44},
-    { 151 , 0 , 180 , 44},
-    { 181 , 0 , 210 , 44},
-    { 211 , 0 , 240 , 44},
-    { 241 , 0 , 270 , 44},
-    { 271 , 0 , 310 , 44},
-    { 311 , 0 , 341 , 44}
+    {  31 , 0 ,  61 , 44},
+    {  62 , 0 ,  92 , 44},
+    {  93 , 0 , 123 , 44},
+    { 124 , 0 , 154 , 44},
+    { 155 , 0 , 185 , 44},
+    { 186 , 0 , 216 , 44},
+    { 217 , 0 , 247 , 44},
+    { 248 , 0 , 278 , 44},
+    { 279 , 0 , 319 , 44},
+    { 320 , 0 , 350 , 44}
     };
 
 /* Sprite map for RED_FONT */
 uint16_t red_font_spriteMap[NUM_RED_FONT][4] = {
-    {  0  , 0 ,  26 , 36},
-    {  27 , 0 ,  52 , 36},
-    {  53 , 0 ,  78 , 36},
-    {  79 , 0 , 104 , 36},
-    { 105 , 0 , 130 , 36},
-    { 131 , 0 , 156 , 36},
-    { 157 , 0 , 182 , 36},
-    { 183 , 0 , 208 , 36},
-    { 209 , 0 , 234 , 36},
-    { 235 , 0 , 260 , 36},
-    { 361 , 0 , 266 , 36},
+    {  0  , 0 ,  25 , 36},
+    {  26 , 0 ,  51 , 36},
+    {  52 , 0 ,  77 , 36},
+    {  78 , 0 , 103 , 36},
+    { 104 , 0 , 129 , 36},
+    { 130 , 0 , 155 , 36},
+    { 156 , 0 , 181 , 36},
+    { 182 , 0 , 207 , 36},
+    { 208 , 0 , 233 , 36},
+    { 234 , 0 , 259 , 36},
+    { 360 , 0 , 265 , 36},
     };

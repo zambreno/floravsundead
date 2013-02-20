@@ -23,47 +23,50 @@ namespace fvu {
     *****************************************************************************/
     void Game::drawWorld() {
 
+        float texCoords[4];
         glClear(GL_DEPTH_BUFFER_BIT);
 
         /* Move everything by the pan amount */
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
-        glTranslatef(myStatus.pan, 0.0, 0.0);//+0.375, 0.375, 0.0);
+        glTranslatef(myStatus.pan, 0.0, 0.0);
 
 
         /* Draw the court texture */
         glBindTexture(GL_TEXTURE_2D, myTextures[TEX_COURT].texHandle);
+        getTexCoords(TEX_COURT, COURT_ALL, texCoords);
         glBegin(GL_QUADS);
-            glTexCoord2d(1.0, 0.0);
-            glVertex3f(210.0, 395.0, COURT_DEPTH);
-            glTexCoord2d(0.0, 0.0);
-            glVertex3f(-210.0, 395.0, COURT_DEPTH);
-            glTexCoord2d(0.0, 1.0);
+            glTexCoord2d(texCoords[0], texCoords[1]);
             glVertex3f(-210.0, -395.0, COURT_DEPTH);
-            glTexCoord2d(1.0, 1.0);
+            glTexCoord2d(texCoords[2], texCoords[1]);
             glVertex3f(210.0, -395.0, COURT_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[3]);
+            glVertex3f(210.0, 395.0, COURT_DEPTH);
+            glTexCoord2d(texCoords[0], texCoords[3]);
+            glVertex3f(-210.0, 395.0, COURT_DEPTH);
         glEnd();
 
         /* Draw the background textures */
         glBindTexture(GL_TEXTURE_2D, myTextures[TEX_BACKGROUND].texHandle);
+        getTexCoords(TEX_BACKGROUND, BACKGROUND_ALL, texCoords);
         glBegin(GL_QUADS);
-            glTexCoord2d(1.0, 0.0);
-            glVertex3f(1385.0, 581.0, BACKGROUND_DEPTH);
-            glTexCoord2d(0.0, 0.0);
-            glVertex3f(0.0, 581.0, BACKGROUND_DEPTH);
-            glTexCoord2d(0.0, 1.0);
+            glTexCoord2d(texCoords[0], texCoords[1]);
             glVertex3f(0.0, -581.0, BACKGROUND_DEPTH);
-            glTexCoord2d(1.0, 1.0);
+            glTexCoord2d(texCoords[2], texCoords[1]);
             glVertex3f(1385.0, -581.0, BACKGROUND_DEPTH);
-
-            glTexCoord2d(1.0, 0.0);
-            glVertex3f(-1385.0, 581.0, BACKGROUND_DEPTH);
-            glTexCoord2d(0.0, 0.0);
+            glTexCoord2d(texCoords[2], texCoords[3]);
+            glVertex3f(1385.0, 581.0, BACKGROUND_DEPTH);
+            glTexCoord2d(texCoords[0], texCoords[3]);
             glVertex3f(0.0, 581.0, BACKGROUND_DEPTH);
-            glTexCoord2d(0.0, 1.0);
+
+            glTexCoord2d(texCoords[0], texCoords[1]);
             glVertex3f(0.0, -581.0, BACKGROUND_DEPTH);
-            glTexCoord2d(1.0, 1.0);
+            glTexCoord2d(texCoords[2], texCoords[1]);
             glVertex3f(-1385.0, -581.0, BACKGROUND_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[3]);
+            glVertex3f(-1385.0, 581.0, BACKGROUND_DEPTH);
+            glTexCoord2d(texCoords[0], texCoords[3]);
+            glVertex3f(0.0, 581.0, BACKGROUND_DEPTH);
         glEnd();
 
 
@@ -76,32 +79,50 @@ namespace fvu {
     *****************************************************************************/
     void Game::drawScoreboard() {
 
+        float texCoords[4];
+
         /* Draw the bottom scoreboard */
         glBindTexture(GL_TEXTURE_2D, myTextures[TEX_SCOREBOARD_BOTTOM].texHandle);
+        getTexCoords(TEX_SCOREBOARD_BOTTOM, SCOREBOARD_BOTTOM_ALL, texCoords);
         glBegin(GL_QUADS);
-            glTexCoord2d(1.0, 0.0);
-            glVertex3f(249.5, -395.0, SCOREBOARD_DEPTH);
-            glTexCoord2d(0.0, 0.0);
-            glVertex3f(-249.5, -395.0, SCOREBOARD_DEPTH);
-            glTexCoord2d(0.0, 1.0);
+            glTexCoord2d(texCoords[0], texCoords[1]);
             glVertex3f(-249.5, -578.0, SCOREBOARD_DEPTH);
-            glTexCoord2d(1.0, 1.0);
+            glTexCoord2d(texCoords[2], texCoords[1]);
             glVertex3f(249.5, -578.0, SCOREBOARD_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[3]);
+            glVertex3f(249.5, -395.0, SCOREBOARD_DEPTH);
+            glTexCoord2d(texCoords[0], texCoords[3]);
+            glVertex3f(-249.5, -395.0, SCOREBOARD_DEPTH);
         glEnd();
 
         /* Draw the top scoreboard */
         glBindTexture(GL_TEXTURE_2D, myTextures[TEX_SCOREBOARD_TOP].texHandle);
+        getTexCoords(TEX_SCOREBOARD_TOP, SCOREBOARD_TOP_ALL, texCoords);
         glBegin(GL_QUADS);
-            glTexCoord2d(1.0, 0.0);
-            glVertex3f(249.5, 578.0, SCOREBOARD_DEPTH);
-            glTexCoord2d(0.0, 0.0);
-            glVertex3f(-249.5, 578.0, SCOREBOARD_DEPTH);
-            glTexCoord2d(0.0, 1.0);
+            glTexCoord2d(texCoords[0], texCoords[1]);
             glVertex3f(-249.5, 395.0, SCOREBOARD_DEPTH);
-            glTexCoord2d(1.0, 1.0);
+            glTexCoord2d(texCoords[2], texCoords[1]);
             glVertex3f(249.5, 395.0, SCOREBOARD_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[3]);
+            glVertex3f(249.5, 578.0, SCOREBOARD_DEPTH);
+            glTexCoord2d(texCoords[0], texCoords[3]);
+            glVertex3f(-249.5, 578.0, SCOREBOARD_DEPTH);
         glEnd();
 
+
+        /* Draw the scores */
+        glBindTexture(GL_TEXTURE_2D, myTextures[GREEN_FONT].texHandle);
+        glBegin(GL_QUADS);
+            getTexCoords(GREEN_FONT, GREEN_2, texCoords);
+            glTexCoord2d(texCoords[0], texCoords[1]);
+            glVertex3f(-151.0, 435.0, FONT_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[1]);
+            glVertex3f(-121.0, 435.0, FONT_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[3]);
+            glVertex3f(-121.0, 479.0, FONT_DEPTH);
+            glTexCoord2d(texCoords[0], texCoords[3]);
+            glVertex3f(-151.0, 479.0, FONT_DEPTH);
+        glEnd();
 
     }
 
@@ -193,9 +214,12 @@ namespace fvu {
         }
 
         /* Bind the individual spriteMaps */
+        myTextures[TEX_BACKGROUND].spriteMap = tex_background_spriteMap;
+        myTextures[TEX_COURT].spriteMap = tex_court_spriteMap;
+        myTextures[TEX_SCOREBOARD_BOTTOM].spriteMap = tex_scoreboard_bottom_spriteMap;
+        myTextures[TEX_SCOREBOARD_TOP].spriteMap = tex_scoreboard_top_spriteMap;
         myTextures[GREEN_FONT].spriteMap = green_font_spriteMap;
-        printf("Test of spriteMap - [%u, %u, %u, %u]\n", myTextures[GREEN_FONT].spriteMap[0][0],
-               myTextures[GREEN_FONT].spriteMap[0][1],myTextures[GREEN_FONT].spriteMap[0][2],myTextures[GREEN_FONT].spriteMap[0][3]);
+        myTextures[RED_FONT].spriteMap = red_font_spriteMap;
 
 
         if (myConfig.debug_level > 3)
