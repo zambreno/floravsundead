@@ -32,7 +32,7 @@ namespace fvu {
 
 
         /* Draw the court texture */
-        glBindTexture(GL_TEXTURE_2D, myTextureHandles[TEX_COURT]);
+        glBindTexture(GL_TEXTURE_2D, myTextures[TEX_COURT].texHandle);
         glBegin(GL_QUADS);
             glTexCoord2d(1.0, 0.0);
             glVertex3f(210.0, 395.0, COURT_DEPTH);
@@ -45,7 +45,7 @@ namespace fvu {
         glEnd();
 
         /* Draw the background textures */
-        glBindTexture(GL_TEXTURE_2D, myTextureHandles[TEX_BACKGROUND]);
+        glBindTexture(GL_TEXTURE_2D, myTextures[TEX_BACKGROUND].texHandle);
         glBegin(GL_QUADS);
             glTexCoord2d(1.0, 0.0);
             glVertex3f(1385.0, 581.0, BACKGROUND_DEPTH);
@@ -77,7 +77,7 @@ namespace fvu {
     void Game::drawScoreboard() {
 
         /* Draw the bottom scoreboard */
-        glBindTexture(GL_TEXTURE_2D, myTextureHandles[TEX_SCOREBOARD_BOTTOM]);
+        glBindTexture(GL_TEXTURE_2D, myTextures[TEX_SCOREBOARD_BOTTOM].texHandle);
         glBegin(GL_QUADS);
             glTexCoord2d(1.0, 0.0);
             glVertex3f(249.5, -395.0, SCOREBOARD_DEPTH);
@@ -90,7 +90,7 @@ namespace fvu {
         glEnd();
 
         /* Draw the top scoreboard */
-        glBindTexture(GL_TEXTURE_2D, myTextureHandles[TEX_SCOREBOARD_TOP]);
+        glBindTexture(GL_TEXTURE_2D, myTextures[TEX_SCOREBOARD_TOP].texHandle);
         glBegin(GL_QUADS);
             glTexCoord2d(1.0, 0.0);
             glVertex3f(249.5, 578.0, SCOREBOARD_DEPTH);
@@ -168,6 +168,7 @@ namespace fvu {
 
         /* Load the various textures from the appropriate files */
         sf::Image pixels;
+        GLuint myTextureHandles[NUM_TEXTURES];
         glGenTextures(NUM_TEXTURES, myTextureHandles);
         if (myConfig.debug_level > 3)
             printf("Loading texture data...");
@@ -179,8 +180,9 @@ namespace fvu {
             myTextures[i].scale = 1.0;
             myTextures[i].width = pixels.getSize().x;
             myTextures[i].height = pixels.getSize().y;
+            myTextures[i].texHandle = myTextureHandles[i];
 
-            glBindTexture(GL_TEXTURE_2D, myTextureHandles[i]);
+            glBindTexture(GL_TEXTURE_2D, myTextures[i].texHandle);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP );
@@ -189,6 +191,11 @@ namespace fvu {
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, myTextures[i].width,
                     myTextures[i].height, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels.getPixelsPtr());
         }
+
+        /* Bind the individual spriteMaps */
+        myTextures[GREEN_FONT].spriteMap = green_font_spriteMap;
+        printf("Test of spriteMap - [%u, %u, %u, %u]\n", myTextures[GREEN_FONT].spriteMap[0][0],
+               myTextures[GREEN_FONT].spriteMap[0][1],myTextures[GREEN_FONT].spriteMap[0][2],myTextures[GREEN_FONT].spriteMap[0][3]);
 
 
         if (myConfig.debug_level > 3)

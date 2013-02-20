@@ -31,6 +31,21 @@ void strlower(char *in) {
 
 namespace fvu {
 
+
+    /*****************************************************************************
+    * Function: Game::getTexCoords
+    * Description: Returns texture coordinates for a specified texture map and
+    * object name.
+    *****************************************************************************/
+    float *Game::getTexCoords(TEXTURE_ENUM texID, uint16_t spriteID, float *texCoords) {
+
+        texCoords[0] = 1.0*myTextures[texID].spriteMap[spriteID][0] / myTextures[texID].width;
+        return texCoords;
+    }
+
+
+
+
     /*****************************************************************************
     * Function: Game::printStatus
     * Description: Prints out the game's status, in terms of player and zombie

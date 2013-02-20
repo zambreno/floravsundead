@@ -57,10 +57,6 @@
 
 typedef enum {DEMO_START, DEMO_MID, DEMO_END, GAME_START, GAME_MID, GAME_END} MODE_TYPE;
 
-/* Globals for resource data (resources.cpp) */
-extern std::string sfxFiles[NUM_SFX];
-extern std::string musicFiles[NUM_MUSIC];
-extern std::string texFiles[NUM_TEXTURES];
 
 /* Function prototypes (utils.cpp) */
 void strlower(char *in);
@@ -84,6 +80,8 @@ namespace fvu {
             uint32_t width;
             uint32_t height;
             float scale;
+            GLuint texHandle;
+            uint16_t (*spriteMap)[4];
     };
 
     /* Status structure that contains score and other details */
@@ -122,6 +120,7 @@ namespace fvu {
             /* Utility functions (utils.cpp) */
             void print_help();
             void raise_error(uint32_t, const char *msg);
+            float *getTexCoords(TEXTURE_ENUM texID, uint16_t spriteID, float *texCoords);
             void printConfig();
             void printStatus();
 
@@ -131,7 +130,6 @@ namespace fvu {
             sf::ContextSettings mySettings;
             sf::RenderWindow myWindow;
             fvu::Texture myTextures[NUM_TEXTURES];
-            GLuint myTextureHandles[NUM_TEXTURES];
             sf::Music myMusic[NUM_MUSIC];
             sf::SoundBuffer mySoundBuffers[NUM_SFX];
             sf::Sound mySound;
