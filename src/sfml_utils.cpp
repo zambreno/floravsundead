@@ -23,12 +23,12 @@ namespace fvu {
     *****************************************************************************/
     void Game::drawWorld() {
 
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glClear(GL_DEPTH_BUFFER_BIT);
 
         /* Move everything by the pan amount */
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
-        glTranslatef(myStatus.pan+0.375, 0.375, 0.0);
+        glTranslatef(myStatus.pan, 0.0, 0.0);//+0.375, 0.375, 0.0);
 
 
         /* Draw the court texture */
@@ -80,26 +80,26 @@ namespace fvu {
         glBindTexture(GL_TEXTURE_2D, myTextureHandles[TEX_SCOREBOARD_BOTTOM]);
         glBegin(GL_QUADS);
             glTexCoord2d(1.0, 0.0);
-            glVertex3f(247.0, -395.0, SCOREBOARD_DEPTH);
+            glVertex3f(249.5, -395.0, SCOREBOARD_DEPTH);
             glTexCoord2d(0.0, 0.0);
-            glVertex3f(-247.0, -395.0, SCOREBOARD_DEPTH);
+            glVertex3f(-249.5, -395.0, SCOREBOARD_DEPTH);
             glTexCoord2d(0.0, 1.0);
-            glVertex3f(-247.0, -578.0, SCOREBOARD_DEPTH);
+            glVertex3f(-249.5, -578.0, SCOREBOARD_DEPTH);
             glTexCoord2d(1.0, 1.0);
-            glVertex3f(247.0, -578.0, SCOREBOARD_DEPTH);
+            glVertex3f(249.5, -578.0, SCOREBOARD_DEPTH);
         glEnd();
 
         /* Draw the top scoreboard */
         glBindTexture(GL_TEXTURE_2D, myTextureHandles[TEX_SCOREBOARD_TOP]);
         glBegin(GL_QUADS);
             glTexCoord2d(1.0, 0.0);
-            glVertex3f(247.0, 578.0, SCOREBOARD_DEPTH);
+            glVertex3f(249.5, 578.0, SCOREBOARD_DEPTH);
             glTexCoord2d(0.0, 0.0);
-            glVertex3f(-247.0, 578.0, SCOREBOARD_DEPTH);
+            glVertex3f(-249.5, 578.0, SCOREBOARD_DEPTH);
             glTexCoord2d(0.0, 1.0);
-            glVertex3f(-247.0, 395.0, SCOREBOARD_DEPTH);
+            glVertex3f(-249.5, 395.0, SCOREBOARD_DEPTH);
             glTexCoord2d(1.0, 1.0);
-            glVertex3f(247.0, 395.0, SCOREBOARD_DEPTH);
+            glVertex3f(249.5, 395.0, SCOREBOARD_DEPTH);
         glEnd();
 
 
