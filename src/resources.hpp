@@ -63,7 +63,7 @@ extern uint16_t green_font_spriteMap[][4];
 
 
 /* Sprite enum for RED_FONT */
-typedef enum {RED_ZERO=0, RED_1, RED_2, RED_3, RED_4, RED_5, RED_6, RED_7, RED_8, RED_9, RED_COLON, NUM_RED_FONT} RED_FONT_ENUM;
+typedef enum {RED_ZERO=0, RED_1, RED_2, RED_3, RED_4, RED_5, RED_6, RED_7, RED_8, RED_9, RED_COLON, RED_DOT, NUM_RED_FONT} RED_FONT_ENUM;
 extern uint16_t red_font_spriteMap[][4];
 
 

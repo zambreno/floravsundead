@@ -160,21 +160,20 @@ namespace fvu {
 
         /* Draw the time remaining */
         int32_t time_ms;
-        if (myStatus.time_ms >= 600000) {
-            time_ms = 599999;
+        if (myStatus.time_ms >= 6000000) {
+            time_ms = 5999999;
         }
         else {
             time_ms = myStatus.time_ms;
         }
-        uint32_t fullmins = time_ms / 60000;
-        uint32_t mins = (time_ms / 6000) % 10;
-        uint32_t fullsecs = ((time_ms / 100) % 60)/10;
-        uint32_t secs = (time_ms / 1000) % 10;
-        uint32_t tenths = (time_ms % 10);
-        printf("%u%u:%u%u.%u time reamining\n", fullmins, mins, fullsecs, secs, tenths);
+        uint32_t fullmins = time_ms / 600000;
+        uint32_t mins = (time_ms / 60000) % 10;
+        uint32_t fullsecs = (time_ms % 60000) / 10000;
+        uint32_t secs = ((time_ms % 60000) / 1000) % 10;
+        uint32_t tenths = (time_ms % 1000) / 100;
 
         glBindTexture(GL_TEXTURE_2D, myTextures[RED_FONT].texHandle);
-        baseX = -152.0; baseY = 535.0;
+        baseX = -61.0; baseY = 507.0;
         glBegin(GL_QUADS);
         for (uint8_t i = 0; i < 2; i++) {
 
@@ -189,7 +188,7 @@ namespace fvu {
                 glTexCoord2d(texCoords[0], texCoords[3]);
                 glVertex3f(baseX, baseY+36.0, FONT_DEPTH);
             }
-            baseX += 27.0;
+            baseX += 29.0;
             if ((fullmins > 0) || (mins > 0)) {
                 getTexCoords(RED_FONT, RED_ZERO + mins, texCoords);
                 glTexCoord2d(texCoords[0], texCoords[1]);
@@ -200,9 +199,19 @@ namespace fvu {
                 glVertex3f(baseX+25.0, baseY+36.0, FONT_DEPTH);
                 glTexCoord2d(texCoords[0], texCoords[3]);
                 glVertex3f(baseX, baseY+36.0, FONT_DEPTH);
-            }
-            baseX += 27.0;
-            if ((fullmins != 0) || (mins != 0)) {
+                baseX += 30.0;
+
+                getTexCoords(RED_FONT, RED_COLON, texCoords);
+                glTexCoord2d(texCoords[0], texCoords[1]);
+                glVertex3f(baseX, baseY, FONT_DEPTH);
+                glTexCoord2d(texCoords[2], texCoords[1]);
+                glVertex3f(baseX+6.0, baseY, FONT_DEPTH);
+                glTexCoord2d(texCoords[2], texCoords[3]);
+                glVertex3f(baseX+6.0, baseY+36.0, FONT_DEPTH);
+                glTexCoord2d(texCoords[0], texCoords[3]);
+                glVertex3f(baseX, baseY+36.0, FONT_DEPTH);
+
+                baseX += 11.0;
                 getTexCoords(RED_FONT, RED_ZERO + fullsecs, texCoords);
                 glTexCoord2d(texCoords[0], texCoords[1]);
                 glVertex3f(baseX, baseY, FONT_DEPTH);
@@ -213,8 +222,7 @@ namespace fvu {
                 glTexCoord2d(texCoords[0], texCoords[3]);
                 glVertex3f(baseX, baseY+36.0, FONT_DEPTH);
 
-                baseX += 27.0;
-
+                baseX += 29.0;
                 getTexCoords(RED_FONT, RED_ZERO + secs, texCoords);
                 glTexCoord2d(texCoords[0], texCoords[1]);
                 glVertex3f(baseX, baseY, FONT_DEPTH);
@@ -225,9 +233,58 @@ namespace fvu {
                 glTexCoord2d(texCoords[0], texCoords[3]);
                 glVertex3f(baseX, baseY+36.0, FONT_DEPTH);
             }
+            // Otherwise, draw the sec.tenths scoreboard mode
+            else {
+                baseX -= 29.0;
+                if (fullsecs > 0) {
+                    getTexCoords(RED_FONT, RED_ZERO + fullsecs, texCoords);
+                    glTexCoord2d(texCoords[0], texCoords[1]);
+                    glVertex3f(baseX, baseY, FONT_DEPTH);
+                    glTexCoord2d(texCoords[2], texCoords[1]);
+                    glVertex3f(baseX+25.0, baseY, FONT_DEPTH);
+                    glTexCoord2d(texCoords[2], texCoords[3]);
+                    glVertex3f(baseX+25.0, baseY+36.0, FONT_DEPTH);
+                    glTexCoord2d(texCoords[0], texCoords[3]);
+                    glVertex3f(baseX, baseY+36.0, FONT_DEPTH);
+                }
 
-            baseX = -152.0;
-            baseY = -420.0;
+                baseX += 29.0;
+                getTexCoords(RED_FONT, RED_ZERO + secs, texCoords);
+                glTexCoord2d(texCoords[0], texCoords[1]);
+                glVertex3f(baseX, baseY, FONT_DEPTH);
+                glTexCoord2d(texCoords[2], texCoords[1]);
+                glVertex3f(baseX+25.0, baseY, FONT_DEPTH);
+                glTexCoord2d(texCoords[2], texCoords[3]);
+                glVertex3f(baseX+25.0, baseY+36.0, FONT_DEPTH);
+                glTexCoord2d(texCoords[0], texCoords[3]);
+                glVertex3f(baseX, baseY+36.0, FONT_DEPTH);
+
+                baseX += 30.0;
+                getTexCoords(RED_FONT, RED_DOT, texCoords);
+                glTexCoord2d(texCoords[0], texCoords[1]);
+                glVertex3f(baseX, baseY, FONT_DEPTH);
+                glTexCoord2d(texCoords[2], texCoords[1]);
+                glVertex3f(baseX+6.0, baseY, FONT_DEPTH);
+                glTexCoord2d(texCoords[2], texCoords[3]);
+                glVertex3f(baseX+6.0, baseY+36.0, FONT_DEPTH);
+                glTexCoord2d(texCoords[0], texCoords[3]);
+                glVertex3f(baseX, baseY+36.0, FONT_DEPTH);
+
+                baseX += 11.0;
+                getTexCoords(RED_FONT, RED_ZERO + tenths, texCoords);
+                glTexCoord2d(texCoords[0], texCoords[1]);
+                glVertex3f(baseX, baseY, FONT_DEPTH);
+                glTexCoord2d(texCoords[2], texCoords[1]);
+                glVertex3f(baseX+25.0, baseY, FONT_DEPTH);
+                glTexCoord2d(texCoords[2], texCoords[3]);
+                glVertex3f(baseX+25.0, baseY+36.0, FONT_DEPTH);
+                glTexCoord2d(texCoords[0], texCoords[3]);
+                glVertex3f(baseX, baseY+36.0, FONT_DEPTH);
+
+            }
+
+            baseX = -61.0;
+            baseY = -545.0;
         }
         glEnd();
 

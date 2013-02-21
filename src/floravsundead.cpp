@@ -77,13 +77,19 @@ namespace fvu {
                     break;
                 case GAME_START:
                 case GAME_MID:
-                case GAME_END:
                     drawWorld();
                     drawScoreboard();
                     drawMap();
                     myTime = myClock.getElapsedTime();
                     myStatus.time_ms -= myTime.asMilliseconds();
+                    if (myStatus.time_ms <= 0) {
+                        myStatus.time_ms = 0;
+                        myStatus.mode = GAME_END;
+                    }
                     myClock.restart();
+                    break;
+                case GAME_END:
+                    endGame();
                     break;
                 default:
                     break;
@@ -93,6 +99,18 @@ namespace fvu {
         }
 
         return;
+
+    }
+
+    /*****************************************************************************
+    * Function: Game::endGame()
+    * Description: Runs the end game sequence.
+    *****************************************************************************/
+    void Game::endGame() {
+
+        drawWorld();
+        drawScoreboard();
+        drawMap();
 
     }
 
