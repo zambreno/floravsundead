@@ -25,6 +25,7 @@
 #include <SFML/Audio.hpp>
 #include <stdio.h>
 #include <stdint.h>
+#include <math.h>
 #include <string>
 #include <cstring>
 #include <iostream>
@@ -54,6 +55,7 @@
 #define DEBUG_DEFAULT 0
 #define ZOM_FNAME_DEFAULT "default.zom"
 #define TEAM_FNAME_DEFAULT "default.fpl"
+#define TIME_MS_DEFAULT 300000
 
 typedef enum {DEMO_START, DEMO_MID, DEMO_END, GAME_START, GAME_MID, GAME_END} MODE_TYPE;
 
@@ -72,6 +74,7 @@ namespace fvu {
             uint8_t screen_depth;
             char *team_fname[4];
             char *zom_fname;
+            int32_t time_ms;
     };
 
     /* Texture structure, so that we can more easily swap textures out */
@@ -87,8 +90,10 @@ namespace fvu {
     /* Status structure that contains score and other details */
     class Status {
         public:
-            float pan;
+            float pan, pan_prev;
             MODE_TYPE mode;
+            int16_t scores[4];
+            int32_t time_ms;
     };
 
 

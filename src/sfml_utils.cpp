@@ -112,16 +112,123 @@ namespace fvu {
 
         /* Draw the scores */
         glBindTexture(GL_TEXTURE_2D, myTextures[GREEN_FONT].texHandle);
+        float baseX = -152.0, baseY = 435.0;
+        int16_t score;
+        char digits[4];
         glBegin(GL_QUADS);
-            getTexCoords(GREEN_FONT, GREEN_2, texCoords);
-            glTexCoord2d(texCoords[0], texCoords[1]);
-            glVertex3f(-151.0, 435.0, FONT_DEPTH);
-            glTexCoord2d(texCoords[2], texCoords[1]);
-            glVertex3f(-121.0, 435.0, FONT_DEPTH);
-            glTexCoord2d(texCoords[2], texCoords[3]);
-            glVertex3f(-121.0, 479.0, FONT_DEPTH);
-            glTexCoord2d(texCoords[0], texCoords[3]);
-            glVertex3f(-151.0, 479.0, FONT_DEPTH);
+            for (uint8_t i = 0; i < 4; i++) {
+                // Limit the score to be displayed
+                score = myStatus.scores[i];
+                if (score > 999)
+                    score = 999;
+                if (score < -99)
+                    score = -99;
+
+                sprintf(digits,"%3d",score);
+
+                for (uint8_t j = 0; j < 3; j++) {
+                    if (digits[j] == '-') {
+                        getTexCoords(GREEN_FONT, GREEN_NEG, texCoords);
+                    }
+                    else if (digits[j] != ' ') {
+                        getTexCoords(GREEN_FONT, digits[j] - '0' + GREEN_ZERO, texCoords);
+                    }
+                    if (digits[j] != ' ') {
+                        glTexCoord2d(texCoords[0], texCoords[1]);
+                        glVertex3f(baseX+36.0*j, baseY, FONT_DEPTH);
+                        glTexCoord2d(texCoords[2], texCoords[1]);
+                        glVertex3f(baseX+36.0*j+30.0, baseY, FONT_DEPTH);
+                        glTexCoord2d(texCoords[2], texCoords[3]);
+                        glVertex3f(baseX+36.0*j+30.0, baseY+44.0, FONT_DEPTH);
+                        glTexCoord2d(texCoords[0], texCoords[3]);
+                        glVertex3f(baseX+36.0*j, baseY+44.0, FONT_DEPTH);
+                    }
+
+                }
+
+                if (i == 1) {
+                    baseX = -152.0;
+                    baseY = -479.0;
+                }
+                else {
+                    baseX += 206.0;
+                }
+
+
+            }
+        glEnd();
+
+        /* Draw the time remaining */
+        int32_t time_ms;
+        if (myStatus.time_ms >= 600000) {
+            time_ms = 599999;
+        }
+        else {
+            time_ms = myStatus.time_ms;
+        }
+        uint32_t fullmins = time_ms / 60000;
+        uint32_t mins = (time_ms / 6000) % 10;
+        uint32_t fullsecs = ((time_ms / 100) % 60)/10;
+        uint32_t secs = (time_ms / 1000) % 10;
+        uint32_t tenths = (time_ms % 10);
+        printf("%u%u:%u%u.%u time reamining\n", fullmins, mins, fullsecs, secs, tenths);
+
+        glBindTexture(GL_TEXTURE_2D, myTextures[RED_FONT].texHandle);
+        baseX = -152.0; baseY = 535.0;
+        glBegin(GL_QUADS);
+        for (uint8_t i = 0; i < 2; i++) {
+
+            if (fullmins != 0) {
+                getTexCoords(RED_FONT, RED_ZERO + fullmins, texCoords);
+                glTexCoord2d(texCoords[0], texCoords[1]);
+                glVertex3f(baseX, baseY, FONT_DEPTH);
+                glTexCoord2d(texCoords[2], texCoords[1]);
+                glVertex3f(baseX+25.0, baseY, FONT_DEPTH);
+                glTexCoord2d(texCoords[2], texCoords[3]);
+                glVertex3f(baseX+25.0, baseY+36.0, FONT_DEPTH);
+                glTexCoord2d(texCoords[0], texCoords[3]);
+                glVertex3f(baseX, baseY+36.0, FONT_DEPTH);
+            }
+            baseX += 27.0;
+            if ((fullmins > 0) || (mins > 0)) {
+                getTexCoords(RED_FONT, RED_ZERO + mins, texCoords);
+                glTexCoord2d(texCoords[0], texCoords[1]);
+                glVertex3f(baseX, baseY, FONT_DEPTH);
+                glTexCoord2d(texCoords[2], texCoords[1]);
+                glVertex3f(baseX+25.0, baseY, FONT_DEPTH);
+                glTexCoord2d(texCoords[2], texCoords[3]);
+                glVertex3f(baseX+25.0, baseY+36.0, FONT_DEPTH);
+                glTexCoord2d(texCoords[0], texCoords[3]);
+                glVertex3f(baseX, baseY+36.0, FONT_DEPTH);
+            }
+            baseX += 27.0;
+            if ((fullmins != 0) || (mins != 0)) {
+                getTexCoords(RED_FONT, RED_ZERO + fullsecs, texCoords);
+                glTexCoord2d(texCoords[0], texCoords[1]);
+                glVertex3f(baseX, baseY, FONT_DEPTH);
+                glTexCoord2d(texCoords[2], texCoords[1]);
+                glVertex3f(baseX+25.0, baseY, FONT_DEPTH);
+                glTexCoord2d(texCoords[2], texCoords[3]);
+                glVertex3f(baseX+25.0, baseY+36.0, FONT_DEPTH);
+                glTexCoord2d(texCoords[0], texCoords[3]);
+                glVertex3f(baseX, baseY+36.0, FONT_DEPTH);
+
+                baseX += 27.0;
+
+                getTexCoords(RED_FONT, RED_ZERO + secs, texCoords);
+                glTexCoord2d(texCoords[0], texCoords[1]);
+                glVertex3f(baseX, baseY, FONT_DEPTH);
+                glTexCoord2d(texCoords[2], texCoords[1]);
+                glVertex3f(baseX+25.0, baseY, FONT_DEPTH);
+                glTexCoord2d(texCoords[2], texCoords[3]);
+                glVertex3f(baseX+25.0, baseY+36.0, FONT_DEPTH);
+                glTexCoord2d(texCoords[0], texCoords[3]);
+                glVertex3f(baseX, baseY+36.0, FONT_DEPTH);
+            }
+
+            baseX = -152.0;
+            baseY = -420.0;
+        }
         glEnd();
 
     }
@@ -144,14 +251,46 @@ namespace fvu {
         int16_t i = 0;
         while (myWindow.pollEvent(event)) {
             if (event.type == sf::Event::KeyPressed) {
-                if (event.key.code == sf::Keyboard::Escape) {
-                    myWindow.close();
-                }
-                else {
-                    mySound.setBuffer(mySoundBuffers[i]);
-                    mySound.play();
-                    i++;
-                    i %= NUM_SFX;
+                switch (event.key.code) {
+                    case sf::Keyboard::Num1:
+                        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Dash))
+                            myStatus.scores[0]--;
+                        else
+                            myStatus.scores[0]++;
+                        break;
+                    case sf::Keyboard::Num2:
+                        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Dash))
+                            myStatus.scores[1]--;
+                        else
+                            myStatus.scores[1]++;
+                        break;
+                    case sf::Keyboard::Num3:
+                        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Dash))
+                            myStatus.scores[2]--;
+                        else
+                            myStatus.scores[2]++;
+                        break;
+                    case sf::Keyboard::Num4:
+                        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Dash))
+                            myStatus.scores[3]--;
+                        else
+                            myStatus.scores[3]++;
+                        break;
+                    case sf::Keyboard::Escape:
+                    case sf::Keyboard::Q:
+                        myWindow.close();
+                        break;
+                    case sf::Keyboard::S:
+                    case sf::Keyboard::Return:
+                        if (myStatus.mode == DEMO_MID)
+                            myStatus.mode = DEMO_END;
+                        break;
+                    default:
+                        mySound.setBuffer(mySoundBuffers[i]);
+                        mySound.play();
+                        i++;
+                        i %= NUM_SFX;
+                        break;
                 }
 
             }

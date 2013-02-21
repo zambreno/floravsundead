@@ -49,6 +49,9 @@ namespace fvu {
         //compileTeams();
         myStatus.pan = 0.0;
         myStatus.mode = DEMO_START;
+        myStatus.time_ms = myConfig.time_ms;
+        for (uint8_t i = 0; i < 4; i++)
+            myStatus.scores[i] = 0;
 
     }
 
@@ -61,6 +64,8 @@ namespace fvu {
         //NOTE: These tasks can be split into multiple threads, in that case we would
         //have to take care regarding which thread has the active window context.
 
+
+        sf::Time myTime;
         while (myWindow.isOpen()) {
             processEvents();
 
@@ -69,6 +74,16 @@ namespace fvu {
                 case DEMO_MID:
                 case DEMO_END:
                     demoMode();
+                    break;
+                case GAME_START:
+                case GAME_MID:
+                case GAME_END:
+                    drawWorld();
+                    drawScoreboard();
+                    drawMap();
+                    myTime = myClock.getElapsedTime();
+                    myStatus.time_ms -= myTime.asMilliseconds();
+                    myClock.restart();
                     break;
                 default:
                     break;
@@ -98,16 +113,36 @@ namespace fvu {
         drawScoreboard();
         drawMap();
 
-        myStatus.pan += dir;
-        if (myStatus.pan >= 352.5) {
-            myStatus.pan = 352.5;
-            dir = -dir;
-        }
-        if (myStatus.pan <= -352.5) {
-            myStatus.pan = -352.5;
-            dir = -dir;
-        }
 
+        if (myStatus.mode == DEMO_MID) {
+
+            myStatus.pan_prev = myStatus.pan;
+            myStatus.pan += dir;
+            if (myStatus.pan >= 352.5) {
+                myStatus.pan = 352.5;
+                dir = -dir;
+            }
+            if (myStatus.pan <= -352.5) {
+                myStatus.pan = -352.5;
+                dir = -dir;
+            }
+        }
+        else {
+            myMusic[0].setVolume(100*myStatus.pan/myStatus.pan_prev);
+            if (fabs(myStatus.pan) < fabs(1.0*dir)) {
+                myStatus.pan = 0.0;
+                myStatus.mode = GAME_START;
+                myMusic[0].stop();
+                myMusic[1].play();
+                myClock.restart();
+            }
+            else if (myStatus.pan < 0.0) {
+                myStatus.pan += fabs(dir);
+            }
+            else {
+                myStatus.pan -= fabs(dir);
+            }
+        }
 
 
     }
@@ -163,6 +198,7 @@ namespace fvu {
         myConfig.screen_width = SCREEN_WIDTH_DEFAULT;
         myConfig.screen_depth = SCREEN_DEPTH_DEFAULT;
         myConfig.zom_fname = (char *)malloc(strlen(ZOM_FNAME_DEFAULT)+1);
+        myConfig.time_ms = TIME_MS_DEFAULT;
 
         if (!myConfig.zom_fname) {
             raise_error(ERR_NOMEM, NULL);
