@@ -288,6 +288,58 @@ namespace fvu {
         }
         glEnd();
 
+
+
+        /* Draw the team names */
+        glBindTexture(GL_TEXTURE_2D, myTextures[WHITE_FONT].texHandle);
+        baseX = -228.0, baseY = 505.0;
+        char name[9];
+        glBegin(GL_QUADS);
+            for (uint8_t i = 0; i < 4; i++) {
+                if (i % 2) {
+                    snprintf(name, 9, "%-8s", myTeams[i].name);
+                }
+                else {
+                    snprintf(name, 9, "%8s", myTeams[i].name);
+                }
+
+                uint16_t width;
+                uint16_t white_font_enum;
+                for (uint8_t j = 0; j < 8; j++) {
+                    width = 19;
+                    white_font_enum = NUM_WHITE_FONT;
+                    if (name[j] >= 'A' && name[j] <= 'Z') {
+                        white_font_enum = name[j] - 'A' + WHITE_A;
+                    }
+                    if (name[j] >= 'a' && name[j] <= 'z') {
+                        white_font_enum = name[j] - 'a' + WHITE_a;
+                    }
+                    if (name[j] >= '0' && name[j] <= '9') {
+                        white_font_enum = name[j] - '0' + WHITE_0;
+                    }
+                    if (white_font_enum != NUM_WHITE_FONT) {
+                        /* This font isn't fixed-width */
+                        width = 0.75*(myTextures[WHITE_FONT].spriteMap[white_font_enum][2] - myTextures[WHITE_FONT].spriteMap[white_font_enum][0]);
+                        getTexCoords(WHITE_FONT, white_font_enum, texCoords);
+                        glTexCoord2d(texCoords[0], texCoords[1]);
+                        glVertex3f(baseX, baseY, FONT_DEPTH);
+                        glTexCoord2d(texCoords[2], texCoords[1]);
+                        glVertex3f(baseX+(float)width, baseY, FONT_DEPTH);
+                        glTexCoord2d(texCoords[2], texCoords[3]);
+                        glVertex3f(baseX+(float)width, baseY+0.75*54.0, FONT_DEPTH);
+                        glTexCoord2d(texCoords[0], texCoords[3]);
+                        glVertex3f(baseX, baseY+0.75*54.0, FONT_DEPTH);
+                    }
+                    baseX += width;
+                }
+                baseX = 82.0;
+                if (i == 1) {
+                    baseX = -228.0;
+                    baseY = -555.0;
+                }
+            }
+        glEnd();
+
     }
 
 
@@ -416,6 +468,7 @@ namespace fvu {
         myTextures[TEX_SCOREBOARD_TOP].spriteMap = tex_scoreboard_top_spriteMap;
         myTextures[GREEN_FONT].spriteMap = green_font_spriteMap;
         myTextures[RED_FONT].spriteMap = red_font_spriteMap;
+        myTextures[WHITE_FONT].spriteMap = white_font_spriteMap;
 
 
         if (myConfig.debug_level > 3)

@@ -46,7 +46,7 @@ namespace fvu {
 
         //TODO: implement these eventually
         //compileZombies();
-        //compileTeams();
+        compileTeams();
         myStatus.pan = 0.0;
         myStatus.mode = DEMO_START;
         myStatus.time_ms = myConfig.time_ms;
@@ -164,6 +164,43 @@ namespace fvu {
 
 
     }
+
+
+    /*****************************************************************************
+    * Function: Game::compileTeams()
+    * Description: Compiles the 4 team .fpl files to initialize commands and
+    * other per-team information
+    *****************************************************************************/
+    void Game::compileTeams() {
+        uint8_t i_team;
+        fvu::Team *team;
+        FILE *team_file;
+
+        for (i_team = 0; i_team < 4; i_team++) {
+
+            /* Open and compile the team file */
+            if (myConfig.debug_level > 1) {
+                printf("Compiling team file %s\n", myConfig.team_fname[i_team]);
+            }
+
+            team_file = fopen(myConfig.team_fname[i_team], "r");
+            if (!team_file) {
+                raise_error(ERR_NOFILE2, myConfig.team_fname[i_team]);
+            }
+
+            myStatus.scores[i_team] = 0;
+            team = &myTeams[i_team];
+
+            // Copy the file name, removing the .fpl extension
+            team->name = (char *)calloc(9, sizeof(char));
+            if (!team->name) {
+                raise_error(ERR_NOMEM, (char *)"team->name");
+            }
+            strncpy(team->name, myConfig.team_fname[i_team], strlen(myConfig.team_fname[i_team])-4);
+            strlower(team->name);
+        }
+    }
+
 
     /*****************************************************************************
     * Function: Game::Game()

@@ -19,7 +19,7 @@
 
 /* Texture file enum */
 typedef enum {TEX_BACKGROUND=0, TEX_COURT, TEX_SCOREBOARD_BOTTOM, TEX_SCOREBOARD_TOP,
-              GREEN_FONT, RED_FONT, NUM_TEXTURES} TEXTURE_ENUM;
+              GREEN_FONT, RED_FONT, WHITE_FONT, NUM_TEXTURES} TEXTURE_ENUM;
 extern std::string texFiles[NUM_TEXTURES];
 
 
@@ -66,5 +66,11 @@ extern uint16_t green_font_spriteMap[][4];
 typedef enum {RED_ZERO=0, RED_1, RED_2, RED_3, RED_4, RED_5, RED_6, RED_7, RED_8, RED_9, RED_COLON, RED_DOT, NUM_RED_FONT} RED_FONT_ENUM;
 extern uint16_t red_font_spriteMap[][4];
 
+/* Sprite enum for WHITE_FONT */
+typedef enum {WHITE_A=0, WHITE_B, WHITE_C, WHITE_D, WHITE_E, WHITE_F, WHITE_G, WHITE_H, WHITE_I, WHITE_J, WHITE_K, WHITE_L, WHITE_M, WHITE_N, WHITE_O, WHITE_P, WHITE_Q, WHITE_R,
+              WHITE_S, WHITE_T, WHITE_U, WHITE_V, WHITE_W, WHITE_X, WHITE_Y, WHITE_Z, WHITE_a, WHITE_b, WHITE_c, WHITE_d, WHITE_e, WHITE_f, WHITE_g, WHITE_h, WHITE_i, WHITE_j,
+              WHITE_k, WHITE_l, WHITE_m, WHITE_n, WHITE_o, WHITE_p, WHITE_q, WHITE_r, WHITE_s, WHITE_t, WHITE_u, WHITE_v, WHITE_w, WHITE_x, WHITE_y, WHITE_z, WHITE_0, WHITE_1,
+              WHITE_2, WHITE_3, WHITE_4, WHITE_5, WHITE_6, WHITE_7, WHITE_8, WHITE_9, NUM_WHITE_FONT} WHITE_FONT_ENUM;
+extern uint16_t white_font_spriteMap[][4];
 
 

@@ -77,6 +77,15 @@ namespace fvu {
             int32_t time_ms;
     };
 
+
+    /* Per-team state information */
+    class Team {
+        public:
+            uint32_t status;
+            char *name;
+    };
+
+
     /* Texture structure, so that we can more easily swap textures out */
     class Texture {
         public:
@@ -95,7 +104,6 @@ namespace fvu {
             int16_t scores[4];
             int32_t time_ms;
     };
-
 
 
     /* Main Game class */
@@ -132,6 +140,7 @@ namespace fvu {
         private:
             fvu::Config myConfig;
             fvu::Status myStatus;
+            fvu::Team myTeams[4];
             sf::ContextSettings mySettings;
             sf::RenderWindow myWindow;
             fvu::Texture myTextures[NUM_TEXTURES];
