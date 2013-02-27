@@ -350,6 +350,13 @@ namespace fvu {
     void Game::drawMap() {
     }
 
+      /*****************************************************************************
+    * Function: Game::drawZombie
+    * Description: Draws a zombie on click of the z button.
+    *****************************************************************************/
+    void Game::drawZombie(){
+    }
+
     /*****************************************************************************
     * Function: Game::processEvents
     * Description: Processes keyboard and other SFML events.
@@ -469,6 +476,7 @@ namespace fvu {
         myTextures[GREEN_FONT].spriteMap = green_font_spriteMap;
         myTextures[RED_FONT].spriteMap = red_font_spriteMap;
         myTextures[WHITE_FONT].spriteMap = white_font_spriteMap;
+        myTextures[ZOMBIES].spriteMap = zombie_object_spriteMap;
 
 
         if (myConfig.debug_level > 3)

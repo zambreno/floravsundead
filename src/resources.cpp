@@ -30,6 +30,7 @@ std::string texFiles[NUM_TEXTURES] = {
     "sprites/fonts/green.png",
     "sprites/fonts/red.png",
     "sprites/fonts/white.png"
+    "sprites/sprites.png"
     };
 
 /* Sprite map for TEX_BACKGROUND */
@@ -102,4 +103,11 @@ uint16_t white_font_spriteMap[NUM_WHITE_FONT][4] = {
    {1507,  0, 1531, 54}, {1532,  0, 1558, 54}, {1559,  0, 1584, 54}, {1585,  0, 1611, 54},
    {1612,  0, 1636, 54}, {1637,  0, 1661, 54}
     };
+
+uint16_t zombie_object_spriteMap[NUM_ZOMBIES][4] = {
+
+
+
+
+};
 
