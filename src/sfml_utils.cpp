@@ -351,10 +351,25 @@ namespace fvu {
     }
 
       /*****************************************************************************
-    * Function: Game::drawZombie
-    * Description: Draws a zombie on click of the z button.
+    * Function: Game::drawZombie()
+    * Description: Draws a zombie.
     *****************************************************************************/
-    void Game::drawZombie(){
+
+    void Game::drawZombie() {
+
+    glBindTexture(GL_TEXTURE_2D, myTextures[ZOMBIES].texHandle);
+        getTexCoords(ZOMBIES, ZOMBIEBODY, texCoords);
+        glBegin(GL_QUADS);
+            glTexCoord2d(texCoords[0], texCoords[1]);
+            glVertex3f(-249.5, -578.0, ZOMBIES_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[1]);
+            glVertex3f(249.5, -578.0, ZOMBIES_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[3]);
+            glVertex3f(249.5, -395.0, ZOMBIES_DEPTH);
+            glTexCoord2d(texCoords[0], texCoords[3]);
+            glVertex3f(-249.5, -395.0, ZOMBIES_DEPTH);
+        glEnd();
+
     }
 
     /*****************************************************************************

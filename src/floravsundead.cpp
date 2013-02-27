@@ -114,6 +114,14 @@ namespace fvu {
 
     }
 
+
+
+    /*****************************************************************************
+    * Function: Game::endGame()
+    * Description: Runs the end game sequence.
+    *****************************************************************************/
+
+
     /*****************************************************************************
     * Function: Game::demoMode()
     * Description: Runs the initial screen pan before the game start.
