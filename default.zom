@@ -1,0 +1,48 @@
+# Joseph Zambreno
+# Iowa State University
+# default.zom - default FloravsUndead Zombie file
+
+# The '#' symbol denotes comments.
+# Comments are only detected at the beginning of a line
+
+# Set the total budget for plants. Note that the game-supplied zombie file has an 
+# unlimited budget (for zombies), so we are specifying the per-team budget here. 
+#
+budget 200
+
+# Select the blocks next. The currently valid options are:
+# Zombie, Flag, Conehead, Polevault, Buckethead, Newspaper, Screendoor, Football, Dancing, Yeti. 
+# You can specify more than 1 of a type in a line.
+#
+select Zombie 3
+select Conehead 1
+select Zombie 2
+select Conehead 1
+select flag 1
+select Zombie 4
+select Conehead 3
+
+# Specify the zombie placement and timing next. Each zombie is specified with
+# the entering lane in the range [0,4], and a delay from the previous zombie
+# (in milliseconds) in the range [-1, 10000]. A delay of -1 directs the game
+# to wait until all the previous zombies are defeated before sending this one
+# (similar to the final wave). Note that the placement is in order of selection, 
+# and that certain zombies may have game-enforced limitations on which lane they 
+# can be placed. 
+#
+place 0, 1500
+place 3, 1000
+place 2, 0
+place 0, 1000
+place 1, 0
+place 1, 500
+place 4, 1000
+place 2, -1
+place 1, 500
+place 0, 0
+place 3, 0
+place 4, 0
+place 2, 300
+place 1, 0
+place 2, 1000
+place 3, 0

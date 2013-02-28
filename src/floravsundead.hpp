@@ -83,6 +83,7 @@ namespace fvu {
         public:
             uint32_t status;
             char *name;
+            uint16_t budget;
     };
 
 
@@ -103,6 +104,17 @@ namespace fvu {
             MODE_TYPE mode;
             int16_t scores[4];
             int32_t time_ms;
+            uint16_t budget;
+    };
+
+    /* Main zombie class */
+    class Zombie {
+        public:
+            uint16_t health;
+            float speed;
+            std::vector<uint16_t> transitions;
+            float x, y, demo_x, demo_y;
+            uint16_t delay;
     };
 
 
@@ -144,6 +156,7 @@ namespace fvu {
             fvu::Config myConfig;
             fvu::Status myStatus;
             fvu::Team myTeams[4];
+            std::vector<fvu::Zombie> myZombies;
             sf::ContextSettings mySettings;
             sf::RenderWindow myWindow;
             fvu::Texture myTextures[NUM_TEXTURES];

@@ -110,7 +110,7 @@ namespace fvu {
                 fprintf(stderr, "Error: %s player file not found\n", msg);
                 break;
             case ERR_NOFILE3:
-                fprintf(stderr, "Error: %s map file not found\n", msg);
+                fprintf(stderr, "Error: %s zombie file not found\n", msg);
                 break;
             case ERR_BADFILE1:
                 fprintf(stderr, "Error: %s texture file is invalid\n", msg);
@@ -156,11 +156,14 @@ namespace fvu {
             printf("\tScreen pixel height: %d\n", myConfig.screen_height);
 
             for (int8_t i = 0; i < 4; i++) {
-                printf("\t\tTeam %d file name:        %s\n", i, myConfig.team_fname[i]);
+                printf("\tTeam %d file name: %16s\n", i, myConfig.team_fname[i]);
             }
 
-            printf("\t\tZombie file name:        %s\n", myConfig.zom_fname);
+            printf("\tZombie file name: %16s\n", myConfig.zom_fname);
+            printf("\tNumber of zombies: %d\n", myZombies.size());
             printf("\n");
+
+
         }
     }
 
