@@ -130,6 +130,9 @@ namespace fvu {
             void drawScoreboard();
             void processEvents();
 
+            /* Temporary class function */
+            void drawZombie();
+
             /* Utility functions (utils.cpp) */
             void print_help();
             void raise_error(uint32_t, const char *msg);

@@ -348,6 +348,9 @@ namespace fvu {
     * Description: Draws the various dynamic in-game objects.
     *****************************************************************************/
     void Game::drawMap() {
+
+        drawZombie();
+
     }
 
       /*****************************************************************************
@@ -357,17 +360,18 @@ namespace fvu {
 
     void Game::drawZombie() {
 
-    glBindTexture(GL_TEXTURE_2D, myTextures[ZOMBIES].texHandle);
-        getTexCoords(ZOMBIES, ZOMBIEBODY, texCoords);
+        float texCoords[4];
+        glBindTexture(GL_TEXTURE_2D, myTextures[TEX_ZOMBIES].texHandle);
+        getTexCoords(TEX_ZOMBIES, ZOMBIEBODY, texCoords);
         glBegin(GL_QUADS);
             glTexCoord2d(texCoords[0], texCoords[1]);
-            glVertex3f(-249.5, -578.0, ZOMBIES_DEPTH);
+            glVertex3f(-249.5, -578.0, OBJECT_DEPTH);
             glTexCoord2d(texCoords[2], texCoords[1]);
-            glVertex3f(249.5, -578.0, ZOMBIES_DEPTH);
+            glVertex3f(249.5, -578.0, OBJECT_DEPTH);
             glTexCoord2d(texCoords[2], texCoords[3]);
-            glVertex3f(249.5, -395.0, ZOMBIES_DEPTH);
+            glVertex3f(249.5, -395.0, OBJECT_DEPTH);
             glTexCoord2d(texCoords[0], texCoords[3]);
-            glVertex3f(-249.5, -395.0, ZOMBIES_DEPTH);
+            glVertex3f(-249.5, -395.0, OBJECT_DEPTH);
         glEnd();
 
     }
@@ -491,7 +495,7 @@ namespace fvu {
         myTextures[GREEN_FONT].spriteMap = green_font_spriteMap;
         myTextures[RED_FONT].spriteMap = red_font_spriteMap;
         myTextures[WHITE_FONT].spriteMap = white_font_spriteMap;
-        myTextures[ZOMBIES].spriteMap = zombie_object_spriteMap;
+        myTextures[TEX_ZOMBIES].spriteMap = zombie_object_spriteMap;
 
 
         if (myConfig.debug_level > 3)
