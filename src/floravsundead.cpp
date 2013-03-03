@@ -215,7 +215,6 @@ namespace fvu {
         uint32_t line_count, zombie_counter;
         uint16_t budget_tok, select_tok;
         int16_t place_tok, delay_tok;
-        Zombie local_zombie;
 
         /* Open the zombie file */
         if (myConfig.debug_level > 1) {
@@ -261,91 +260,43 @@ namespace fvu {
             }
             else if (select_ntok == 2) {
 
-                // We can modify this to support generic zombies as the default
-                local_zombie.transitions.clear();
+                Zombie *local_zombie = NULL;
+                bool zombie_match = false;
+                for (uint8_t z = REGULAR_ZOMBIE; z < NUM_ZOMBIE_TYPE; z++) {
+                    for (uint8_t j = 0; j < NUM_ZOMBIE_SPELLINGS; j++) {
+                        if (!strcmp(select_str, zombieNames[z][j].c_str())) {
+                            zombie_match = true;
+                            local_zombie = new Zombie((ZOMBIE_TYPE)z);
+                        }
+                    }
+                    if (zombie_match == true) {
+                        break;
+                    }
+                }
 
-                if (!strcmp(select_str, "zombie")) {
-                    float transitions[] = {5.0, 0.0};
-                    local_zombie.health = 10.0;
-                    local_zombie.speed = 0.25;
-                    local_zombie.transitions.insert(local_zombie.transitions.begin(), transitions, transitions+2);
-                }
-                else if ((!strcmp(select_str, "conehead")) || (!strcmp(select_str, "cone"))) {
-                    float transitions[] = {5.0, 0.0};
-                    local_zombie.health = 10.0;
-                    local_zombie.speed = 0.25;
-                    local_zombie.transitions.insert(local_zombie.transitions.begin(), transitions, transitions+2);
-                }
-                else if (!strcmp(select_str, "flag")) {
-                    float transitions[] = {5.0, 0.0};
-                    local_zombie.health = 10.0;
-                    local_zombie.speed = 0.25;
-                    local_zombie.transitions.insert(local_zombie.transitions.begin(), transitions, transitions+2);
-                }
-                else if ((!strcmp(select_str, "polevault")) || (!strcmp(select_str, "pole"))) {
-                    float transitions[] = {5.0, 0.0};
-                    local_zombie.health = 10.0;
-                    local_zombie.speed = 0.25;
-                    local_zombie.transitions.insert(local_zombie.transitions.begin(), transitions, transitions+2);
-                }
-                else if ((!strcmp(select_str, "buckethead")) || (!strcmp(select_str, "bucket"))) {
-                    float transitions[] = {5.0, 0.0};
-                    local_zombie.health = 10.0;
-                    local_zombie.speed = 0.25;
-                    local_zombie.transitions.insert(local_zombie.transitions.begin(), transitions, transitions+2);
-                }
-                else if ((!strcmp(select_str, "newspaper")) || (!strcmp(select_str, "news"))) {
-                    float transitions[] = {5.0, 0.0};
-                    local_zombie.health = 10.0;
-                    local_zombie.speed = 0.25;
-                    local_zombie.transitions.insert(local_zombie.transitions.begin(), transitions, transitions+2);
-                }
-                else if ((!strcmp(select_str, "screendoor")) || (!strcmp(select_str, "screen"))) {
-                    float transitions[] = {5.0, 0.0};
-                    local_zombie.health = 10.0;
-                    local_zombie.speed = 0.25;
-                    local_zombie.transitions.insert(local_zombie.transitions.begin(), transitions, transitions+2);
-                }
-                else if ((!strcmp(select_str, "football")) || (!strcmp(select_str, "foot"))) {
-                    float transitions[] = {5.0, 0.0};
-                    local_zombie.health = 10.0;
-                    local_zombie.speed = 0.25;
-                    local_zombie.transitions.insert(local_zombie.transitions.begin(), transitions, transitions+2);
-                }
-                else if ((!strcmp(select_str, "dancing")) || (!strcmp(select_str, "dance"))) {
-                    float transitions[] = {5.0, 0.0};
-                    local_zombie.health = 10.0;
-                    local_zombie.speed = 0.25;
-                    local_zombie.transitions.insert(local_zombie.transitions.begin(), transitions, transitions+2);
-                }
-                else if ((!strcmp(select_str, "yeti")) || (!strcmp(select_str, "bigfoot"))) {
-                    float transitions[] = {5.0, 0.0};
-                    local_zombie.health = 10.0;
-                    local_zombie.speed = 0.25;
-                    local_zombie.transitions.insert(local_zombie.transitions.begin(), transitions, transitions+2);
+                // Each zombie is specified for all 4 teams at once
+                if (zombie_match == true) {
+                    myZombies.insert(myZombies.begin(), 4*select_tok, *local_zombie);
+                    delete local_zombie;
                 }
                 else {
                     printf("Error compiling %s, line %d\n", myConfig.zom_fname, line_count);
                     printf("  Invalid zombie type");
                     raise_error(ERR_BADFILE3, myConfig.zom_fname);
                 }
-
-                myZombies.insert(myZombies.begin(), select_tok, local_zombie);
             }
 
             else if (place_ntok == 2) {
-                if (zombie_counter > myZombies.size()) {
+                if ((zombie_counter+4) > myZombies.size()) {
                     printf("Error compiling %s, line %d\n", myConfig.zom_fname, line_count);
                     printf("  Cannot place zombies that haven't been selected\n");
                     printf("  select zombie count - %d, place zombie request - %d", myZombies.size(), zombie_counter);
                     raise_error(ERR_BADFILE3, myConfig.zom_fname);
                 }
-                myZombies[zombie_counter].x = 1.0*place_tok;
-                myZombies[zombie_counter].y = -1.0;
-                myZombies[zombie_counter].demo_x = 1.0*place_tok;
-                myZombies[zombie_counter].demo_y = 2.0;
-                zombie_counter++;
 
+                for (uint8_t i = 0; i < 4; i++) {
+                    myZombies[zombie_counter++].place(place_tok, delay_tok, i);
+                }
             }
             else if ((place_ntok > 2) || (place_ntok < 2)) {
                 printf("Error compiling %s, line %d\n", myConfig.zom_fname, line_count);

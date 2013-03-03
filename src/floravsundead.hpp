@@ -30,6 +30,7 @@
 #include <cstring>
 #include <iostream>
 #include "resources.hpp"
+#include "zombie.hpp"
 
 #define EXEC_NAME "floravsundead"
 #define WINDOW_TITLE "FloraVsUndead, v-1.0a"
@@ -105,16 +106,6 @@ namespace fvu {
             int16_t scores[4];
             int32_t time_ms;
             uint16_t budget;
-    };
-
-    /* Main zombie class */
-    class Zombie {
-        public:
-            uint16_t health;
-            float speed;
-            std::vector<uint16_t> transitions;
-            float x, y, demo_x, demo_y;
-            uint16_t delay;
     };
 
 

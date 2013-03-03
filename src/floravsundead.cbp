@@ -40,6 +40,8 @@
 		<Unit filename="resources.hpp" />
 		<Unit filename="sfml_utils.cpp" />
 		<Unit filename="utils.cpp" />
+		<Unit filename="zombie.cpp" />
+		<Unit filename="zombie.hpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />
