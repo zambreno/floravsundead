@@ -40,9 +40,11 @@ namespace fvu {
     float *Game::getTexCoords(TEXTURE_ENUM texID, uint16_t spriteID, float *texCoords) {
 
         texCoords[0] = 1.0*myTextures[texID].spriteMap[spriteID][0] / myTextures[texID].width;
-        texCoords[1] = (myTextures[texID].height - 1.0*myTextures[texID].spriteMap[spriteID][1]) / myTextures[texID].height;
+        texCoords[3] = 1.0*myTextures[texID].spriteMap[spriteID][1] / myTextures[texID].height;
         texCoords[2] = 1.0*myTextures[texID].spriteMap[spriteID][2] / myTextures[texID].width;
-        texCoords[3] = (myTextures[texID].height - 1.0*myTextures[texID].spriteMap[spriteID][3]) / myTextures[texID].height;
+        texCoords[1] = 1.0*myTextures[texID].spriteMap[spriteID][3] / myTextures[texID].height;
+        texCoords[4] = 1.0*(myTextures[texID].spriteMap[spriteID][2] - myTextures[texID].spriteMap[spriteID][0]);
+        texCoords[5] = 1.0*(myTextures[texID].spriteMap[spriteID][3] - myTextures[texID].spriteMap[spriteID][1]);
 
         return texCoords;
     }

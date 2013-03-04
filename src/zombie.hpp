@@ -17,11 +17,16 @@
 
 #pragma once
 
+#include "floravsundead.hpp"
+
 /* Main enum for the zombie types. We specify NUM_SPELLINGS to some reasonable amount to minimize
  * the number of compile errors */
 #define NUM_ZOMBIE_SPELLINGS 2
 typedef enum {REGULAR_ZOMBIE=0, FLAG_ZOMBIE, CONE_ZOMBIE, POLE_ZOMBIE, BUCKET_ZOMBIE, NEWS_ZOMBIE, SCREEN_ZOMBIE, FOOTBALL_ZOMBIE, DANCING_ZOMBIE, YETI_ZOMBIE, NUM_ZOMBIE_TYPE} ZOMBIE_TYPE;
 extern std::string zombieNames[NUM_ZOMBIE_TYPE][NUM_ZOMBIE_SPELLINGS];
+
+/* Enum to represent the various types of body part (different from the sprites themselves) */
+
 
 namespace fvu {
 
