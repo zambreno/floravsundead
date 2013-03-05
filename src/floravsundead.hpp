@@ -143,6 +143,9 @@ namespace fvu {
             void printConfig();
             void printStatus();
 
+            /* The textures are needed globally */
+            fvu::Texture myTextures[NUM_TEXTURES];
+
         private:
             fvu::Config myConfig;
             fvu::Status myStatus;
@@ -150,7 +153,6 @@ namespace fvu {
             std::vector<fvu::Zombie> myZombies;
             sf::ContextSettings mySettings;
             sf::RenderWindow myWindow;
-            fvu::Texture myTextures[NUM_TEXTURES];
             sf::Music myMusic[NUM_MUSIC];
             sf::SoundBuffer mySoundBuffers[NUM_SFX];
             sf::Sound mySound;
@@ -159,4 +161,7 @@ namespace fvu {
     };
 
 } // namespace fvu
+
+
+extern fvu::Game *myGame;
 

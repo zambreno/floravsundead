@@ -351,6 +351,10 @@ namespace fvu {
 
         drawZombie();
 
+        /* Draw all the objects properly */
+        myZombies[0].draw();
+
+
     }
 
       /*****************************************************************************

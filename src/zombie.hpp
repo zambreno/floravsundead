@@ -25,10 +25,22 @@
 typedef enum {REGULAR_ZOMBIE=0, FLAG_ZOMBIE, CONE_ZOMBIE, POLE_ZOMBIE, BUCKET_ZOMBIE, NEWS_ZOMBIE, SCREEN_ZOMBIE, FOOTBALL_ZOMBIE, DANCING_ZOMBIE, YETI_ZOMBIE, NUM_ZOMBIE_TYPE} ZOMBIE_TYPE;
 extern std::string zombieNames[NUM_ZOMBIE_TYPE][NUM_ZOMBIE_SPELLINGS];
 
-/* Enum to represent the various types of body part (different from the sprites themselves) */
-
 
 namespace fvu {
+
+    /* Object class. We create more links than are needed, as long as the data can be chained it
+     * shouldn't be a big problem to have multiple unused links */
+     class Object {
+        public:
+            float x, y, angle;
+            ZOMBIE_SPRITE_ENUM sprite;
+            DEPTH_ENUM depth;
+            Object *parent;
+            Object **children;
+            uint8_t num_children;
+            Object(float x, float y, float angle, ZOMBIE_SPRITE_ENUM sprite, DEPTH_ENUM depth, uint8_t num_children, Object *parent);
+            void draw();
+     };
 
 
     /* Main zombie class */
@@ -45,8 +57,9 @@ namespace fvu {
             uint16_t health;
             float speed;
             std::vector<uint16_t> transitions;
-            float x, y, demo_x, demo_y;
+            float game_x, game_y, demo_x, demo_y;
             uint16_t delay;
+            Object *myObject;
 
     };
 

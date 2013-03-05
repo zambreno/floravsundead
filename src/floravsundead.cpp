@@ -18,10 +18,11 @@
 
 #include "floravsundead.hpp"
 
+fvu::Game *myGame;
 
 int main(int argc, char *argv[]) {
 
-    fvu::Game *myGame = new(std::nothrow)fvu::Game(argc,argv);
+    myGame = new(std::nothrow)fvu::Game(argc,argv);
 
     myGame->init();
     myGame->printConfig();
