@@ -28,8 +28,8 @@ extern std::string zombieNames[NUM_ZOMBIE_TYPE][NUM_ZOMBIE_SPELLINGS];
 
 namespace fvu {
 
-    /* Object class. We create more links than are needed, as long as the data can be chained it
-     * shouldn't be a big problem to have multiple unused links */
+    /* Object class. We create links to the parent object and (potentially) multiple
+     * children. */
      class Object {
         public:
             float x, y, angle;
@@ -49,6 +49,7 @@ namespace fvu {
             Zombie(ZOMBIE_TYPE type);
             void update();
             void place(int16_t location, int16_t delay, uint8_t team);
+            void move(float delta_x, float delta_y);
             void draw();
             void getStatus();
 

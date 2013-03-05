@@ -97,10 +97,8 @@ namespace fvu {
     *****************************************************************************/
     void Zombie::draw() {
 
-        glBindTexture(GL_TEXTURE_2D, myGame->myTextures[TEX_ZOMBIES].texHandle);
-        glMatrixMode(GL_MODELVIEW);
-        glLoadIdentity();
-        glTranslatef(game_x, game_y, 0);
+        //glTranslatef(game_x, game_y, 0);
+        glTranslatef(game_x, game_y, 0.0);
         myObject->draw();
     }
 
@@ -123,31 +121,30 @@ namespace fvu {
                 transitions.insert(transitions.begin(), local_transitions, local_transitions+2);
 
                 /* The object structure starts at the torso, and moves out in all directions */
-                myObject = new Object(0.0,0.0,0.0,ZOMBIEBODY,OBJECT_DEPTH,5, NULL);
+                myObject = new Object(0.0,0.0,0.0,ZOMBIEBODY,ZOMBIEBODY_DEPTH,5, NULL);
 
-                printf("thought first alloc would be ok\n");
                 // children[0] is the inner leg
-                myObject->children[0] = new Object(29.5,-16.5,0.0,ZOMBIE_OUTERLEG_UPPER,OBJECT_DEPTH,1, myObject);
-                myObject->children[0]->children[0] = new Object(10.5,-20.0,0.0,ZOMBIE_OUTERLEG_LOWER,OBJECT_DEPTH,1, myObject->children[0]);
-                myObject->children[0]->children[0]->children[0] = new Object(-15.0,-20.0,0.0,ZOMBIE_OUTERLEG_FOOT,OBJECT_DEPTH,0, myObject->children[0]->children[0]);
+                myObject->children[0] = new Object(29.5,-16.5,0.0,ZOMBIE_OUTERLEG_UPPER,ZOMBIE_OUTERLEG_UPPER_DEPTH,1, myObject);
+                myObject->children[0]->children[0] = new Object(10.5,-20.0,0.0,ZOMBIE_OUTERLEG_LOWER,ZOMBIE_OUTERLEG_LOWER_DEPTH,1, myObject->children[0]);
+                myObject->children[0]->children[0]->children[0] = new Object(-15.0,-20.0,0.0,ZOMBIE_OUTERLEG_FOOT,ZOMBIE_OUTERLEG_FOOT_DEPTH,0, myObject->children[0]->children[0]);
 
                 // children[1] is the outer leg
-                myObject->children[1] = new Object(40.0,-17.0,0.0,ZOMBIE_INNERLEG_UPPER,OBJECT_DEPTH,1, myObject);
-                myObject->children[1]->children[0] = new Object(-14.0,-26.0,0.0,ZOMBIE_INNERLEG_LOWER,OBJECT_DEPTH,1, myObject->children[1]);
-                myObject->children[1]->children[0]->children[0] = new Object(3.0,-7.0,0.0,ZOMBIE_INNERLEG_FOOT,OBJECT_DEPTH,0, myObject->children[1]->children[0]);
+                myObject->children[1] = new Object(40.0,-17.0,0.0,ZOMBIE_INNERLEG_UPPER,ZOMBIE_INNERLEG_UPPER_DEPTH,1, myObject);
+                myObject->children[1]->children[0] = new Object(-14.0,-26.0,0.0,ZOMBIE_INNERLEG_LOWER,ZOMBIE_INNERLEG_LOWER_DEPTH,1, myObject->children[1]);
+                myObject->children[1]->children[0]->children[0] = new Object(3.0,-7.0,0.0,ZOMBIE_INNERLEG_FOOT,ZOMBIE_INNERLEG_FOOT_DEPTH,0, myObject->children[1]->children[0]);
 
                 // children[2] is the inner arm
-                myObject->children[2] = new Object(0.0,-15.5,0.0,ZOMBIE_INNERARM_UPPER,OBJECT_DEPTH,1, myObject);
-                myObject->children[2]->children[0] = new Object(-3.0,-20.0,0.0,ZOMBIE_INNERARM_LOWER,OBJECT_DEPTH,1, myObject->children[2]);
-                myObject->children[2]->children[0]->children[0] = new Object(0.0,-15.0,0.0,ZOMBIE_INNERARM_HAND,OBJECT_DEPTH,0, myObject->children[2]->children[0]);
+                myObject->children[2] = new Object(0.0,-15.5,0.0,ZOMBIE_INNERARM_UPPER,ZOMBIE_INNERARM_UPPER_DEPTH,1, myObject);
+                myObject->children[2]->children[0] = new Object(-3.0,-20.0,0.0,ZOMBIE_INNERARM_LOWER,ZOMBIE_INNERARM_LOWER_DEPTH,1, myObject->children[2]);
+                myObject->children[2]->children[0]->children[0] = new Object(0.0,-15.0,0.0,ZOMBIE_INNERARM_HAND,ZOMBIE_INNERARM_HAND_DEPTH,0, myObject->children[2]->children[0]);
 
                 // children[3] is the outer arm
-                myObject->children[3] = new Object(50.5,10.5,0.0,ZOMBIE_OUTERARM_UPPER,OBJECT_DEPTH,1, myObject);
-                myObject->children[3]->children[0] = new Object(-10.0,-20.0,0.0,ZOMBIE_OUTERARM_LOWER,OBJECT_DEPTH,1, myObject->children[3]);
-                myObject->children[3]->children[0]->children[0] = new Object(-4.0,-25.0,0.0,ZOMBIE_OUTERARM_HAND,OBJECT_DEPTH,0, myObject->children[3]->children[0]);
+                myObject->children[3] = new Object(50.5,10.5,0.0,ZOMBIE_OUTERARM_UPPER,ZOMBIE_OUTERARM_UPPER_DEPTH,1, myObject);
+                myObject->children[3]->children[0] = new Object(-10.0,-20.0,0.0,ZOMBIE_OUTERARM_LOWER,ZOMBIE_OUTERARM_LOWER_DEPTH,1, myObject->children[3]);
+                myObject->children[3]->children[0]->children[0] = new Object(-4.0,-25.0,0.0,ZOMBIE_OUTERARM_HAND,ZOMBIE_OUTERARM_HAND_DEPTH,0, myObject->children[3]->children[0]);
 
                 // children[4] is the head
-                myObject->children[4] = new Object(10.5,35.5,0.0,ZOMBIE_HEAD_GROSSOUT,OBJECT_DEPTH,0, myObject);
+                myObject->children[4] = new Object(10.5,35.5,0.0,ZOMBIE_HEAD_GROSSOUT,ZOMBIE_HEAD_DEPTH,0, myObject);
 
                 // children[5] is the body accessories
 
@@ -169,6 +166,19 @@ namespace fvu {
         team = team;
 
     }
+
+    /*****************************************************************************
+    * Function: Zombie::move
+    * Description: Moves the zombie around (for testing purposes)
+    *****************************************************************************/
+    void Zombie::move(float delta_x, float delta_y) {
+
+        game_x += delta_x;
+        game_y += delta_y;
+
+    }
+
+
 
 
 

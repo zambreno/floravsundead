@@ -349,8 +349,8 @@ namespace fvu {
     *****************************************************************************/
     void Game::drawMap() {
 
+        glBindTexture(GL_TEXTURE_2D, myTextures[TEX_ZOMBIES].texHandle);
         drawZombie();
-
         /* Draw all the objects properly */
         myZombies[0].draw();
 
@@ -366,7 +366,6 @@ namespace fvu {
 
         float texCoords[6];
         float x, y;
-        glBindTexture(GL_TEXTURE_2D, myTextures[TEX_ZOMBIES].texHandle);
 
         getTexCoords(TEX_ZOMBIES, ZOMBIE_OUTERLEG_UPPER, texCoords);
         x = 40;y = -62;
@@ -603,6 +602,18 @@ namespace fvu {
                             myStatus.scores[3]--;
                         else
                             myStatus.scores[3]++;
+                        break;
+                    case sf::Keyboard::Up:
+                        myZombies[0].move(0.0,5.0);
+                        break;
+                    case sf::Keyboard::Down:
+                        myZombies[0].move(0.0,-5.0);
+                        break;
+                    case sf::Keyboard::Right:
+                        myZombies[0].move(5.0,0.0);
+                        break;
+                    case sf::Keyboard::Left:
+                        myZombies[0].move(-5.0,0.0);
                         break;
                     case sf::Keyboard::Escape:
                     case sf::Keyboard::Q:
