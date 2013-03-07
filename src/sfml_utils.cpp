@@ -700,7 +700,7 @@ namespace fvu {
         myTextures[RED_FONT].spriteMap = red_font_spriteMap;
         myTextures[WHITE_FONT].spriteMap = white_font_spriteMap;
         myTextures[TEX_ZOMBIES].spriteMap = zombie_object_spriteMap;
-
+        myTextures[TEX_PLANTS].spriteMap = plant_object_spriteMap;
 
         if (myConfig.debug_level > 3)
             printf("done.\n");
