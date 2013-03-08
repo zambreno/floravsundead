@@ -350,10 +350,13 @@ namespace fvu {
     void Game::drawMap() {
 
         glBindTexture(GL_TEXTURE_2D, myTextures[TEX_ZOMBIES].texHandle);
-        drawZombie();
+        //drawZombie();
         /* Draw all the objects properly */
-        myZombies[0].draw();
-
+        for (uint16_t i = 0; i < myZombies.size(); i++) {
+            if (myZombies[i].getStatus() != ZOMBIE_DEFAULT) {
+                myZombies[i].draw(i);
+            }
+        }
 
     }
 
@@ -773,8 +776,8 @@ namespace fvu {
 
         glEnable(GL_TEXTURE_2D);
 
-        //glAlphaFunc(GL_GREATER, 0);
-        //glEnable(GL_ALPHA_TEST);
+        glAlphaFunc(GL_GREATER, 0.5);
+        glEnable(GL_ALPHA_TEST);
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 

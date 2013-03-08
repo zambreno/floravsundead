@@ -120,7 +120,6 @@ namespace fvu {
             void compileTeams();
             void mainLoop();
             void updateGame();
-            void updateObjects();
             void restartGame();
             void demoMode();
             void endGame();

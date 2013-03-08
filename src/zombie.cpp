@@ -41,7 +41,7 @@ namespace fvu {
     * Description: Object class constructor. Creates a set of linked lists
     * between parent and child.
     *****************************************************************************/
-    Object::Object(float x, float y, float angle, ZOMBIE_SPRITE_ENUM sprite, DEPTH_ENUM depth, uint8_t num_children, Object *parent) {
+    Object::Object(float x, float y, float angle, ZOMBIE_SPRITE_ENUM sprite, uint32_t depth, uint8_t num_children, Object *parent) {
         this->x = x;
         this->y = y;
         this->angle = angle;
@@ -95,11 +95,14 @@ namespace fvu {
     * Description: Zombie drawing function. Sets the initial modeling position
     * and draws each Object recursively.
     *****************************************************************************/
-    void Zombie::draw() {
+    void Zombie::draw(uint16_t index) {
 
-        //glTranslatef(game_x, game_y, 0);
-        glTranslatef(game_x, game_y, 0.0);
+        float game_z = index*ZOMBIE_DEPTH_RANGE+OBJECT_DEPTH;
+        glPushMatrix();
+        glTranslatef(game_x, game_y, game_z);
+        glScalef(dir, 1.0, 1.0);
         myObject->draw();
+        glPopMatrix();
     }
 
 
@@ -110,6 +113,7 @@ namespace fvu {
     *****************************************************************************/
     Zombie::Zombie(ZOMBIE_TYPE mytype) {
 
+        status = ZOMBIE_DEFAULT;
 
         switch(mytype) {
             case REGULAR_ZOMBIE:
@@ -123,28 +127,28 @@ namespace fvu {
                 /* The object structure starts at the torso, and moves out in all directions */
                 myObject = new Object(0.0,0.0,0.0,ZOMBIEBODY,ZOMBIEBODY_DEPTH,5, NULL);
 
-                // children[0] is the inner leg
+                // children[0] is the outer leg
                 myObject->children[0] = new Object(29.5,-16.5,0.0,ZOMBIE_OUTERLEG_UPPER,ZOMBIE_OUTERLEG_UPPER_DEPTH,1, myObject);
-                myObject->children[0]->children[0] = new Object(10.5,-20.0,0.0,ZOMBIE_OUTERLEG_LOWER,ZOMBIE_OUTERLEG_LOWER_DEPTH,1, myObject->children[0]);
-                myObject->children[0]->children[0]->children[0] = new Object(-15.0,-20.0,0.0,ZOMBIE_OUTERLEG_FOOT,ZOMBIE_OUTERLEG_FOOT_DEPTH,0, myObject->children[0]->children[0]);
+                myObject->children[0]->children[0] = new Object(10.5,-19.75,0.0,ZOMBIE_OUTERLEG_LOWER,ZOMBIE_OUTERLEG_LOWER_DEPTH,1, myObject->children[0]);
+                myObject->children[0]->children[0]->children[0] = new Object(-14.75,-12.0,0.0,ZOMBIE_OUTERLEG_FOOT,ZOMBIE_OUTERLEG_FOOT_DEPTH,0, myObject->children[0]->children[0]);
 
-                // children[1] is the outer leg
-                myObject->children[1] = new Object(40.0,-17.0,0.0,ZOMBIE_INNERLEG_UPPER,ZOMBIE_INNERLEG_UPPER_DEPTH,1, myObject);
+                // children[1] is the inner leg
+                myObject->children[1] = new Object(19.5,-16.5,0.0,ZOMBIE_INNERLEG_UPPER,ZOMBIE_INNERLEG_UPPER_DEPTH,1, myObject);
                 myObject->children[1]->children[0] = new Object(-14.0,-26.0,0.0,ZOMBIE_INNERLEG_LOWER,ZOMBIE_INNERLEG_LOWER_DEPTH,1, myObject->children[1]);
                 myObject->children[1]->children[0]->children[0] = new Object(3.0,-7.0,0.0,ZOMBIE_INNERLEG_FOOT,ZOMBIE_INNERLEG_FOOT_DEPTH,0, myObject->children[1]->children[0]);
 
                 // children[2] is the inner arm
-                myObject->children[2] = new Object(0.0,-15.5,0.0,ZOMBIE_INNERARM_UPPER,ZOMBIE_INNERARM_UPPER_DEPTH,1, myObject);
+                myObject->children[2] = new Object(0.0,15.5,0.0,ZOMBIE_INNERARM_UPPER,ZOMBIE_INNERARM_UPPER_DEPTH,1, myObject);
                 myObject->children[2]->children[0] = new Object(-3.0,-20.0,0.0,ZOMBIE_INNERARM_LOWER,ZOMBIE_INNERARM_LOWER_DEPTH,1, myObject->children[2]);
                 myObject->children[2]->children[0]->children[0] = new Object(0.0,-15.0,0.0,ZOMBIE_INNERARM_HAND,ZOMBIE_INNERARM_HAND_DEPTH,0, myObject->children[2]->children[0]);
 
                 // children[3] is the outer arm
-                myObject->children[3] = new Object(50.5,10.5,0.0,ZOMBIE_OUTERARM_UPPER,ZOMBIE_OUTERARM_UPPER_DEPTH,1, myObject);
+                myObject->children[3] = new Object(29.5,10.5,0.0,ZOMBIE_OUTERARM_UPPER,ZOMBIE_OUTERARM_UPPER_DEPTH,1, myObject);
                 myObject->children[3]->children[0] = new Object(-10.0,-20.0,0.0,ZOMBIE_OUTERARM_LOWER,ZOMBIE_OUTERARM_LOWER_DEPTH,1, myObject->children[3]);
                 myObject->children[3]->children[0]->children[0] = new Object(-4.0,-25.0,0.0,ZOMBIE_OUTERARM_HAND,ZOMBIE_OUTERARM_HAND_DEPTH,0, myObject->children[3]->children[0]);
 
                 // children[4] is the head
-                myObject->children[4] = new Object(10.5,35.5,0.0,ZOMBIE_HEAD_GROSSOUT,ZOMBIE_HEAD_DEPTH,0, myObject);
+                myObject->children[4] = new Object(-10.5,35.5,0.0,ZOMBIE_HEAD_GROSSOUT,ZOMBIE_HEAD_DEPTH,0, myObject);
 
                 // children[5] is the body accessories
 
@@ -161,9 +165,32 @@ namespace fvu {
     void Zombie::place(int16_t location, int16_t delay, uint8_t team) {
 
         // TODO: this should be team-specific
-        game_x = 1.0*location;
-        game_y = -1.0;
-        team = team;
+        switch (team) {
+            case 0:
+            default:
+                game_x = -700.0;
+                game_y = 75.0*(location+1);
+                dir = -1.0;
+                break;
+            case 1:
+                game_x = -700.0;
+                game_y = -75.0*(location+1);
+                dir = -1.0;
+                break;
+            case 2:
+                game_x = 700.0;
+                game_y = 75.0*(location+1);
+                dir = 1.0;
+                break;
+            case 3:
+                game_x = 700.0;
+                game_y = -75.0*(location+1);
+                dir = 1.0;
+                break;
+        }
+        this->team = team;
+        this->delay = delay;
+        status = ZOMBIE_PLACED;
 
     }
 
@@ -178,6 +205,19 @@ namespace fvu {
 
     }
 
+    /*****************************************************************************
+    * Function: Zombie::operator <
+    * Description: Overloads the < operator for comparison / sort purposes
+    *****************************************************************************/
+    bool Zombie::operator< (const Zombie &rhs) const {
+
+        /* We want pseudo-3D, so lower = closer. Otherwise, closer to the sides
+         * should be closer to the screen. */
+        if (game_y == rhs.game_y) {
+            return (fabsf(game_x) >= fabsf(rhs.game_x));
+        }
+        else return (game_y < rhs.game_y);
+    }
 
 
 

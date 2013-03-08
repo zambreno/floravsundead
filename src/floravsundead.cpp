@@ -61,9 +61,6 @@ namespace fvu {
     *****************************************************************************/
     void Game::mainLoop() {
 
-        //NOTE: These tasks can be split into multiple threads, in that case we would
-        //have to take care regarding which thread has the active window context.
-
 
         sf::Time myTime;
         while (myWindow.isOpen()) {
@@ -77,6 +74,7 @@ namespace fvu {
                     break;
                 case GAME_START:
                 case GAME_MID:
+                    updateGame();
                     drawWorld();
                     drawScoreboard();
                     drawMap();
@@ -100,6 +98,18 @@ namespace fvu {
 
         return;
 
+    }
+
+
+    /*****************************************************************************
+    * Function: Game::updateGame()
+    * Description: Updates all the main elements of the game.
+    *****************************************************************************/
+    void Game::updateGame() {
+
+
+        /* Sort each zombie based on the custom zombie function */
+        std::sort(myZombies.begin(), myZombies.end());
     }
 
     /*****************************************************************************
@@ -325,6 +335,9 @@ namespace fvu {
             raise_error(ERR_BADFILE3, myConfig.zom_fname);
         }
 
+
+        // We are done, get rid of the Zombies we didn't place.
+        myZombies.resize(zombie_counter, myZombies[0]);
         fclose(zom_file);
 
         return;
