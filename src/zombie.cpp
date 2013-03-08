@@ -97,9 +97,9 @@ namespace fvu {
     *****************************************************************************/
     void Zombie::draw(uint16_t index) {
 
-        float game_z = index*ZOMBIE_DEPTH_RANGE+OBJECT_DEPTH;
+        float z = index*ZOMBIE_DEPTH_RANGE+OBJECT_DEPTH;
         glPushMatrix();
-        glTranslatef(game_x, game_y, game_z);
+        glTranslatef(*x, *y, z);
         glScalef(dir, 1.0, 1.0);
         myObject->draw();
         glPopMatrix();
@@ -114,6 +114,8 @@ namespace fvu {
     Zombie::Zombie(ZOMBIE_TYPE mytype) {
 
         status = ZOMBIE_DEFAULT;
+        x = &demo_x;
+        y = &demo_y;
 
         switch(mytype) {
             case REGULAR_ZOMBIE:
@@ -164,7 +166,6 @@ namespace fvu {
     *****************************************************************************/
     void Zombie::place(int16_t location, int16_t delay, uint8_t team) {
 
-        // TODO: this should be team-specific
         switch (team) {
             case 0:
             default:
@@ -193,6 +194,40 @@ namespace fvu {
         status = ZOMBIE_PLACED;
 
     }
+
+
+    /*****************************************************************************
+    * Function: Zombie::endDemo
+    * Description: Places the zombie in game mode
+    *****************************************************************************/
+    void Zombie::endDemo() {
+
+        /* Set all the angles to 0.0 */
+
+        /* Point x,y to game_x and game_y */
+        x = &game_x;
+        y = &game_y;
+
+    }
+
+    /*****************************************************************************
+    * Function: Zombie::updateDemo
+    * Description: Updates each zombie in demo mode
+    *****************************************************************************/
+    void Zombie::updateDemo() {
+
+    }
+
+
+    /*****************************************************************************
+    * Function: Zombie::update
+    * Description: Updates each zombie in demo mode
+    *****************************************************************************/
+    void Zombie::update() {
+
+    }
+
+
 
     /*****************************************************************************
     * Function: Zombie::move

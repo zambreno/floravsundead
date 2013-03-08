@@ -107,10 +107,14 @@ namespace fvu {
     *****************************************************************************/
     void Game::updateGame() {
 
+        for (uint16_t i = 0; i < myZombies.size(); i++) {
+            myZombies[i].update();
+        }
 
         /* Sort each zombie based on the custom zombie function */
         std::sort(myZombies.begin(), myZombies.end());
     }
+
 
     /*****************************************************************************
     * Function: Game::endGame()
@@ -126,6 +130,20 @@ namespace fvu {
 
 
     /*****************************************************************************
+    * Function: Game::updateDemo()
+    * Description: Updates all the main elements of the game, in demo mode
+    *****************************************************************************/
+    void Game::updateDemo() {
+
+        for (uint16_t i = 0; i < myZombies.size(); i++) {
+            myZombies[i].updateDemo();
+        }
+
+        /* Sort each zombie based on the custom zombie function */
+        std::sort(myZombies.begin(), myZombies.end());
+    }
+
+    /*****************************************************************************
     * Function: Game::demoMode()
     * Description: Runs the initial screen pan before the game start.
     *****************************************************************************/
@@ -139,6 +157,7 @@ namespace fvu {
             myStatus.mode = DEMO_MID;
         }
 
+        updateDemo();
         drawWorld();
         drawScoreboard();
         drawMap();
@@ -173,6 +192,10 @@ namespace fvu {
                 myMusic[0].stop();
                 myMusic[1].play();
                 myClock.restart();
+                /* Relocate the zombies so that they start using game_x, and game_y */
+                for (uint16_t i = 0; i < myZombies.size(); i++) {
+                    myZombies[i].endDemo();
+                }
             }
             else if (myStatus.pan < 0.0) {
                 myStatus.pan += fabs(dir);

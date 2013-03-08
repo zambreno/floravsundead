@@ -58,7 +58,7 @@
 #define TEAM_FNAME_DEFAULT "default.fpl"
 #define TIME_MS_DEFAULT 300000
 
-typedef enum {DEMO_START, DEMO_MID, DEMO_END, GAME_START, GAME_MID, GAME_END} MODE_TYPE;
+typedef enum {DEMO_START=0, DEMO_MID, DEMO_END, GAME_START, GAME_MID, GAME_END} MODE_TYPE;
 
 
 /* Function prototypes (utils.cpp) */
@@ -122,6 +122,7 @@ namespace fvu {
             void compileTeams();
             void mainLoop();
             void updateGame();
+            void updateDemo();
             void restartGame();
             void demoMode();
             void endGame();

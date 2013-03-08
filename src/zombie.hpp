@@ -60,6 +60,8 @@ namespace fvu {
             void update();
             void place(int16_t location, int16_t delay, uint8_t team);
             void move(float delta_x, float delta_y);
+            void endDemo();
+            void updateDemo();
             void draw(uint16_t index);
             ZOMBIE_STATUS_ENUM getStatus() {return status;}
             bool operator< (const Zombie &rhs) const;
@@ -71,6 +73,7 @@ namespace fvu {
             float speed;
             std::vector<uint16_t> transitions;
             float game_x, game_y, demo_x, demo_y;
+            float *x, *y;
             float dir;
             uint8_t team;
             uint16_t delay;
