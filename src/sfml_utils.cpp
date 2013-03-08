@@ -657,13 +657,17 @@ namespace fvu {
                 raise_error(ERR_AUDIO, sfxFiles[i].c_str());
         }
 
-        /* Load the background audio. These should stream from the files */
-        for (int16_t i = 0; i < NUM_MUSIC; i++) {
-            if (!myMusic[i].openFromFile(musicFiles[i]))
-                raise_error(ERR_AUDIO, musicFiles[i].c_str());
-            myMusic[i].setLoop(true);
-            myMusic[i].setVolume(100);
-        }
+        /* Load the background audio and main music. These should stream from the files */
+        if (!myMusic[0].openFromFile(musicFiles[0]))
+            raise_error(ERR_AUDIO, musicFiles[0].c_str());
+        myMusic[0].setLoop(true);
+        myMusic[0].setVolume(100);
+        if (!myMusic[1].openFromFile(musicFiles[myStatus.main_song]))
+            raise_error(ERR_AUDIO, musicFiles[myStatus.main_song].c_str());
+        myMusic[1].setLoop(true);
+        myMusic[1].setVolume(100);
+
+
         if (myConfig.debug_level > 3)
             printf("done.\n");
 

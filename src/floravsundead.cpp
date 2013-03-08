@@ -132,6 +132,7 @@ namespace fvu {
     void Game::demoMode() {
 
         static float dir = 3.0;
+        static float pause_cnt = 0;
 
         if (myStatus.mode == DEMO_START) {
             myMusic[0].play();
@@ -149,11 +150,19 @@ namespace fvu {
             myStatus.pan += dir;
             if (myStatus.pan >= 352.5) {
                 myStatus.pan = 352.5;
-                dir = -dir;
+                pause_cnt++;
+                if (pause_cnt > 50) {
+                    dir = -dir;
+                    pause_cnt = 0;
+                }
             }
             if (myStatus.pan <= -352.5) {
                 myStatus.pan = -352.5;
-                dir = -dir;
+                pause_cnt++;
+                if (pause_cnt > 50) {
+                    dir = -dir;
+                    pause_cnt = 0;
+                }
             }
         }
         else {
@@ -221,10 +230,10 @@ namespace fvu {
         FILE *zom_file;
         char linebuf[256], select_str[16];
         char *fgets_ret;
-        uint8_t budget_ntok, select_ntok, place_ntok;
-        uint16_t budget_flag;
+        uint8_t budget_ntok, select_ntok, place_ntok, day_ntok, night_ntok;
+        uint16_t budget_flag, day_flag;
         uint32_t line_count, zombie_counter;
-        uint16_t budget_tok, select_tok;
+        uint16_t budget_tok, select_tok, music_tok;
         int16_t place_tok, delay_tok;
 
         /* Open the zombie file */
@@ -238,6 +247,7 @@ namespace fvu {
         }
 
         budget_flag = 0;
+        day_flag = 0;
         zombie_counter = 0;
 
         for (line_count=1; !feof(zom_file); line_count++) {
@@ -255,20 +265,37 @@ namespace fvu {
             strlower(linebuf);
             budget_ntok = sscanf(linebuf, " budget %hu", &budget_tok);
 
+            // Check for day/night and music information
+            strlower(linebuf);
+            day_ntok = sscanf(linebuf, " day %hu", &music_tok);
+            if (day_ntok != 1)
+                night_ntok = sscanf(linebuf, " night %hu", &music_tok);
+
             // Check for select information. Two matches are needed
             select_ntok = sscanf(linebuf, " select %s %hu", select_str, &select_tok);
 
             // Check for place information. Two matches are needed
             place_ntok = sscanf(linebuf, " place %hd, %hd", &place_tok, &delay_tok);
-            if (place_ntok != 2) {
+            if (place_ntok != 2)
                 place_ntok = sscanf(linebuf, " place %hd,%hd", &place_tok, &delay_tok);
-            }
+
 
             // A valid file has to match a command each line
             if (budget_ntok == 1) {
                 budget_flag = 1;
                 myStatus.budget = budget_tok;
             }
+            else if (day_ntok == 1) {
+                day_flag = 1;
+                myStatus.main_song = music_tok;
+                myStatus.day = true;
+            }
+            else if (night_ntok == 1) {
+                day_flag = 1;
+                myStatus.main_song = music_tok;
+                myStatus.day = false;
+            }
+
             else if (select_ntok == 2) {
 
                 Zombie *local_zombie = NULL;
@@ -334,6 +361,13 @@ namespace fvu {
             printf("  No budget specification\n");
             raise_error(ERR_BADFILE3, myConfig.zom_fname);
         }
+
+        if (day_flag != 1) {
+            printf("Error compiling %s\n", myConfig.zom_fname);
+            printf("  No day/night specification\n");
+            raise_error(ERR_BADFILE3, myConfig.zom_fname);
+        }
+
 
 
         // We are done, get rid of the Zombies we didn't place.

@@ -106,6 +106,8 @@ namespace fvu {
             int16_t scores[4];
             int32_t time_ms;
             uint16_t budget;
+            uint8_t main_song;
+            bool day;
     };
 
 
@@ -152,7 +154,7 @@ namespace fvu {
             std::vector<fvu::Zombie> myZombies;
             sf::ContextSettings mySettings;
             sf::RenderWindow myWindow;
-            sf::Music myMusic[NUM_MUSIC];
+            sf::Music myMusic[2];
             sf::SoundBuffer mySoundBuffers[NUM_SFX];
             sf::Sound mySound;
             sf::Clock myClock;
