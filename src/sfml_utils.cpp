@@ -353,7 +353,7 @@ namespace fvu {
         //drawZombie();
         /* Draw all the objects properly */
         for (uint16_t i = 0; i < myZombies.size(); i++) {
-            if (myZombies[i].getStatus() != ZOMBIE_DEFAULT) {
+            if (myZombies[i].getStatus() != ZOMBIE_STATUS_INACTIVE) {
                 myZombies[i].draw(i);
             }
         }
@@ -578,7 +578,7 @@ namespace fvu {
     void Game::processEvents() {
 
         sf::Event event;
-        int16_t i = 0;
+        static int16_t i = 0;
         while (myWindow.pollEvent(event)) {
             if (event.type == sf::Event::KeyPressed) {
                 switch (event.key.code) {
@@ -628,10 +628,10 @@ namespace fvu {
                             myStatus.mode = DEMO_END;
                         break;
                     default:
-                        mySound.setBuffer(mySoundBuffers[i]);
-                        mySound.play();
-                        i++;
-                        i %= NUM_SFX;
+                        mySounds[myStatus.music_buffer].setBuffer(mySoundBuffers[i]);
+                        mySounds[myStatus.music_buffer].play();
+                        i++; myStatus.music_buffer++;
+                        i %= NUM_SFX; myStatus.music_buffer %= NUM_SOUNDS;
                         break;
                 }
 

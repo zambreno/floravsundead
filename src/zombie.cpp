@@ -97,9 +97,15 @@ namespace fvu {
     *****************************************************************************/
     void Zombie::draw(uint16_t index) {
 
+        float x = demo_x;
+        float y = demo_y;
         float z = index*ZOMBIE_DEPTH_RANGE+OBJECT_DEPTH;
         glPushMatrix();
-        glTranslatef(*x, *y, z);
+        if (status > ZOMBIE_STATUS_DEMO) {
+            x = game_x;
+            y = game_y;
+        }
+        glTranslatef(x, y, z);
         glScalef(dir, 1.0, 1.0);
         myObject->draw();
         glPopMatrix();
@@ -113,9 +119,7 @@ namespace fvu {
     *****************************************************************************/
     Zombie::Zombie(ZOMBIE_TYPE mytype) {
 
-        status = ZOMBIE_DEFAULT;
-        x = &demo_x;
-        y = &demo_y;
+        status = ZOMBIE_STATUS_DEFAULT;
 
         switch(mytype) {
             case REGULAR_ZOMBIE:
@@ -166,32 +170,45 @@ namespace fvu {
     *****************************************************************************/
     void Zombie::place(int16_t location, int16_t delay, uint8_t team) {
 
+        /* Teams 0 and 1 are on the left, 2 and 3 are on the right.
+         * Teams 0 and 2 are on the top, 1 and 3 on the bottom.
+         * Placement may need to be sprite-specific. */
         switch (team) {
             case 0:
             default:
                 game_x = -700.0;
-                game_y = 75.0*(location+1);
+                game_y = gridHeights[location]-50.0;
+                demo_x = (rand()%200)-1200.0;
+                demo_y = 1.0*(rand()%450);
                 dir = -1.0;
                 break;
             case 1:
                 game_x = -700.0;
-                game_y = -75.0*(location+1);
+                game_y = gridHeights[location]-581.0;
+                demo_x = (rand()%200)-1200.0;
+                demo_y = -1.0*(rand()%450);
                 dir = -1.0;
                 break;
             case 2:
                 game_x = 700.0;
-                game_y = 75.0*(location+1);
+                game_y = gridHeights[location]-50.0;
+                demo_x = (rand()%200)+1000.0;
+                demo_y = 1.0*(rand()%450);
+                printf("[%f, %f], [%f, %f]\n", game_x, game_y, demo_x, demo_y);
                 dir = 1.0;
                 break;
             case 3:
                 game_x = 700.0;
-                game_y = -75.0*(location+1);
+                game_y = gridHeights[location]-581.0;
+                demo_x = (rand()%200)+1000.0;
+                demo_y = -1.0*(rand()%450);
+                printf("[%f, %f], [%f, %f]\n", game_x, game_y, demo_x, demo_y);
                 dir = 1.0;
                 break;
         }
         this->team = team;
         this->delay = delay;
-        status = ZOMBIE_PLACED;
+        status = ZOMBIE_STATUS_PLACED;
 
     }
 
@@ -205,9 +222,7 @@ namespace fvu {
         /* Set all the angles to 0.0 */
 
         /* Point x,y to game_x and game_y */
-        x = &game_x;
-        y = &game_y;
-
+        status = ZOMBIE_STATUS_GAME;
     }
 
     /*****************************************************************************
@@ -215,6 +230,10 @@ namespace fvu {
     * Description: Updates each zombie in demo mode
     *****************************************************************************/
     void Zombie::updateDemo() {
+
+        if (status == ZOMBIE_STATUS_PLACED) {
+            status = ZOMBIE_STATUS_DEMO;
+        }
 
     }
 
@@ -248,10 +267,18 @@ namespace fvu {
 
         /* We want pseudo-3D, so lower = closer. Otherwise, closer to the sides
          * should be closer to the screen. */
-        if (game_y == rhs.game_y) {
-            return (fabsf(game_x) >= fabsf(rhs.game_x));
+        if (status == ZOMBIE_STATUS_DEMO) {
+            if (demo_y == rhs.demo_y) {
+                return (fabsf(demo_x) >= fabsf(rhs.demo_x));
+            }
+            else return (demo_y < rhs.demo_y);
         }
-        else return (game_y < rhs.game_y);
+        else {
+            if (game_y == rhs.game_y) {
+                return (fabsf(game_x) >= fabsf(rhs.game_x));
+            }
+            else return (game_y < rhs.game_y);
+        }
     }
 
 

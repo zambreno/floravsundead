@@ -16,6 +16,8 @@
 
 #pragma once
 
+/* Grid pixel heights */
+extern const float gridHeights[];
 
 /* Texture file enum */
 typedef enum {TEX_BACKGROUND=0, TEX_COURT, TEX_SCOREBOARD_BOTTOM, TEX_SCOREBOARD_TOP,

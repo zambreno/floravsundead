@@ -25,6 +25,7 @@
 #include <SFML/Audio.hpp>
 #include <stdio.h>
 #include <stdint.h>
+#include <stdlib.h>
 #include <math.h>
 #include <string>
 #include <cstring>
@@ -50,6 +51,7 @@
 #define ERR_UNDEFINED 100
 
 #define FRAME_RATE 30
+#define NUM_SOUNDS 8
 #define SCREEN_WIDTH_DEFAULT 1920
 #define SCREEN_HEIGHT_DEFAULT 1080
 #define SCREEN_DEPTH_DEFAULT 32
@@ -57,6 +59,8 @@
 #define ZOM_FNAME_DEFAULT "default.zom"
 #define TEAM_FNAME_DEFAULT "default.fpl"
 #define TIME_MS_DEFAULT 300000
+#define DEMO_ZOMBIE_COUNT 20
+
 
 typedef enum {DEMO_START=0, DEMO_MID, DEMO_END, GAME_START, GAME_MID, GAME_END} MODE_TYPE;
 
@@ -75,7 +79,6 @@ namespace fvu {
             uint8_t screen_depth;
             char *team_fname[4];
             char *zom_fname;
-            int32_t time_ms;
     };
 
 
@@ -108,6 +111,7 @@ namespace fvu {
             uint16_t budget;
             uint8_t main_song;
             bool day;
+            uint16_t music_buffer;
     };
 
 
@@ -157,7 +161,7 @@ namespace fvu {
             sf::RenderWindow myWindow;
             sf::Music myMusic[2];
             sf::SoundBuffer mySoundBuffers[NUM_SFX];
-            sf::Sound mySound;
+            sf::Sound mySounds[NUM_SOUNDS];
             sf::Clock myClock;
 
     };
