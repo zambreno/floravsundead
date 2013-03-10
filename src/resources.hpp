@@ -21,12 +21,12 @@ extern const float gridHeights[];
 
 /* Texture file enum */
 typedef enum {TEX_BACKGROUND=0, TEX_COURT, TEX_SCOREBOARD_BOTTOM, TEX_SCOREBOARD_TOP,
-              GREEN_FONT, RED_FONT, WHITE_FONT, TEX_ZOMBIES, TEX_PLANTS, NUM_TEXTURES} TEXTURE_ENUM;
+              GREEN_FONT, RED_FONT, WHITE_FONT, TEX_ZOMBIES, TEX_PLANTS, TEX_FENCE, NUM_TEXTURES} TEXTURE_ENUM;
 extern std::string texFiles[NUM_TEXTURES];
 
 
 /* Depth enum */
-typedef enum {FRONT_DEPTH=0, FONT_DEPTH, OBJECT_DEPTH, SCOREBOARD_DEPTH=50000, BACKGROUND_DEPTH, COURT_DEPTH, BACK_DEPTH} DEPTH_ENUM;
+typedef enum {FRONT_DEPTH=0, FONT_DEPTH, FENCE_DEPTH, OBJECT_DEPTH, SCOREBOARD_DEPTH=50000, BACKGROUND_DEPTH, COURT_DEPTH, BACK_DEPTH} DEPTH_ENUM;
 
 
 /* Sound effect file enum */
@@ -54,6 +54,10 @@ extern uint16_t tex_background_spriteMap[][4];
 /* Sprite enum for TEX_COURT */
 typedef enum {COURT_ALL=0, NUM_TEX_COURT} TEX_COURT_ENUM;
 extern uint16_t tex_court_spriteMap[][4];
+
+/* Sprite enum for TEX_FENCE */
+typedef enum {FENCE_ALL=0, NUM_TEX_FENCE} TEX_FENCE_ENUM;
+extern uint16_t tex_fence_spriteMap[][4];
 
 /* Sprite enum for TEX_SCOREBOARD_BOTTOM */
 typedef enum {SCOREBOARD_BOTTOM_ALL=0, NUM_TEX_SCOREBOARD_BOTTOM} TEX_SCOREBOARD_BOTTOM_ENUM;

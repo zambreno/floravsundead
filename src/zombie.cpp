@@ -240,7 +240,7 @@ namespace fvu {
 
     /*****************************************************************************
     * Function: Zombie::update
-    * Description: Updates each zombie in demo mode
+    * Description: Updates each zombie
     *****************************************************************************/
     void Zombie::update() {
 

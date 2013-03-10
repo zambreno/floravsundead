@@ -85,7 +85,7 @@ namespace fvu {
                         myStatus.mode = GAME_END;
                     }
                     myClock.restart();
-                    break;
+                   break;
                 case GAME_END:
                     endGame();
                     break;

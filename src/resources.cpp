@@ -65,7 +65,8 @@ std::string texFiles[NUM_TEXTURES] = {
     "sprites/fonts/red.png",
     "sprites/fonts/white.png",
     "sprites/zombies.png",
-    "sprites/plants.png"
+    "sprites/plants.png",
+    "sprites/Fence.png"
     };
 
 /* Sprite map for TEX_BACKGROUND */
@@ -76,6 +77,11 @@ uint16_t tex_background_spriteMap[NUM_TEX_BACKGROUND][4] = {
 /* Sprite map for TEX_COURT */
 uint16_t tex_court_spriteMap[NUM_TEX_COURT][4] = {
     {  0,  0,  499, 939}
+    };
+
+   /* Sprite map for TEX_FENCE */
+uint16_t tex_fence_spriteMap[NUM_TEX_FENCE][4] = {
+    {  0,  0,  2770, 1162}
     };
 
 /* Sprite map for TEX_SCOREBOARD_BOTTOM */

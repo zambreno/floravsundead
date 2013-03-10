@@ -46,6 +46,20 @@ namespace fvu {
             glVertex3f(-210.0, 395.0, COURT_DEPTH);
         glEnd();
 
+        /* Draw the fence texture */
+        glBindTexture(GL_TEXTURE_2D, myTextures[TEX_FENCE].texHandle);
+        getTexCoords(TEX_FENCE, FENCE_ALL, texCoords);
+        glBegin(GL_QUADS);
+            glTexCoord2d(texCoords[0], texCoords[1]);
+            glVertex3f(-1384.5, -580.5, FENCE_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[1]);
+            glVertex3f(1384.5, -580.5, FENCE_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[3]);
+            glVertex3f(1384.5, 580.5, FENCE_DEPTH);
+            glTexCoord2d(texCoords[0], texCoords[3]);
+            glVertex3f(-1384.5, 580.5, FENCE_DEPTH);
+        glEnd();
+
         /* Draw the background textures */
         glBindTexture(GL_TEXTURE_2D, myTextures[TEX_BACKGROUND].texHandle);
         getTexCoords(TEX_BACKGROUND, BACKGROUND_ALL, texCoords);
@@ -708,7 +722,7 @@ namespace fvu {
         myTextures[WHITE_FONT].spriteMap = white_font_spriteMap;
         myTextures[TEX_ZOMBIES].spriteMap = zombie_object_spriteMap;
         myTextures[TEX_PLANTS].spriteMap = plant_object_spriteMap;
-
+        myTextures[TEX_FENCE].spriteMap = tex_fence_spriteMap;
         if (myConfig.debug_level > 3)
             printf("done.\n");
 
