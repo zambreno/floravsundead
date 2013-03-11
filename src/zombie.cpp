@@ -22,8 +22,8 @@
 /* Texture files */
 std::string zombieNames[NUM_ZOMBIE_TYPE][NUM_ZOMBIE_SPELLINGS] = {
     {"zombie", "regular"},
-    {"conehead", "cone"},
     {"flag", "fast"},
+    {"conehead", "cone"},
     {"polevault", "pole"},
     {"buckethead", "bucket"},
     {"newspaper", "news"},
@@ -99,12 +99,25 @@ namespace fvu {
 
         float x = demo_x;
         float y = demo_y;
-        float z = index*ZOMBIE_DEPTH_RANGE+OBJECT_DEPTH;
-        glPushMatrix();
+        float z;
+
+        // Put objects on a different depth level if they're on the bottom
+        if (team % 2 == 1) {
+            z = index*ZOMBIE_DEPTH_RANGE+OBJECT_BOTTOM_DEPTH;
+        }
+        else {
+            z = index*ZOMBIE_DEPTH_RANGE+OBJECT_TOP_DEPTH;
+        }
+
         if (status > ZOMBIE_STATUS_DEMO) {
             x = game_x;
             y = game_y;
         }
+        else if (status == ZOMBIE_STATUS_SKIP) {
+            return;
+        }
+
+        glPushMatrix();
         glTranslatef(x, y, z);
         glScalef(dir, 1.0, 1.0);
         myObject->draw();
@@ -117,12 +130,14 @@ namespace fvu {
     * Description: Class constructor. Uses an enum type to set zombie-specific
     * parameters
     *****************************************************************************/
-    Zombie::Zombie(ZOMBIE_TYPE mytype) {
+    Zombie::Zombie(uint8_t  mytype) {
 
         status = ZOMBIE_STATUS_DEFAULT;
 
         switch(mytype) {
             case REGULAR_ZOMBIE:
+            case CONE_ZOMBIE:
+            case BUCKET_ZOMBIE:
             default:
                 float local_transitions[] = {5.0, 0.0};
                 type = mytype;
@@ -131,7 +146,7 @@ namespace fvu {
                 transitions.insert(transitions.begin(), local_transitions, local_transitions+2);
 
                 /* The object structure starts at the torso, and moves out in all directions */
-                myObject = new Object(0.0,0.0,0.0,ZOMBIEBODY,ZOMBIEBODY_DEPTH,5, NULL);
+                myObject = new Object(0.0,0.0,0.0,ZOMBIEBODY,ZOMBIEBODY_DEPTH,6, NULL);
 
                 // children[0] is the outer leg
                 myObject->children[0] = new Object(29.5,-16.5,0.0,ZOMBIE_OUTERLEG_UPPER,ZOMBIE_OUTERLEG_UPPER_DEPTH,1, myObject);
@@ -154,10 +169,18 @@ namespace fvu {
                 myObject->children[3]->children[0]->children[0] = new Object(-4.0,-25.0,0.0,ZOMBIE_OUTERARM_HAND,ZOMBIE_OUTERARM_HAND_DEPTH,0, myObject->children[3]->children[0]);
 
                 // children[4] is the head
-                myObject->children[4] = new Object(-10.5,35.5,0.0,ZOMBIE_HEAD_GROSSOUT,ZOMBIE_HEAD_DEPTH,0, myObject);
+                myObject->children[4] = new Object(-10.5,35.5,0.0,ZOMBIE_HEAD,ZOMBIE_HEAD_DEPTH,1, myObject);
+                myObject->children[4]->children[0] = new Object(0.0, -10.0,0.0, ZOMBIE_JAW, ZOMBIE_HEAD_DEPTH,0, myObject);
 
                 // children[5] is the body accessories
-
+                if (mytype == CONE_ZOMBIE) {
+                    printf("creating zombie with cone\n");
+                    myObject->children[5] = new Object(10.5,50.5,0.0,ZOMBIE_CONE_1, ZOMBIE_ACCESSORY_DEPTH,0, myObject);
+                }
+                else {
+                    printf("creating zombie with eye\n");
+                    myObject->children[5] = new Object(10.5, -50.5, 0.0, ZOMBIE_EYE, ZOMBIE_ACCESSORY_DEPTH, 0, myObject);
+                }
 
                 break;
         }
@@ -170,6 +193,8 @@ namespace fvu {
     *****************************************************************************/
     void Zombie::place(int16_t location, int16_t delay, uint8_t team) {
 
+        static uint16_t place_count = 0;
+
         /* Teams 0 and 1 are on the left, 2 and 3 are on the right.
          * Teams 0 and 2 are on the top, 1 and 3 on the bottom.
          * Placement may need to be sprite-specific. */
@@ -178,37 +203,38 @@ namespace fvu {
             default:
                 game_x = -700.0;
                 game_y = gridHeights[location]-50.0;
-                demo_x = (rand()%200)-1200.0;
-                demo_y = 1.0*(rand()%450);
+                demo_x = (rand()%300)-1375.0;
+                demo_y = 1.5*(rand()%300);
                 dir = -1.0;
                 break;
             case 1:
                 game_x = -700.0;
                 game_y = gridHeights[location]-581.0;
-                demo_x = (rand()%200)-1200.0;
-                demo_y = -1.0*(rand()%450);
+                demo_x = (rand()%300)-1375.0;
+                demo_y = -1.5*(rand()%300);
                 dir = -1.0;
                 break;
             case 2:
                 game_x = 700.0;
                 game_y = gridHeights[location]-50.0;
-                demo_x = (rand()%200)+1000.0;
-                demo_y = 1.0*(rand()%450);
-                printf("[%f, %f], [%f, %f]\n", game_x, game_y, demo_x, demo_y);
+                demo_x = (rand()%300)+1150.0;
+                demo_y = 1.5*(rand()%300);
                 dir = 1.0;
                 break;
             case 3:
                 game_x = 700.0;
                 game_y = gridHeights[location]-581.0;
-                demo_x = (rand()%200)+1000.0;
-                demo_y = -1.0*(rand()%450);
-                printf("[%f, %f], [%f, %f]\n", game_x, game_y, demo_x, demo_y);
+                demo_x = (rand()%300)+1150.0;
+                demo_y = -1.5*(rand()%300);
                 dir = 1.0;
                 break;
         }
         this->team = team;
         this->delay = delay;
         status = ZOMBIE_STATUS_PLACED;
+        if (place_count++ > DEMO_ZOMBIE_COUNT) {
+            status = ZOMBIE_STATUS_SKIP;
+        }
 
     }
 
@@ -269,13 +295,13 @@ namespace fvu {
          * should be closer to the screen. */
         if (status == ZOMBIE_STATUS_DEMO) {
             if (demo_y == rhs.demo_y) {
-                return (fabsf(demo_x) >= fabsf(rhs.demo_x));
+                return (fabsf(demo_x) > fabsf(rhs.demo_x));
             }
             else return (demo_y < rhs.demo_y);
         }
         else {
             if (game_y == rhs.game_y) {
-                return (fabsf(game_x) >= fabsf(rhs.game_x));
+                return (fabsf(game_x) > fabsf(rhs.game_x));
             }
             else return (game_y < rhs.game_y);
         }

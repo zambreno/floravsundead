@@ -27,14 +27,14 @@ extern std::string zombieNames[NUM_ZOMBIE_TYPE][NUM_ZOMBIE_SPELLINGS];
 
 
 /* Zombie depth enum */
-typedef enum {ZOMBIE_OUTERARM_LOWER_DEPTH=0, ZOMBIE_OUTERARM_UPPER_DEPTH,
+typedef enum {ZOMBIE_ACCESSORY_DEPTH=0,ZOMBIE_OUTERARM_LOWER_DEPTH, ZOMBIE_OUTERARM_UPPER_DEPTH,
 ZOMBIE_OUTERARM_HAND_DEPTH, ZOMBIE_HEAD_DEPTH, ZOMBIE_INNERLEG_FOOT_DEPTH, ZOMBIE_INNERLEG_LOWER_DEPTH,
 ZOMBIE_INNERLEG_UPPER_DEPTH, ZOMBIE_INNERARM_HAND_DEPTH, ZOMBIE_INNERARM_LOWER_DEPTH, ZOMBIE_INNERARM_UPPER_DEPTH, ZOMBIEBODY_DEPTH,
 ZOMBIE_OUTERLEG_LOWER_DEPTH, ZOMBIE_OUTERLEG_FOOT_DEPTH, ZOMBIE_OUTERLEG_UPPER_DEPTH, ZOMBIE_DEPTH_RANGE} ZOMBIE_DEPTH_ENUM;
 
 
 /* Zombie status enum */
-typedef enum {ZOMBIE_STATUS_DEFAULT=0, ZOMBIE_STATUS_PLACED, ZOMBIE_STATUS_DEMO, ZOMBIE_STATUS_GAME, ZOMBIE_STATUS_INACTIVE} ZOMBIE_STATUS_ENUM;
+typedef enum {ZOMBIE_STATUS_DEFAULT=0, ZOMBIE_STATUS_PLACED, ZOMBIE_STATUS_SKIP, ZOMBIE_STATUS_DEMO, ZOMBIE_STATUS_GAME, ZOMBIE_STATUS_INACTIVE} ZOMBIE_STATUS_ENUM;
 
 namespace fvu {
 
@@ -56,7 +56,7 @@ namespace fvu {
     /* Main zombie class */
     class Zombie {
         public:
-            Zombie(ZOMBIE_TYPE type);
+            Zombie(uint8_t type);
             void update();
             void place(int16_t location, int16_t delay, uint8_t team);
             void move(float delta_x, float delta_y);
@@ -67,7 +67,7 @@ namespace fvu {
             bool operator< (const Zombie &rhs) const;
 
         private:
-            ZOMBIE_TYPE type;
+            uint8_t type;
             ZOMBIE_STATUS_ENUM status;
             uint16_t health;
             float speed;

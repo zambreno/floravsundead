@@ -287,6 +287,9 @@ namespace fvu {
             raise_error(ERR_NOFILE3, myConfig.zom_fname);
         }
 
+        // Set the random seed here
+        srand(0);
+
         budget_flag = false;
         zombie_counter = 0;
         myStatus.time_ms = TIME_MS_DEFAULT;
@@ -352,7 +355,7 @@ namespace fvu {
                     for (uint8_t j = 0; j < NUM_ZOMBIE_SPELLINGS; j++) {
                         if (!strcmp(select_str, zombieNames[z][j].c_str())) {
                             zombie_match = true;
-                            local_zombie = new Zombie((ZOMBIE_TYPE)z);
+                            local_zombie = new Zombie(z);
                         }
                     }
                     if (zombie_match == true) {

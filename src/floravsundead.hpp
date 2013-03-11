@@ -59,7 +59,7 @@
 #define ZOM_FNAME_DEFAULT "default.zom"
 #define TEAM_FNAME_DEFAULT "default.fpl"
 #define TIME_MS_DEFAULT 300000
-#define DEMO_ZOMBIE_COUNT 20
+#define DEMO_ZOMBIE_COUNT 40
 
 
 typedef enum {DEMO_START=0, DEMO_MID, DEMO_END, GAME_START, GAME_MID, GAME_END} MODE_TYPE;
@@ -138,9 +138,6 @@ namespace fvu {
             void drawMap();
             void drawScoreboard();
             void processEvents();
-
-            /* Temporary class function */
-            void drawZombie();
 
             /* Utility functions (utils.cpp) */
             void print_help();
