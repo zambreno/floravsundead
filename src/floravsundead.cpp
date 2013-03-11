@@ -112,7 +112,7 @@ namespace fvu {
         }
 
         /* Sort each zombie based on the custom zombie function */
-        std::sort(myZombies.begin(), myZombies.end());
+        std::stable_sort(myZombies.begin(), myZombies.end());
     }
 
 
@@ -157,7 +157,7 @@ namespace fvu {
         }
 
         /* Sort each zombie based on the custom zombie function */
-        std::sort(myZombies.begin(), myZombies.end());
+        std::stable_sort(myZombies.begin(), myZombies.end());
     }
 
     /*****************************************************************************
@@ -288,7 +288,7 @@ namespace fvu {
         }
 
         // Set the random seed here
-        srand(0);
+        //srand(0);
 
         budget_flag = false;
         zombie_counter = 0;
@@ -365,7 +365,7 @@ namespace fvu {
 
                 // Each zombie is specified for all 4 teams at once
                 if (zombie_match == true) {
-                    myZombies.insert(myZombies.begin(), 4*select_tok, *local_zombie);
+                    myZombies.insert(myZombies.end(), 4*select_tok, *local_zombie);
                     delete local_zombie;
                 }
                 else {

@@ -2,7 +2,7 @@
 #include "floravsundead.hpp"
 
 /* Grid pixel heights */
-const float gridHeights[] = {102.0, 184.0, 288.0, 386.0, 491.0};
+const float gridHeights[] = {101.0, 198.0, 288.0, 392.0, 491.0};
 
 /* Sound effect files */
 std::string sfxFiles[NUM_SFX] = {

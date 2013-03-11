@@ -133,6 +133,7 @@ namespace fvu {
     Zombie::Zombie(uint8_t  mytype) {
 
         status = ZOMBIE_STATUS_DEFAULT;
+        type = mytype;
 
         switch(mytype) {
             case REGULAR_ZOMBIE:
@@ -140,7 +141,6 @@ namespace fvu {
             case BUCKET_ZOMBIE:
             default:
                 float local_transitions[] = {5.0, 0.0};
-                type = mytype;
                 health = 10;
                 speed = 0.25;
                 transitions.insert(transitions.begin(), local_transitions, local_transitions+2);
@@ -174,16 +174,18 @@ namespace fvu {
 
                 // children[5] is the body accessories
                 if (mytype == CONE_ZOMBIE) {
-                    printf("creating zombie with cone\n");
-                    myObject->children[5] = new Object(10.5,50.5,0.0,ZOMBIE_CONE_1, ZOMBIE_ACCESSORY_DEPTH,0, myObject);
+                    myObject->children[5] = new Object(2.5,55.5,0.0,ZOMBIE_CONE_1, ZOMBIE_ACCESSORY_DEPTH,0, myObject);
+                }
+                else if (mytype == BUCKET_ZOMBIE) {
+                    myObject->children[5] = new Object(2.5,55.5,0.0,ZOMBIE_BUCKET_1, ZOMBIE_ACCESSORY_DEPTH,0, myObject);
                 }
                 else {
-                    printf("creating zombie with eye\n");
                     myObject->children[5] = new Object(10.5, -50.5, 0.0, ZOMBIE_EYE, ZOMBIE_ACCESSORY_DEPTH, 0, myObject);
                 }
 
                 break;
         }
+
     }
 
     /*****************************************************************************
@@ -202,29 +204,29 @@ namespace fvu {
             case 0:
             default:
                 game_x = -700.0;
-                game_y = gridHeights[location]-50.0;
-                demo_x = (rand()%300)-1375.0;
+                game_y = gridHeights[location]-35.0;
+                demo_x = 1.5*(rand()%200)-1375.0;
                 demo_y = 1.5*(rand()%300);
                 dir = -1.0;
                 break;
             case 1:
                 game_x = -700.0;
                 game_y = gridHeights[location]-581.0;
-                demo_x = (rand()%300)-1375.0;
+                demo_x = 1.5*(rand()%200)-1375.0;
                 demo_y = -1.5*(rand()%300);
                 dir = -1.0;
                 break;
             case 2:
                 game_x = 700.0;
-                game_y = gridHeights[location]-50.0;
-                demo_x = (rand()%300)+1150.0;
+                game_y = gridHeights[location]-35.0;
+                demo_x = 1.5*(rand()%200)+1100.0;
                 demo_y = 1.5*(rand()%300);
                 dir = 1.0;
                 break;
             case 3:
                 game_x = 700.0;
                 game_y = gridHeights[location]-581.0;
-                demo_x = (rand()%300)+1150.0;
+                demo_x = 1.5*(rand()%200)+1100.0;
                 demo_y = -1.5*(rand()%300);
                 dir = 1.0;
                 break;
@@ -232,7 +234,7 @@ namespace fvu {
         this->team = team;
         this->delay = delay;
         status = ZOMBIE_STATUS_PLACED;
-        if (place_count++ > DEMO_ZOMBIE_COUNT) {
+        if (++place_count > DEMO_ZOMBIE_COUNT) {
             status = ZOMBIE_STATUS_SKIP;
         }
 

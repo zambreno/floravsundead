@@ -64,6 +64,7 @@ namespace fvu {
             void updateDemo();
             void draw(uint16_t index);
             ZOMBIE_STATUS_ENUM getStatus() {return status;}
+            uint8_t getType() {return type;}
             bool operator< (const Zombie &rhs) const;
 
         private:
