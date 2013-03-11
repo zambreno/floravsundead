@@ -43,12 +43,17 @@ namespace fvu {
      class Object {
         public:
             float x, y, angle;
+            float demo_anim_angle, anim_angle;
+            uint8_t demo_anim_limit, anim_limit;
             ZOMBIE_SPRITE_ENUM sprite;
             uint32_t depth;
             Object *parent;
             Object **children;
             uint8_t num_children;
-            Object(float x, float y, float angle, ZOMBIE_SPRITE_ENUM sprite, uint32_t depth, uint8_t num_children, Object *parent);
+            void updateDemo(uint32_t anim_count);
+            void endDemo();
+            void update(uint32_t anim_count);
+            Object(float x, float y, float angle, float demo_anim_angle, uint8_t demo_anim_limit, ZOMBIE_SPRITE_ENUM sprite, uint32_t depth, uint8_t num_children, Object *parent);
             void draw();
      };
 
@@ -68,6 +73,7 @@ namespace fvu {
             bool operator< (const Zombie &rhs) const;
 
         private:
+            uint64_t anim_count;
             uint8_t type;
             ZOMBIE_STATUS_ENUM status;
             uint16_t health;

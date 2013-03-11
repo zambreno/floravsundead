@@ -187,7 +187,7 @@ namespace fvu {
             if (myStatus.pan >= 352.5) {
                 myStatus.pan = 352.5;
                 pause_cnt++;
-                if (pause_cnt > 50) {
+                if (pause_cnt > 50000) {
                     dir = -dir;
                     pause_cnt = 0;
                 }
@@ -351,11 +351,11 @@ namespace fvu {
 
                 Zombie *local_zombie = NULL;
                 bool zombie_match = false;
-                for (uint8_t z = REGULAR_ZOMBIE; z < NUM_ZOMBIE_TYPE; z++) {
+                uint8_t z;
+                for (z = REGULAR_ZOMBIE; z < NUM_ZOMBIE_TYPE; z++) {
                     for (uint8_t j = 0; j < NUM_ZOMBIE_SPELLINGS; j++) {
                         if (!strcmp(select_str, zombieNames[z][j].c_str())) {
                             zombie_match = true;
-                            local_zombie = new Zombie(z);
                         }
                     }
                     if (zombie_match == true) {
@@ -365,8 +365,11 @@ namespace fvu {
 
                 // Each zombie is specified for all 4 teams at once
                 if (zombie_match == true) {
-                    myZombies.insert(myZombies.end(), 4*select_tok, *local_zombie);
-                    delete local_zombie;
+                    for (uint8_t k = 0; k < 4*select_tok; k++) {
+                        local_zombie = new Zombie(z);
+                        myZombies.insert(myZombies.end(), 1, *local_zombie);
+                        delete local_zombie;
+                    }
                 }
                 else {
                     printf("Error compiling %s, line %d\n", myConfig.zom_fname, line_count);

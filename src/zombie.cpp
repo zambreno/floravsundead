@@ -41,7 +41,7 @@ namespace fvu {
     * Description: Object class constructor. Creates a set of linked lists
     * between parent and child.
     *****************************************************************************/
-    Object::Object(float x, float y, float angle, ZOMBIE_SPRITE_ENUM sprite, uint32_t depth, uint8_t num_children, Object *parent) {
+    Object::Object(float x, float y, float angle, float demo_anim_angle, uint8_t demo_anim_limit, ZOMBIE_SPRITE_ENUM sprite, uint32_t depth, uint8_t num_children, Object *parent) {
         this->x = x;
         this->y = y;
         this->angle = angle;
@@ -49,13 +49,14 @@ namespace fvu {
         this->depth = depth;
         this->num_children = num_children;
         this->parent = parent;
+        this->demo_anim_limit = demo_anim_limit;
+        this->demo_anim_angle = demo_anim_angle;
 
         children = NULL;
         if (num_children > 0) {
             children = new Object *[num_children];
         }
     }
-
 
 
     /*****************************************************************************
@@ -66,27 +67,76 @@ namespace fvu {
 
         float texCoords[6];
 
-        /* Draw the current object */
-        myGame->getTexCoords(TEX_ZOMBIES, sprite, texCoords);
-        glTranslatef(x, y, 0);
-        glBegin(GL_QUADS);
-            glTexCoord2d(texCoords[0], texCoords[1]);
-            glVertex3f(0.0, 0.0, depth);
-            glTexCoord2d(texCoords[2], texCoords[1]);
-            glVertex3f(texCoords[4], 0.0, depth);
-            glTexCoord2d(texCoords[2], texCoords[3]);
-            glVertex3f(texCoords[4], texCoords[5], depth);
-            glTexCoord2d(texCoords[0], texCoords[3]);
-            glVertex3f(0.0, texCoords[5], depth);
-        glEnd();
+        /* We don't draw the top-most object */
+        glPushMatrix();
+        if (parent) {
+            /* Draw the current object */
+            myGame->getTexCoords(TEX_ZOMBIES, sprite, texCoords);
+
+            glTranslatef(x, y, 0);
+            glRotatef(angle, 0.0, 0.0, 1.0);
+
+            glBegin(GL_QUADS);
+                glTexCoord2d(texCoords[0], texCoords[1]);
+                glVertex3f(0.0, 0.0, depth);
+                glTexCoord2d(texCoords[2], texCoords[1]);
+                glVertex3f(texCoords[4], 0.0, depth);
+                glTexCoord2d(texCoords[2], texCoords[3]);
+                glVertex3f(texCoords[4], texCoords[5], depth);
+                glTexCoord2d(texCoords[0], texCoords[3]);
+                glVertex3f(0.0, texCoords[5], depth);
+            glEnd();
+
+        }
 
         /* Draw the children */
         for (uint8_t i = 0; i < num_children; i++) {
-            glPushMatrix();
             children[i]->draw();
-            glPopMatrix();
         }
+
+        glPopMatrix();
     }
+
+
+
+    /*****************************************************************************
+    * Function: Object::updateDemo
+    * Description: Updates each object in demo mode
+    *****************************************************************************/
+    void Object::updateDemo(uint32_t anim_count) {
+
+        if (demo_anim_limit > 0) {
+            angle += demo_anim_angle;
+            if ((anim_count % demo_anim_limit) == 0) {
+                demo_anim_angle = demo_anim_angle * -1.0;
+            }
+        }
+
+        /* Update the children */
+        for (uint8_t i = 0; i < num_children; i++) {
+            children[i]->updateDemo(anim_count);
+        }
+
+    }
+
+
+    /*****************************************************************************
+    * Function: Object::endDemo
+    * Description: Updates each object in demo mode
+    *****************************************************************************/
+    void Object::endDemo() {
+
+        angle = 0.0;
+
+        /* Update the children */
+        for (uint8_t i = 0; i < num_children; i++) {
+            children[i]->endDemo();
+        }
+
+    }
+
+
+
 
 
 
@@ -133,9 +183,11 @@ namespace fvu {
     Zombie::Zombie(uint8_t  mytype) {
 
         status = ZOMBIE_STATUS_DEFAULT;
+        anim_count = 0;
         type = mytype;
+        Object *local_object;
 
-        switch(mytype) {
+        switch(type) {
             case REGULAR_ZOMBIE:
             case CONE_ZOMBIE:
             case BUCKET_ZOMBIE:
@@ -145,43 +197,49 @@ namespace fvu {
                 speed = 0.25;
                 transitions.insert(transitions.begin(), local_transitions, local_transitions+2);
 
-                /* The object structure starts at the torso, and moves out in all directions */
-                myObject = new Object(0.0,0.0,0.0,ZOMBIEBODY,ZOMBIEBODY_DEPTH,6, NULL);
+                /* The object structure starts at the x/y location of the torso, and moves out in all directions */
+                myObject = new Object(0.0,0.0,0.0, 0.0, 0, ZOMBIEBODY,ZOMBIEBODY_DEPTH,5,NULL);
 
-                // children[0] is the outer leg
-                myObject->children[0] = new Object(29.5,-16.5,0.0,ZOMBIE_OUTERLEG_UPPER,ZOMBIE_OUTERLEG_UPPER_DEPTH,1, myObject);
-                myObject->children[0]->children[0] = new Object(10.5,-19.75,0.0,ZOMBIE_OUTERLEG_LOWER,ZOMBIE_OUTERLEG_LOWER_DEPTH,1, myObject->children[0]);
-                myObject->children[0]->children[0]->children[0] = new Object(-14.75,-12.0,0.0,ZOMBIE_OUTERLEG_FOOT,ZOMBIE_OUTERLEG_FOOT_DEPTH,0, myObject->children[0]->children[0]);
+                // children[0] is the body
+                myObject->children[0] = new Object(0.0, 0.0, 0.0, 0.0, 0, ZOMBIEBODY,ZOMBIEBODY_DEPTH,1, myObject);
 
-                // children[1] is the inner leg
-                myObject->children[1] = new Object(19.5,-16.5,0.0,ZOMBIE_INNERLEG_UPPER,ZOMBIE_INNERLEG_UPPER_DEPTH,1, myObject);
-                myObject->children[1]->children[0] = new Object(-14.0,-26.0,0.0,ZOMBIE_INNERLEG_LOWER,ZOMBIE_INNERLEG_LOWER_DEPTH,1, myObject->children[1]);
-                myObject->children[1]->children[0]->children[0] = new Object(3.0,-7.0,0.0,ZOMBIE_INNERLEG_FOOT,ZOMBIE_INNERLEG_FOOT_DEPTH,0, myObject->children[1]->children[0]);
+                // children[0][0] is the head
+                local_object = myObject->children[0];
+                local_object->children[0] = new Object(-10.5,35.5,0.0, 0.5, 100, ZOMBIE_HEAD,ZOMBIE_HEAD_DEPTH,2, local_object);
+                local_object->children[0]->children[0] = new Object(0.0, -10.0,0.0, 0.0, 0, ZOMBIE_JAW, ZOMBIE_HEAD_DEPTH,0, local_object->children[0]);
 
-                // children[2] is the inner arm
-                myObject->children[2] = new Object(0.0,15.5,0.0,ZOMBIE_INNERARM_UPPER,ZOMBIE_INNERARM_UPPER_DEPTH,1, myObject);
-                myObject->children[2]->children[0] = new Object(-3.0,-20.0,0.0,ZOMBIE_INNERARM_LOWER,ZOMBIE_INNERARM_LOWER_DEPTH,1, myObject->children[2]);
-                myObject->children[2]->children[0]->children[0] = new Object(0.0,-15.0,0.0,ZOMBIE_INNERARM_HAND,ZOMBIE_INNERARM_HAND_DEPTH,0, myObject->children[2]->children[0]);
-
-                // children[3] is the outer arm
-                myObject->children[3] = new Object(29.5,10.5,0.0,ZOMBIE_OUTERARM_UPPER,ZOMBIE_OUTERARM_UPPER_DEPTH,1, myObject);
-                myObject->children[3]->children[0] = new Object(-10.0,-20.0,0.0,ZOMBIE_OUTERARM_LOWER,ZOMBIE_OUTERARM_LOWER_DEPTH,1, myObject->children[3]);
-                myObject->children[3]->children[0]->children[0] = new Object(-4.0,-25.0,0.0,ZOMBIE_OUTERARM_HAND,ZOMBIE_OUTERARM_HAND_DEPTH,0, myObject->children[3]->children[0]);
-
-                // children[4] is the head
-                myObject->children[4] = new Object(-10.5,35.5,0.0,ZOMBIE_HEAD,ZOMBIE_HEAD_DEPTH,1, myObject);
-                myObject->children[4]->children[0] = new Object(0.0, -10.0,0.0, ZOMBIE_JAW, ZOMBIE_HEAD_DEPTH,0, myObject);
-
-                // children[5] is the body accessories
+                // children[0][0][0] is the head accessories
+                local_object = myObject->children[0]->children[0];
                 if (mytype == CONE_ZOMBIE) {
-                    myObject->children[5] = new Object(2.5,55.5,0.0,ZOMBIE_CONE_1, ZOMBIE_ACCESSORY_DEPTH,0, myObject);
+                    local_object->children[1] = new Object(2.5,20.0,0.0, 0.0, 0, ZOMBIE_CONE_1, ZOMBIE_ACCESSORY_DEPTH,0, local_object);
                 }
                 else if (mytype == BUCKET_ZOMBIE) {
-                    myObject->children[5] = new Object(2.5,55.5,0.0,ZOMBIE_BUCKET_1, ZOMBIE_ACCESSORY_DEPTH,0, myObject);
+                    local_object->children[1] = new Object(2.5,20.0,0.0, 0.0, 0, ZOMBIE_BUCKET_1, ZOMBIE_ACCESSORY_DEPTH,0, local_object);
                 }
                 else {
-                    myObject->children[5] = new Object(10.5, -50.5, 0.0, ZOMBIE_EYE, ZOMBIE_ACCESSORY_DEPTH, 0, myObject);
+                    local_object->children[1] = new Object(2.5, 20.0, 0.0, 0.0, 0, ZOMBIE_EYE, ZOMBIE_ACCESSORY_DEPTH, 0, local_object);
                 }
+
+                // children[1] is the outer leg
+                myObject->children[1] = new Object(29.5,-16.5,0.0, 0.0, 0, ZOMBIE_OUTERLEG_UPPER,ZOMBIE_OUTERLEG_UPPER_DEPTH,1, myObject);
+                myObject->children[1]->children[0] = new Object(10.5,-19.75,0.0, 0.0, 0, ZOMBIE_OUTERLEG_LOWER,ZOMBIE_OUTERLEG_LOWER_DEPTH,1, myObject->children[1]);
+                myObject->children[1]->children[0]->children[0] = new Object(-14.75,-12.0,0.0, 0.0, 0, ZOMBIE_OUTERLEG_FOOT,ZOMBIE_OUTERLEG_FOOT_DEPTH,0, myObject->children[1]->children[0]);
+
+                // children[2] is the inner leg
+                myObject->children[2] = new Object(19.5,-16.5,0.0, 0.0, 0, ZOMBIE_INNERLEG_UPPER,ZOMBIE_INNERLEG_UPPER_DEPTH,1, myObject);
+                myObject->children[2]->children[0] = new Object(-14.0,-26.0,0.0, 0.0, 0, ZOMBIE_INNERLEG_LOWER,ZOMBIE_INNERLEG_LOWER_DEPTH,1, myObject->children[2]);
+                myObject->children[2]->children[0]->children[0] = new Object(3.0,-7.0,0.0, 0.0, 0, ZOMBIE_INNERLEG_FOOT,ZOMBIE_INNERLEG_FOOT_DEPTH,0, myObject->children[2]->children[0]);
+
+                // children[3] is the inner arm
+                myObject->children[3] = new Object(0.0,15.5,0.0, 0.0, 0, ZOMBIE_INNERARM_UPPER,ZOMBIE_INNERARM_UPPER_DEPTH,1, myObject);
+                myObject->children[3]->children[0] = new Object(-3.0,-20.0,0.0, 0.0, 0, ZOMBIE_INNERARM_LOWER,ZOMBIE_INNERARM_LOWER_DEPTH,1, myObject->children[3]);
+                myObject->children[3]->children[0]->children[0] = new Object(0.0,-15.0,0.0, 0.0, 0, ZOMBIE_INNERARM_HAND,ZOMBIE_INNERARM_HAND_DEPTH,0, myObject->children[3]->children[0]);
+
+                // children[4] is the outer arm
+                myObject->children[4] = new Object(29.5,10.5,0.0, 0.0, 0, ZOMBIE_OUTERARM_UPPER,ZOMBIE_OUTERARM_UPPER_DEPTH,1, myObject);
+                myObject->children[4]->children[0] = new Object(-10.0,-20.0,0.0, 0.0, 0, ZOMBIE_OUTERARM_LOWER,ZOMBIE_OUTERARM_LOWER_DEPTH,1, myObject->children[4]);
+                myObject->children[4]->children[0]->children[0] = new Object(-4.0,-25.0,0.0, 0.0, 0, ZOMBIE_OUTERARM_HAND,ZOMBIE_OUTERARM_HAND_DEPTH,0, myObject->children[4]->children[0]);
+
 
                 break;
         }
@@ -247,11 +305,16 @@ namespace fvu {
     *****************************************************************************/
     void Zombie::endDemo() {
 
-        /* Set all the angles to 0.0 */
+        /* Reset all animation counts and angles */
+        anim_count = 0;
+        myObject->endDemo();
 
         /* Point x,y to game_x and game_y */
         status = ZOMBIE_STATUS_GAME;
     }
+
+
+
 
     /*****************************************************************************
     * Function: Zombie::updateDemo
@@ -263,6 +326,7 @@ namespace fvu {
             status = ZOMBIE_STATUS_DEMO;
         }
 
+        myObject->updateDemo(++anim_count);
     }
 
 

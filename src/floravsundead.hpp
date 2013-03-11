@@ -146,7 +146,7 @@ namespace fvu {
             void printConfig();
             void printStatus();
 
-            /* The textures are needed globally */
+            /* Some apsects of the game state are needed globally */
             fvu::Texture myTextures[NUM_TEXTURES];
 
         private:
