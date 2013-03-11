@@ -26,7 +26,7 @@ typedef enum {REGULAR_ZOMBIE=0, FLAG_ZOMBIE, CONE_ZOMBIE, POLE_ZOMBIE, BUCKET_ZO
 extern std::string zombieNames[NUM_ZOMBIE_TYPE][NUM_ZOMBIE_SPELLINGS];
 
 
-/* Zombie depth enum */
+/* Zombie depth enum, front to back */
 typedef enum {ZOMBIE_ACCESSORY_DEPTH=0,ZOMBIE_OUTERARM_LOWER_DEPTH, ZOMBIE_OUTERARM_UPPER_DEPTH,
 ZOMBIE_OUTERARM_HAND_DEPTH, ZOMBIE_HEAD_DEPTH, ZOMBIE_INNERLEG_FOOT_DEPTH, ZOMBIE_INNERLEG_LOWER_DEPTH,
 ZOMBIE_INNERLEG_UPPER_DEPTH, ZOMBIE_INNERARM_HAND_DEPTH, ZOMBIE_INNERARM_LOWER_DEPTH, ZOMBIE_INNERARM_UPPER_DEPTH, ZOMBIEBODY_DEPTH,
@@ -44,7 +44,7 @@ namespace fvu {
         public:
             float x, y, angle;
             float demo_anim_angle, anim_angle;
-            uint8_t demo_anim_limit, anim_limit;
+            uint16_t demo_anim_limit, anim_limit;
             ZOMBIE_SPRITE_ENUM sprite;
             uint32_t depth;
             Object *parent;
@@ -53,7 +53,7 @@ namespace fvu {
             void updateDemo(uint32_t anim_count);
             void endDemo();
             void update(uint32_t anim_count);
-            Object(float x, float y, float angle, float demo_anim_angle, uint8_t demo_anim_limit, ZOMBIE_SPRITE_ENUM sprite, uint32_t depth, uint8_t num_children, Object *parent);
+            Object(float x, float y, float angle, float demo_anim_angle, uint16_t demo_anim_limit, ZOMBIE_SPRITE_ENUM sprite, uint32_t depth, uint8_t num_children, Object *parent);
             void draw();
      };
 
