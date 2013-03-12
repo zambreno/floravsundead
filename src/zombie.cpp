@@ -207,9 +207,9 @@ namespace fvu {
 
                 // children[0][0] is the head
                 local_object = myObject->children[0];
-                local_object->children[0] = new Object(-10.5,35.5, 0.0, 0.1, 300, ZOMBIE_HEAD,ZOMBIE_HEAD_DEPTH,3, local_object);
+                local_object->children[0] = new Object(-10.5,38.75, 0.0, 0.1, 300, ZOMBIE_HEAD,ZOMBIE_HEAD_DEPTH,3, local_object);
                 local_object->children[0]->children[0] = new Object(10.2, -6.5, 0.0, 0.17, 100, ZOMBIE_JAW, ZOMBIE_HEAD_DEPTH,0, local_object->children[0]);
-                local_object->children[0]->children[1] = new Object(-50, -10, 0.0, 0, 0, ZOMBIE_TONGUE, ZOMBIE_TONGUE_DEPTH,0, local_object->children[0]);
+                local_object->children[0]->children[1] = new Object(20, -10, 0.0, .17, 100, ZOMBIE_TONGUE, ZOMBIE_TONGUE_DEPTH,0, local_object->children[0]);
 
 
                 // children[0][0][0] is the head accessories
@@ -225,8 +225,8 @@ namespace fvu {
                 }
 
                 // children[1] is the outer leg
-                myObject->children[1] = new Object(29.5,-16.5,0.0, 0.0, 0, ZOMBIE_OUTERLEG_UPPER,ZOMBIE_OUTERLEG_UPPER_DEPTH,1, myObject);
-                myObject->children[1]->children[0] = new Object(10.5,-19.75,0.0, 0.0, 0, ZOMBIE_OUTERLEG_LOWER,ZOMBIE_OUTERLEG_LOWER_DEPTH,1, myObject->children[1]);
+                myObject->children[1] = new Object(29.5,-15.0,0.0, 0.0, 0, ZOMBIE_OUTERLEG_UPPER,ZOMBIE_OUTERLEG_UPPER_DEPTH,1, myObject);
+                myObject->children[1]->children[0] = new Object(8.5,-19.75,0.0, 0.0, 0, ZOMBIE_OUTERLEG_LOWER,ZOMBIE_OUTERLEG_LOWER_DEPTH,1, myObject->children[1]);
                 myObject->children[1]->children[0]->children[0] = new Object(-14.75,-12.0,0.0, 0.0, 0, ZOMBIE_OUTERLEG_FOOT,ZOMBIE_OUTERLEG_FOOT_DEPTH,0, myObject->children[1]->children[0]);
 
                 // children[2] is the inner leg
