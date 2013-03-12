@@ -203,25 +203,25 @@ namespace fvu {
                 myObject = new Object(0.0,0.0,0.0, 0.0, 0, (ZOMBIE_SPRITE_ENUM)0, (ZOMBIE_DEPTH_ENUM)0, 5,NULL);
 
                 // children[0] is the body
-                myObject->children[0] = new Object(0.0, 0.0, -5, 0.1, 100, ZOMBIEBODY,ZOMBIEBODY_DEPTH,1, myObject);
+                myObject->children[0] = new Object(0.0, 0.0, 4, 0, 0, ZOMBIEBODY,ZOMBIEBODY_DEPTH,1, myObject);
 
                 // children[0][0] is the head
                 local_object = myObject->children[0];
-                local_object->children[0] = new Object(-10.5,38.75, 0.0, 0.1, 300, ZOMBIE_HEAD,ZOMBIE_HEAD_DEPTH,3, local_object);
-                local_object->children[0]->children[0] = new Object(10.2, -6.5, 0.0, 0.17, 100, ZOMBIE_JAW, ZOMBIE_HEAD_DEPTH,0, local_object->children[0]);
-                local_object->children[0]->children[1] = new Object(20, -10, 0.0, .17, 100, ZOMBIE_TONGUE, ZOMBIE_TONGUE_DEPTH,0, local_object->children[0]);
-
-
+                local_object->children[0] = new Object(-24.5,51.75, 358, 0, 0, ZOMBIE_HEAD,ZOMBIE_HEAD_DEPTH,2, local_object);
+                //local_object->children[0]->children[3] = new Object(-4, 13, 13.0, 0, 0, ZOMBIE_HAIR, ZOMBIEBODY_DEPTH,0, local_object->children[0]);
+                //local_object->children[0]->children[2] = new Object(10.2, -10.5, 4.0, 0, 0, ZOMBIE_JAW, ZOMBIE_HEAD_DEPTH,0, local_object->children[0]);
+                //local_object->children[0]->children[1] = new Object(27, -38 , 10, 0, 0, ZOMBIE_TIE, ZOMBIE_ACCESSORY_DEPTH, 0, local_object->children[0]);
+                local_object->children[0]->children[0] = new Object(-100, 0, 0, 0, 0, ZOMBIE_SHADOW, ZOMBIE_OUTERARM_LOWER_DEPTH, 0, local_object->children[0]);
                 // children[0][0][0] is the head accessories
                 local_object = myObject->children[0]->children[0];
                 if (mytype == CONE_ZOMBIE) {
-                    local_object->children[2] = new Object(2.5,30.0,0.0, 0.0, 0, ZOMBIE_CONE_1, ZOMBIE_ACCESSORY_DEPTH,0, local_object);
+                    local_object->children[1] = new Object(2.5,30.0,0.0, 0.0, 0, ZOMBIE_CONE_1, ZOMBIE_ACCESSORY_DEPTH,0, local_object);
                 }
                 else if (mytype == BUCKET_ZOMBIE) {
-                    local_object->children[2] = new Object(2.5,30.0,0.0, 0.0, 0, ZOMBIE_BUCKET_1, ZOMBIE_ACCESSORY_DEPTH,0, local_object);
+                    local_object->children[1] = new Object(2.5,30.0,0.0, 0.0, 0, ZOMBIE_BUCKET_1, ZOMBIE_ACCESSORY_DEPTH,0, local_object);
                 }
-                else {
-                    local_object->children[2] = new Object(2.5, 20.0, 0.0, 0.0, 0, ZOMBIE_EYE, ZOMBIE_ACCESSORY_DEPTH, 0, local_object);
+                else{
+                    local_object->children[1] = new Object(20, -10, 0.0, 0, 0, ZOMBIE_TONGUE, ZOMBIE_TONGUE_DEPTH,0, local_object);
                 }
 
                 // children[1] is the outer leg
@@ -231,18 +231,18 @@ namespace fvu {
 
                 // children[2] is the inner leg
                 myObject->children[2] = new Object(19.5,-16.5,0.0, 0.0, 0, ZOMBIE_INNERLEG_UPPER,ZOMBIE_INNERLEG_UPPER_DEPTH,1, myObject);
-                myObject->children[2]->children[0] = new Object(-14.0,-26.0,0.0, 0.0, 0, ZOMBIE_INNERLEG_LOWER,ZOMBIE_INNERLEG_LOWER_DEPTH,1, myObject->children[2]);
-                myObject->children[2]->children[0]->children[0] = new Object(3.0,-7.0,0.0, 0.0, 0, ZOMBIE_INNERLEG_FOOT,ZOMBIE_INNERLEG_FOOT_DEPTH,0, myObject->children[2]->children[0]);
+                myObject->children[2]->children[0] = new Object(-14.0,-23.0,0.0, 0.0, 0, ZOMBIE_INNERLEG_LOWER,ZOMBIE_INNERLEG_LOWER_DEPTH,1, myObject->children[2]);
+                myObject->children[2]->children[0]->children[0] = new Object(4.0,-3.0,0.0, 0.0, 0, ZOMBIE_INNERLEG_FOOT,ZOMBIE_INNERLEG_FOOT_DEPTH,0, myObject->children[2]->children[0]);
 
                 // children[3] is the inner arm
-                myObject->children[3] = new Object(0.0,15.5,0.0, 0.0, 0, ZOMBIE_INNERARM_UPPER,ZOMBIE_INNERARM_UPPER_DEPTH,1, myObject);
-                myObject->children[3]->children[0] = new Object(-3.0,-20.0,0.0, 0.0, 0, ZOMBIE_INNERARM_LOWER,ZOMBIE_INNERARM_LOWER_DEPTH,1, myObject->children[3]);
+                myObject->children[3] = new Object(-3,21.5,0, 0.0, 0, ZOMBIE_INNERARM_UPPER,ZOMBIE_INNERARM_UPPER_DEPTH,1, myObject);
+                myObject->children[3]->children[0] = new Object(0.0,-21.0,11, 0.0, 0, ZOMBIE_INNERARM_LOWER,ZOMBIE_INNERARM_LOWER_DEPTH,1, myObject->children[3]);
                 myObject->children[3]->children[0]->children[0] = new Object(0.0,-15.0,0.0, 0.0, 0, ZOMBIE_INNERARM_HAND,ZOMBIE_INNERARM_HAND_DEPTH,0, myObject->children[3]->children[0]);
 
                 // children[4] is the outer arm
-                myObject->children[4] = new Object(29.5,10.5,0.0, 0.0, 0, ZOMBIE_OUTERARM_UPPER,ZOMBIE_OUTERARM_UPPER_DEPTH,1, myObject);
-                myObject->children[4]->children[0] = new Object(-10.0,-20.0,0.0, 0.0, 0, ZOMBIE_OUTERARM_LOWER,ZOMBIE_OUTERARM_LOWER_DEPTH,1, myObject->children[4]);
-                myObject->children[4]->children[0]->children[0] = new Object(-4.0,-25.0,0.0, 0.0, 0, ZOMBIE_OUTERARM_HAND,ZOMBIE_OUTERARM_HAND_DEPTH,0, myObject->children[4]->children[0]);
+                myObject->children[4] = new Object(23.5,10.5,8.0, 0.0, 0, ZOMBIE_OUTERARM_UPPER,ZOMBIE_OUTERARM_UPPER_DEPTH,1, myObject);
+                myObject->children[4]->children[0] = new Object(-12.0,-5.0,350, 0.0, 0, ZOMBIE_OUTERARM_LOWER,ZOMBIE_OUTERARM_LOWER_DEPTH,1, myObject->children[4]);
+                myObject->children[4]->children[0]->children[0] = new Object(-5.0,-21.0,0.0, 0.0, 0, ZOMBIE_OUTERARM_HAND,ZOMBIE_OUTERARM_HAND_DEPTH,0, myObject->children[4]->children[0]);
 
 
                 break;

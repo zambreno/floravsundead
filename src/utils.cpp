@@ -57,6 +57,7 @@ namespace fvu {
     * Description: Prints out the game's status, in terms of player and zombie
     * locations, score, etc.
     *****************************************************************************/
+
     void Game::printStatus() {
         printf("\nPrinting status information\n");
     }
@@ -65,6 +66,7 @@ namespace fvu {
     * Function: print_help
     * Description: Prints out the program help message.
     *****************************************************************************/
+
     void Game::print_help() {
         printf("Usage: %s [options] <file1> [<files> ...]\n\n", EXEC_NAME);
         printf("Main options:\n");
@@ -94,6 +96,7 @@ namespace fvu {
     * Description: Prints out an error message determined by
     * the condition and exits the program.
     *****************************************************************************/
+
     void Game::raise_error(uint32_t error_num, const char *msg) {
 
         fprintf(stderr, "\n");
@@ -149,6 +152,7 @@ namespace fvu {
     * Function: printConfig
     * Description: Prints the current configuration data.
     *****************************************************************************/
+
     void Game::printConfig() {
 
         if (myConfig.debug_level > 5) {
