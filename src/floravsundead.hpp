@@ -32,6 +32,7 @@
 #include <iostream>
 #include "resources.hpp"
 #include "zombie.hpp"
+#include "object.hpp"
 
 #define EXEC_NAME "floravsundead"
 #define WINDOW_TITLE "FloraVsUndead, v-1.0a"

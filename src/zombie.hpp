@@ -18,6 +18,7 @@
 #pragma once
 
 #include "floravsundead.hpp"
+#include "object.hpp"
 
 /* Main enum for the zombie types. We specify NUM_SPELLINGS to some reasonable amount to minimize
  * the number of compile errors */
@@ -36,26 +37,6 @@ typedef enum {ZOMBIE_STATUS_DEFAULT=0, ZOMBIE_STATUS_PLACED, ZOMBIE_STATUS_SKIP,
 
 namespace fvu {
 
-    /* Object class. We create links to the parent object and (potentially) multiple
-     * children. */
-     class Object {
-        public:
-            float x, y, angle;
-            float demo_anim_angle, anim_angle;
-            uint16_t demo_anim_limit, anim_limit;
-            ZOMBIE_SPRITE_ENUM sprite;
-            uint32_t depth;
-            Object *parent;
-            Object **children;
-            uint8_t num_children;
-            void updateDemo(uint32_t anim_count);
-            void endDemo();
-            void update(uint32_t anim_count);
-            Object(float x, float y, float angle, float demo_anim_angle, uint16_t demo_anim_limit, ZOMBIE_SPRITE_ENUM sprite, uint32_t depth, uint8_t num_children, Object *parent);
-            void draw();
-     };
-
-
     /* Main zombie class */
     class Zombie {
         public:
@@ -71,7 +52,6 @@ namespace fvu {
             bool operator< (const Zombie &rhs) const;
 
         private:
-            uint64_t anim_count;
             uint8_t type;
             ZOMBIE_STATUS_ENUM status;
             uint16_t health;
@@ -82,7 +62,6 @@ namespace fvu {
             uint8_t team;
             uint16_t delay;
             Object *myObject;
-
     };
 
 } // namespace fvu
