@@ -203,23 +203,25 @@ namespace fvu {
                 myObject = new Object(0.0,0.0,0.0, 0.0, 0, (ZOMBIE_SPRITE_ENUM)0, (ZOMBIE_DEPTH_ENUM)0, 5,NULL);
 
                 // children[0] is the body
-                myObject->children[0] = new Object(0.0, 0.0, 0.0, 0.0, 0, ZOMBIEBODY,ZOMBIEBODY_DEPTH,1, myObject);
+                myObject->children[0] = new Object(0.0, 0.0, -5, 0.1, 100, ZOMBIEBODY,ZOMBIEBODY_DEPTH,1, myObject);
 
                 // children[0][0] is the head
                 local_object = myObject->children[0];
-                local_object->children[0] = new Object(-10.5,35.5,-10.0, 0.36, 1000, ZOMBIE_HEAD,ZOMBIE_HEAD_DEPTH,2, local_object);
-                local_object->children[0]->children[0] = new Object(9.4, -6.5,0.0, -0.2, 100, ZOMBIE_JAW, ZOMBIE_HEAD_DEPTH,0, local_object->children[0]);
+                local_object->children[0] = new Object(-10.5,35.5, 0.0, 0.1, 300, ZOMBIE_HEAD,ZOMBIE_HEAD_DEPTH,3, local_object);
+                local_object->children[0]->children[0] = new Object(10.2, -6.5, 0.0, 0.17, 100, ZOMBIE_JAW, ZOMBIE_HEAD_DEPTH,0, local_object->children[0]);
+                local_object->children[0]->children[1] = new Object(-50, -10, 0.0, 0, 0, ZOMBIE_TONGUE, ZOMBIE_TONGUE_DEPTH,0, local_object->children[0]);
+
 
                 // children[0][0][0] is the head accessories
                 local_object = myObject->children[0]->children[0];
                 if (mytype == CONE_ZOMBIE) {
-                    local_object->children[1] = new Object(2.5,30.0,0.0, 0.0, 0, ZOMBIE_CONE_1, ZOMBIE_ACCESSORY_DEPTH,0, local_object);
+                    local_object->children[2] = new Object(2.5,30.0,0.0, 0.0, 0, ZOMBIE_CONE_1, ZOMBIE_ACCESSORY_DEPTH,0, local_object);
                 }
                 else if (mytype == BUCKET_ZOMBIE) {
-                    local_object->children[1] = new Object(2.5,30.0,0.0, 0.0, 0, ZOMBIE_BUCKET_1, ZOMBIE_ACCESSORY_DEPTH,0, local_object);
+                    local_object->children[2] = new Object(2.5,30.0,0.0, 0.0, 0, ZOMBIE_BUCKET_1, ZOMBIE_ACCESSORY_DEPTH,0, local_object);
                 }
                 else {
-                    local_object->children[1] = new Object(2.5, 20.0, 0.0, 0.0, 0, ZOMBIE_EYE, ZOMBIE_ACCESSORY_DEPTH, 0, local_object);
+                    local_object->children[2] = new Object(2.5, 20.0, 0.0, 0.0, 0, ZOMBIE_EYE, ZOMBIE_ACCESSORY_DEPTH, 0, local_object);
                 }
 
                 // children[1] is the outer leg
