@@ -123,7 +123,8 @@ namespace fvu {
         /* Update the angle - if we're close enough to the end, switch directions */
         if (anim->delta_angle != 0.0) {
             angle += anim->delta_angle;
-            if (fabs(angle - anim->delta_angle) < anim->delta_angle) {
+            if ((fabs(anim->end_angle - angle) < fabs(anim->delta_angle)) ||
+               (fabs(anim->start_angle - angle) < fabs(anim->delta_angle))) {
                 anim->delta_angle = anim->delta_angle * -1.0;
             }
         }

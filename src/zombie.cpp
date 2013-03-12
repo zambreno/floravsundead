@@ -100,32 +100,43 @@ namespace fvu {
                 myObject = new Object(zero_anim, zero_anim, anim_count, 0, 0, 6, NULL);
 
                 // children[0] is the body
-                demo_anim.start_angle = 4.0;demo_anim.delta_angle = 0.0;demo_anim.end_angle = 0.0;
+                demo_anim.start_angle = 4.0;demo_anim.delta_angle = 0.1;demo_anim.end_angle = 14.0;
                 demo_anim.start_x     = 0.0;demo_anim.delta_x     = 0.0;demo_anim.end_x     = 0.0;
                 demo_anim.start_y     = 0.0;demo_anim.delta_y     = 0.0;demo_anim.end_y     = 0.0;
                 game_anim = demo_anim;
-                myObject->children[0] = new Object(demo_anim, game_anim, anim_count, ZOMBIEBODY, ZOMBIEBODY_DEPTH, 1, myObject);
+                myObject->children[0] = new Object(demo_anim, game_anim, anim_count, ZOMBIEBODY, ZOMBIEBODY_DEPTH, 3, myObject);
 
                 // children[0][1] is the tie
                 demo_anim.start_angle = 10.0;demo_anim.delta_angle = 0.0;demo_anim.end_angle = 0.0;
-                demo_anim.start_x     = 27.0;demo_anim.delta_x     = 0.0;demo_anim.end_x     = 0.0;
-                demo_anim.start_y     = -38.0;demo_anim.delta_y     = 0.0;demo_anim.end_y     = 0.0;
+                demo_anim.start_x     = 5.0;demo_anim.delta_x     = 0.0;demo_anim.end_x     = 0.0;
+                demo_anim.start_y     = 15.0;demo_anim.delta_y     = 0.0;demo_anim.end_y     = 0.0;
                 game_anim = demo_anim;
                 myObject->children[0]->children[1] = new Object(demo_anim, game_anim, anim_count, ZOMBIE_TIE, ZOMBIE_ACCESSORY_DEPTH, 0, myObject->children[0]);
 
+                // children[0][2] is the zombie_underbody
+                demo_anim.start_angle = 0.0;demo_anim.delta_angle = 0.0;demo_anim.end_angle = 0.0;
+                demo_anim.start_x     = 15.0;demo_anim.delta_x     = 0.0;demo_anim.end_x     = 0.0;
+                demo_anim.start_y     = 15.0;demo_anim.delta_y     = 0.0;demo_anim.end_y     = 0.0;
+                game_anim = demo_anim;
+                myObject->children[0]->children[2] = new Object(demo_anim, game_anim, anim_count, ZOMBIE_UNDERBODY, ZOMBIE_ACCESSORY_DEPTH, 0, myObject->children[0]);
+
+
                 // children[0][0] is the head
                 // ZOMBIES have a tongue 50% of the time
-                uint8_t num_children = 2 + ((rand()%2) == 0);
+                uint8_t num_head_children = 2;
                 if ((type == CONE_ZOMBIE) || (type == BUCKET_ZOMBIE)) {
-                    num_children++;
+                    num_head_children++;
+                }
+                else {
+                    num_head_children += ((rand()%2) == 0);
                 }
 
                 local_object = myObject->children[0];
-                demo_anim.start_angle = -2.0;demo_anim.delta_angle = 0.0;demo_anim.end_angle = 0.0;
+                demo_anim.start_angle = -2.0;demo_anim.delta_angle = 1.0;demo_anim.end_angle = 60.0;
                 demo_anim.start_x     = -24.5;demo_anim.delta_x     = 0.0;demo_anim.end_x     = 0.0;
                 demo_anim.start_y     = 51.75;demo_anim.delta_y     = 0.0;demo_anim.end_y     = 0.0;
                 game_anim = demo_anim;
-                local_object->children[0] = new Object(demo_anim, game_anim, anim_count, ZOMBIE_HEAD,ZOMBIE_HEAD_DEPTH, num_children, local_object);
+                local_object->children[0] = new Object(demo_anim, game_anim, anim_count, ZOMBIE_HEAD,ZOMBIE_HEAD_DEPTH, num_head_children, local_object);
 
                 // children[0][0][0] is the hair
                 demo_anim.start_angle = -4.0;demo_anim.delta_angle = 0.0;demo_anim.end_angle = 0.0;
@@ -141,15 +152,29 @@ namespace fvu {
                 game_anim = demo_anim;
                 local_object->children[0]->children[1] = new Object(demo_anim, game_anim, anim_count, ZOMBIE_JAW, ZOMBIE_HEAD_DEPTH,0, local_object->children[0]);
 
-                if ((type == CONE_ZOMBIE)
+                // children[0][0][2] is the cone/bucket
+                if (type == CONE_ZOMBIE) {
+                    demo_anim.start_angle = 0.0;demo_anim.delta_angle = 0.0;demo_anim.end_angle = 0.0;
+                    demo_anim.start_x     = 2.5;demo_anim.delta_x     = 0.0;demo_anim.end_x     = 0.0;
+                    demo_anim.start_y     = 30.0;demo_anim.delta_y     = 0.0;demo_anim.end_y     = 0.0;
+                    game_anim = demo_anim;
+                    local_object->children[0]->children[2] = new Object(demo_anim, game_anim, anim_count, ZOMBIE_CONE_1, ZOMBIE_HEAD_ACCESSORY_DEPTH, 0, local_object->children[0]);
+                }
+                else if (type == BUCKET_ZOMBIE) {
+                    demo_anim.start_angle = 0.0;demo_anim.delta_angle = 0.0;demo_anim.end_angle = 0.0;
+                    demo_anim.start_x     = 2.5;demo_anim.delta_x     = 0.0;demo_anim.end_x     = 0.0;
+                    demo_anim.start_y     = 30.0;demo_anim.delta_y     = 0.0;demo_anim.end_y     = 0.0;
+                    game_anim = demo_anim;
+                    local_object->children[0]->children[2] = new Object(demo_anim, game_anim, anim_count, ZOMBIE_BUCKET_1, ZOMBIE_HEAD_ACCESSORY_DEPTH, 0, local_object->children[0]);
+                }
 
-                // children[0][0][2] is the tongue
-                if (num_children > 2) {
+                // otherwise, children[0][0][2] is the tongue
+                else if (num_head_children > 2) {
                     demo_anim.start_angle = 0.0;demo_anim.delta_angle = 0.0;demo_anim.end_angle = 0.0;
                     demo_anim.start_x     = 20.0;demo_anim.delta_x     = 0.0;demo_anim.end_x     = 0.0;
                     demo_anim.start_y     = -10.0;demo_anim.delta_y     = 0.0;demo_anim.end_y     = 0.0;
                     game_anim = demo_anim;
-                    local_object->children[0]->children[2] = new Object(demo_anim, game_anim, anim_count, ZOMBIE_TONGUE, ZOMBIE_TONGUE_DEPTH, 0, local_object);
+                    local_object->children[0]->children[2] = new Object(demo_anim, game_anim, anim_count, ZOMBIE_TONGUE, ZOMBIE_HEAD_ACCESSORY_DEPTH, 0, local_object->children[0]);
                 }
 
                 // children[1] is the outer leg
@@ -234,7 +259,7 @@ namespace fvu {
                 demo_anim.start_x     = 0.0;demo_anim.delta_x     = 0.0;demo_anim.end_x     = 0.0;
                 demo_anim.start_y     = -100.0;demo_anim.delta_y     = 0.0;demo_anim.end_y     = 0.0;
                 game_anim = demo_anim;
-                myObject->children[5] = new Object(demo_anim, game_anim, anim_count, ZOMBIE_SHADOW, ZOMBIE_OUTERARM_LOWER_DEPTH, 0, myObject);
+                myObject->children[5] = new Object(demo_anim, game_anim, anim_count, ZOMBIE_SHADOW, ZOMBIE_ACCESSORY_DEPTH, 0, myObject);
 
                 break;
         }
@@ -330,6 +355,8 @@ namespace fvu {
     *****************************************************************************/
     void Zombie::update() {
 
+
+        myObject->update();
     }
 
 
