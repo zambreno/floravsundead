@@ -77,10 +77,10 @@ namespace fvu {
             /* Draw the current object */
             myGame->getTexCoords(TEX_ZOMBIES, sprite, texCoords);
 
-            glTranslatef(x, y, 0);
+            // Splitting up the x/y translations allows a smoother transition
+            glTranslatef(x, 0.0, 0);
             glRotatef(angle, 0.0, 0.0, 1.0);
-            // Add glTranslatef here to recenter?
-            //glTranslatef(, , 0);
+            glTranslatef(0.0, y, 0.0);
 
             glBegin(GL_QUADS);
                 glTexCoord2d(texCoords[0], texCoords[1]);
@@ -132,7 +132,8 @@ namespace fvu {
         /* Update the x position - if we're close enough to the end, switch directions */
         if (anim->delta_x != 0.0) {
             x += anim->delta_x;
-            if (fabs(x - anim->delta_x) < anim->delta_x) {
+            if ((fabs(anim->end_x - x) < fabs(anim->delta_x)) ||
+               (fabs(anim->start_x - x) < fabs(anim->delta_x))) {
                 anim->delta_x = anim->delta_x * -1.0;
             }
         }
@@ -140,7 +141,8 @@ namespace fvu {
         /* Update the y position - if we're close enough to the end, switch directions */
         if (anim->delta_y != 0.0) {
             y += anim->delta_y;
-            if (fabs(y - anim->delta_y) < anim->delta_y) {
+            if ((fabs(anim->end_y - y) < fabs(anim->delta_y)) ||
+               (fabs(anim->start_y - y) < fabs(anim->delta_y))) {
                 anim->delta_y = anim->delta_y * -1.0;
             }
         }
