@@ -110,9 +110,9 @@ namespace fvu {
                 myObject = new Object(zero_anim, zero_anim, anim_count, 0, 0, 6, NULL);
 
                 // children[0] is the body
-                demo_anim.start_angle = 2.0;demo_anim.delta_angle = 0.0;demo_anim.end_angle = 0.0;
+                demo_anim.start_angle = 10.0;demo_anim.delta_angle = -0.1;demo_anim.end_angle = 0.0;
                 demo_anim.start_x     = 0.0;demo_anim.delta_x     = 0.0;demo_anim.end_x     = 0.0;
-                demo_anim.start_y     = 0.0;demo_anim.delta_y     = 0.0;demo_anim.end_y     = 0.0;
+                demo_anim.start_y     = 0.0;demo_anim.delta_y     = 0.1;demo_anim.end_y     = 4.0;
                 game_anim = demo_anim;
                 myObject->children[0] = new Object(demo_anim, game_anim, anim_count, ZOMBIEBODY, ZOMBIEBODY_DEPTH, 3, myObject);
 
@@ -227,8 +227,8 @@ namespace fvu {
 
                 // children[3] is the inner arm
                 demo_anim.start_angle = -10.0;demo_anim.delta_angle = 0.0;demo_anim.end_angle = 0.0;
-                demo_anim.start_x     = -5.0;demo_anim.delta_x     = 0.0;demo_anim.end_x     = 0.0;
-                demo_anim.start_y     = 21.5;demo_anim.delta_y     = 0.0;demo_anim.end_y     = 0.0;
+                demo_anim.start_x     = 0.0;demo_anim.delta_x     = 0.0;demo_anim.end_x     = 0.0;
+                demo_anim.start_y     = 23.5;demo_anim.delta_y     = 0.0;demo_anim.end_y     = 0.0;
                 game_anim = demo_anim;
                 myObject->children[3] = new Object(demo_anim, game_anim, anim_count, ZOMBIE_INNERARM_UPPER,ZOMBIE_INNERARM_UPPER_DEPTH,1, myObject);
 
@@ -247,19 +247,19 @@ namespace fvu {
                 // children[4] is the outer arm
                 demo_anim.start_angle = 8.0;demo_anim.delta_angle = 0.0;demo_anim.end_angle = 0.0;
                 demo_anim.start_x     = 23.5;demo_anim.delta_x     = 0.0;demo_anim.end_x     = 0.0;
-                demo_anim.start_y     = 10.5;demo_anim.delta_y     = 0.0;demo_anim.end_y     = 0.0;
+                demo_anim.start_y     = 23.5;demo_anim.delta_y     = 0.0;demo_anim.end_y     = 0.0;
                 game_anim = demo_anim;
                 myObject->children[4] = new Object(demo_anim, game_anim, anim_count, ZOMBIE_OUTERARM_UPPER,ZOMBIE_OUTERARM_UPPER_DEPTH,1, myObject);
 
                 demo_anim.start_angle = -10.0;demo_anim.delta_angle = 0.0;demo_anim.end_angle = 0.0;
-                demo_anim.start_x     = -12.0;demo_anim.delta_x     = 0.0;demo_anim.end_x     = 0.0;
-                demo_anim.start_y     = -5.0;demo_anim.delta_y     = 0.0;demo_anim.end_y     = 0.0;
+                demo_anim.start_x     = -15.0;demo_anim.delta_x     = 0.0;demo_anim.end_x     = 0.0;
+                demo_anim.start_y     = -15.0;demo_anim.delta_y     = 0.0;demo_anim.end_y     = 0.0;
                 game_anim = demo_anim;
                 myObject->children[4]->children[0] = new Object(demo_anim, game_anim, anim_count, ZOMBIE_OUTERARM_LOWER,ZOMBIE_OUTERARM_LOWER_DEPTH,1, myObject->children[4]);
 
                 demo_anim.start_angle = 0.0;demo_anim.delta_angle = 0.0;demo_anim.end_angle = 0.0;
-                demo_anim.start_x     = -5.0;demo_anim.delta_x     = 0.0;demo_anim.end_x     = 0.0;
-                demo_anim.start_y     = -21.0;demo_anim.delta_y     = 0.0;demo_anim.end_y     = 0.0;
+                demo_anim.start_x     = -8.0;demo_anim.delta_x     = 0.0;demo_anim.end_x     = 0.0;
+                demo_anim.start_y     = -25.0;demo_anim.delta_y     = 0.0;demo_anim.end_y     = 0.0;
                 game_anim = demo_anim;
                 myObject->children[4]->children[0]->children[0] = new Object(demo_anim, game_anim, anim_count, ZOMBIE_OUTERARM_HAND,ZOMBIE_OUTERARM_HAND_DEPTH,0, myObject->children[4]->children[0]);
 
