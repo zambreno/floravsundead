@@ -47,13 +47,13 @@ namespace fvu {
             void endDemo();
             void updateDemo();
             void draw(uint16_t index);
-            ZOMBIE_STATUS_ENUM getStatus() {return status;}
+            uint8_t getStatus() {return status;}
             uint8_t getType() {return type;}
             bool operator< (const Zombie &rhs) const;
 
         private:
             uint8_t type;
-            ZOMBIE_STATUS_ENUM status;
+            uint8_t status;
             uint16_t health;
             float speed;
             std::vector<uint16_t> transitions;

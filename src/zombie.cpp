@@ -18,7 +18,7 @@
 #include "floravsundead.hpp"
 
 
-/* Texture files */
+/* Zombie names */
 std::string zombieNames[NUM_ZOMBIE_TYPE][NUM_ZOMBIE_SPELLINGS] = {
     {"zombie", "regular"},
     {"flag", "fast"},
@@ -79,16 +79,6 @@ namespace fvu {
 
         uint32_t anim_count = rand();
 
-     /*   to replicate for rand
-
-     double fRand(double fMin, double fMax)
-{
-    double f = (double)rand() / RAND_MAX;
-    return fMin + f * (fMax - fMin);
-}
-
-*/
-
         status = ZOMBIE_STATUS_DEFAULT;
         type = mytype;
         Object *local_object;
@@ -110,9 +100,9 @@ namespace fvu {
                 myObject = new Object(zero_anim, zero_anim, anim_count, 0, 0, 6, NULL);
 
                 // children[0] is the body
-                demo_anim.start_angle = 10.0;demo_anim.delta_angle = -0.1;demo_anim.end_angle = 0.0;
+                demo_anim.start_angle = 10.0;demo_anim.delta_angle = -0.2;demo_anim.end_angle = 0.0;
                 demo_anim.start_x     = 0.0;demo_anim.delta_x     = 0.0;demo_anim.end_x     = 0.0;
-                demo_anim.start_y     = 0.0;demo_anim.delta_y     = 0.1;demo_anim.end_y     = 4.0;
+                demo_anim.start_y     = -3.0;demo_anim.delta_y     = 0.0;demo_anim.end_y     = 0.0;
                 game_anim = demo_anim;
                 myObject->children[0] = new Object(demo_anim, game_anim, anim_count, ZOMBIEBODY, ZOMBIEBODY_DEPTH, 3, myObject);
 
@@ -142,21 +132,21 @@ namespace fvu {
                 }
 
                 local_object = myObject->children[0];
-                demo_anim.start_angle = -2.0;demo_anim.delta_angle = 0.0;demo_anim.end_angle = 0.0;
+                demo_anim.start_angle = -2.0;demo_anim.delta_angle = 0.25;demo_anim.end_angle = 3.0;
                 demo_anim.start_x     = -24.5;demo_anim.delta_x     = 0.0;demo_anim.end_x     = 0.0;
                 demo_anim.start_y     = 51.75;demo_anim.delta_y     = 0.0;demo_anim.end_y     = 0.0;
                 game_anim = demo_anim;
                 local_object->children[0] = new Object(demo_anim, game_anim, anim_count, ZOMBIE_HEAD,ZOMBIE_HEAD_DEPTH, num_head_children, local_object);
 
                 // children[0][0][0] is the hair
-                demo_anim.start_angle = -4.0;demo_anim.delta_angle = 0.0;demo_anim.end_angle = 0.0;
+                demo_anim.start_angle = -4.0;demo_anim.delta_angle = 0.1;demo_anim.end_angle = -3.0;
                 demo_anim.start_x     = -5.5;demo_anim.delta_x     = 0.0;demo_anim.end_x     = 0.0;
                 demo_anim.start_y     = 23.0;demo_anim.delta_y     = 0.0;demo_anim.end_y     = 0.0;
                 game_anim = demo_anim;
                 local_object->children[0]->children[0] = new Object(demo_anim, game_anim, anim_count, ZOMBIE_HAIR, ZOMBIE_HEAD_DEPTH, 0, local_object->children[0]);
 
                 // children[0][0][1] is the jaw
-                demo_anim.start_angle = 8.0;demo_anim.delta_angle = 0.0;demo_anim.end_angle = 0.0;
+                demo_anim.start_angle = 8.0;demo_anim.delta_angle = -0.2;demo_anim.end_angle = -8.0;
                 demo_anim.start_x     = 10.2;demo_anim.delta_x     = 0.0;demo_anim.end_x     = 0.0;
                 demo_anim.start_y     = -10.5;demo_anim.delta_y     = 0.0;demo_anim.end_y     = 0.0;
                 game_anim = demo_anim;
@@ -188,13 +178,13 @@ namespace fvu {
                 }
 
                 // children[1] is the outer leg
-                demo_anim.start_angle = 0.0;demo_anim.delta_angle = 0.0;demo_anim.end_angle = 0.0;
+                demo_anim.start_angle = 1.0;demo_anim.delta_angle = 0.2;demo_anim.end_angle = 9.0;
                 demo_anim.start_x     = 29.5;demo_anim.delta_x     = 0.0;demo_anim.end_x     = 0.0;
                 demo_anim.start_y     = -15.0;demo_anim.delta_y     = 0.0;demo_anim.end_y     = 0.0;
                 game_anim = demo_anim;
                 myObject->children[1] = new Object(demo_anim, game_anim, anim_count, ZOMBIE_OUTERLEG_UPPER,ZOMBIE_OUTERLEG_UPPER_DEPTH,1, myObject);
 
-                demo_anim.start_angle = 0.0;demo_anim.delta_angle = 0.0;demo_anim.end_angle = 0.0;
+                demo_anim.start_angle = -1.0;demo_anim.delta_angle = -0.2;demo_anim.end_angle = -9.0;
                 demo_anim.start_x     = 8.5;demo_anim.delta_x     = 0.0;demo_anim.end_x     = 0.0;
                 demo_anim.start_y     = -19.75;demo_anim.delta_y     = 0.0;demo_anim.end_y     = 0.0;
                 game_anim = demo_anim;
@@ -213,7 +203,7 @@ namespace fvu {
                 game_anim = demo_anim;
                 myObject->children[2] = new Object(demo_anim, game_anim, anim_count, ZOMBIE_INNERLEG_UPPER,ZOMBIE_INNERLEG_UPPER_DEPTH,1, myObject);
 
-                demo_anim.start_angle = 0.0;demo_anim.delta_angle = 0.0;demo_anim.end_angle = 0.0;
+                demo_anim.start_angle = 2.0;demo_anim.delta_angle = 0.2;demo_anim.end_angle = 11.0;
                 demo_anim.start_x     = -14.0;demo_anim.delta_x     = 0.0;demo_anim.end_x     = 0.0;
                 demo_anim.start_y     = -23.0;demo_anim.delta_y     = 0.0;demo_anim.end_y     = 0.0;
                 game_anim = demo_anim;
