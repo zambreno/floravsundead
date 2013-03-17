@@ -107,12 +107,14 @@ namespace fvu {
     *****************************************************************************/
     void Game::updateGame() {
 
-        for (uint16_t i = 0; i < myZombies.size(); i++) {
-            myZombies[i].update();
-        }
+        for (uint16_t i = 0; i < 4; i++) {
+            for (uint16_t j = 0; j < myZombies[i].size(); j++) {
+                myZombies[i][j].update();
+            }
 
-        /* Sort each zombie based on the custom zombie function */
-        std::stable_sort(myZombies.begin(), myZombies.end());
+            /* Sort each zombie based on the custom zombie function */
+            std::stable_sort(myZombies[i].begin(), myZombies[i].end());
+        }
     }
 
 
@@ -152,12 +154,14 @@ namespace fvu {
     *****************************************************************************/
     void Game::updateDemo() {
 
-        for (uint16_t i = 0; i < myZombies.size(); i++) {
-            myZombies[i].updateDemo();
-        }
+        for (uint16_t i = 0; i < 4; i++) {
+            for (uint16_t j = 0; j < myZombies[i].size(); j++) {
+                myZombies[i][j].updateDemo();
+            }
 
-        /* Sort each zombie based on the custom zombie function */
-        std::stable_sort(myZombies.begin(), myZombies.end());
+            /* Sort each zombie based on the custom zombie function */
+            std::stable_sort(myZombies[i].begin(), myZombies[i].end());
+        }
     }
 
     /*****************************************************************************
@@ -210,8 +214,10 @@ namespace fvu {
                 myMusic[1].play();
                 myClock.restart();
                 /* Relocate the zombies so that they start using game_x, and game_y */
-                for (uint16_t i = 0; i < myZombies.size(); i++) {
-                    myZombies[i].endDemo();
+                for (uint8_t i = 0; i < 4; i++) {
+                    for (uint16_t j = 0; j < myZombies[i].size(); j++) {
+                        myZombies[i][j].endDemo();
+                    }
                 }
             }
             else if (myStatus.pan < 0.0) {
@@ -232,11 +238,10 @@ namespace fvu {
     * other per-team information
     *****************************************************************************/
     void Game::compileTeams() {
-        uint8_t i_team;
         fvu::Team *team;
         FILE *team_file;
 
-        for (i_team = 0; i_team < 4; i_team++) {
+        for (uint8_t i_team = 0; i_team < 4; i_team++) {
 
             /* Open and compile the team file */
             if (myConfig.debug_level > 1) {
@@ -258,7 +263,160 @@ namespace fvu {
             }
             strncpy(team->name, myConfig.team_fname[i_team], strlen(myConfig.team_fname[i_team])-4);
             strlower(team->name);
+
+
+            bool select_done = false;
+            bool start_done = false;
+            for (uint32_t line_count=1; !feof(team_file); line_count++) {
+                char *fgets_ret;
+                char linebuf[256], select_str1[16], select_str2[16], start_str[256];
+                char label[16], place_str[16];
+                uint8_t select_ntok, start_ntok, place_ntok;
+                uint16_t select_tok, place_tok1, place_tok2, place_tok3;
+
+                fgets_ret = fgets(linebuf, 256, team_file);
+                select_str1[0] = 0;select_str2[0] = 0;
+
+                strlower(linebuf);
+                // If we have a '#', the line is a comment and we can skip it
+                // We can also skip blank lines
+
+                if ((fgets_ret == NULL) || (linebuf == 0) || (linebuf[0] == '#') ||
+                    (linebuf[0] == 10) || (linebuf[0] == 13)) {
+                    continue;
+                }
+
+
+                bool select_match = false;
+                bool plant_match = false;
+                fvu::Plant *local_plant;
+                // Select instructions are first.
+                select_ntok = sscanf(linebuf, " %s p%hu.%s", select_str1, &select_tok, select_str2);
+                if (select_ntok == 3) {
+
+                    // Selection commands have to come before everything else
+                    if (select_done == true) {
+                        printf("Error compiling %s, line %d\n", myConfig.team_fname[i_team], line_count);
+                        printf("  cannot select plants at run-time\n");
+                        raise_error(ERR_BADFILE2, myConfig.team_fname[i_team]);
+                    }
+
+                    for (uint8_t i = 0; i < NUM_CMD_SPELLINGS; i++) {
+                        if (!strcmp(select_str1, cmdNames[SELECT_CMD][i].c_str())) {
+                            select_match = true;
+                            break;
+                        }
+                    }
+
+                    // We should have matched a valid select command at this point
+                    if (select_match == false) {
+                        printf("Error compiling %s, line %d\n", myConfig.team_fname[i_team], line_count);
+                        printf("  select command is invalid\n");
+                        printf("  command was %s\n", linebuf);
+                        raise_error(ERR_BADFILE2, myConfig.team_fname[i_team]);
+                    }
+
+                    // It's a valid command, let's see what we selected
+                    for (uint8_t p = 0; p < NUM_PLANT_TYPE; p++) {
+                        for (uint8_t i = 0; i < NUM_PLANT_SPELLINGS; i++) {
+                            if (!strcmp(select_str2, plantNames[p][i].c_str())) {
+                                plant_match = true;
+                                break;
+                            }
+                        }
+                        if (plant_match == true) {
+                            local_plant = new Plant(p, select_tok);
+                            myPlants[i_team].insert(myPlants[i_team].end(), 1, *local_plant);
+                            delete local_plant;
+                            break;
+                        }
+                    }
+
+                    if (plant_match == false) {
+                        printf("Error compiling %s, line %d\n", myConfig.team_fname[i_team], line_count);
+                        printf("  invalid plant type\n");
+                        raise_error(ERR_BADFILE2, myConfig.team_fname[i_team]);
+                    }
+                }
+
+
+                // If we didn't match a select, we must be done with that command-type
+                if (select_match == true) {
+                    continue;
+                }
+
+                select_done = true;
+
+                // Until we reach the start line, we do not support predicates
+                fvu::cmd_type *local_cmd;
+                bool place_match = false;
+                start_str[0] = 0;
+                if (start_done == false) {
+                    start_ntok = sscanf(linebuf, " start: %s", start_str);
+                    if (start_ntok == 1) {
+                        start_done = true;
+                        break;
+                    }
+
+                    // If we haven't started yet, every command should be a place/move
+                    place_str[0] = 0;
+                    place_ntok = sscanf(linebuf, " %s p%hu %hu, %hu", place_str, &place_tok1, &place_tok2, &place_tok3);
+                    for (uint8_t i = 0; i < NUM_CMD_SPELLINGS; i++) {
+                        if (!strcmp(place_str, cmdNames[PLACE_CMD][i].c_str())) {
+                            place_match = true;
+                            break;
+                        }
+                    }
+                    if ((place_match == false) || (place_ntok != 4)) {
+                        printf("Error compiling %s, line %d\n", myConfig.team_fname[i_team], line_count);
+                        printf("  before Start:, all commands must be place/move\n");
+                        printf("  command was %s\n", linebuf);
+                        raise_error(ERR_BADFILE2, myConfig.team_fname[i_team]);
+                    }
+                    else {
+                        place_match = false;
+                        for (uint16_t p = 0; p < myPlants[i_team].size(); p++) {
+                            if (myPlants[i_team][p].getID() == place_tok1) {
+                                place_match = true;
+                                for (uint16_t p2 = 0; p2 < myPlants[i_team].size(); p2++) {
+                                    if ((myPlants[i_team][p2].getRow() == place_tok2) && (myPlants[i_team][p2].getCol() == place_tok3)) {
+                                        place_match = false;
+                                        break;
+                                    }
+                                }
+                                // If we already had a plant at that location, just skip it
+                                if (place_match == false) {
+                                    place_match = true;
+                                    break;
+                                }
+                                if (!myPlants[i_team][p].place(i_team, place_tok2, place_tok3)) {
+                                    printf("Error compiling %s, line %d\n", myConfig.team_fname[i_team], line_count);
+                                    printf("  place command [%hu, %hu] out of range\n", place_tok2, place_tok3);
+                                    raise_error(ERR_BADFILE2, myConfig.team_fname[i_team]);
+                                }
+                                break;
+                            }
+                        }
+                        if (place_match == false) {
+                            printf("Error compiling %s, line %d\n", myConfig.team_fname[i_team], line_count);
+                            printf("  attempt to place non-existent plant\n");
+                            raise_error(ERR_BADFILE2, myConfig.team_fname[i_team]);
+                        }
+                    }
+
+                    continue;
+                }
+
+
+                // Now the command can be anything. Check for predicates.
+                //if_str[0] = 0;
+                //ifnot_str[0] = 0;
+                //label_ntok = sscanf(linebuf, " start: %s", start_str);
+
+            }
+
         }
+
     }
 
     /*****************************************************************************
@@ -365,10 +523,12 @@ namespace fvu {
 
                 // Each zombie is specified for all 4 teams at once
                 if (zombie_match == true) {
-                    for (uint8_t k = 0; k < 4*select_tok; k++) {
-                        local_zombie = new Zombie(z);
-                        myZombies.insert(myZombies.end(), 1, *local_zombie);
-                        delete local_zombie;
+                    for (uint8_t k = 0; k < 4; k++) {
+                        for (uint8_t l = 0; l < select_tok; l++) {
+                            local_zombie = new Zombie(z);
+                            myZombies[k].insert(myZombies[k].end(), 1, *local_zombie);
+                            delete local_zombie;
+                        }
                     }
                 }
                 else {
@@ -379,16 +539,17 @@ namespace fvu {
             }
 
             else if (place_ntok == 2) {
-                if ((zombie_counter+4) > myZombies.size()) {
+                if ((zombie_counter+4) > myZombies[0].size()) {
                     printf("Error compiling %s, line %d\n", myConfig.zom_fname, line_count);
                     printf("  Cannot place zombies that haven't been selected\n");
-                    printf("  select zombie count - %d, place zombie request - %d", myZombies.size(), zombie_counter);
+                    printf("  select zombie count - %d, place zombie request - %d", myZombies[0].size(), zombie_counter);
                     raise_error(ERR_BADFILE3, myConfig.zom_fname);
                 }
 
                 for (uint8_t i = 0; i < 4; i++) {
-                    myZombies[zombie_counter++].place(place_tok, delay_tok, i);
+                    myZombies[i][zombie_counter].place(place_tok, delay_tok, i);
                 }
+                zombie_counter++;
             }
             else if ((place_ntok > 2) || (place_ntok < 2)) {
                 printf("Error compiling %s, line %d\n", myConfig.zom_fname, line_count);
@@ -418,7 +579,9 @@ namespace fvu {
 
 
         // We are done, get rid of the Zombies we didn't place.
-        myZombies.resize(zombie_counter, myZombies[0]);
+        for (uint8_t i = 0; i < 4; i++) {
+            myZombies[i].resize(zombie_counter, myZombies[i][0]);
+        }
         fclose(zom_file);
 
         return;

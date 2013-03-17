@@ -18,6 +18,18 @@
 
 /* Grid pixel heights */
 extern const float gridHeights[];
+extern const float gridWidths[];
+
+/* Command types and spellings */
+#define NUM_CMD_SPELLINGS 2
+typedef enum {SELECT_CMD=0, PLACE_CMD, FIRE_CMD, GOTO_CMD, NUM_CMD_TYPES} CMD_TYPE;
+extern std::string cmdNames[NUM_CMD_TYPES][NUM_CMD_SPELLINGS];
+
+/* Predicate types and spellings */
+#define NUM_PRED_SPELLINGS 2
+typedef enum {DAMAGE_PRED=0, EAT_PRED, HIT_PRED, SCORE_PRED, NUM_PRED_TYPES} PRED_TYPE;
+extern std::string predNames[NUM_PRED_TYPES][NUM_PRED_SPELLINGS];
+
 
 /* Texture file enum */
 typedef enum {TEX_BACKGROUND=0, TEX_COURT, TEX_SCOREBOARD_BOTTOM, TEX_SCOREBOARD_TOP,

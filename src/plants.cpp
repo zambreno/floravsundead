@@ -71,12 +71,15 @@ namespace fvu {
     * Description: Class constructor. Uses an enum type to set plant-specific
     * parameters
     *****************************************************************************/
-    Plant::Plant(uint8_t mytype) {
+    Plant::Plant(uint8_t mytype, uint16_t myid) {
 
         uint32_t anim_count = rand();
 
         status = PLANT_STATUS_DEFAULT;
         type = mytype;
+        id = myid;
+        row = 0;col = 0;
+
         Object *local_object;
         animation_struct demo_anim, game_anim, zero_anim;
 
@@ -100,11 +103,9 @@ namespace fvu {
     /*****************************************************************************
     * Function: Plant::place
     * Description: Places the plant (both for demo mode and regular game mode)
-    * based on the location and delay values
+    * based on the row and column values
     *****************************************************************************/
-    void Plant::place(int16_t location, int16_t delay, uint8_t team) {
-
-        static uint16_t place_count = 0;
+    bool Plant::place(uint8_t team, uint16_t row, uint16_t col) {
 
         /* Teams 0 and 1 are on the left, 2 and 3 are on the right.
          * Teams 0 and 2 are on the top, 1 and 3 on the bottom.
@@ -113,40 +114,36 @@ namespace fvu {
             case 0:
             default:
                 game_x = -700.0;
-                game_y = gridHeights[location]-35.0;
+                game_y = gridHeights[row]-35.0;
                 demo_x = 1.5*(rand()%200)-1375.0;
                 demo_y = 1.5*(rand()%300);
                 dir = -1.0;
                 break;
             case 1:
                 game_x = -700.0;
-                game_y = gridHeights[location]-581.0;
+                game_y = gridHeights[row]-581.0;
                 demo_x = 1.5*(rand()%200)-1375.0;
                 demo_y = -1.5*(rand()%300);
                 dir = -1.0;
                 break;
             case 2:
                 game_x = 700.0;
-                game_y = gridHeights[location]-35.0;
+                game_y = gridHeights[row]-35.0;
                 demo_x = 1.5*(rand()%200)+1100.0;
                 demo_y = 1.5*(rand()%300);
                 dir = 1.0;
                 break;
             case 3:
                 game_x = 700.0;
-                game_y = gridHeights[location]-581.0;
+                game_y = gridHeights[row]-581.0;
                 demo_x = 1.5*(rand()%200)+1100.0;
                 demo_y = -1.5*(rand()%300);
                 dir = 1.0;
                 break;
         }
         this->team = team;
-        this->delay = delay;
-        status = ZOMBIE_STATUS_PLACED;
-        if (++place_count > DEMO_ZOMBIE_COUNT) {
-            status = ZOMBIE_STATUS_SKIP;
-        }
 
+        return true;
     }
 
 

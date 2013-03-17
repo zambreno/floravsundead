@@ -1,8 +1,29 @@
 
 #include "floravsundead.hpp"
 
-/* Grid pixel heights */
+/* Grid pixel heights and widths */
 const float gridHeights[] = {101.0, 198.0, 288.0, 392.0, 491.0};
+const float gridWidths[] = {75.0, 150.0, 225.0, 300.0, 375.0};
+
+
+/* Command spellings */
+std::string cmdNames[NUM_CMD_TYPES][NUM_CMD_SPELLINGS] = {
+    {"select", "buy"},
+    {"place", "move"},
+    {"fire", "shoot"},
+    {"goto", "jump"}
+    };
+
+
+/* Predicate spellings */
+std::string predNames[NUM_PRED_TYPES][NUM_PRED_SPELLINGS] = {
+    {"damage", "damaged"},
+    {"eaten", "eat"},
+    {"hit", "contact"},
+    {"score", "scored"}
+    };
+
+
 
 /* Sound effect files */
 std::string sfxFiles[NUM_SFX] = {

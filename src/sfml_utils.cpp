@@ -377,9 +377,11 @@ namespace fvu {
         //drawZombie();
         drawPlant();
         /* Draw all the objects properly */
-        for (uint16_t i = 0; i < myZombies.size(); i++) {
-            if (myZombies[i].getStatus() != ZOMBIE_STATUS_INACTIVE) {
-                myZombies[i].draw(i);
+        for (uint8_t i = 0; i < 4; i++) {
+            for (uint16_t j = 0; j < myZombies[i].size(); j++) {
+                if (myZombies[i][j].getStatus() != ZOMBIE_STATUS_INACTIVE) {
+                    myZombies[i][j].draw(j);
+                }
             }
         }
 
@@ -422,16 +424,16 @@ namespace fvu {
                             myStatus.scores[3]++;
                         break;
                     case sf::Keyboard::Up:
-                        myZombies[0].move(0.0,5.0);
+                        myZombies[0][0].move(0.0,5.0);
                         break;
                     case sf::Keyboard::Down:
-                        myZombies[0].move(0.0,-5.0);
+                        myZombies[0][0].move(0.0,-5.0);
                         break;
                     case sf::Keyboard::Right:
-                        myZombies[0].move(5.0,0.0);
+                        myZombies[0][0].move(5.0,0.0);
                         break;
                     case sf::Keyboard::Left:
-                        myZombies[0].move(-5.0,0.0);
+                        myZombies[0][0].move(-5.0,0.0);
                         break;
                     case sf::Keyboard::Escape:
                     case sf::Keyboard::Q:

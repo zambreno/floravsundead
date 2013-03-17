@@ -166,7 +166,7 @@ namespace fvu {
             }
 
             printf("\tZombie file name: %16s\n", myConfig.zom_fname);
-            printf("\tNumber of zombies: %d\n", myZombies.size());
+            printf("\tNumber of zombies: %d\n", myZombies[0].size());
             printf("\n");
 
 

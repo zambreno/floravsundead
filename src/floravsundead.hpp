@@ -72,6 +72,18 @@ void strlower(char *in);
 
 namespace fvu {
 
+    /* Player command type */
+    class cmd_type {
+        public:
+            std::string label;
+            bool inv_pred;
+            bool has_pred;
+            uint8_t pred;
+            uint8_t cmd;
+            uint16_t plant;
+            uint8_t opt[2];
+    };
+
     /* Game configuration information */
     class Config {
         public:
@@ -90,6 +102,7 @@ namespace fvu {
             uint32_t status;
             char *name;
             uint16_t budget;
+            std::vector<fvu::cmd_type> cmds;
     };
 
 
@@ -156,7 +169,8 @@ namespace fvu {
             fvu::Config myConfig;
             fvu::Status myStatus;
             fvu::Team myTeams[4];
-            std::vector<fvu::Zombie> myZombies;
+            std::vector<fvu::Zombie> myZombies[4];
+            std::vector<fvu::Plant> myPlants[4];
             sf::ContextSettings mySettings;
             sf::RenderWindow myWindow;
             sf::Music myMusic[2];

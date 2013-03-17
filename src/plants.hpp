@@ -39,21 +39,26 @@ namespace fvu {
     /* Main plant class */
     class Plant {
         public:
-            Plant(uint8_t type);
+            Plant(uint8_t type, uint16_t myid);
             void update();
-            void place(int16_t location, int16_t delay, uint8_t team);
+            bool place(uint8_t team, uint16_t row, uint16_t col);
             void move(float delta_x, float delta_y);
             void endDemo();
             void updateDemo();
             void draw(uint16_t index);
             uint8_t getStatus() {return status;}
+            uint16_t getID() {return id;}
             uint8_t getType() {return type;}
+            uint16_t getRow() {return row;}
+            uint16_t getCol() {return col;}
             bool operator< (const Plant &rhs) const;
 
         private:
             uint8_t type;
             uint8_t status;
             uint16_t health;
+            uint16_t id;
+            uint16_t row, col;
             float speed;
             std::vector<uint16_t> transitions;
             float game_x, game_y, demo_x, demo_y;
