@@ -140,6 +140,7 @@ namespace fvu {
             void drawMap();
             void drawScoreboard();
             void processEvents();
+            void drawPlant();
 
             /* Utility functions (utils.cpp) */
             void print_help();

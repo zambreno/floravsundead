@@ -28,10 +28,10 @@ extern std::string plantNames[NUM_PLANT_TYPE][NUM_PLANT_SPELLINGS];
 
 
 /* Plant depth enum, front to back */
-typedef enum {PLANT_OUTERARM_LOWER_DEPTH = 0, PLANT_DEPTH_RANGE} PLANT_DEPTH_ENUM;
+typedef enum {BACKLEAF_DEPTH, PLANT_OUTERARM_LOWER_DEPTH = 0, PLANT_DEPTH_RANGE} PLANT_DEPTH_ENUM;
 
 
-/* Plantt status enum */
+/* Plant status enum */
 typedef enum {PLANT_STATUS_DEFAULT=0, PLANT_STATUS_PLACED, PLANT_STATUS_SKIP, PLANT_STATUS_DEMO, PLANT_STATUS_INACTIVE} PLANT_STATUS_ENUM;
 
 namespace fvu {
