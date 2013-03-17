@@ -45,13 +45,22 @@ namespace fvu {
     *****************************************************************************/
     void Game::init() {
 
+        // Set the random seed here
+        srand(0);
+
         compileZombies();
         compileTeams();
         myStatus.pan = 0.0;
         myStatus.mode = DEMO_START;
         myStatus.music_buffer = 0;
-        for (uint8_t i = 0; i < 4; i++)
+        for (uint8_t i = 0; i < 4; i++) {
             myStatus.scores[i] = 0;
+            for (uint8_t j = 0; j < NUM_ROWS; j++) {
+                for (uint8_t k = 0; k < NUM_ROWS; k++) {
+                    myTeams[i].plantGrid[j][k] = false;
+                }
+            }
+        }
 
     }
 
@@ -270,8 +279,9 @@ namespace fvu {
             for (uint32_t line_count=1; !feof(team_file); line_count++) {
                 char *fgets_ret;
                 char linebuf[256], select_str1[16], select_str2[16], start_str[256];
-                char label[16], place_str[16];
-                uint8_t select_ntok, start_ntok, place_ntok;
+                char place_str[16], label_str[256], target_str[256];
+                char cmd_str[256], cmd_str2[256], pred_str[256];
+                uint8_t select_ntok, start_ntok, place_ntok, label_ntok, pred_ntok, cmd_ntok;
                 uint16_t select_tok, place_tok1, place_tok2, place_tok3;
 
                 fgets_ret = fgets(linebuf, 256, team_file);
@@ -351,12 +361,13 @@ namespace fvu {
                 fvu::cmd_type *local_cmd;
                 bool place_match = false;
                 start_str[0] = 0;
+                start_ntok = 0;
                 if (start_done == false) {
-                    start_ntok = sscanf(linebuf, " start: %s", start_str);
+                    start_ntok = sscanf(linebuf, " start: %[^\t\n]", start_str);
                     if (start_ntok == 1) {
                         start_done = true;
-                        break;
                     }
+                    else {
 
                     // If we haven't started yet, every command should be a place/move
                     place_str[0] = 0;
@@ -378,22 +389,24 @@ namespace fvu {
                         for (uint16_t p = 0; p < myPlants[i_team].size(); p++) {
                             if (myPlants[i_team][p].getID() == place_tok1) {
                                 place_match = true;
-                                for (uint16_t p2 = 0; p2 < myPlants[i_team].size(); p2++) {
-                                    if ((myPlants[i_team][p2].getRow() == place_tok2) && (myPlants[i_team][p2].getCol() == place_tok3)) {
-                                        place_match = false;
-                                        break;
-                                    }
+                                if ((place_tok2 == 1) && (place_tok3 == 1)) {
+                                    printf("Error compiling %s, line %d\n", myConfig.team_fname[i_team], line_count);
+                                    printf("  place command [%hu, %hu] is reserved\n", place_tok2, place_tok3);
+                                    raise_error(ERR_BADFILE2, myConfig.team_fname[i_team]);
                                 }
-                                // If we already had a plant at that location, just skip it
-                                if (place_match == false) {
-                                    place_match = true;
-                                    break;
-                                }
-                                if (!myPlants[i_team][p].place(i_team, place_tok2, place_tok3)) {
+                                if ((place_tok2 < 1) || (place_tok2 > NUM_ROWS) || (place_tok3 < 1) || (place_tok3 > NUM_COLS)) {
                                     printf("Error compiling %s, line %d\n", myConfig.team_fname[i_team], line_count);
                                     printf("  place command [%hu, %hu] out of range\n", place_tok2, place_tok3);
                                     raise_error(ERR_BADFILE2, myConfig.team_fname[i_team]);
                                 }
+
+                                if (team->plantGrid[place_tok2][place_tok3] == true) {
+                                    printf("Error compiling %s, line %d\n", myConfig.team_fname[i_team], line_count);
+                                    printf("  plant already placed at [%hu, %hu]\n", place_tok2, place_tok3);
+                                    raise_error(ERR_BADFILE2, myConfig.team_fname[i_team]);
+                                }
+                                myPlants[i_team][p].place(i_team, place_tok2, place_tok3);
+                                team->plantGrid[place_tok2][place_tok3] = true;
                                 break;
                             }
                         }
@@ -405,17 +418,196 @@ namespace fvu {
                     }
 
                     continue;
+                    }
                 }
 
 
-                // Now the command can be anything. Check for predicates.
-                //if_str[0] = 0;
-                //ifnot_str[0] = 0;
-                //label_ntok = sscanf(linebuf, " start: %s", start_str);
+                // Everything from here on out is a proper command, with potentially labels and predicates
+                cmd_str[0] = 0;label_str[0] = 0;
+                bool has_label = false;
+                label_ntok = sscanf(linebuf, " %[^:]: %[^\t\n]", label_str, cmd_str);
+                if (label_ntok == 2) {
+                    has_label = true;
+                }
+                else {
+                    sscanf(linebuf, " %[^\t\n]", cmd_str);
+                }
+
+                // Check for an if statement
+                cmd_str2[0] = 0;
+                pred_str[0] = 0;
+                bool has_pred = false;
+                bool inv_pred = false;
+                pred_ntok = sscanf(cmd_str, " if not %[^,], %[^\t\n]", pred_str, cmd_str2);
+                if (pred_ntok == 2) {
+                    has_pred = true;
+                    inv_pred = true;
+                }
+                else {
+                    pred_ntok = sscanf(cmd_str, " if %[^,], %[^\t\n]", pred_str, cmd_str2);
+                    if (pred_ntok == 2) {
+                        has_pred = true;
+                        inv_pred = false;
+                    }
+                    else {
+                        sscanf(cmd_str, " %[^\t\n]", cmd_str2);
+                    }
+                }
+
+                // If there is a predicate, check if the condition is valid
+                bool pred_match = false;
+                uint8_t pred = ALWAYS_PRED;
+                if (has_pred == true) {
+                    for (pred = 0; pred < NUM_PRED_TYPES; pred++) {
+                        for (uint8_t i = 0; i < NUM_PRED_SPELLINGS; i++) {
+                            if (!strcmp(pred_str, predNames[pred][i].c_str())) {
+                                pred_match = true;
+                                break;
+                            }
+                        }
+                        if (pred_match == true) {
+                            break;
+                        }
+                    }
+                    if (pred_match == false) {
+                        printf("Error compiling %s, line %d\n", myConfig.team_fname[i_team], line_count);
+                        printf("  invalid condition of %s\n", pred_str);
+                        raise_error(ERR_BADFILE2, myConfig.team_fname[i_team]);
+                    }
+                }
+
+                // Now we can attempt to match the actual string
+                uint8_t cmd;
+                bool cmd_match = false;
+                for (cmd = 0; cmd < NUM_CMD_TYPES; cmd++) {
+                    for (uint8_t i = 0; i < NUM_CMD_SPELLINGS; i++) {
+                        if (!strncmp(cmd_str2, cmdNames[cmd][i].c_str(), cmdNames[cmd][i].size())) {
+                            cmd_match = true;
+                            break;
+                        }
+                    }
+                    if (cmd_match == true) {
+                        break;
+                    }
+                }
+                if (cmd_match == false) {
+                    printf("Error compiling %s, line %d\n", myConfig.team_fname[i_team], line_count);
+                    printf("  invalid command of %s\n", cmd_str2);
+                    raise_error(ERR_BADFILE2, myConfig.team_fname[i_team]);
+                }
+
+                // Based on the command we matched, we can grab the target of the command.
+                // We know we spelled the command correctly at this point so just grab everything else
+                bool valid_cmd = false;
+                uint16_t opt[2] = {0, 0};
+                uint16_t plant = 0;
+                switch (cmd) {
+                  case PLACE_CMD:
+                  default:
+                    place_str[0] = 0;
+                    cmd_ntok = sscanf(cmd_str2, "%s p%hu %hu, %hu", place_str, &plant, &opt[0], &opt[1]);
+                    if (cmd_ntok == 4) {
+                        valid_cmd = true;
+                    }
+                    break;
+                  case FIRE_CMD:
+                    place_str[0] = 0;
+                    cmd_ntok = sscanf(cmd_str2, "%s p%hu", place_str, &plant);
+                    if (cmd_ntok == 2) {
+                        valid_cmd = true;
+                    }
+                    break;
+                  case GOTO_CMD:
+                    place_str[0] = 0;
+                    target_str[0] = 0;
+                    cmd_ntok = sscanf(cmd_str2, "%s %s", place_str, target_str);
+                    if (cmd_ntok == 2) {
+                        // Note that goto is not necessarily valid, depending on the target string which we can only check later
+                        valid_cmd = true;
+                    }
+                    break;
+                }
+
+                if (valid_cmd == false) {
+                    printf("Error compiling %s, line %d\n", myConfig.team_fname[i_team], line_count);
+                    printf("  invalid command options of %s\n", cmd_str2);
+                    raise_error(ERR_BADFILE2, myConfig.team_fname[i_team]);
+                }
+
+                // FINALLY, we can allocate and add a new command to the cmds structure
+                local_cmd = new cmd_type;
+                local_cmd->has_label = has_label;
+                if (has_label == true)
+                    strncpy(local_cmd->label_str, label_str, 16);
+                if (cmd == GOTO_CMD)
+                    strncpy(local_cmd->target_str, target_str, 16);
+                local_cmd->inv_pred = inv_pred;
+                local_cmd->has_pred = has_pred;
+                local_cmd->cmd = cmd;
+                local_cmd->pred = pred;
+                local_cmd->plant = plant;
+                local_cmd->line = line_count;
+                local_cmd->opt[0] = opt[0];
+                local_cmd->opt[1] = opt[1];
+
+                myTeams[i_team].cmds.insert(myTeams[i_team].cmds.end(), 1, *local_cmd);
+                delete local_cmd;
 
             }
 
+
+            // Only after the file is compiled can we do a second pass and verify the target strings
+            for (uint16_t i = 0; i < myTeams[i_team].cmds.size(); i++) {
+                if (myTeams[i_team].cmds[i].cmd == GOTO_CMD) {
+                    bool goto_valid = false;
+                    for (uint16_t j = 0; j < myTeams[i_team].cmds.size(); j++) {
+                        if (myTeams[i_team].cmds[j].has_label == true) {
+                            if (!strcmp(myTeams[i_team].cmds[j].label_str, myTeams[i_team].cmds[i].target_str)) {
+                                myTeams[i_team].cmds[i].opt[0] = j;
+                                goto_valid = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (goto_valid == false) {
+                        printf("Error compiling %s, line %d\n", myConfig.team_fname[i_team], myTeams[i_team].cmds[i].line);
+                        printf("  goto target of %s not found\n", myTeams[i_team].cmds[i].target_str);
+                        raise_error(ERR_BADFILE2, myConfig.team_fname[i_team]);
+                    }
+                }
+            }
+
+            if (myConfig.debug_level > 50) {
+                printf("\nCommands are as follows: \n");
+                printf("   ID    | LINE |   LABEL   | IF? | NOT? |   PRED   |   CMD   | PLNT | OPTS  \n");
+                for (uint16_t i = 0; i < myTeams[i_team].cmds.size(); i++) {
+                    printf("cmd-%03u: | ", i);
+                    printf(" %3u | ", myTeams[i_team].cmds[i].line);
+                    if (myTeams[i_team].cmds[i].has_label == true)
+                        printf("%9s | ", myTeams[i_team].cmds[i].label_str);
+                    else
+                        printf("%9s | ", "none");
+                    if (myTeams[i_team].cmds[i].has_pred == true)
+                        printf("%3s | ", "yes");
+                    else
+                        printf("%3s | ", "no");
+                    if (myTeams[i_team].cmds[i].inv_pred == true)
+                        printf("%4s | ", "yes");
+                    else
+                        printf("%4s | ", "no");
+                    printf("%8s | ", predNames[myTeams[i_team].cmds[i].pred][0].c_str());
+                    printf("%7s | ", cmdNames[myTeams[i_team].cmds[i].cmd][0].c_str());
+                    printf("%4hu | ", myTeams[i_team].cmds[i].plant);
+                    printf("[%hu, %hu]", myTeams[i_team].cmds[i].opt[0], myTeams[i_team].cmds[i].opt[0]);
+                    printf("\n");
+                }
+                printf("\n");
+            }
+
+
+
         }
+
 
     }
 
@@ -444,9 +636,6 @@ namespace fvu {
         if (!zom_file) {
             raise_error(ERR_NOFILE3, myConfig.zom_fname);
         }
-
-        // Set the random seed here
-        //srand(0);
 
         budget_flag = false;
         zombie_counter = 0;

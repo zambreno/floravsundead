@@ -75,13 +75,16 @@ namespace fvu {
     /* Player command type */
     class cmd_type {
         public:
-            std::string label;
+            char label_str[16];
+            char target_str[16];
+            bool has_label;
             bool inv_pred;
             bool has_pred;
             uint8_t pred;
             uint8_t cmd;
             uint16_t plant;
-            uint8_t opt[2];
+            uint32_t line;
+            uint16_t opt[2];
     };
 
     /* Game configuration information */
@@ -103,6 +106,7 @@ namespace fvu {
             char *name;
             uint16_t budget;
             std::vector<fvu::cmd_type> cmds;
+            bool plantGrid[NUM_ROWS][NUM_COLS];
     };
 
 

@@ -41,7 +41,7 @@ namespace fvu {
         public:
             Plant(uint8_t type, uint16_t myid);
             void update();
-            bool place(uint8_t team, uint16_t row, uint16_t col);
+            void place(uint8_t team, uint16_t row, uint16_t col);
             void move(float delta_x, float delta_y);
             void endDemo();
             void updateDemo();

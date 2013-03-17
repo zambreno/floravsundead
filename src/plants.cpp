@@ -105,7 +105,7 @@ namespace fvu {
     * Description: Places the plant (both for demo mode and regular game mode)
     * based on the row and column values
     *****************************************************************************/
-    bool Plant::place(uint8_t team, uint16_t row, uint16_t col) {
+    void Plant::place(uint8_t team, uint16_t row, uint16_t col) {
 
         /* Teams 0 and 1 are on the left, 2 and 3 are on the right.
          * Teams 0 and 2 are on the top, 1 and 3 on the bottom.
@@ -143,7 +143,7 @@ namespace fvu {
         }
         this->team = team;
 
-        return true;
+        return;
     }
 
 

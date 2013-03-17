@@ -2,8 +2,8 @@
 #include "floravsundead.hpp"
 
 /* Grid pixel heights and widths */
-const float gridHeights[] = {101.0, 198.0, 288.0, 392.0, 491.0};
-const float gridWidths[] = {75.0, 150.0, 225.0, 300.0, 375.0};
+const float gridHeights[NUM_ROWS] = {101.0, 198.0, 288.0, 392.0, 491.0};
+const float gridWidths[NUM_COLS] = {50.0, 100.0, 150.0, 200.0, 250.0, 300.0, 350.0, 400.0, 450.0, 500.0};
 
 
 /* Command spellings */
@@ -17,6 +17,8 @@ std::string cmdNames[NUM_CMD_TYPES][NUM_CMD_SPELLINGS] = {
 
 /* Predicate spellings */
 std::string predNames[NUM_PRED_TYPES][NUM_PRED_SPELLINGS] = {
+    {"always", "true"},
+    {"never", "false"},
     {"damage", "damaged"},
     {"eaten", "eat"},
     {"hit", "contact"},

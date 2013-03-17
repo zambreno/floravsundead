@@ -17,8 +17,10 @@
 #pragma once
 
 /* Grid pixel heights */
-extern const float gridHeights[];
-extern const float gridWidths[];
+#define NUM_ROWS 5
+#define NUM_COLS 10
+extern const float gridHeights[NUM_ROWS];
+extern const float gridWidths[NUM_COLS];
 
 /* Command types and spellings */
 #define NUM_CMD_SPELLINGS 2
@@ -27,7 +29,7 @@ extern std::string cmdNames[NUM_CMD_TYPES][NUM_CMD_SPELLINGS];
 
 /* Predicate types and spellings */
 #define NUM_PRED_SPELLINGS 2
-typedef enum {DAMAGE_PRED=0, EAT_PRED, HIT_PRED, SCORE_PRED, NUM_PRED_TYPES} PRED_TYPE;
+typedef enum {ALWAYS_PRED=0, NEVER_PRED, DAMAGE_PRED, EAT_PRED, HIT_PRED, SCORE_PRED, NUM_PRED_TYPES} PRED_TYPE;
 extern std::string predNames[NUM_PRED_TYPES][NUM_PRED_SPELLINGS];
 
 
