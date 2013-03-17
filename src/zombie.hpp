@@ -40,7 +40,7 @@ namespace fvu {
     /* Main zombie class */
     class Zombie {
         public:
-            Zombie(uint8_t type);
+            Zombie(uint8_t type, uint16_t index);
             void update();
             void place(int16_t location, int16_t delay, uint8_t team);
             void move(float delta_x, float delta_y);
@@ -55,6 +55,7 @@ namespace fvu {
             uint8_t type;
             uint8_t status;
             uint16_t health;
+            uint16_t index;
             float speed;
             std::vector<uint16_t> transitions;
             float game_x, game_y, demo_x, demo_y;

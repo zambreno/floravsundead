@@ -75,12 +75,13 @@ namespace fvu {
     * Description: Class constructor. Uses an enum type to set zombie-specific
     * parameters
     *****************************************************************************/
-    Zombie::Zombie(uint8_t mytype) {
+    Zombie::Zombie(uint8_t mytype, uint16_t myindex) {
 
         uint32_t anim_count = rand();
 
         status = ZOMBIE_STATUS_DEFAULT;
         type = mytype;
+        index = myindex;
         Object *local_object;
         animation_struct demo_anim, game_anim, zero_anim;
 

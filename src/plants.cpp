@@ -92,7 +92,14 @@ namespace fvu {
             default:
 
                 /* The object structure starts at the x/y location of the plant head, and moves out in all directions */
-                myObject = new Object(zero_anim, zero_anim, anim_count, 0, 0, 6, NULL);
+                myObject = new Object(zero_anim, zero_anim, anim_count, 0, 0, 1, NULL);
+
+                // children[0] is the body
+                demo_anim.start_angle = 10.0;demo_anim.delta_angle = -0.2;demo_anim.end_angle = 0.0;
+                demo_anim.start_x     = 0.0;demo_anim.delta_x     = 0.0;demo_anim.end_x     = 0.0;
+                demo_anim.start_y     = -3.0;demo_anim.delta_y     = 0.0;demo_anim.end_y     = 0.0;
+                game_anim = demo_anim;
+                myObject->children[0] = new Object(demo_anim, game_anim, anim_count, GATLINGPEA_HEAD, PLANTHEAD_DEPTH, 0, myObject);
 
 
                 break;
@@ -110,38 +117,42 @@ namespace fvu {
         /* Teams 0 and 1 are on the left, 2 and 3 are on the right.
          * Teams 0 and 2 are on the top, 1 and 3 on the bottom.
          * Placement may need to be sprite-specific. */
+        status = PLANT_STATUS_PLACED;
+        this->team = team;
+        this->row = row;
+        this->col = col;
+
         switch (team) {
             case 0:
             default:
-                game_x = -700.0;
+                game_x = -300.0;
                 game_y = gridHeights[row]-35.0;
-                demo_x = 1.5*(rand()%200)-1375.0;
-                demo_y = 1.5*(rand()%300);
+                demo_x = game_x;
+                demo_y = game_y;
                 dir = -1.0;
                 break;
             case 1:
-                game_x = -700.0;
+                game_x = -300.0;
                 game_y = gridHeights[row]-581.0;
-                demo_x = 1.5*(rand()%200)-1375.0;
-                demo_y = -1.5*(rand()%300);
+                demo_x = game_x;
+                demo_y = game_y;
                 dir = -1.0;
                 break;
             case 2:
-                game_x = 700.0;
+                game_x = 300.0;
                 game_y = gridHeights[row]-35.0;
-                demo_x = 1.5*(rand()%200)+1100.0;
-                demo_y = 1.5*(rand()%300);
+                demo_x = game_x;
+                demo_y = game_y;
                 dir = 1.0;
                 break;
             case 3:
-                game_x = 700.0;
+                game_x = 300.0;
                 game_y = gridHeights[row]-581.0;
-                demo_x = 1.5*(rand()%200)+1100.0;
-                demo_y = -1.5*(rand()%300);
+                demo_x = game_x;
+                demo_y = game_y;
                 dir = 1.0;
                 break;
         }
-        this->team = team;
 
         return;
     }
@@ -157,7 +168,7 @@ namespace fvu {
         myObject->endDemo();
 
         /* Point x,y to game_x and game_y */
-        status = ZOMBIE_STATUS_GAME;
+        status = PLANT_STATUS_GAME;
     }
 
 
@@ -169,8 +180,8 @@ namespace fvu {
     *****************************************************************************/
     void Plant::updateDemo() {
 
-        if (status == ZOMBIE_STATUS_PLACED) {
-            status = ZOMBIE_STATUS_DEMO;
+        if (status == PLANT_STATUS_PLACED) {
+            status = PLANT_STATUS_DEMO;
         }
 
         myObject->update();
@@ -208,7 +219,7 @@ namespace fvu {
 
         /* We want pseudo-3D, so lower = closer. Otherwise, closer to the sides
          * should be closer to the screen. */
-        if (status == ZOMBIE_STATUS_DEMO) {
+        if (status == PLANT_STATUS_DEMO) {
             if (demo_y == rhs.demo_y) {
                 return (fabsf(demo_x) > fabsf(rhs.demo_x));
             }

@@ -373,17 +373,25 @@ namespace fvu {
     *****************************************************************************/
     void Game::drawMap() {
 
-        glBindTexture(GL_TEXTURE_2D, myTextures[TEX_ZOMBIES].texHandle);
-        //drawZombie();
-        drawPlant();
+
         /* Draw all the objects properly */
         for (uint8_t i = 0; i < 4; i++) {
+            glBindTexture(GL_TEXTURE_2D, myTextures[TEX_ZOMBIES].texHandle);
             for (uint16_t j = 0; j < myZombies[i].size(); j++) {
                 if (myZombies[i][j].getStatus() != ZOMBIE_STATUS_INACTIVE) {
                     myZombies[i][j].draw(j);
                 }
             }
+            glBindTexture(GL_TEXTURE_2D, myTextures[TEX_PLANTS].texHandle);
+            for (uint16_t j = 0; j < myPlants[i].size(); j++) {
+                if (myPlants[i][j].getStatus() != PLANT_STATUS_INACTIVE) {
+                   myPlants[i][j].draw(j);
+                }
+            }
         }
+
+        drawPlant();
+
 
     }
 

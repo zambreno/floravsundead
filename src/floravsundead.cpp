@@ -123,6 +123,8 @@ namespace fvu {
 
             /* Sort each zombie based on the custom zombie function */
             std::stable_sort(myZombies[i].begin(), myZombies[i].end());
+            /* Sort each plant as well */
+            std::stable_sort(myPlants[i].begin(), myPlants[i].end());
         }
     }
 
@@ -170,7 +172,10 @@ namespace fvu {
 
             /* Sort each zombie based on the custom zombie function */
             std::stable_sort(myZombies[i].begin(), myZombies[i].end());
+            /* Sort each plant as well */
+            std::stable_sort(myPlants[i].begin(), myPlants[i].end());
         }
+
     }
 
     /*****************************************************************************
@@ -623,6 +628,7 @@ namespace fvu {
         uint8_t budget_ntok, select_ntok, place_ntok, day_ntok, night_ntok, time_ntok;
         bool budget_flag;
         uint32_t line_count, zombie_counter;
+        uint16_t zombie_index;
         uint16_t budget_tok, select_tok, music_tok;
         uint32_t time_tok;
         int16_t place_tok, delay_tok;
@@ -638,7 +644,7 @@ namespace fvu {
         }
 
         budget_flag = false;
-        zombie_counter = 0;
+        zombie_counter = 0;zombie_index = 0;
         myStatus.time_ms = TIME_MS_DEFAULT;
         myStatus.day = true;
         myStatus.main_song = 1;
@@ -712,12 +718,13 @@ namespace fvu {
 
                 // Each zombie is specified for all 4 teams at once
                 if (zombie_match == true) {
-                    for (uint8_t k = 0; k < 4; k++) {
-                        for (uint8_t l = 0; l < select_tok; l++) {
-                            local_zombie = new Zombie(z);
+                    for (uint8_t l = 0; l < select_tok; l++) {
+                        for (uint8_t k = 0; k < 4; k++) {
+                            local_zombie = new Zombie(z, zombie_index);
                             myZombies[k].insert(myZombies[k].end(), 1, *local_zombie);
                             delete local_zombie;
                         }
+                        zombie_index++;
                     }
                 }
                 else {
