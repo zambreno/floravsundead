@@ -603,7 +603,7 @@ namespace fvu {
                     printf("%8s | ", predNames[myTeams[i_team].cmds[i].pred][0].c_str());
                     printf("%7s | ", cmdNames[myTeams[i_team].cmds[i].cmd][0].c_str());
                     printf("%4hu | ", myTeams[i_team].cmds[i].plant);
-                    printf("[%hu, %hu]", myTeams[i_team].cmds[i].opt[0], myTeams[i_team].cmds[i].opt[0]);
+                    printf("[%hu, %hu]", myTeams[i_team].cmds[i].opt[0], myTeams[i_team].cmds[i].opt[1]);
                     printf("\n");
                 }
                 printf("\n");

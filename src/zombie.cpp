@@ -290,7 +290,7 @@ namespace fvu {
                 break;
             case 1:
                 game_x = -700.0;
-                game_y = gridHeights[location]-581.0;
+                game_y = gridHeights[NUM_ROWS-1-location]-581.0;
                 demo_x = 1.5*(rand()%200)-1375.0;
                 demo_y = -1.5*(rand()%300);
                 dir = -1.0;
@@ -304,7 +304,7 @@ namespace fvu {
                 break;
             case 3:
                 game_x = 700.0;
-                game_y = gridHeights[location]-581.0;
+                game_y = gridHeights[NUM_ROWS-1-location]-581.0;
                 demo_x = 1.5*(rand()%200)+1100.0;
                 demo_y = -1.5*(rand()%300);
                 dir = 1.0;
