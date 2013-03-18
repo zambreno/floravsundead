@@ -475,8 +475,9 @@ namespace fvu {
         float x, y;
         glBindTexture(GL_TEXTURE_2D, myTextures[TEX_PLANTS].texHandle);
 
-        getTexCoords(TEX_PLANTS, PEASHOOTER_BLINK_1, texCoords);
-        x = 100;y = 100;
+        //Peashooter Backleaf
+        getTexCoords(TEX_PLANTS, PEASHOOTER_BACKLEAF, texCoords);
+        x = 106;y = 99;
         glBegin(GL_QUADS);
             glTexCoord2d(texCoords[0], texCoords[1]);
             glVertex3f(x, y, BACKLEAF_DEPTH);
@@ -487,270 +488,141 @@ namespace fvu {
             glTexCoord2d(texCoords[0], texCoords[3]);
             glVertex3f(x, y+texCoords[5], BACKLEAF_DEPTH);
         glEnd();
-/*
-        getTexCoords(TEX_ZOMBIES, ZOMBIE_OUTERLEG_FOOT, texCoords);
-        x = 35.75;y = -93.75;
+
+        getTexCoords(TEX_PLANTS, PEASHOOTER_BACKLEAF_LEFTTIP, texCoords);
+        x = 101;y = 108;
         glBegin(GL_QUADS);
             glTexCoord2d(texCoords[0], texCoords[1]);
-            glVertex3f(x, y, OBJECT_DEPTH);
+            glVertex3f(x, y, BACKLEAF_DEPTH);
             glTexCoord2d(texCoords[2], texCoords[1]);
-            glVertex3f(x+texCoords[4], y, OBJECT_DEPTH);
+            glVertex3f(x+texCoords[4], y, BACKLEAF_DEPTH);
             glTexCoord2d(texCoords[2], texCoords[3]);
-            glVertex3f(x+texCoords[4], y+texCoords[5], OBJECT_DEPTH);
+            glVertex3f(x+texCoords[4], y+texCoords[5], BACKLEAF_DEPTH);
             glTexCoord2d(texCoords[0], texCoords[3]);
-            glVertex3f(x, y+texCoords[5], OBJECT_DEPTH);
+            glVertex3f(x, y+texCoords[5], BACKLEAF_DEPTH);
         glEnd();
 
-        getTexCoords(TEX_ZOMBIES, ZOMBIE_OUTERLEG_LOWER, texCoords);
-        x = 50.5;y = -81.75;
+        getTexCoords(TEX_PLANTS, PEASHOOTER_BACKLEAF_RIGHTTIP, texCoords);
+        x = 143;y = 112;
         glBegin(GL_QUADS);
             glTexCoord2d(texCoords[0], texCoords[1]);
-            glVertex3f(x, y, OBJECT_DEPTH);
+            glVertex3f(x, y, BACKLEAF_DEPTH);
             glTexCoord2d(texCoords[2], texCoords[1]);
-            glVertex3f(x+texCoords[4], y, OBJECT_DEPTH);
+            glVertex3f(x+texCoords[4], y, BACKLEAF_DEPTH);
             glTexCoord2d(texCoords[2], texCoords[3]);
-            glVertex3f(x+texCoords[4], y+texCoords[5], OBJECT_DEPTH);
+            glVertex3f(x+texCoords[4], y+texCoords[5], BACKLEAF_DEPTH);
             glTexCoord2d(texCoords[0], texCoords[3]);
-            glVertex3f(x, y+texCoords[5], OBJECT_DEPTH);
+            glVertex3f(x, y+texCoords[5], BACKLEAF_DEPTH);
         glEnd();
 
-        //Zombie Body
-        getTexCoords(TEX_ZOMBIES, ZOMBIEBODY, texCoords);
-        x = 10.5;y = -45.5;
+        //Peashooter Frontleaf
+        getTexCoords(TEX_PLANTS, PEASHOOTER_FRONTLEAF, texCoords);
+        x =99;y = 79;
         glBegin(GL_QUADS);
             glTexCoord2d(texCoords[0], texCoords[1]);
-            glVertex3f(x, y, OBJECT_DEPTH);
+            glVertex3f(x, y, FRONTLEAF_DEPTH);
             glTexCoord2d(texCoords[2], texCoords[1]);
-            glVertex3f(x+texCoords[4], y, OBJECT_DEPTH);
+            glVertex3f(x+texCoords[4], y, FRONTLEAF_DEPTH);
             glTexCoord2d(texCoords[2], texCoords[3]);
-            glVertex3f(x+texCoords[4], y+texCoords[5], OBJECT_DEPTH);
+            glVertex3f(x+texCoords[4], y+texCoords[5], FRONTLEAF_DEPTH);
             glTexCoord2d(texCoords[0], texCoords[3]);
-            glVertex3f(x, y+texCoords[5], OBJECT_DEPTH);
+            glVertex3f(x, y+texCoords[5], FRONTLEAF_DEPTH);
         glEnd();
-        //Zombie Inner Arm Upper
-        getTexCoords(TEX_ZOMBIES, ZOMBIE_INNERARM_UPPER, texCoords);
-        x = 10.5;y = -30;
+
+        getTexCoords(TEX_PLANTS, PEASHOOTER_FRONTLEAF_LEFTTIP, texCoords);
+        x = 93;y = 77;
         glBegin(GL_QUADS);
             glTexCoord2d(texCoords[0], texCoords[1]);
-            glVertex3f(x, y, OBJECT_DEPTH);
+            glVertex3f(x, y, FRONTLEAF_DEPTH);
             glTexCoord2d(texCoords[2], texCoords[1]);
-            glVertex3f(x+texCoords[4], y, OBJECT_DEPTH);
+            glVertex3f(x+texCoords[4], y, FRONTLEAF_DEPTH);
             glTexCoord2d(texCoords[2], texCoords[3]);
-            glVertex3f(x+texCoords[4], y+texCoords[5], OBJECT_DEPTH);
+            glVertex3f(x+texCoords[4], y+texCoords[5], FRONTLEAF_DEPTH);
             glTexCoord2d(texCoords[0], texCoords[3]);
-            glVertex3f(x, y+texCoords[5], OBJECT_DEPTH);
+            glVertex3f(x, y+texCoords[5], FRONTLEAF_DEPTH);
         glEnd();
 
-        //Zombie Inner Arm Lower part
-        getTexCoords(TEX_ZOMBIES, ZOMBIE_INNERARM_LOWER, texCoords);
-        x = 7.5;y = -50;
+        getTexCoords(TEX_PLANTS, PEASHOOTER_FRONTLEAF_RIGHTTIP, texCoords);
+        x = 160;y = 86;
         glBegin(GL_QUADS);
             glTexCoord2d(texCoords[0], texCoords[1]);
-            glVertex3f(x, y, OBJECT_DEPTH);
+            glVertex3f(x, y, FRONTLEAF_DEPTH);
             glTexCoord2d(texCoords[2], texCoords[1]);
-            glVertex3f(x+texCoords[4], y, OBJECT_DEPTH);
+            glVertex3f(x+texCoords[4], y, FRONTLEAF_DEPTH);
             glTexCoord2d(texCoords[2], texCoords[3]);
-            glVertex3f(x+texCoords[4], y+texCoords[5], OBJECT_DEPTH);
+            glVertex3f(x+texCoords[4], y+texCoords[5], FRONTLEAF_DEPTH);
             glTexCoord2d(texCoords[0], texCoords[3]);
-            glVertex3f(x, y+texCoords[5], OBJECT_DEPTH);
+            glVertex3f(x, y+texCoords[5], FRONTLEAF_DEPTH);
         glEnd();
 
-
-        //Zombie Inner Arm Hand
-         getTexCoords(TEX_ZOMBIES, ZOMBIE_INNERARM_HAND, texCoords);
-        x = 7.5;y = -65;
+       //Peashooter Stem
+         getTexCoords(TEX_PLANTS, PEASHOOTER_STALK_BOTTOM, texCoords);
+        x = 124;y = 100;
         glBegin(GL_QUADS);
             glTexCoord2d(texCoords[0], texCoords[1]);
-            glVertex3f(x, y, OBJECT_DEPTH);
+            glVertex3f(x, y, STEM_DEPTH);
             glTexCoord2d(texCoords[2], texCoords[1]);
-            glVertex3f(x+texCoords[4], y, OBJECT_DEPTH);
+            glVertex3f(x+texCoords[4], y, STEM_DEPTH);
             glTexCoord2d(texCoords[2], texCoords[3]);
-            glVertex3f(x+texCoords[4], y+texCoords[5], OBJECT_DEPTH);
+            glVertex3f(x+texCoords[4], y+texCoords[5], STEM_DEPTH);
             glTexCoord2d(texCoords[0], texCoords[3]);
-            glVertex3f(x, y+texCoords[5], OBJECT_DEPTH);
+            glVertex3f(x, y+texCoords[5], STEM_DEPTH);
         glEnd();
 
-        getTexCoords(TEX_ZOMBIES, ZOMBIE_INNERLEG_UPPER, texCoords);
-        x = 30;y = -62;
+        getTexCoords(TEX_PLANTS, PEASHOOTER_STALK_TOP, texCoords);
+        x = 125;y = 117;
         glBegin(GL_QUADS);
             glTexCoord2d(texCoords[0], texCoords[1]);
-            glVertex3f(x, y, OBJECT_DEPTH);
+            glVertex3f(x, y, STEM_DEPTH);
             glTexCoord2d(texCoords[2], texCoords[1]);
-            glVertex3f(x+texCoords[4], y, OBJECT_DEPTH);
+            glVertex3f(x+texCoords[4], y, STEM_DEPTH);
             glTexCoord2d(texCoords[2], texCoords[3]);
-            glVertex3f(x+texCoords[4], y+texCoords[5], OBJECT_DEPTH);
+            glVertex3f(x+texCoords[4], y+texCoords[5], STEM_DEPTH);
             glTexCoord2d(texCoords[0], texCoords[3]);
-            glVertex3f(x, y+texCoords[5], OBJECT_DEPTH);
+            glVertex3f(x, y+texCoords[5], STEM_DEPTH);
         glEnd();
 
-        getTexCoords(TEX_ZOMBIES, ZOMBIE_INNERLEG_LOWER, texCoords);
-        x = 16;y = -88;
+        //Peashooter Head
+        getTexCoords(TEX_PLANTS, PEASHOOTER_HEAD, texCoords);
+        x = 97;y = 126;
         glBegin(GL_QUADS);
             glTexCoord2d(texCoords[0], texCoords[1]);
-            glVertex3f(x, y, OBJECT_DEPTH);
+            glVertex3f(x, y, PLANTHEAD_DEPTH);
             glTexCoord2d(texCoords[2], texCoords[1]);
-            glVertex3f(x+texCoords[4], y, OBJECT_DEPTH);
+            glVertex3f(x+texCoords[4], y, PLANTHEAD_DEPTH);
             glTexCoord2d(texCoords[2], texCoords[3]);
-            glVertex3f(x+texCoords[4], y+texCoords[5], OBJECT_DEPTH);
+            glVertex3f(x+texCoords[4], y+texCoords[5], PLANTHEAD_DEPTH);
             glTexCoord2d(texCoords[0], texCoords[3]);
-            glVertex3f(x, y+texCoords[5], OBJECT_DEPTH);
+            glVertex3f(x, y+texCoords[5], PLANTHEAD_DEPTH);
         glEnd();
 
-        getTexCoords(TEX_ZOMBIES, ZOMBIE_INNERLEG_FOOT, texCoords);
-        x = 19;y = -95;
+        getTexCoords(TEX_PLANTS, PEASHOOTER_LIPS, texCoords);
+        x = 158;y = 138;
         glBegin(GL_QUADS);
             glTexCoord2d(texCoords[0], texCoords[1]);
-            glVertex3f(x, y, OBJECT_DEPTH);
+            glVertex3f(x, y, PLANTHEAD_DEPTH);
             glTexCoord2d(texCoords[2], texCoords[1]);
-            glVertex3f(x+texCoords[4], y, OBJECT_DEPTH);
+            glVertex3f(x+texCoords[4], y, PLANTHEAD_DEPTH);
             glTexCoord2d(texCoords[2], texCoords[3]);
-            glVertex3f(x+texCoords[4], y+texCoords[5], OBJECT_DEPTH);
+            glVertex3f(x+texCoords[4], y+texCoords[5], PLANTHEAD_DEPTH);
             glTexCoord2d(texCoords[0], texCoords[3]);
-            glVertex3f(x, y+texCoords[5], OBJECT_DEPTH);
+            glVertex3f(x, y+texCoords[5], PLANTHEAD_DEPTH);
         glEnd();
 
-
-        //Zombie Head
-        getTexCoords(TEX_ZOMBIES, ZOMBIE_HEAD_GROSSOUT, texCoords);
-        x = 0;y = -10;
+        //Peashooter Head Leaf
+        getTexCoords(TEX_PLANTS, PEASHOOTER_SPROUT, texCoords);
+        x = 87;y = 153;
         glBegin(GL_QUADS);
             glTexCoord2d(texCoords[0], texCoords[1]);
-            glVertex3f(x, y, OBJECT_DEPTH);
+            glVertex3f(x, y, FRONTLEAF_DEPTH);
             glTexCoord2d(texCoords[2], texCoords[1]);
-            glVertex3f(x+texCoords[4], y, OBJECT_DEPTH);
+            glVertex3f(x+texCoords[4], y, FRONTLEAF_DEPTH);
             glTexCoord2d(texCoords[2], texCoords[3]);
-            glVertex3f(x+texCoords[4], y+texCoords[5], OBJECT_DEPTH);
+            glVertex3f(x+texCoords[4], y+texCoords[5], FRONTLEAF_DEPTH);
             glTexCoord2d(texCoords[0], texCoords[3]);
-            glVertex3f(x, y+texCoords[5], OBJECT_DEPTH);
+            glVertex3f(x, y+texCoords[5], FRONTLEAF_DEPTH);
         glEnd();
 
-
-
-        getTexCoords(TEX_ZOMBIES, ZOMBIE_OUTERARM_HAND, texCoords);
-        x = 26;y = -80;
-        glBegin(GL_QUADS);
-            glTexCoord2d(texCoords[0], texCoords[1]);
-            glVertex3f(x, y, OBJECT_DEPTH);
-            glTexCoord2d(texCoords[2], texCoords[1]);
-            glVertex3f(x+texCoords[4], y, OBJECT_DEPTH);
-            glTexCoord2d(texCoords[2], texCoords[3]);
-            glVertex3f(x+texCoords[4], y+texCoords[5], OBJECT_DEPTH);
-            glTexCoord2d(texCoords[0], texCoords[3]);
-            glVertex3f(x, y+texCoords[5], OBJECT_DEPTH);
-        glEnd();
-
-        getTexCoords(TEX_ZOMBIES, ZOMBIE_OUTERARM_UPPER, texCoords);
-        x = 40;y = -35;
-        glBegin(GL_QUADS);
-            glTexCoord2d(texCoords[0], texCoords[1]);
-            glVertex3f(x, y, OBJECT_DEPTH);
-            glTexCoord2d(texCoords[2], texCoords[1]);
-            glVertex3f(x+texCoords[4], y, OBJECT_DEPTH);
-            glTexCoord2d(texCoords[2], texCoords[3]);
-            glVertex3f(x+texCoords[4], y+texCoords[5], OBJECT_DEPTH);
-            glTexCoord2d(texCoords[0], texCoords[3]);
-            glVertex3f(x, y+texCoords[5], OBJECT_DEPTH);
-        glEnd();
-
-        getTexCoords(TEX_ZOMBIES, ZOMBIE_OUTERARM_LOWER, texCoords);
-        x = 30;y = -55;
-        glBegin(GL_QUADS);
-            glTexCoord2d(texCoords[0], texCoords[1]);
-            glVertex3f(x, y, OBJECT_DEPTH);
-            glTexCoord2d(texCoords[2], texCoords[1]);
-            glVertex3f(x+texCoords[4], y, OBJECT_DEPTH);
-            glTexCoord2d(texCoords[2], texCoords[3]);
-            glVertex3f(x+texCoords[4], y+texCoords[5], OBJECT_DEPTH);
-            glTexCoord2d(texCoords[0], texCoords[3]);
-            glVertex3f(x, y+texCoords[5], OBJECT_DEPTH);
-        glEnd();
-
-
-
-    }_ZOMBIES, ZOMBIE_INNERLEG_LOWER, texCoords);
-        x = 16;y = -88;
-        glBegin(GL_QUADS);
-            glTexCoord2d(texCoords[0], texCoords[1]);
-            glVertex3f(x, y, OBJECT_DEPTH);
-            glTexCoord2d(texCoords[2], texCoords[1]);
-            glVertex3f(x+texCoords[4], y, OBJECT_DEPTH);
-            glTexCoord2d(texCoords[2], texCoords[3]);
-            glVertex3f(x+texCoords[4], y+texCoords[5], OBJECT_DEPTH);
-            glTexCoord2d(texCoords[0], texCoords[3]);
-            glVertex3f(x, y+texCoords[5], OBJECT_DEPTH);
-        glEnd();
-
-        getTexCoords(TEX_ZOMBIES, ZOMBIE_INNERLEG_FOOT, texCoords);
-        x = 19;y = -95;
-        glBegin(GL_QUADS);
-            glTexCoord2d(texCoords[0], texCoords[1]);
-            glVertex3f(x, y, OBJECT_DEPTH);
-            glTexCoord2d(texCoords[2], texCoords[1]);
-            glVertex3f(x+texCoords[4], y, OBJECT_DEPTH);
-            glTexCoord2d(texCoords[2], texCoords[3]);
-            glVertex3f(x+texCoords[4], y+texCoords[5], OBJECT_DEPTH);
-            glTexCoord2d(texCoords[0], texCoords[3]);
-            glVertex3f(x, y+texCoords[5], OBJECT_DEPTH);
-        glEnd();
-
-
-        //Zombie Head
-        getTexCoords(TEX_ZOMBIES, ZOMBIE_HEAD_GROSSOUT, texCoords);
-        x = 0;y = -10;
-        glBegin(GL_QUADS);
-            glTexCoord2d(texCoords[0], texCoords[1]);
-            glVertex3f(x, y, OBJECT_DEPTH);
-            glTexCoord2d(texCoords[2], texCoords[1]);
-            glVertex3f(x+texCoords[4], y, OBJECT_DEPTH);
-            glTexCoord2d(texCoords[2], texCoords[3]);
-            glVertex3f(x+texCoords[4], y+texCoords[5], OBJECT_DEPTH);
-            glTexCoord2d(texCoords[0], texCoords[3]);
-            glVertex3f(x, y+texCoords[5], OBJECT_DEPTH);
-        glEnd();
-
-
-
-        getTexCoords(TEX_ZOMBIES, ZOMBIE_OUTERARM_HAND, texCoords);
-        x = 26;y = -80;
-        glBegin(GL_QUADS);
-            glTexCoord2d(texCoords[0], texCoords[1]);
-            glVertex3f(x, y, OBJECT_DEPTH);
-            glTexCoord2d(texCoords[2], texCoords[1]);
-            glVertex3f(x+texCoords[4], y, OBJECT_DEPTH);
-            glTexCoord2d(texCoords[2], texCoords[3]);
-            glVertex3f(x+texCoords[4], y+texCoords[5], OBJECT_DEPTH);
-            glTexCoord2d(texCoords[0], texCoords[3]);
-            glVertex3f(x, y+texCoords[5], OBJECT_DEPTH);
-        glEnd();
-
-        getTexCoords(TEX_ZOMBIES, ZOMBIE_OUTERARM_UPPER, texCoords);
-        x = 40;y = -35;
-        glBegin(GL_QUADS);
-            glTexCoord2d(texCoords[0], texCoords[1]);
-            glVertex3f(x, y, OBJECT_DEPTH);
-            glTexCoord2d(texCoords[2], texCoords[1]);
-            glVertex3f(x+texCoords[4], y, OBJECT_DEPTH);
-            glTexCoord2d(texCoords[2], texCoords[3]);
-            glVertex3f(x+texCoords[4], y+texCoords[5], OBJECT_DEPTH);
-            glTexCoord2d(texCoords[0], texCoords[3]);
-            glVertex3f(x, y+texCoords[5], OBJECT_DEPTH);
-        glEnd();
-
-        getTexCoords(TEX_ZOMBIES, ZOMBIE_OUTERARM_LOWER, texCoords);
-        x = 30;y = -55;
-        glBegin(GL_QUADS);
-            glTexCoord2d(texCoords[0], texCoords[1]);
-            glVertex3f(x, y, OBJECT_DEPTH);
-            glTexCoord2d(texCoords[2], texCoords[1]);
-            glVertex3f(x+texCoords[4], y, OBJECT_DEPTH);
-            glTexCoord2d(texCoords[2], texCoords[3]);
-            glVertex3f(x+texCoords[4], y+texCoords[5], OBJECT_DEPTH);
-            glTexCoord2d(texCoords[0], texCoords[3]);
-            glVertex3f(x, y+texCoords[5], OBJECT_DEPTH);
-        glEnd();
-
-
-*/
     }
 
     /*****************************************************************************
