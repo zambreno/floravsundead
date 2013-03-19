@@ -41,13 +41,14 @@ namespace fvu {
             uint16_t sprite;
             uint32_t depth;
             uint8_t status;
+            uint8_t texfile;
         public:
             Object *parent;
             Object **children;
             uint8_t num_children;
             void endDemo();
             void update();
-            Object(animation_struct demo_anim, animation_struct game_anim, uint32_t anim_count, uint16_t sprite, uint32_t depth, uint8_t num_children, Object *parent);
+            Object(animation_struct demo_anim, animation_struct game_anim, uint32_t anim_count, uint8_t texfile, uint16_t sprite, uint32_t depth, uint8_t num_children, Object *parent);
             void draw();
      };
 

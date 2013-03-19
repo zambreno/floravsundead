@@ -25,11 +25,12 @@ namespace fvu {
     * Description: Object class constructor. Creates a set of linked lists
     * between parent and child.
     *****************************************************************************/
-    Object::Object(animation_struct demo_anim, animation_struct game_anim, uint32_t anim_count, uint16_t sprite, uint32_t depth, uint8_t num_children, Object *parent) {
+    Object::Object(animation_struct demo_anim, animation_struct game_anim, uint32_t anim_count, uint8_t texfile, uint16_t sprite, uint32_t depth, uint8_t num_children, Object *parent) {
 
         /* Copy the default values over */
         this->demo_anim = demo_anim;
         this->game_anim = game_anim;
+        this->texfile = texfile;
         this->sprite = sprite;
         this->depth = depth;
         this->num_children = num_children;
@@ -75,7 +76,7 @@ namespace fvu {
         glPushMatrix();
         if (parent) {
             /* Draw the current object */
-            myGame->getTexCoords(TEX_ZOMBIES, sprite, texCoords);
+            myGame->getTexCoords(texfile, sprite, texCoords);
 
             // Splitting up the x/y translations allows a smoother transition
             //glTranslatef(x, 0.0, 0);

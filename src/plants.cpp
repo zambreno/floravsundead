@@ -92,14 +92,93 @@ namespace fvu {
             default:
 
                 /* The object structure starts at the x/y location of the plant head, and moves out in all directions */
-                myObject = new Object(zero_anim, zero_anim, anim_count, 0, 0, 1, NULL);
+                myObject = new Object(zero_anim, zero_anim, anim_count, 0, 0, 0, 1, NULL);
 
-                // children[0] is the body
-                demo_anim.start_angle = 10.0;demo_anim.delta_angle = -0.2;demo_anim.end_angle = 0.0;
+                // children[0] is the bottom part of the stalk
+                demo_anim.start_angle = 0.0;demo_anim.delta_angle = 0.0;demo_anim.end_angle = 0.0;
                 demo_anim.start_x     = 0.0;demo_anim.delta_x     = 0.0;demo_anim.end_x     = 0.0;
-                demo_anim.start_y     = -3.0;demo_anim.delta_y     = 0.0;demo_anim.end_y     = 0.0;
+                demo_anim.start_y     = 0.0;demo_anim.delta_y     = 0.0;demo_anim.end_y     = 0.0;
                 game_anim = demo_anim;
-                myObject->children[0] = new Object(demo_anim, game_anim, anim_count, GATLINGPEA_HEAD, PLANTHEAD_DEPTH, 0, myObject);
+                myObject->children[0] = new Object(demo_anim, game_anim, anim_count, TEX_PLANTS, PEASHOOTER_STALK_BOTTOM, STEM_DEPTH, 3, myObject);
+
+                // children[0]->children[0] is the top part of the stalk
+                demo_anim.start_angle = 0.0;demo_anim.delta_angle = 0.0;demo_anim.end_angle = 0.0;
+                demo_anim.start_x     = 1.0;demo_anim.delta_x     = 0.0;demo_anim.end_x     = 0.0;
+                demo_anim.start_y     = 17.0;demo_anim.delta_y     = 0.0;demo_anim.end_y     = 0.0;
+                game_anim = demo_anim;
+                myObject->children[0]->children[0] = new Object(demo_anim, game_anim, anim_count, TEX_PLANTS, PEASHOOTER_STALK_TOP, STEM_DEPTH, 1, myObject->children[0]);
+
+
+                // children[0]->children[1] is the backleaf
+                demo_anim.start_angle = 0.0;demo_anim.delta_angle = 0.0;demo_anim.end_angle = 0.0;
+                demo_anim.start_x     = -18.0;demo_anim.delta_x     = 0.0;demo_anim.end_x     = 0.0;
+                demo_anim.start_y     = -1.0;demo_anim.delta_y     = 0.0;demo_anim.end_y     = 0.0;
+                game_anim = demo_anim;
+                myObject->children[0]->children[1] = new Object(demo_anim, game_anim, anim_count, TEX_PLANTS, PEASHOOTER_BACKLEAF, BACKLEAF_DEPTH, 2, myObject->children[0]);
+
+                // children[0]->children[1]->children[0] is the left tip of the backleaf
+                local_object = myObject->children[0]->children[1];
+                demo_anim.start_angle = 0.0;demo_anim.delta_angle = 0.0;demo_anim.end_angle = 0.0;
+                demo_anim.start_x     = -5.0;demo_anim.delta_x     = 0.0;demo_anim.end_x     = 0.0;
+                demo_anim.start_y     = 9.0;demo_anim.delta_y     = 0.0;demo_anim.end_y     = 0.0;
+                game_anim = demo_anim;
+                local_object->children[0] = new Object(demo_anim, game_anim, anim_count, TEX_PLANTS, PEASHOOTER_BACKLEAF_LEFTTIP, BACKLEAF_DEPTH, 0, local_object);
+
+                // children[0]->children[1]->children[1] is the right tip of the backleaf
+                local_object = myObject->children[0]->children[1];
+                demo_anim.start_angle = 0.0;demo_anim.delta_angle = 0.0;demo_anim.end_angle = 0.0;
+                demo_anim.start_x     = 37.0;demo_anim.delta_x     = 0.0;demo_anim.end_x     = 0.0;
+                demo_anim.start_y     = 13.0;demo_anim.delta_y     = 0.0;demo_anim.end_y     = 0.0;
+                game_anim = demo_anim;
+                local_object->children[1] = new Object(demo_anim, game_anim, anim_count, TEX_PLANTS, PEASHOOTER_BACKLEAF_RIGHTTIP, BACKLEAF_DEPTH, 0, local_object);
+
+                // children[0]->children[2] is the frontleaf
+                demo_anim.start_angle = 0.0;demo_anim.delta_angle = 0.0;demo_anim.end_angle = 0.0;
+                demo_anim.start_x     = -25.0;demo_anim.delta_x     = 0.0;demo_anim.end_x     = 0.0;
+                demo_anim.start_y     = -21.0;demo_anim.delta_y     = 0.0;demo_anim.end_y     = 0.0;
+                game_anim = demo_anim;
+                myObject->children[0]->children[2] = new Object(demo_anim, game_anim, anim_count, TEX_PLANTS, PEASHOOTER_FRONTLEAF, FRONTLEAF_DEPTH, 2, myObject->children[0]);
+
+                // children[0]->children[2]->children[0] is the left tip of the frontleaf
+                local_object = myObject->children[0]->children[2];
+                demo_anim.start_angle = 0.0;demo_anim.delta_angle = 0.0;demo_anim.end_angle = 0.0;
+                demo_anim.start_x     = -6.0;demo_anim.delta_x     = 0.0;demo_anim.end_x     = 0.0;
+                demo_anim.start_y     = -2.0;demo_anim.delta_y     = 0.0;demo_anim.end_y     = 0.0;
+                game_anim = demo_anim;
+                local_object->children[0] = new Object(demo_anim, game_anim, anim_count, TEX_PLANTS, PEASHOOTER_FRONTLEAF_LEFTTIP, FRONTLEAF_DEPTH, 0, local_object);
+
+                // children[0]->children[2]->children[1] is the right tip of the frontleaf
+                local_object = myObject->children[0]->children[2];
+                demo_anim.start_angle = 0.0;demo_anim.delta_angle = 0.0;demo_anim.end_angle = 0.0;
+                demo_anim.start_x     = 61.0;demo_anim.delta_x     = 0.0;demo_anim.end_x     = 0.0;
+                demo_anim.start_y     = 7.0;demo_anim.delta_y     = 0.0;demo_anim.end_y     = 0.0;
+                game_anim = demo_anim;
+                local_object->children[1] = new Object(demo_anim, game_anim, anim_count, TEX_PLANTS, PEASHOOTER_FRONTLEAF_RIGHTTIP, FRONTLEAF_DEPTH, 0, local_object);
+
+                // children[0]->children[0]->children[0] is the head
+                local_object = myObject->children[0]->children[0];
+                demo_anim.start_angle = 0.0;demo_anim.delta_angle = 0.0;demo_anim.end_angle = 0.0;
+                demo_anim.start_x     = -28.0;demo_anim.delta_x     = 0.0;demo_anim.end_x     = 0.0;
+                demo_anim.start_y     = 9.0;demo_anim.delta_y     = 0.0;demo_anim.end_y     = 0.0;
+                game_anim = demo_anim;
+                local_object->children[0] = new Object(demo_anim, game_anim, anim_count, TEX_PLANTS, PEASHOOTER_HEAD, PLANTHEAD_DEPTH, 2, local_object);
+
+                // children[0]->children[0]->children[0]->children[0] is the lips
+                local_object = myObject->children[0]->children[0]->children[0];
+                demo_anim.start_angle = 0.0;demo_anim.delta_angle = 0.0;demo_anim.end_angle = 0.0;
+                demo_anim.start_x     = 61.0;demo_anim.delta_x     = 0.0;demo_anim.end_x     = 0.0;
+                demo_anim.start_y     = 12.0;demo_anim.delta_y     = 0.0;demo_anim.end_y     = 0.0;
+                game_anim = demo_anim;
+                local_object->children[0] = new Object(demo_anim, game_anim, anim_count, TEX_PLANTS, PEASHOOTER_LIPS, PLANTHEAD_DEPTH, 0, local_object);
+
+                // children[0]->children[0]->children[0]->children[0] is the lips
+                local_object = myObject->children[0]->children[0]->children[0];
+                demo_anim.start_angle = 0.0;demo_anim.delta_angle = 0.0;demo_anim.end_angle = 0.0;
+                demo_anim.start_x     = -12.0;demo_anim.delta_x     = 0.0;demo_anim.end_x     = 0.0;
+                demo_anim.start_y     = 27.0;demo_anim.delta_y     = 0.0;demo_anim.end_y     = 0.0;
+                game_anim = demo_anim;
+                local_object->children[1] = new Object(demo_anim, game_anim, anim_count, TEX_PLANTS, PEASHOOTER_SPROUT, FRONTLEAF_DEPTH, 0, local_object);
+
 
 
                 break;

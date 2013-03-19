@@ -157,12 +157,11 @@ namespace fvu {
             void drawMap();
             void drawScoreboard();
             void processEvents();
-            void drawPlant();
 
             /* Utility functions (utils.cpp) */
             void print_help();
             void raise_error(uint32_t, const char *msg);
-            float *getTexCoords(TEXTURE_ENUM texID, uint16_t spriteID, float *texCoords);
+            float *getTexCoords(uint8_t texID, uint16_t spriteID, float *texCoords);
             void printConfig();
             void printStatus();
 

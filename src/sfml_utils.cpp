@@ -375,23 +375,23 @@ namespace fvu {
 
 
         /* Draw all the objects properly */
+        glBindTexture(GL_TEXTURE_2D, myTextures[TEX_ZOMBIES].texHandle);
         for (uint8_t i = 0; i < 4; i++) {
-            glBindTexture(GL_TEXTURE_2D, myTextures[TEX_ZOMBIES].texHandle);
             for (uint16_t j = 0; j < myZombies[i].size(); j++) {
                 if (myZombies[i][j].getStatus() != ZOMBIE_STATUS_INACTIVE) {
                     myZombies[i][j].draw(j);
                 }
             }
-            glBindTexture(GL_TEXTURE_2D, myTextures[TEX_PLANTS].texHandle);
+        }
+
+        glBindTexture(GL_TEXTURE_2D, myTextures[TEX_PLANTS].texHandle);
+        for (uint8_t i = 0; i < 4; i++) {
             for (uint16_t j = 0; j < myPlants[i].size(); j++) {
                 if (myPlants[i][j].getStatus() != PLANT_STATUS_INACTIVE) {
                    myPlants[i][j].draw(j);
                 }
             }
         }
-
-        drawPlant();
-
 
     }
 
@@ -464,166 +464,7 @@ namespace fvu {
         }
 
     }
-    /*****************************************************************************
-    * Function: Game::drawPlant()
-    * Description: Draws a plant.
-    *****************************************************************************/
 
-    void Game::drawPlant() {
-
-        float texCoords[6];
-        float x, y;
-        glBindTexture(GL_TEXTURE_2D, myTextures[TEX_PLANTS].texHandle);
-
-        //Peashooter Backleaf
-        getTexCoords(TEX_PLANTS, PEASHOOTER_BACKLEAF, texCoords);
-        x = 106;y = 99;
-        glBegin(GL_QUADS);
-            glTexCoord2d(texCoords[0], texCoords[1]);
-            glVertex3f(x, y, BACKLEAF_DEPTH);
-            glTexCoord2d(texCoords[2], texCoords[1]);
-            glVertex3f(x+texCoords[4], y, BACKLEAF_DEPTH);
-            glTexCoord2d(texCoords[2], texCoords[3]);
-            glVertex3f(x+texCoords[4], y+texCoords[5], BACKLEAF_DEPTH);
-            glTexCoord2d(texCoords[0], texCoords[3]);
-            glVertex3f(x, y+texCoords[5], BACKLEAF_DEPTH);
-        glEnd();
-
-        getTexCoords(TEX_PLANTS, PEASHOOTER_BACKLEAF_LEFTTIP, texCoords);
-        x = 101;y = 108;
-        glBegin(GL_QUADS);
-            glTexCoord2d(texCoords[0], texCoords[1]);
-            glVertex3f(x, y, BACKLEAF_DEPTH);
-            glTexCoord2d(texCoords[2], texCoords[1]);
-            glVertex3f(x+texCoords[4], y, BACKLEAF_DEPTH);
-            glTexCoord2d(texCoords[2], texCoords[3]);
-            glVertex3f(x+texCoords[4], y+texCoords[5], BACKLEAF_DEPTH);
-            glTexCoord2d(texCoords[0], texCoords[3]);
-            glVertex3f(x, y+texCoords[5], BACKLEAF_DEPTH);
-        glEnd();
-
-        getTexCoords(TEX_PLANTS, PEASHOOTER_BACKLEAF_RIGHTTIP, texCoords);
-        x = 143;y = 112;
-        glBegin(GL_QUADS);
-            glTexCoord2d(texCoords[0], texCoords[1]);
-            glVertex3f(x, y, BACKLEAF_DEPTH);
-            glTexCoord2d(texCoords[2], texCoords[1]);
-            glVertex3f(x+texCoords[4], y, BACKLEAF_DEPTH);
-            glTexCoord2d(texCoords[2], texCoords[3]);
-            glVertex3f(x+texCoords[4], y+texCoords[5], BACKLEAF_DEPTH);
-            glTexCoord2d(texCoords[0], texCoords[3]);
-            glVertex3f(x, y+texCoords[5], BACKLEAF_DEPTH);
-        glEnd();
-
-        //Peashooter Frontleaf
-        getTexCoords(TEX_PLANTS, PEASHOOTER_FRONTLEAF, texCoords);
-        x =99;y = 79;
-        glBegin(GL_QUADS);
-            glTexCoord2d(texCoords[0], texCoords[1]);
-            glVertex3f(x, y, FRONTLEAF_DEPTH);
-            glTexCoord2d(texCoords[2], texCoords[1]);
-            glVertex3f(x+texCoords[4], y, FRONTLEAF_DEPTH);
-            glTexCoord2d(texCoords[2], texCoords[3]);
-            glVertex3f(x+texCoords[4], y+texCoords[5], FRONTLEAF_DEPTH);
-            glTexCoord2d(texCoords[0], texCoords[3]);
-            glVertex3f(x, y+texCoords[5], FRONTLEAF_DEPTH);
-        glEnd();
-
-        getTexCoords(TEX_PLANTS, PEASHOOTER_FRONTLEAF_LEFTTIP, texCoords);
-        x = 93;y = 77;
-        glBegin(GL_QUADS);
-            glTexCoord2d(texCoords[0], texCoords[1]);
-            glVertex3f(x, y, FRONTLEAF_DEPTH);
-            glTexCoord2d(texCoords[2], texCoords[1]);
-            glVertex3f(x+texCoords[4], y, FRONTLEAF_DEPTH);
-            glTexCoord2d(texCoords[2], texCoords[3]);
-            glVertex3f(x+texCoords[4], y+texCoords[5], FRONTLEAF_DEPTH);
-            glTexCoord2d(texCoords[0], texCoords[3]);
-            glVertex3f(x, y+texCoords[5], FRONTLEAF_DEPTH);
-        glEnd();
-
-        getTexCoords(TEX_PLANTS, PEASHOOTER_FRONTLEAF_RIGHTTIP, texCoords);
-        x = 160;y = 86;
-        glBegin(GL_QUADS);
-            glTexCoord2d(texCoords[0], texCoords[1]);
-            glVertex3f(x, y, FRONTLEAF_DEPTH);
-            glTexCoord2d(texCoords[2], texCoords[1]);
-            glVertex3f(x+texCoords[4], y, FRONTLEAF_DEPTH);
-            glTexCoord2d(texCoords[2], texCoords[3]);
-            glVertex3f(x+texCoords[4], y+texCoords[5], FRONTLEAF_DEPTH);
-            glTexCoord2d(texCoords[0], texCoords[3]);
-            glVertex3f(x, y+texCoords[5], FRONTLEAF_DEPTH);
-        glEnd();
-
-       //Peashooter Stem
-         getTexCoords(TEX_PLANTS, PEASHOOTER_STALK_BOTTOM, texCoords);
-        x = 124;y = 100;
-        glBegin(GL_QUADS);
-            glTexCoord2d(texCoords[0], texCoords[1]);
-            glVertex3f(x, y, STEM_DEPTH);
-            glTexCoord2d(texCoords[2], texCoords[1]);
-            glVertex3f(x+texCoords[4], y, STEM_DEPTH);
-            glTexCoord2d(texCoords[2], texCoords[3]);
-            glVertex3f(x+texCoords[4], y+texCoords[5], STEM_DEPTH);
-            glTexCoord2d(texCoords[0], texCoords[3]);
-            glVertex3f(x, y+texCoords[5], STEM_DEPTH);
-        glEnd();
-
-        getTexCoords(TEX_PLANTS, PEASHOOTER_STALK_TOP, texCoords);
-        x = 125;y = 117;
-        glBegin(GL_QUADS);
-            glTexCoord2d(texCoords[0], texCoords[1]);
-            glVertex3f(x, y, STEM_DEPTH);
-            glTexCoord2d(texCoords[2], texCoords[1]);
-            glVertex3f(x+texCoords[4], y, STEM_DEPTH);
-            glTexCoord2d(texCoords[2], texCoords[3]);
-            glVertex3f(x+texCoords[4], y+texCoords[5], STEM_DEPTH);
-            glTexCoord2d(texCoords[0], texCoords[3]);
-            glVertex3f(x, y+texCoords[5], STEM_DEPTH);
-        glEnd();
-
-        //Peashooter Head
-        getTexCoords(TEX_PLANTS, PEASHOOTER_HEAD, texCoords);
-        x = 97;y = 126;
-        glBegin(GL_QUADS);
-            glTexCoord2d(texCoords[0], texCoords[1]);
-            glVertex3f(x, y, PLANTHEAD_DEPTH);
-            glTexCoord2d(texCoords[2], texCoords[1]);
-            glVertex3f(x+texCoords[4], y, PLANTHEAD_DEPTH);
-            glTexCoord2d(texCoords[2], texCoords[3]);
-            glVertex3f(x+texCoords[4], y+texCoords[5], PLANTHEAD_DEPTH);
-            glTexCoord2d(texCoords[0], texCoords[3]);
-            glVertex3f(x, y+texCoords[5], PLANTHEAD_DEPTH);
-        glEnd();
-
-        getTexCoords(TEX_PLANTS, PEASHOOTER_LIPS, texCoords);
-        x = 158;y = 138;
-        glBegin(GL_QUADS);
-            glTexCoord2d(texCoords[0], texCoords[1]);
-            glVertex3f(x, y, PLANTHEAD_DEPTH);
-            glTexCoord2d(texCoords[2], texCoords[1]);
-            glVertex3f(x+texCoords[4], y, PLANTHEAD_DEPTH);
-            glTexCoord2d(texCoords[2], texCoords[3]);
-            glVertex3f(x+texCoords[4], y+texCoords[5], PLANTHEAD_DEPTH);
-            glTexCoord2d(texCoords[0], texCoords[3]);
-            glVertex3f(x, y+texCoords[5], PLANTHEAD_DEPTH);
-        glEnd();
-
-        //Peashooter Head Leaf
-        getTexCoords(TEX_PLANTS, PEASHOOTER_SPROUT, texCoords);
-        x = 87;y = 153;
-        glBegin(GL_QUADS);
-            glTexCoord2d(texCoords[0], texCoords[1]);
-            glVertex3f(x, y, FRONTLEAF_DEPTH);
-            glTexCoord2d(texCoords[2], texCoords[1]);
-            glVertex3f(x+texCoords[4], y, FRONTLEAF_DEPTH);
-            glTexCoord2d(texCoords[2], texCoords[3]);
-            glVertex3f(x+texCoords[4], y+texCoords[5], FRONTLEAF_DEPTH);
-            glTexCoord2d(texCoords[0], texCoords[3]);
-            glVertex3f(x, y+texCoords[5], FRONTLEAF_DEPTH);
-        glEnd();
-
-    }
 
     /*****************************************************************************
     * Function: Game::loadResources
