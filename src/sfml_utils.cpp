@@ -431,18 +431,6 @@ namespace fvu {
                         else
                             myStatus.scores[3]++;
                         break;
-                    case sf::Keyboard::Up:
-                        myZombies[0][0].move(0.0,5.0);
-                        break;
-                    case sf::Keyboard::Down:
-                        myZombies[0][0].move(0.0,-5.0);
-                        break;
-                    case sf::Keyboard::Right:
-                        myZombies[0][0].move(5.0,0.0);
-                        break;
-                    case sf::Keyboard::Left:
-                        myZombies[0][0].move(-5.0,0.0);
-                        break;
                     case sf::Keyboard::Escape:
                     case sf::Keyboard::Q:
                         myWindow.close();

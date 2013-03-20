@@ -33,7 +33,7 @@ ZOMBIE_INNERLEG_UPPER_DEPTH,  ZOMBIE_INNERARM_LOWER_DEPTH, ZOMBIE_INNERARM_HAND_
 
 
 /* Zombie status enum */
-typedef enum {ZOMBIE_STATUS_DEFAULT=0, ZOMBIE_STATUS_PLACED, ZOMBIE_STATUS_SKIP, ZOMBIE_STATUS_DEMO, ZOMBIE_STATUS_GAME, ZOMBIE_STATUS_INACTIVE} ZOMBIE_STATUS_ENUM;
+typedef enum {ZOMBIE_STATUS_DEFAULT=0, ZOMBIE_STATUS_PLACED, ZOMBIE_STATUS_SKIP, ZOMBIE_STATUS_DEMO, ZOMBIE_STATUS_GAME, ZOMBIE_STATUS_ACTIVE, ZOMBIE_STATUS_EATING, ZOMBIE_STATUS_INACTIVE} ZOMBIE_STATUS_ENUM;
 
 namespace fvu {
 
@@ -48,7 +48,11 @@ namespace fvu {
             void updateDemo();
             void draw(uint16_t index);
             uint8_t getStatus() {return status;}
+            void setStatus(uint8_t val) {status = val;}
             uint8_t getType() {return type;}
+            uint16_t getIndex() {return index;}
+            int16_t getDelay() {return delay;}
+            void setDelay(int16_t val) {delay = val; }
             bool operator< (const Zombie &rhs) const;
 
         private:
@@ -61,7 +65,7 @@ namespace fvu {
             float game_x, game_y, demo_x, demo_y;
             float dir;
             uint8_t team;
-            uint16_t delay;
+            int16_t delay;
             Object *myObject;
     };
 

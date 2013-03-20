@@ -55,9 +55,13 @@ namespace fvu {
         myStatus.music_buffer = 0;
         for (uint8_t i = 0; i < 4; i++) {
             myStatus.scores[i] = 0;
+            myTeams[i].status = 0;
+            myTeams[i].timer_ms = 0;
+            myTeams[i].zombie_index = 0;
             for (uint8_t j = 0; j < NUM_ROWS; j++) {
                 for (uint8_t k = 0; k < NUM_ROWS; k++) {
                     myTeams[i].plantGrid[j][k] = false;
+                    myTeams[i].zombieGrid[j][k] = false;
                 }
             }
         }
@@ -71,7 +75,6 @@ namespace fvu {
     void Game::mainLoop() {
 
 
-        sf::Time myTime;
         while (myWindow.isOpen()) {
             processEvents();
 
@@ -115,6 +118,66 @@ namespace fvu {
     * Description: Updates all the main elements of the game.
     *****************************************************************************/
     void Game::updateGame() {
+
+        static bool firstZombie = true;
+
+        // Grab the next zombie for each team. Note that they are sorted
+        // graphically, so we have to perform a linear search based on zombie_index
+        for (uint16_t i = 0; i < 4; i++) {
+            if (myTeams[i].zombie_index >= myZombies[i].size()) {
+                continue;
+            }
+
+            uint16_t j;
+            for (j = 0; j < myZombies[i].size(); j++) {
+                if (myTeams[i].zombie_index == myZombies[i][j].getIndex()) {
+                    break;
+                }
+            }
+
+            // We should send any zombies that are ready
+            if (myZombies[i][j].getStatus() != ZOMBIE_STATUS_GAME) {
+                continue;
+            }
+            // A delay of -1 means we wait for all previous zombies to be
+            // inactive
+            bool sendZombie = true;
+            if (myZombies[i][j].getDelay() == -1) {
+                for (uint16_t k = 0; k < myZombies[i].size(); k++) {
+                    if ((myZombies[i][k].getStatus() != ZOMBIE_STATUS_GAME) && (myZombies[i][k].getStatus() != ZOMBIE_STATUS_INACTIVE)) {
+                        sendZombie = false;
+                        break;
+                    }
+                }
+            }
+            // otherwise, count down until we our individual zombie delay is <= 0
+            else {
+                sendZombie = false;
+                int16_t mydelay = myZombies[i][j].getDelay();
+                mydelay -= myClock.getElapsedTime().asMilliseconds();
+                if (mydelay <= 0) {
+                    mydelay = 0;
+                    sendZombie = true;
+                }
+                myZombies[i][j].setDelay(mydelay);
+
+            }
+
+            if (sendZombie == true) {
+                myZombies[i][j].setStatus(ZOMBIE_STATUS_ACTIVE);
+                myTeams[i].zombie_index++;
+                if (firstZombie == true) {
+                    mySounds[myStatus.music_buffer].setBuffer(mySoundBuffers[SFX_AWOOGA]);
+                    mySounds[myStatus.music_buffer].play();
+                    myStatus.music_buffer++;
+                    myStatus.music_buffer %= NUM_SOUNDS;
+                    firstZombie = false;
+                }
+
+            }
+
+        }
+
 
         for (uint16_t i = 0; i < 4; i++) {
             for (uint16_t j = 0; j < myZombies[i].size(); j++) {

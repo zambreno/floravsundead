@@ -97,6 +97,8 @@ namespace fvu {
             case FLAG_ZOMBIE:
             default:
 
+                speed = 1.0;
+
                 /* The object structure starts at the x/y location of the torso, and moves out in all directions */
                 myObject = new Object(zero_anim, zero_anim, anim_count, 0, 0, 0, 6, NULL);
 
@@ -356,7 +358,22 @@ namespace fvu {
     *****************************************************************************/
     void Zombie::update() {
 
-
+        /* Check all the active zombies. Move them forward (based on speed),
+         * and determine if they're within eating range or if they've made it past
+         * all the plant grid locations */
+        if (status == ZOMBIE_STATUS_ACTIVE) {
+            switch(team) {
+                case 0:
+                case 1:
+                    game_x += speed;
+                    break;
+                case 2:
+                case 3:
+                default:
+                    game_x -= speed;
+                    break;
+            }
+        }
         myObject->update();
     }
 

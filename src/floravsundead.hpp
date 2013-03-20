@@ -105,8 +105,11 @@ namespace fvu {
             uint32_t status;
             char *name;
             uint16_t budget;
+            uint16_t zombie_index;
+            int32_t timer_ms;
             std::vector<fvu::cmd_type> cmds;
             bool plantGrid[NUM_ROWS][NUM_COLS];
+            bool zombieGrid[NUM_ROWS][NUM_COLS];
     };
 
 
@@ -174,6 +177,7 @@ namespace fvu {
             fvu::Team myTeams[4];
             std::vector<fvu::Zombie> myZombies[4];
             std::vector<fvu::Plant> myPlants[4];
+            sf::Time myTime;
             sf::ContextSettings mySettings;
             sf::RenderWindow myWindow;
             sf::Music myMusic[2];
