@@ -20,6 +20,11 @@ select P4.peashooter
 select P5.snowpea
 select P6.Chomper
 select P7.wallnut
+select P8.snowpea
+select P9.peashooter
+select P10.peashooter
+select P11.peashooter
+select P12.peashooter
 
 # Perform an initial (static) placement on the grid. Everything before the "Start: " label
 # will be evaluated before the game starts. Rows are in the range [1-5] and cols
@@ -27,13 +32,18 @@ select P7.wallnut
 # 
 # place P# row, col
 
-place P1 5, 1
-place P2 1, 2
-place P3 2, 2
-place P4 3, 2
-place P5 4, 2
-
-
+place P1 2, 2
+place P2 2, 3
+place P3 2, 4
+place P4 2, 5
+place P5 2, 6
+place P6 2, 7
+place P7 2, 8
+place P8 2, 1
+place P9 2, 9
+place P10 2, 10
+place P11 4, 4
+place P12 5, 5
 # Specify the run-time commands. The valid commands are:
 # place, fire, goto. 
 # Each command can be made optional based on your team's condition. Prefix the 

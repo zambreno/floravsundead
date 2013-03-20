@@ -284,29 +284,29 @@ namespace fvu {
         switch (team) {
             case 0:
             default:
-                game_x = -700.0;
-                game_y = gridHeights[location]-35.0;
+                game_x = left_gridWidths[NUM_COLS-1];
+                game_y = top_gridHeights[location];
                 demo_x = 1.5*(rand()%200)-1375.0;
                 demo_y = 1.5*(rand()%300);
                 dir = -1.0;
                 break;
             case 1:
-                game_x = -700.0;
-                game_y = gridHeights[NUM_ROWS-1-location]-581.0;
+                game_x = left_gridWidths[NUM_COLS-1];
+                game_y = bottom_gridHeights[location];
                 demo_x = 1.5*(rand()%200)-1375.0;
                 demo_y = -1.5*(rand()%300);
                 dir = -1.0;
                 break;
             case 2:
-                game_x = 700.0;
-                game_y = gridHeights[location]-35.0;
+                game_x = right_gridWidths[NUM_COLS-1];
+                game_y = top_gridHeights[location];
                 demo_x = 1.5*(rand()%200)+1100.0;
                 demo_y = 1.5*(rand()%300);
                 dir = 1.0;
                 break;
             case 3:
-                game_x = 700.0;
-                game_y = gridHeights[NUM_ROWS-1-location]-581.0;
+                game_x = right_gridWidths[NUM_COLS-1];
+                game_y = bottom_gridHeights[location];
                 demo_x = 1.5*(rand()%200)+1100.0;
                 demo_y = -1.5*(rand()%300);
                 dir = 1.0;
