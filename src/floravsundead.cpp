@@ -48,6 +48,14 @@ namespace fvu {
         // Set the random seed here
         srand(0);
 
+        for (uint8_t i = 0; i < 4; i++) {
+            for (uint8_t j = 0; j < NUM_ROWS; j++) {
+                for (uint8_t k = 0; k < NUM_COLS; k++) {
+                    plantGrid[i][j][k] = false;
+                }
+            }
+        }
+
         compileZombies();
         compileTeams();
         myStatus.pan = 0.0;
@@ -58,12 +66,6 @@ namespace fvu {
             myTeams[i].status = 0;
             myTeams[i].timer_ms = 0;
             myTeams[i].zombie_index = 0;
-            for (uint8_t j = 0; j < NUM_ROWS; j++) {
-                for (uint8_t k = 0; k < NUM_ROWS; k++) {
-                    myTeams[i].plantGrid[j][k] = false;
-                    myTeams[i].zombieGrid[j][k] = false;
-                }
-            }
         }
 
     }
@@ -468,13 +470,13 @@ namespace fvu {
                                     raise_error(ERR_BADFILE2, myConfig.team_fname[i_team]);
                                 }
 
-                                if (team->plantGrid[place_tok2][place_tok3] == true) {
+                                if (plantGrid[i_team][place_tok2-1][place_tok3-1] == true) {
                                     printf("Error compiling %s, line %d\n", myConfig.team_fname[i_team], line_count);
                                     printf("  plant already placed at [%hu, %hu]\n", place_tok2, place_tok3);
                                     raise_error(ERR_BADFILE2, myConfig.team_fname[i_team]);
                                 }
                                 myPlants[i_team][p].place(i_team, place_tok2, place_tok3);
-                                team->plantGrid[place_tok2][place_tok3] = true;
+                                plantGrid[i_team][place_tok2-1][place_tok3-1] = true;
                                 break;
                             }
                         }
@@ -798,10 +800,10 @@ namespace fvu {
             }
 
             else if (place_ntok == 2) {
-                if ((zombie_counter+4) > myZombies[0].size()) {
+                if ((zombie_counter) >= myZombies[0].size()) {
                     printf("Error compiling %s, line %d\n", myConfig.zom_fname, line_count);
                     printf("  Cannot place zombies that haven't been selected\n");
-                    printf("  select zombie count - %d, place zombie request - %d", myZombies[0].size(), zombie_counter);
+                    printf("  select zombie count - %d, place zombie request - %d", myZombies[0].size(), zombie_counter+1);
                     raise_error(ERR_BADFILE3, myConfig.zom_fname);
                 }
 

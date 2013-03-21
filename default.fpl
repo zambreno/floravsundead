@@ -41,7 +41,6 @@ place P6 2, 7
 place P7 2, 8
 place P8 2, 1
 place P9 2, 9
-place P10 2, 10
 place P11 4, 4
 place P12 5, 5
 # Specify the run-time commands. The valid commands are:

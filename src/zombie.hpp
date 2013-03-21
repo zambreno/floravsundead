@@ -33,7 +33,7 @@ ZOMBIE_INNERLEG_UPPER_DEPTH,  ZOMBIE_INNERARM_LOWER_DEPTH, ZOMBIE_INNERARM_HAND_
 
 
 /* Zombie status enum */
-typedef enum {ZOMBIE_STATUS_DEFAULT=0, ZOMBIE_STATUS_PLACED, ZOMBIE_STATUS_SKIP, ZOMBIE_STATUS_DEMO, ZOMBIE_STATUS_GAME, ZOMBIE_STATUS_ACTIVE, ZOMBIE_STATUS_EATING, ZOMBIE_STATUS_INACTIVE} ZOMBIE_STATUS_ENUM;
+typedef enum {ZOMBIE_STATUS_DEFAULT=0, ZOMBIE_STATUS_PLACED, ZOMBIE_STATUS_SKIP, ZOMBIE_STATUS_DEMO, ZOMBIE_STATUS_GAME, ZOMBIE_STATUS_ACTIVE, ZOMBIE_STATUS_EATING, ZOMBIE_STATUS_WINNING, ZOMBIE_STATUS_OVER, ZOMBIE_STATUS_INACTIVE} ZOMBIE_STATUS_ENUM;
 
 namespace fvu {
 
@@ -60,6 +60,7 @@ namespace fvu {
             uint8_t status;
             uint16_t health;
             uint16_t index;
+            uint16_t row, col;
             float speed;
             std::vector<uint16_t> transitions;
             float game_x, game_y, demo_x, demo_y;

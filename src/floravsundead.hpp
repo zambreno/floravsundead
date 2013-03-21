@@ -63,6 +63,8 @@
 #define TIME_MS_DEFAULT 300000
 #define DEMO_ZOMBIE_COUNT 40
 
+#define KILL_SCORE 5
+#define ZOMBIE_SCORE -10
 
 typedef enum {DEMO_START=0, DEMO_MID, DEMO_END, GAME_START, GAME_MID, GAME_END} MODE_TYPE;
 
@@ -108,8 +110,6 @@ namespace fvu {
             uint16_t zombie_index;
             int32_t timer_ms;
             std::vector<fvu::cmd_type> cmds;
-            bool plantGrid[NUM_ROWS][NUM_COLS];
-            bool zombieGrid[NUM_ROWS][NUM_COLS];
     };
 
 
@@ -170,10 +170,11 @@ namespace fvu {
 
             /* Some apsects of the game state are needed globally */
             fvu::Texture myTextures[NUM_TEXTURES];
+            bool plantGrid[4][NUM_ROWS][NUM_COLS];
+            fvu::Status myStatus;
 
         private:
             fvu::Config myConfig;
-            fvu::Status myStatus;
             fvu::Team myTeams[4];
             std::vector<fvu::Zombie> myZombies[4];
             std::vector<fvu::Plant> myPlants[4];

@@ -277,6 +277,8 @@ namespace fvu {
     void Zombie::place(int16_t location, int16_t delay, uint8_t team) {
 
         static uint16_t place_count = 0;
+        row = location;
+        col = NUM_COLS-1;
 
         /* Teams 0 and 1 are on the left, 2 and 3 are on the right.
          * Teams 0 and 2 are on the top, 1 and 3 on the bottom.
@@ -365,11 +367,43 @@ namespace fvu {
             switch(team) {
                 case 0:
                 case 1:
+                    // Check if we've moved locations and are now within range of a plant
+                    if (game_x >= (left_gridWidths[col-1]-60.0)) {
+                        if (col == 1) {
+                            status = ZOMBIE_STATUS_WINNING;
+                            myGame->myStatus.scores[team] += ZOMBIE_SCORE;
+                        }
+                        else {
+                            col--;
+                            // We've entered a grid in which there is a plant
+                            if (myGame->plantGrid[team][row][col] == true) {
+                                status = ZOMBIE_STATUS_EATING;
+                            }
+                        }
+                    }
+
+                    // Keep walking for this iteration
                     game_x += speed;
                     break;
                 case 2:
                 case 3:
                 default:
+                    // Check if we've moved locations and are now within range of a plant
+                    if (game_x <= (right_gridWidths[col-1]+60.0)) {
+                        if (col == 1) {
+                            status = ZOMBIE_STATUS_WINNING;
+                            myGame->myStatus.scores[team] += ZOMBIE_SCORE;
+                        }
+                        else {
+                            col--;
+                            // We've entered a grid in which there is a plant
+                            if (myGame->plantGrid[team][row][col] == true) {
+                                status = ZOMBIE_STATUS_EATING;
+                            }
+                        }
+                    }
+
+                    // Keep walking for this iteration
                     game_x -= speed;
                     break;
             }

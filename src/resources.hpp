@@ -18,7 +18,7 @@
 
 /* Grid pixel heights */
 #define NUM_ROWS 5
-#define NUM_COLS 11
+#define NUM_COLS 12
 extern const float top_gridHeights[NUM_ROWS];
 extern const float bottom_gridHeights[NUM_ROWS];
 extern const float left_gridWidths[NUM_COLS];

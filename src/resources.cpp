@@ -4,8 +4,8 @@
 /* Grid pixel heights and widths */
 const float top_gridHeights[NUM_ROWS] =    { 456.0,  357.0,  253.0,  163.0,   66.0};
 const float bottom_gridHeights[NUM_ROWS] = {-480.0, -383.0, -293.0, -189.0,  -90.0};
-const float left_gridWidths[NUM_COLS] = {-172.0, -261.0, -344.0, -430.0, -513.0, -586.0, -672.0, -748.0, -831.0, -915.0, -1120.0};
-const float right_gridWidths[NUM_COLS] = {172.0,  261.0,  344.0,  430.0,  513.0,  586.0,  672.0,  748.0,  831.0,  915.0, 1120.0};
+const float left_gridWidths[NUM_COLS] = {-172.0, -261.0, -344.0, -430.0, -513.0, -586.0, -672.0, -748.0, -831.0, -915.0, -991.0, -1120.0};
+const float right_gridWidths[NUM_COLS] = {172.0,  261.0,  344.0,  430.0,  513.0,  586.0,  672.0,  748.0,  831.0,  915.0, 991.0, 1120.0};
 
 
 /* Command spellings */

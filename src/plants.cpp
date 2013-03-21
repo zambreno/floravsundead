@@ -191,42 +191,42 @@ namespace fvu {
     * Description: Places the plant (both for demo mode and regular game mode)
     * based on the row and column values
     *****************************************************************************/
-    void Plant::place(uint8_t team, uint16_t row, uint16_t col) {
+    void Plant::place(uint8_t myteam, uint16_t myrow, uint16_t mycol) {
 
         /* Teams 0 and 1 are on the left, 2 and 3 are on the right.
          * Teams 0 and 2 are on the top, 1 and 3 on the bottom.
          * Placement may need to be sprite-specific. */
         status = PLANT_STATUS_PLACED;
-        this->team = team;
-        this->row = row;
-        this->col = col;
+        team = myteam;
+        row = myrow-1;
+        col = mycol-1;
 
         switch (team) {
             case 0:
             default:
-                game_x = left_gridWidths[col-1];
-                game_y = top_gridHeights[row-1];
+                game_x = left_gridWidths[col];
+                game_y = top_gridHeights[row];
                 demo_x = game_x;
                 demo_y = game_y;
                 dir = -1.0;
                 break;
             case 1:
-                game_x = left_gridWidths[col-1];
-                game_y = bottom_gridHeights[row-1];
+                game_x = left_gridWidths[col];
+                game_y = bottom_gridHeights[row];
                 demo_x = game_x;
                 demo_y = game_y;
                 dir = -1.0;
                 break;
             case 2:
-                game_x = right_gridWidths[col-1];
-                game_y = top_gridHeights[row-1];
+                game_x = right_gridWidths[col];
+                game_y = top_gridHeights[row];
                 demo_x = game_x;
                 demo_y = game_y;
                 dir = 1.0;
                 break;
             case 3:
-                game_x = right_gridWidths[col-1];
-                game_y = bottom_gridHeights[row-1];
+                game_x = right_gridWidths[col];
+                game_y = bottom_gridHeights[row];
                 demo_x = game_x;
                 demo_y = game_y;
                 dir = 1.0;
