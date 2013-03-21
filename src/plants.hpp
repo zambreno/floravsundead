@@ -26,10 +26,15 @@
 typedef enum {PEASHOOTER_PLANT=0, REPEATER_PLANT, GATLING_PLANT, SNOW_PLANT, CHOMPER_PLANT, WALLNUT_PLANT, NUM_PLANT_TYPE} PLANT_TYPE;
 extern std::string plantNames[NUM_PLANT_TYPE][NUM_PLANT_SPELLINGS];
 
+/* Data arrays for the main plant types */
+extern uint16_t plantCosts[NUM_PLANT_TYPE];
+extern int16_t plantHealths[NUM_PLANT_TYPE];
+#define NUM_PLANT_TRANSITIONS 3
+extern uint16_t plantTransitions[NUM_PLANT_TYPE][NUM_PLANT_TRANSITIONS];
+extern float plantSpeeds[NUM_PLANT_TYPE];
 
 /* Plant depth enum, front to back */
 typedef enum {PLANTHEAD_DEPTH=0, FRONTLEAF_DEPTH, STEM_DEPTH, BACKLEAF_DEPTH, PLANT_OUTERARM_LOWER_DEPTH, PLANT_DEPTH_RANGE} PLANT_DEPTH_ENUM;
-
 
 /* Plant status enum */
 typedef enum {PLANT_STATUS_DEFAULT=0, PLANT_STATUS_PLACED, PLANT_STATUS_SKIP, PLANT_STATUS_DEMO, PLANT_STATUS_GAME, PLANT_STATUS_INACTIVE} PLANT_STATUS_ENUM;
@@ -56,7 +61,7 @@ namespace fvu {
         private:
             uint8_t type;
             uint8_t status;
-            uint16_t health;
+            int16_t health;
             uint16_t id;
             uint16_t row, col;
             float speed;

@@ -405,6 +405,13 @@ namespace fvu {
                             }
                         }
                         if (plant_match == true) {
+                            myTeams[i_team].budget += plantCosts[p];
+                            if (myTeams[i_team].budget > myStatus.budget) {
+                                printf("Error compiling %s, line %d\n", myConfig.team_fname[i_team], line_count);
+                                printf("  team is over budget\n");
+                                printf("  budget limit is %hu\n", myStatus.budget);
+                                raise_error(ERR_BADFILE2, myConfig.team_fname[i_team]);
+                            }
                             local_plant = new Plant(p, select_tok);
                             myPlants[i_team].insert(myPlants[i_team].end(), 1, *local_plant);
                             delete local_plant;

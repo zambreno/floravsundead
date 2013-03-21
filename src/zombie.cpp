@@ -32,6 +32,24 @@ std::string zombieNames[NUM_ZOMBIE_TYPE][NUM_ZOMBIE_SPELLINGS] = {
     {"yeti", "bigfoot"}
     };
 
+/* Zombie healths */
+int16_t zombieHealths[NUM_ZOMBIE_TYPE] = {10, 10, 28, 17, 65, 16, 65, 80, 17, 46};
+/* Plant speeds. This variable is zombie-specific */
+float zombieSpeeds[NUM_ZOMBIE_TYPE] = {1.0, 1.5, 1.0, 2.0, 1.0, 1.0, 2.0, 1.0, 1.0, 1.0};
+/* Plant transitions */
+uint16_t zombieTransitions[NUM_ZOMBIE_TYPE][NUM_ZOMBIE_TRANSITIONS] = {
+    {5, 0, 0, 0},
+    {5, 0, 0, 0},
+    {21, 15, 10, 0},
+    {8, 0, 0, 0},
+    {46, 28, 10, 5},
+    {13, 10, 8, 4},
+    {46, 28, 10, 5},
+    {56, 33, 5, 0},
+    {8, 0, 0, 0},
+    {23, 0, 0, 0}
+    };
+
 
 namespace fvu {
 
@@ -85,6 +103,17 @@ namespace fvu {
         Object *local_object;
         animation_struct demo_anim, game_anim, zero_anim;
 
+
+        /* Initialize zombie information here so we can leave the rest of this function as object assembly */
+        health = zombieHealths[type];
+        speed = zombieSpeeds[type];
+        for (uint8_t i = 0; i < NUM_ZOMBIE_TRANSITIONS; i++) {
+            if (zombieTransitions[type][i] == 0)
+                break;
+            transitions.push_back(zombieTransitions[type][i]);
+        }
+
+
         /* The zero_anim is useful if we don't care about initial positioning of animation */
         zero_anim.start_angle = 0.0;zero_anim.delta_angle = 0.0;zero_anim.end_angle = 0.0;
         zero_anim.start_x     = 0.0;zero_anim.delta_x     = 0.0;zero_anim.end_x     = 0.0;
@@ -96,8 +125,6 @@ namespace fvu {
             case BUCKET_ZOMBIE:
             case FLAG_ZOMBIE:
             default:
-
-                speed = 1.0;
 
                 /* The object structure starts at the x/y location of the torso, and moves out in all directions */
                 myObject = new Object(zero_anim, zero_anim, anim_count, 0, 0, 0, 6, NULL);
@@ -408,6 +435,14 @@ namespace fvu {
                     break;
             }
         }
+        else if (status == ZOMBIE_STATUS_EATING) {
+
+        }
+        else if (status == ZOMBIE_STATUS_WINNING) {
+
+        }
+
+
         myObject->update();
     }
 

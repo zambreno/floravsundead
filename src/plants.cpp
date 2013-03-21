@@ -29,6 +29,22 @@ std::string plantNames[NUM_PLANT_TYPE][NUM_PLANT_SPELLINGS] = {
     };
 
 
+/* Plant costs */
+uint16_t plantCosts[NUM_PLANT_TYPE] = {100, 200, 450, 175, 150, 50};
+/* Plant healths */
+int16_t plantHealths[NUM_PLANT_TYPE] = {12, 12, 12, 12, 12, 72};
+/* Plant speeds. This variable is plant-specific */
+float plantSpeeds[NUM_PLANT_TYPE] = {1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
+/* Plant transitions */
+uint16_t plantTransitions[NUM_PLANT_TYPE][NUM_PLANT_TRANSITIONS] = {
+    {0, 0, 0},
+    {0, 0, 0},
+    {0, 0, 0},
+    {0, 0, 0},
+    {0, 0, 0},
+    {48, 24, 0}
+    };
+
 namespace fvu {
 
     /*****************************************************************************
@@ -79,6 +95,16 @@ namespace fvu {
         type = mytype;
         id = myid;
         row = 0;col = 0;
+
+        /* Initialize plant information here so we can leave the rest of this function as object assembly */
+        health = plantHealths[type];
+        speed = plantSpeeds[type];
+        for (uint8_t i = 0; i < NUM_PLANT_TRANSITIONS; i++) {
+            if (plantTransitions[type][i] == 0)
+                break;
+            transitions.push_back(plantTransitions[type][i]);
+        }
+
 
         Object *local_object;
         animation_struct demo_anim, game_anim, zero_anim;
