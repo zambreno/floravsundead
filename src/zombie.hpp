@@ -39,7 +39,7 @@ ZOMBIE_INNERLEG_UPPER_DEPTH,  ZOMBIE_INNERARM_LOWER_DEPTH, ZOMBIE_INNERARM_HAND_
 
 
 /* Zombie status enum */
-typedef enum {ZOMBIE_STATUS_DEFAULT=0, ZOMBIE_STATUS_PLACED, ZOMBIE_STATUS_SKIP, ZOMBIE_STATUS_DEMO, ZOMBIE_STATUS_GAME, ZOMBIE_STATUS_ACTIVE, ZOMBIE_STATUS_EATING, ZOMBIE_STATUS_WINNING, ZOMBIE_STATUS_OVER, ZOMBIE_STATUS_INACTIVE} ZOMBIE_STATUS_ENUM;
+typedef enum {ZOMBIE_STATUS_DEFAULT=0, ZOMBIE_STATUS_PLACED, ZOMBIE_STATUS_SKIP, ZOMBIE_STATUS_DEMO, ZOMBIE_STATUS_GAME, ZOMBIE_STATUS_ACTIVE, ZOMBIE_STATUS_EATING, ZOMBIE_STATUS_WINNING, ZOMBIE_STATUS_GAMEOVER, ZOMBIE_STATUS_INACTIVE} ZOMBIE_STATUS_ENUM;
 
 namespace fvu {
 
@@ -59,6 +59,7 @@ namespace fvu {
             uint16_t getIndex() {return index;}
             int16_t getDelay() {return delay;}
             void setDelay(int16_t val) {delay = val; }
+            void shoot(uint16_t shot) {health -= shot;}
             bool operator< (const Zombie &rhs) const;
 
         private:

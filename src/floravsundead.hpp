@@ -172,12 +172,12 @@ namespace fvu {
             fvu::Texture myTextures[NUM_TEXTURES];
             bool plantGrid[4][NUM_ROWS][NUM_COLS];
             fvu::Status myStatus;
+            std::vector<fvu::Zombie> myZombies[4];
+            std::vector<fvu::Plant> myPlants[4];
 
         private:
             fvu::Config myConfig;
             fvu::Team myTeams[4];
-            std::vector<fvu::Zombie> myZombies[4];
-            std::vector<fvu::Plant> myPlants[4];
             sf::Time myTime;
             sf::ContextSettings mySettings;
             sf::RenderWindow myWindow;

@@ -185,6 +185,9 @@ namespace fvu {
             for (uint16_t j = 0; j < myZombies[i].size(); j++) {
                 myZombies[i][j].update();
             }
+            for (uint16_t j = 0; j < myPlants[i].size(); j++) {
+                myPlants[i][j].update();
+            }
 
             /* Sort each zombie based on the custom zombie function */
             std::stable_sort(myZombies[i].begin(), myZombies[i].end());
@@ -233,6 +236,9 @@ namespace fvu {
         for (uint16_t i = 0; i < 4; i++) {
             for (uint16_t j = 0; j < myZombies[i].size(); j++) {
                 myZombies[i][j].updateDemo();
+            }
+            for (uint16_t j = 0; j < myPlants[i].size(); j++) {
+                myPlants[i][j].updateDemo();
             }
 
             /* Sort each zombie based on the custom zombie function */
@@ -296,6 +302,9 @@ namespace fvu {
                 for (uint8_t i = 0; i < 4; i++) {
                     for (uint16_t j = 0; j < myZombies[i].size(); j++) {
                         myZombies[i][j].endDemo();
+                    }
+                    for (uint16_t j = 0; j < myPlants[i].size(); j++) {
+                        myPlants[i][j].endDemo();
                     }
                 }
             }

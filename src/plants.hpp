@@ -56,6 +56,7 @@ namespace fvu {
             uint8_t getType() {return type;}
             uint16_t getRow() {return row;}
             uint16_t getCol() {return col;}
+            void bite() {health--;}
             bool operator< (const Plant &rhs) const;
 
         private:

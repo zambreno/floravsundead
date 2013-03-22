@@ -391,6 +391,20 @@ namespace fvu {
          * and determine if they're within eating range or if they've made it past
          * all the plant grid locations */
         if (status == ZOMBIE_STATUS_ACTIVE) {
+
+
+            /* First, have we been hit recently? If so, check transitions / death conditions */
+            if (health <= transitions.front()) {
+
+                // This part is a little tricky. How do we know what transition to do in fact here?
+                transitions.erase(transitions.begin());
+
+                if (health <= 0) {
+                    status = ZOMBIE_STATUS_INACTIVE;
+                    return;
+                }
+            }
+
             switch(team) {
                 case 0:
                 case 1:
@@ -436,6 +450,18 @@ namespace fvu {
             }
         }
         else if (status == ZOMBIE_STATUS_EATING) {
+
+            // Is the plant gone/moved?
+            if (myGame->plantGrid[team][row][col] == false) {
+                status = ZOMBIE_STATUS_ACTIVE;
+            }
+            // Otherwise find the appropriate plant and take a byte
+            for (uint16_t i = 0; i < myGame->myPlants[team].size(); i++) {
+                if ((myGame->myPlants[team][i].getRow() == row) && (myGame->myPlants[team][i].getCol() == col)) {
+                    myGame->myPlants[team][i].bite();
+                    break;
+                }
+            }
 
         }
         else if (status == ZOMBIE_STATUS_WINNING) {

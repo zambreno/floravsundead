@@ -32,7 +32,7 @@ std::string plantNames[NUM_PLANT_TYPE][NUM_PLANT_SPELLINGS] = {
 /* Plant costs */
 uint16_t plantCosts[NUM_PLANT_TYPE] = {100, 200, 450, 175, 150, 50};
 /* Plant healths */
-int16_t plantHealths[NUM_PLANT_TYPE] = {12, 12, 12, 12, 12, 72};
+int16_t plantHealths[NUM_PLANT_TYPE] = {90, 90, 90, 90, 90, 720};
 /* Plant speeds. This variable is plant-specific */
 float plantSpeeds[NUM_PLANT_TYPE] = {1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
 /* Plant transitions */
@@ -300,7 +300,30 @@ namespace fvu {
     void Plant::update() {
 
 
-        myObject->update();
+        /* Check all the active plants and have them shoot if appropriate */
+        if (status == PLANT_STATUS_GAME) {
+
+            if (health <= 0) {
+                status = PLANT_STATUS_INACTIVE;
+                myGame->plantGrid[team][row][col] = false;
+            }
+
+            /* First, have we been bit recently? If so, check transitions / death conditions */
+/*            if (health <= transitions.front()) {
+
+                // This part is a little tricky. How do we know what transition to do in fact here?
+                transitions.erase(transitions.begin());
+
+                if (health <= 0) {
+                    status = PLANT_STATUS_INACTIVE;
+                    return;
+                }
+            }
+*/
+
+        }
+
+//        myObject->update();
     }
 
 
