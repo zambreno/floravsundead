@@ -104,7 +104,7 @@ uint16_t tex_court_spriteMap[NUM_TEX_COURT][4] = {
     {  0,  0,  499, 939}
     };
 
-   /* Sprite map for TEX_FENCE */
+/* Sprite map for TEX_FENCE */
 uint16_t tex_fence_spriteMap[NUM_TEX_FENCE][4] = {
     {  0,  0,  778, 150}
     };
