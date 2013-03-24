@@ -365,29 +365,6 @@ namespace fvu {
 
     }
 
-    /*****************************************************************************
-    * Function: Game::drawWallnut
-    * Description: Draws a wallnut.
-    *****************************************************************************/
-     void Game::drawWallnut() {
-        float texCoords[6];
-        float x, y;
-        glBindTexture(GL_TEXTURE_2D, myTextures[TEX_PLANTS].texHandle);
-
-        getTexCoords(TEX_PLANTS, WALLNUT_BODY, texCoords);
-        x = 0;y = 0;
-        glBegin(GL_QUADS);
-            glTexCoord2d(texCoords[0], texCoords[1]);
-            glVertex3f(x, y, PLANTHEAD_DEPTH);
-            glTexCoord2d(texCoords[2], texCoords[1]);
-            glVertex3f(x+texCoords[4], y, PLANTHEAD_DEPTH);
-            glTexCoord2d(texCoords[2], texCoords[3]);
-            glVertex3f(x+texCoords[4], y+texCoords[5], PLANTHEAD_DEPTH);
-            glTexCoord2d(texCoords[0], texCoords[3]);
-            glVertex3f(x, y+texCoords[5], PLANTHEAD_DEPTH);
-        glEnd();
-     }
-
 
     /*****************************************************************************
     * Function: Game::drawMap
@@ -415,7 +392,6 @@ namespace fvu {
             }
         }
 
-        drawWallnut();
     }
 
 
@@ -616,7 +592,7 @@ namespace fvu {
 
         glEnable(GL_TEXTURE_2D);
 
-        glAlphaFunc(GL_GREATER, 0.5);
+        glAlphaFunc(GL_GREATER, 0.425);
         glEnable(GL_ALPHA_TEST);
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

@@ -34,7 +34,7 @@ extern uint16_t plantTransitions[NUM_PLANT_TYPE][NUM_PLANT_TRANSITIONS];
 extern float plantSpeeds[NUM_PLANT_TYPE];
 
 /* Plant depth enum, front to back */
-typedef enum {PLANTHEAD_DEPTH=0, FRONTLEAF_DEPTH, STEM_DEPTH, BACKLEAF_DEPTH, PLANT_OUTERARM_LOWER_DEPTH, PLANT_DEPTH_RANGE} PLANT_DEPTH_ENUM;
+typedef enum {PLANTHEAD_DEPTH=0, FRONTLEAF_DEPTH, STEM_DEPTH, BACKLEAF_DEPTH, PLANT_OUTERARM_LOWER_DEPTH, PLANT_SHADOW_DEPTH, PLANT_DEPTH_RANGE} PLANT_DEPTH_ENUM;
 
 /* Plant status enum */
 typedef enum {PLANT_STATUS_DEFAULT=0, PLANT_STATUS_PLACED, PLANT_STATUS_SKIP, PLANT_STATUS_DEMO, PLANT_STATUS_GAME, PLANT_STATUS_INACTIVE} PLANT_STATUS_ENUM;
@@ -47,9 +47,9 @@ namespace fvu {
             Plant(uint8_t type, uint16_t myid);
             void update();
             void place(uint8_t team, uint16_t row, uint16_t col);
-            void move(float delta_x, float delta_y);
             void endDemo();
             void updateDemo();
+            void updateTransition(uint16_t val);
             void draw(uint16_t index);
             uint8_t getStatus() {return status;}
             uint16_t getID() {return id;}

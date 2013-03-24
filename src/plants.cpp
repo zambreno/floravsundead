@@ -99,6 +99,7 @@ namespace fvu {
         /* Initialize plant information here so we can leave the rest of this function as object assembly */
         health = plantHealths[type];
         speed = plantSpeeds[type];
+        //transitions = std::vector<uint16_t>();
         for (uint8_t i = 0; i < NUM_PLANT_TRANSITIONS; i++) {
             if (plantTransitions[type][i] == 0)
                 break;
@@ -107,105 +108,158 @@ namespace fvu {
 
 
         Object *local_object;
-        animation_struct demo_anim, game_anim, zero_anim;
-
-        /* The zero_anim is useful if we don't care about initial positioning of animation */
-        zero_anim.start_angle = 0.0;zero_anim.delta_angle = 0.0;zero_anim.end_angle = 0.0;
-        zero_anim.start_x     = 0.0;zero_anim.delta_x     = 0.0;zero_anim.end_x     = 0.0;
-        zero_anim.start_y     = 0.0;zero_anim.delta_y     = 0.0;zero_anim.end_y     = 0.0;
+        animation_struct demo_anim, game_anim;
 
         switch(type) {
+            case WALLNUT_PLANT:
+                /* The object structure starts at the x/y location of the plant head, and moves out in all directions */
+                demo_anim.set_defaults();
+                myObject = new Object(demo_anim, demo_anim, anim_count, 0, 0, 0, 2, NULL);
+
+                // children[0] is the bottom part of the stalk
+                demo_anim.set_defaults();
+                demo_anim.set_x(-22.0, 0.0, 0.0);
+                demo_anim.set_y(-35.0, 0.0, 0.0);
+                demo_anim.set_xscale(0.65, 0.0, 1.0);
+                demo_anim.set_yscale(0.65, 0.0, 1.0);
+                game_anim = demo_anim;
+                myObject->children[0] = new Object(demo_anim, game_anim, anim_count, TEX_PLANTS, WALLNUT_BODY, PLANTHEAD_DEPTH, 0, myObject);
+
+
+                // children[1] is the shadow
+                demo_anim.set_defaults();
+                demo_anim.start_angle = 0.0;demo_anim.delta_angle = 0.0;demo_anim.end_angle = 0.0;
+                demo_anim.start_x     = -22.0;demo_anim.delta_x     = 0.0;demo_anim.end_x     = 0.0;
+                demo_anim.start_y     = -50.0;demo_anim.delta_y     = 0.0;demo_anim.end_y     = 0.0;
+                demo_anim.set_xscale(0.85, 0.0, 1.0);
+                demo_anim.set_yscale(0.85, 0.0, 1.0);
+                game_anim = demo_anim;
+                myObject->children[1] = new Object(demo_anim, game_anim, anim_count, TEX_PLANTS, POT_SHADOW, PLANT_SHADOW_DEPTH, 0, myObject);
+
+
+
+                break;
+            case PEASHOOTER_PLANT:
             default:
 
                 /* The object structure starts at the x/y location of the plant head, and moves out in all directions */
-                myObject = new Object(zero_anim, zero_anim, anim_count, 0, 0, 0, 1, NULL);
+                demo_anim.set_defaults();
+                myObject = new Object(demo_anim, demo_anim, anim_count, 0, 0, 0, 2, NULL);
 
                 // children[0] is the bottom part of the stalk
-                demo_anim.start_angle = 0.0;demo_anim.delta_angle = 0.0;demo_anim.end_angle = 0.0;
-                demo_anim.start_x     = 0.0;demo_anim.delta_x     = 0.0;demo_anim.end_x     = 0.0;
-                demo_anim.start_y     = 0.0;demo_anim.delta_y     = 0.0;demo_anim.end_y     = 0.0;
+                demo_anim.set_defaults();
                 game_anim = demo_anim;
+                demo_anim.set_xscale(0.65, 0.0, 1.0);
+                demo_anim.set_yscale(0.65, 0.0, 1.0);
                 myObject->children[0] = new Object(demo_anim, game_anim, anim_count, TEX_PLANTS, PEASHOOTER_STALK_BOTTOM, STEM_DEPTH, 3, myObject);
 
                 // children[0]->children[0] is the top part of the stalk
-                demo_anim.start_angle = 0.0;demo_anim.delta_angle = 0.0;demo_anim.end_angle = 0.0;
-                demo_anim.start_x     = 1.0;demo_anim.delta_x     = 0.0;demo_anim.end_x     = 0.0;
-                demo_anim.start_y     = 17.0;demo_anim.delta_y     = 0.0;demo_anim.end_y     = 0.0;
+                demo_anim.set_defaults();
+                demo_anim.set_x(1.0, 0.0, 0.0);
+                demo_anim.set_y(17.0, 0.0, 0.0);
+                demo_anim.set_xscale(0.65, 0.0, 1.0);
+                demo_anim.set_yscale(0.65, 0.0, 1.0);
                 game_anim = demo_anim;
                 myObject->children[0]->children[0] = new Object(demo_anim, game_anim, anim_count, TEX_PLANTS, PEASHOOTER_STALK_TOP, STEM_DEPTH, 1, myObject->children[0]);
 
 
                 // children[0]->children[1] is the backleaf
-                demo_anim.start_angle = 0.0;demo_anim.delta_angle = 0.0;demo_anim.end_angle = 0.0;
-                demo_anim.start_x     = -18.0;demo_anim.delta_x     = 0.0;demo_anim.end_x     = 0.0;
-                demo_anim.start_y     = -1.0;demo_anim.delta_y     = 0.0;demo_anim.end_y     = 0.0;
+                demo_anim.set_defaults();
+                demo_anim.set_x(-18.0, 0.0, 0.0);
+                demo_anim.set_y(-5.0, 0.0, 0.0);
+                demo_anim.set_xscale(0.65, 0.0, 1.0);
+                demo_anim.set_yscale(0.65, 0.0, 1.0);
                 game_anim = demo_anim;
                 myObject->children[0]->children[1] = new Object(demo_anim, game_anim, anim_count, TEX_PLANTS, PEASHOOTER_BACKLEAF, BACKLEAF_DEPTH, 2, myObject->children[0]);
 
                 // children[0]->children[1]->children[0] is the left tip of the backleaf
                 local_object = myObject->children[0]->children[1];
-                demo_anim.start_angle = 0.0;demo_anim.delta_angle = 0.0;demo_anim.end_angle = 0.0;
-                demo_anim.start_x     = -5.0;demo_anim.delta_x     = 0.0;demo_anim.end_x     = 0.0;
-                demo_anim.start_y     = 9.0;demo_anim.delta_y     = 0.0;demo_anim.end_y     = 0.0;
+                demo_anim.set_defaults();
+                demo_anim.set_x(-5.0, 0.0, 0.0);
+                demo_anim.set_y(9.0, 0.0, 0.0);
+                demo_anim.set_xscale(0.65, 0.0, 1.0);
+                demo_anim.set_yscale(0.65, 0.0, 1.0);
                 game_anim = demo_anim;
                 local_object->children[0] = new Object(demo_anim, game_anim, anim_count, TEX_PLANTS, PEASHOOTER_BACKLEAF_LEFTTIP, BACKLEAF_DEPTH, 0, local_object);
 
                 // children[0]->children[1]->children[1] is the right tip of the backleaf
                 local_object = myObject->children[0]->children[1];
-                demo_anim.start_angle = 0.0;demo_anim.delta_angle = 0.0;demo_anim.end_angle = 0.0;
-                demo_anim.start_x     = 37.0;demo_anim.delta_x     = 0.0;demo_anim.end_x     = 0.0;
-                demo_anim.start_y     = 13.0;demo_anim.delta_y     = 0.0;demo_anim.end_y     = 0.0;
+                demo_anim.set_defaults();
+                demo_anim.set_x(37.0, 0.0, 0.0);
+                demo_anim.set_y(13.0, 0.0, 0.0);
+                demo_anim.set_xscale(0.65, 0.0, 1.0);
+                demo_anim.set_yscale(0.65, 0.0, 1.0);
                 game_anim = demo_anim;
                 local_object->children[1] = new Object(demo_anim, game_anim, anim_count, TEX_PLANTS, PEASHOOTER_BACKLEAF_RIGHTTIP, BACKLEAF_DEPTH, 0, local_object);
 
                 // children[0]->children[2] is the frontleaf
-                demo_anim.start_angle = 0.0;demo_anim.delta_angle = 0.0;demo_anim.end_angle = 0.0;
-                demo_anim.start_x     = -25.0;demo_anim.delta_x     = 0.0;demo_anim.end_x     = 0.0;
-                demo_anim.start_y     = -21.0;demo_anim.delta_y     = 0.0;demo_anim.end_y     = 0.0;
+                demo_anim.set_defaults();
+                demo_anim.set_x(-25.0, 0.0, 0.0);
+                demo_anim.set_y(-21.0, 0.0, 0.0);
+                demo_anim.set_xscale(0.65, 0.0, 1.0);
+                demo_anim.set_yscale(0.65, 0.0, 1.0);
                 game_anim = demo_anim;
                 myObject->children[0]->children[2] = new Object(demo_anim, game_anim, anim_count, TEX_PLANTS, PEASHOOTER_FRONTLEAF, FRONTLEAF_DEPTH, 2, myObject->children[0]);
 
                 // children[0]->children[2]->children[0] is the left tip of the frontleaf
                 local_object = myObject->children[0]->children[2];
-                demo_anim.start_angle = 0.0;demo_anim.delta_angle = 0.0;demo_anim.end_angle = 0.0;
-                demo_anim.start_x     = -6.0;demo_anim.delta_x     = 0.0;demo_anim.end_x     = 0.0;
-                demo_anim.start_y     = -2.0;demo_anim.delta_y     = 0.0;demo_anim.end_y     = 0.0;
+                demo_anim.set_defaults();
+                demo_anim.set_x(-6.0, 0.0, 0.0);
+                demo_anim.set_y(-2.0, 0.0, 0.0);
+                demo_anim.set_xscale(0.65, 0.0, 1.0);
+                demo_anim.set_yscale(0.65, 0.0, 1.0);
                 game_anim = demo_anim;
                 local_object->children[0] = new Object(demo_anim, game_anim, anim_count, TEX_PLANTS, PEASHOOTER_FRONTLEAF_LEFTTIP, FRONTLEAF_DEPTH, 0, local_object);
 
                 // children[0]->children[2]->children[1] is the right tip of the frontleaf
                 local_object = myObject->children[0]->children[2];
-                demo_anim.start_angle = 0.0;demo_anim.delta_angle = 0.0;demo_anim.end_angle = 0.0;
-                demo_anim.start_x     = 61.0;demo_anim.delta_x     = 0.0;demo_anim.end_x     = 0.0;
-                demo_anim.start_y     = 7.0;demo_anim.delta_y     = 0.0;demo_anim.end_y     = 0.0;
+                demo_anim.set_defaults();
+                demo_anim.set_x(61.0, 0.0, 0.0);
+                demo_anim.set_y(7.0, 0.0, 0.0);
+                demo_anim.set_xscale(0.65, 0.0, 1.0);
+                demo_anim.set_yscale(0.65, 0.0, 1.0);
                 game_anim = demo_anim;
                 local_object->children[1] = new Object(demo_anim, game_anim, anim_count, TEX_PLANTS, PEASHOOTER_FRONTLEAF_RIGHTTIP, FRONTLEAF_DEPTH, 0, local_object);
 
                 // children[0]->children[0]->children[0] is the head
                 local_object = myObject->children[0]->children[0];
-                demo_anim.start_angle = 0.0;demo_anim.delta_angle = 0.0;demo_anim.end_angle = 0.0;
-                demo_anim.start_x     = -28.0;demo_anim.delta_x     = 0.0;demo_anim.end_x     = 0.0;
-                demo_anim.start_y     = 9.0;demo_anim.delta_y     = 0.0;demo_anim.end_y     = 0.0;
+                demo_anim.set_defaults();
+                demo_anim.set_x(-28.0, 0.0, 0.0);
+                demo_anim.set_y(9.0, 0.0, 0.0);
+                demo_anim.set_xscale(0.65, 0.0, 1.0);
+                demo_anim.set_yscale(0.65, 0.0, 1.0);
                 game_anim = demo_anim;
                 local_object->children[0] = new Object(demo_anim, game_anim, anim_count, TEX_PLANTS, PEASHOOTER_HEAD, PLANTHEAD_DEPTH, 2, local_object);
 
                 // children[0]->children[0]->children[0]->children[0] is the lips
                 local_object = myObject->children[0]->children[0]->children[0];
-                demo_anim.start_angle = 0.0;demo_anim.delta_angle = 0.0;demo_anim.end_angle = 0.0;
-                demo_anim.start_x     = 61.0;demo_anim.delta_x     = 0.0;demo_anim.end_x     = 0.0;
-                demo_anim.start_y     = 12.0;demo_anim.delta_y     = 0.0;demo_anim.end_y     = 0.0;
+                demo_anim.set_defaults();
+                demo_anim.set_x(40.0, 0.0, 0.0);
+                demo_anim.set_y(9.0, 0.0, 0.0);
+                demo_anim.set_xscale(0.65, 0.0, 1.0);
+                demo_anim.set_yscale(0.65, 0.0, 1.0);
                 game_anim = demo_anim;
                 local_object->children[0] = new Object(demo_anim, game_anim, anim_count, TEX_PLANTS, PEASHOOTER_LIPS, PLANTHEAD_DEPTH, 0, local_object);
 
-                // children[0]->children[0]->children[0]->children[0] is the lips
+                // children[0]->children[0]->children[0]->children[1] is the sprout
                 local_object = myObject->children[0]->children[0]->children[0];
-                demo_anim.start_angle = 0.0;demo_anim.delta_angle = 0.0;demo_anim.end_angle = 0.0;
-                demo_anim.start_x     = -12.0;demo_anim.delta_x     = 0.0;demo_anim.end_x     = 0.0;
-                demo_anim.start_y     = 27.0;demo_anim.delta_y     = 0.0;demo_anim.end_y     = 0.0;
+                demo_anim.set_defaults();
+                demo_anim.set_x(-12.0, 0.0, 0.0);
+                demo_anim.set_y(27.0, 0.0, 0.0);
+                demo_anim.set_xscale(0.65, 0.0, 1.0);
+                demo_anim.set_yscale(0.65, 0.0, 1.0);
                 game_anim = demo_anim;
                 local_object->children[1] = new Object(demo_anim, game_anim, anim_count, TEX_PLANTS, PEASHOOTER_SPROUT, FRONTLEAF_DEPTH, 0, local_object);
 
-
+                // children[1] is the shadow
+                demo_anim.set_defaults();
+                demo_anim.start_angle = 0.0;demo_anim.delta_angle = 0.0;demo_anim.end_angle = 0.0;
+                demo_anim.start_x     = -25.0;demo_anim.delta_x     = 0.0;demo_anim.end_x     = 0.0;
+                demo_anim.start_y     = -50.0;demo_anim.delta_y     = 0.0;demo_anim.end_y     = 0.0;
+                demo_anim.set_xscale(0.85, 0.0, 1.0);
+                demo_anim.set_yscale(0.85, 0.0, 1.0);
+                game_anim = demo_anim;
+                myObject->children[1] = new Object(demo_anim, game_anim, anim_count, TEX_PLANTS, POT_SHADOW, PLANT_SHADOW_DEPTH, 0, myObject);
 
                 break;
         }
@@ -293,6 +347,32 @@ namespace fvu {
     }
 
 
+
+    /*****************************************************************************
+    * Function: Plant::updateTransition
+    * Description: When a transition event occurs, perform some plant-specific
+    * update.
+    *****************************************************************************/
+    void Plant::updateTransition(uint16_t val) {
+
+
+        /* Transitions are plant-specific, and usually will involve specific sprite swaps */
+        switch (type) {
+            case WALLNUT_PLANT:
+                if (val == plantTransitions[WALLNUT_PLANT][0])
+                    myObject->children[0]->updateSprite(WALLNUT_CRACKED_1);
+                if (val == plantTransitions[WALLNUT_PLANT][1])
+                    myObject->children[0]->updateSprite(WALLNUT_CRACKED_2);
+                break;
+            default:
+                break;
+        }
+
+    }
+
+
+
+
     /*****************************************************************************
     * Function: Plant::update
     * Description: Updates each plant
@@ -300,44 +380,33 @@ namespace fvu {
     void Plant::update() {
 
 
-        /* Check all the active plants and have them shoot if appropriate */
+        /* Check all the active plants and if their current health has triggered a transition */
         if (status == PLANT_STATUS_GAME) {
+
+
+            /* Check if there are any transitions left */
+            while (!transitions.empty()) {
+
+                if (health <= transitions[0]) {
+                    updateTransition(transitions[0]);
+                    transitions.erase(transitions.begin());
+                }
+                else {
+                    break;
+                }
+            }
 
             if (health <= 0) {
                 status = PLANT_STATUS_INACTIVE;
                 myGame->plantGrid[team][row][col] = false;
             }
 
-            /* First, have we been bit recently? If so, check transitions / death conditions */
-/*            if (health <= transitions.front()) {
-
-                // This part is a little tricky. How do we know what transition to do in fact here?
-                transitions.erase(transitions.begin());
-
-                if (health <= 0) {
-                    status = PLANT_STATUS_INACTIVE;
-                    return;
-                }
-            }
-*/
-
         }
 
-//        myObject->update();
+        myObject->update();
     }
 
 
-
-    /*****************************************************************************
-    * Function: Plant::move
-    * Description: Moves the plant around (for testing purposes)
-    *****************************************************************************/
-    void Plant::move(float delta_x, float delta_y) {
-
-        game_x += delta_x;
-        game_y += delta_y;
-
-    }
 
     /*****************************************************************************
     * Function: Plant::operator <

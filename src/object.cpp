@@ -44,10 +44,22 @@ namespace fvu {
             this->x += (anim_count % x_step) * demo_anim.delta_x;
         }
 
+        this->xscale = demo_anim.start_xscale;
+        if (demo_anim.delta_xscale != 0.0) {
+            uint32_t xscale_step = (uint32_t)((demo_anim.end_xscale - demo_anim.start_xscale) / demo_anim.delta_xscale);
+            this->xscale += (anim_count % xscale_step) * demo_anim.delta_xscale;
+        }
+
         this->y = demo_anim.start_y;
         if (demo_anim.delta_y != 0.0) {
             uint32_t y_step = (uint32_t)((demo_anim.end_y - demo_anim.start_y) / demo_anim.delta_y);
             this->y += (anim_count % y_step) * demo_anim.delta_y;
+        }
+
+        this->yscale = demo_anim.start_yscale;
+        if (demo_anim.delta_yscale != 0.0) {
+            uint32_t yscale_step = (uint32_t)((demo_anim.end_yscale - demo_anim.start_yscale) / demo_anim.delta_yscale);
+            this->yscale += (anim_count % yscale_step) * demo_anim.delta_yscale;
         }
 
         this->angle = demo_anim.start_angle;
@@ -95,11 +107,11 @@ namespace fvu {
                 glTexCoord2d(texCoords[0], texCoords[1]);
                 glVertex3f(0.0, 0.0, depth);
                 glTexCoord2d(texCoords[2], texCoords[1]);
-                glVertex3f(texCoords[4], 0.0, depth);
+                glVertex3f(texCoords[4]*xscale, 0.0, depth);
                 glTexCoord2d(texCoords[2], texCoords[3]);
-                glVertex3f(texCoords[4], texCoords[5], depth);
+                glVertex3f(texCoords[4]*xscale, texCoords[5]*yscale, depth);
                 glTexCoord2d(texCoords[0], texCoords[3]);
-                glVertex3f(0.0, texCoords[5], depth);
+                glVertex3f(0.0, texCoords[5]*yscale, depth);
             glEnd();
 
         }
@@ -147,6 +159,17 @@ namespace fvu {
             }
         }
 
+
+        /* Update the xscale  - if we're close enough to the end, switch directions */
+        if (anim->delta_xscale != 0.0) {
+            xscale += anim->delta_xscale;
+            if ((fabs(anim->end_xscale - xscale) < fabs(anim->delta_xscale)) ||
+               (fabs(anim->start_xscale - xscale) < fabs(anim->delta_xscale))) {
+                anim->delta_xscale = anim->delta_xscale * -1.0;
+            }
+        }
+
+
         /* Update the y position - if we're close enough to the end, switch directions */
         if (anim->delta_y != 0.0) {
             y += anim->delta_y;
@@ -155,6 +178,18 @@ namespace fvu {
                 anim->delta_y = anim->delta_y * -1.0;
             }
         }
+
+
+        /* Update the yscale  - if we're close enough to the end, switch directions */
+        if (anim->delta_yscale != 0.0) {
+            yscale += anim->delta_yscale;
+            if ((fabs(anim->end_yscale - yscale) < fabs(anim->delta_yscale)) ||
+               (fabs(anim->start_yscale - yscale) < fabs(anim->delta_yscale))) {
+                anim->delta_yscale = anim->delta_yscale * -1.0;
+            }
+        }
+
+
 
         /* Update the children */
         for (uint8_t i = 0; i < num_children; i++) {
@@ -171,7 +206,9 @@ namespace fvu {
     void Object::endDemo() {
 
         x = game_anim.start_x;
+        xscale = game_anim.start_xscale;
         y = game_anim.start_y;
+        yscale = game_anim.start_yscale;
         angle = game_anim.start_angle;
         status = OBJECT_STATUS_GAME;
 
@@ -182,5 +219,19 @@ namespace fvu {
 
     }
 
+
+
+    /*****************************************************************************
+    * Function: animation_struct::set_defaults
+    * Description: Sets default values for the object class, which helps simplify
+    * other parts of the fvu codebase.
+    *****************************************************************************/
+    void animation_struct::set_defaults() {
+        start_angle = 0.0; delta_angle = 0.0; end_angle = 0.0;
+        start_xscale = 1.0; delta_xscale = 0.0; end_xscale = 1.0;
+        start_x = 0.0; delta_x = 0.0; end_x = 0.0;
+        start_yscale = 1.0; delta_yscale = 0.0; end_yscale = 1.0;
+        start_y = 0.0; delta_y = 0.0; end_y = 0.0;
+    }
 
 } // namespace fvu

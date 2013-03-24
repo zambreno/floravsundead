@@ -26,10 +26,19 @@ typedef enum {OBJECT_STATUS_DEMO=0, OBJECT_STATUS_GAME, OBJECT_STATUS_INACTIVE} 
 namespace fvu {
 
     /* Helpful structs to contain the animation and placement information */
-    struct animation_struct {
-        float start_angle, delta_angle, end_angle;
-        float start_x, delta_x, end_x;
-        float start_y, delta_y, end_y;
+    class animation_struct {
+        public:
+            float start_angle, delta_angle, end_angle;
+            float start_xscale, delta_xscale, end_xscale;
+            float start_x, delta_x, end_x;
+            float start_yscale, delta_yscale, end_yscale;
+            float start_y, delta_y, end_y;
+            void set_angle(float startval, float deltaval, float endval) {start_angle = startval; delta_angle = deltaval; end_angle = endval;}
+            void set_xscale(float startval, float deltaval, float endval) {start_xscale = startval; delta_xscale = deltaval; end_xscale = endval;}
+            void set_x(float startval, float deltaval, float endval) {start_x = startval; delta_x = deltaval; end_x = endval;}
+            void set_yscale(float startval, float deltaval, float endval) {start_yscale = startval; delta_yscale = deltaval; end_yscale = endval;}
+            void set_y(float startval, float deltaval, float endval) {start_y = startval; delta_y = deltaval; end_y = endval;}
+            void set_defaults();
     };
 
     /* Object class. Each plant/zombie has multiple objects, each with links to the parent
@@ -38,6 +47,7 @@ namespace fvu {
         private:
             animation_struct demo_anim, game_anim;
             float x, y, angle;
+            float xscale, yscale;
             uint16_t sprite;
             uint32_t depth;
             uint8_t status;
@@ -48,6 +58,7 @@ namespace fvu {
             uint8_t num_children;
             void endDemo();
             void update();
+            void updateSprite(uint16_t mySprite) {sprite = mySprite;}
             Object(animation_struct demo_anim, animation_struct game_anim, uint32_t anim_count, uint8_t texfile, uint16_t sprite, uint32_t depth, uint8_t num_children, Object *parent);
             void draw();
      };

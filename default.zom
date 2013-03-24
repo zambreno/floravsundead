@@ -43,10 +43,10 @@ place 1, 1000
 place 2, 0
 place 3, 1000
 place 4, 5000
-place 1, 500
+#place 1, 500
 place 4, 1000
 place 2, -1
-place 1, 500
+#place 1, 500
 place 0, 0
 place 3, 0
 place 3, 0
