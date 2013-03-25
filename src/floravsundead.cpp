@@ -230,7 +230,7 @@ namespace fvu {
         // Command loop: grab the next cmd for each team.
         for (uint16_t i = 0; i < 4; i++) {
 
-            if (myTeams[i].cmd_done == true) {
+            if (myTeams[i].cmds_done == true) {
                 continue;
             }
 
