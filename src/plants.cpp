@@ -156,7 +156,7 @@ namespace fvu {
                 // children[0]->children[0] is the top part of the stalk
                 demo_anim.set_defaults();
                 demo_anim.set_x(1.0, 0.0, 0.0);
-                demo_anim.set_y(17.0, 0.0, 0.0);
+                demo_anim.set_y(11.0, 0.0, 0.0);
                 demo_anim.set_xscale(0.65, 0.0, 1.0);
                 demo_anim.set_yscale(0.65, 0.0, 1.0);
                 myObject->children[0]->children[0] = new Object(demo_anim, demo_anim, anim_count, TEX_PLANTS, PEASHOOTER_STALK_TOP, STEM_DEPTH, 1, myObject->children[0]);
@@ -164,8 +164,8 @@ namespace fvu {
 
                 // children[0]->children[1] is the backleaf
                 demo_anim.set_defaults();
-                demo_anim.set_x(-18.0, 0.0, 0.0);
-                demo_anim.set_y(-5.0, 0.0, 0.0);
+                demo_anim.set_x(-11.0, 0.0, 0.0);
+                demo_anim.set_y(2.0, 0.0, 0.0);
                 demo_anim.set_xscale(0.65, 0.0, 1.0);
                 demo_anim.set_yscale(0.65, 0.0, 1.0);
                 myObject->children[0]->children[1] = new Object(demo_anim, demo_anim, anim_count, TEX_PLANTS, PEASHOOTER_BACKLEAF, BACKLEAF_DEPTH, 2, myObject->children[0]);
@@ -173,8 +173,8 @@ namespace fvu {
                 // children[0]->children[1]->children[0] is the left tip of the backleaf
                 local_object = myObject->children[0]->children[1];
                 demo_anim.set_defaults();
-                demo_anim.set_x(-5.0, 0.0, 0.0);
-                demo_anim.set_y(9.0, 0.0, 0.0);
+                demo_anim.set_x(-3.0, 0.0, 0.0);
+                demo_anim.set_y(6.0, 0.0, 0.0);
                 demo_anim.set_xscale(0.65, 0.0, 1.0);
                 demo_anim.set_yscale(0.65, 0.0, 1.0);
                 local_object->children[0] = new Object(demo_anim, demo_anim, anim_count, TEX_PLANTS, PEASHOOTER_BACKLEAF_LEFTTIP, BACKLEAF_DEPTH, 0, local_object);
@@ -182,16 +182,16 @@ namespace fvu {
                 // children[0]->children[1]->children[1] is the right tip of the backleaf
                 local_object = myObject->children[0]->children[1];
                 demo_anim.set_defaults();
-                demo_anim.set_x(37.0, 0.0, 0.0);
-                demo_anim.set_y(13.0, 0.0, 0.0);
+                demo_anim.set_x(24.0, 0.0, 0.0);
+                demo_anim.set_y(8.0, 0.0, 0.0);
                 demo_anim.set_xscale(0.65, 0.0, 1.0);
                 demo_anim.set_yscale(0.65, 0.0, 1.0);
                 local_object->children[1] = new Object(demo_anim, demo_anim, anim_count, TEX_PLANTS, PEASHOOTER_BACKLEAF_RIGHTTIP, BACKLEAF_DEPTH, 0, local_object);
 
                 // children[0]->children[2] is the frontleaf
                 demo_anim.set_defaults();
-                demo_anim.set_x(-25.0, 0.0, 0.0);
-                demo_anim.set_y(-21.0, 0.0, 0.0);
+                demo_anim.set_x(-17.0, 0.0, 0.0);
+                demo_anim.set_y(-15.0, 0.0, 0.0);
                 demo_anim.set_xscale(0.65, 0.0, 1.0);
                 demo_anim.set_yscale(0.65, 0.0, 1.0);
                 myObject->children[0]->children[2] = new Object(demo_anim, demo_anim, anim_count, TEX_PLANTS, PEASHOOTER_FRONTLEAF, FRONTLEAF_DEPTH, 2, myObject->children[0]);
@@ -199,7 +199,7 @@ namespace fvu {
                 // children[0]->children[2]->children[0] is the left tip of the frontleaf
                 local_object = myObject->children[0]->children[2];
                 demo_anim.set_defaults();
-                demo_anim.set_x(-6.0, 0.0, 0.0);
+                demo_anim.set_x(-3.0, 0.0, 0.0);
                 demo_anim.set_y(-2.0, 0.0, 0.0);
                 demo_anim.set_xscale(0.65, 0.0, 1.0);
                 demo_anim.set_yscale(0.65, 0.0, 1.0);
@@ -208,8 +208,8 @@ namespace fvu {
                 // children[0]->children[2]->children[1] is the right tip of the frontleaf
                 local_object = myObject->children[0]->children[2];
                 demo_anim.set_defaults();
-                demo_anim.set_x(61.0, 0.0, 0.0);
-                demo_anim.set_y(7.0, 0.0, 0.0);
+                demo_anim.set_x(39.0, 0.0, 0.0);
+                demo_anim.set_y(4.0, 0.0, 0.0);
                 demo_anim.set_xscale(0.65, 0.0, 1.0);
                 demo_anim.set_yscale(0.65, 0.0, 1.0);
                 local_object->children[1] = new Object(demo_anim, demo_anim, anim_count, TEX_PLANTS, PEASHOOTER_FRONTLEAF_RIGHTTIP, FRONTLEAF_DEPTH, 0, local_object);
@@ -217,8 +217,8 @@ namespace fvu {
                 // children[0]->children[0]->children[0] is the head
                 local_object = myObject->children[0]->children[0];
                 demo_anim.set_defaults();
-                demo_anim.set_x(-28.0, 0.0, 0.0);
-                demo_anim.set_y(9.0, 0.0, 0.0);
+                demo_anim.set_x(-19.0, 0.0, 0.0);
+                demo_anim.set_y(6.0, 0.0, 0.0);
                 demo_anim.set_xscale(0.65, 0.0, 1.0);
                 demo_anim.set_yscale(0.65, 0.0, 1.0);
                 local_object->children[0] = new Object(demo_anim, demo_anim, anim_count, TEX_PLANTS, PEASHOOTER_HEAD, PLANTHEAD_DEPTH, 2, local_object);
@@ -226,8 +226,8 @@ namespace fvu {
                 // children[0]->children[0]->children[0]->children[0] is the lips
                 local_object = myObject->children[0]->children[0]->children[0];
                 demo_anim.set_defaults();
-                demo_anim.set_x(40.0, 0.0, 0.0);
-                demo_anim.set_y(9.0, 0.0, 0.0);
+                demo_anim.set_x(39.0, 0.0, 0.0);
+                demo_anim.set_y(7.0, 0.0, 0.0);
                 demo_anim.set_xscale(0.65, 0.0, 1.0);
                 demo_anim.set_yscale(0.65, 0.0, 1.0);
                 local_object->children[0] = new Object(demo_anim, demo_anim, anim_count, TEX_PLANTS, PEASHOOTER_LIPS, PLANTHEAD_DEPTH, 0, local_object);
@@ -235,8 +235,8 @@ namespace fvu {
                 // children[0]->children[0]->children[0]->children[1] is the sprout
                 local_object = myObject->children[0]->children[0]->children[0];
                 demo_anim.set_defaults();
-                demo_anim.set_x(-12.0, 0.0, 0.0);
-                demo_anim.set_y(27.0, 0.0, 0.0);
+                demo_anim.set_x(-9.0, 0.0, 0.0);
+                demo_anim.set_y(19.0, 0.0, 0.0);
                 demo_anim.set_xscale(0.65, 0.0, 1.0);
                 demo_anim.set_yscale(0.65, 0.0, 1.0);
                 local_object->children[1] = new Object(demo_anim, demo_anim, anim_count, TEX_PLANTS, PEASHOOTER_SPROUT, FRONTLEAF_DEPTH, 0, local_object);
@@ -245,7 +245,7 @@ namespace fvu {
                 demo_anim.set_defaults();
                 demo_anim.start_angle = 0.0;demo_anim.delta_angle = 0.0;demo_anim.end_angle = 0.0;
                 demo_anim.start_x     = -25.0;demo_anim.delta_x     = 0.0;demo_anim.end_x     = 0.0;
-                demo_anim.start_y     = -50.0;demo_anim.delta_y     = 0.0;demo_anim.end_y     = 0.0;
+                demo_anim.start_y     = -30.0;demo_anim.delta_y     = 0.0;demo_anim.end_y     = 0.0;
                 demo_anim.set_xscale(0.85, 0.0, 1.0);
                 demo_anim.set_yscale(0.85, 0.0, 1.0);
                 myObject->children[1] = new Object(demo_anim, demo_anim, anim_count, TEX_PLANTS, POT_SHADOW, PLANT_SHADOW_DEPTH, 0, myObject);
