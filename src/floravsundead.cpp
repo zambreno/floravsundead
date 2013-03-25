@@ -66,6 +66,9 @@ namespace fvu {
             myTeams[i].status = 0;
             myTeams[i].timer_ms = 0;
             myTeams[i].zombie_index = 0;
+            myTeams[i].cur_cmd = 0;
+            myTeams[i].zombies_done = false;
+            myTeams[i].cmds_done = false;
         }
 
     }
@@ -122,11 +125,44 @@ namespace fvu {
     void Game::updateGame() {
 
         static bool firstZombie = true;
+        bool gameDone;
 
-        // Grab the next zombie for each team. Note that they are sorted
+        // Check for the gameDone condition
+        for (uint16_t i = 0; i < 4; i++) {
+            if ((myTeams[i].zombies_done == true) &&  (myTeams[i].cmds_done == true)) {
+                gameDone = true;
+            }
+            else {
+                gameDone = false;
+                break;
+            }
+        }
+        if (gameDone == true) {
+            myStatus.mode = GAME_END;
+            return;
+        }
+
+
+        // Zombie loo: grab the next zombie for each team. Note that they are sorted
         // graphically, so we have to perform a linear search based on zombie_index
         for (uint16_t i = 0; i < 4; i++) {
+
+            // If we're done with zombies, continue
+            if (myTeams[i].zombies_done == true) {
+                continue;
+            }
+
+
+            // If we have no more zombies left to send, we can stop updating zombies once they're all inactive/winning
             if (myTeams[i].zombie_index >= myZombies[i].size()) {
+                bool zombies_done = true;
+                for (uint16_t k = 0; k < myZombies[i].size(); k++) {
+                    if ((myZombies[i][k].getStatus() != ZOMBIE_STATUS_INACTIVE) && (myZombies[i][k].getStatus() != ZOMBIE_STATUS_WINNING)) {
+                        zombies_done = false;
+                        break;
+                    }
+                }
+                myTeams[i].zombies_done = zombies_done;
                 continue;
             }
 
@@ -146,7 +182,7 @@ namespace fvu {
             bool sendZombie = true;
             if (myZombies[i][j].getDelay() == -1) {
                 for (uint16_t k = 0; k < myZombies[i].size(); k++) {
-                    if ((myZombies[i][k].getStatus() != ZOMBIE_STATUS_GAME) && (myZombies[i][k].getStatus() != ZOMBIE_STATUS_INACTIVE)) {
+                    if ((myZombies[i][k].getStatus() != ZOMBIE_STATUS_GAME) && (myZombies[i][k].getStatus() != ZOMBIE_STATUS_INACTIVE) && (myZombies[i][k].getStatus() != ZOMBIE_STATUS_WINNING)) {
                         sendZombie = false;
                         break;
                     }
@@ -166,6 +202,7 @@ namespace fvu {
             }
 
             if (sendZombie == true) {
+
                 myZombies[i][j].setStatus(ZOMBIE_STATUS_ACTIVE);
                 myTeams[i].zombie_index++;
                 if (firstZombie == true) {
@@ -175,12 +212,46 @@ namespace fvu {
                     myStatus.music_buffer %= NUM_SOUNDS;
                     firstZombie = false;
                 }
+                // Play a sound for those "final wave" zombies
+                else if (myZombies[i][j].getDelay() == -1) {
+                    mySounds[myStatus.music_buffer].setBuffer(mySoundBuffers[SFX_FINALWAVE]);
+                    mySounds[myStatus.music_buffer].play();
+                    myStatus.music_buffer++;
+                    myStatus.music_buffer %= NUM_SOUNDS;
+                }
+
 
             }
 
         }
 
 
+
+        // Command loop: grab the next cmd for each team.
+        for (uint16_t i = 0; i < 4; i++) {
+
+
+
+            bool pred_true = false;
+
+            // Evaluate predicate, to determine if command should even be executed
+            pred_true = true;
+
+            if (pred_true == true) {
+
+            }
+
+            // Advance the next command, after some per-command delay
+            myTeams[i].cur_cmd++;
+            if (myTeams[i].cur_cmd >= myTeams[i].cmds.size()) {
+                myTeams[i].cmds_done = true;
+            }
+
+        }
+
+
+
+        // Main updatr/sort loop
         for (uint16_t i = 0; i < 4; i++) {
             for (uint16_t j = 0; j < myZombies[i].size(); j++) {
                 myZombies[i][j].update();

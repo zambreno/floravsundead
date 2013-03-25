@@ -109,6 +109,9 @@ namespace fvu {
             uint16_t budget;
             uint16_t zombie_index;
             int32_t timer_ms;
+            uint16_t cur_cmd;
+            bool zombies_done;
+            bool cmds_done;
             std::vector<fvu::cmd_type> cmds;
     };
 
