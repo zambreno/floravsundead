@@ -120,7 +120,7 @@ namespace fvu {
                 demo_anim.set_defaults();
                 demo_anim.set_x(-22.0, 0.0, 0.0);
                 demo_anim.set_y(-35.0, 0.0, 0.0);
-                demo_anim.set_angle(-10.0, 0.2, 10.0);
+                demo_anim.set_angle(-90.0, 0.2, 90.0);
                 demo_anim.set_xscale(0.65, 0.0, 1.0);
                 demo_anim.set_yscale(0.65, 0.001, 0.66);
 
@@ -243,9 +243,8 @@ namespace fvu {
 
                 // children[1] is the shadow
                 demo_anim.set_defaults();
-                demo_anim.start_angle = 0.0;demo_anim.delta_angle = 0.0;demo_anim.end_angle = 0.0;
-                demo_anim.start_x     = -25.0;demo_anim.delta_x     = 0.0;demo_anim.end_x     = 0.0;
-                demo_anim.start_y     = -30.0;demo_anim.delta_y     = 0.0;demo_anim.end_y     = 0.0;
+                demo_anim.set_x(-25.0, 0.0, 0.0);
+                demo_anim.set_y(-30.0, 0.0, 0.0);
                 demo_anim.set_xscale(0.85, 0.0, 1.0);
                 demo_anim.set_yscale(0.85, 0.0, 1.0);
                 myObject->children[1] = new Object(demo_anim, demo_anim, anim_count, TEX_PLANTS, POT_SHADOW, PLANT_SHADOW_DEPTH, 0, myObject);

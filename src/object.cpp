@@ -91,7 +91,7 @@ namespace fvu {
             myGame->getTexCoords(texfile, sprite, texCoords);
 
             // Splitting up the x/y translations allows a smoother transition
-            //glTranslatef(x, 0.0, 0);
+//            glTranslatef(x, 0.0, 0);
 
 
             glTranslatef(x, y, 0);
@@ -101,6 +101,7 @@ namespace fvu {
             glRotatef(angle, 0.0, 0.0, 1.0);
             //glTranslatef(0.0, y, 0.0);
 
+//            glTranslatef(-x, -y, 0);
             glTranslatef(-texCoords[4]/2, -texCoords[5]/2, 0.0);
 
             glBegin(GL_QUADS);
