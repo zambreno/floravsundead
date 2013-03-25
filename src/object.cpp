@@ -223,7 +223,7 @@ namespace fvu {
 
     /*****************************************************************************
     * Function: animation_struct::set_defaults
-    * Description: Sets default values for the object class, which helps simplify
+    * Description: Sets default values for an animation struct, which helps simplify
     * other parts of the fvu codebase.
     *****************************************************************************/
     void animation_struct::set_defaults() {

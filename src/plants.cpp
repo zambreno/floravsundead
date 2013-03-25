@@ -108,7 +108,7 @@ namespace fvu {
 
 
         Object *local_object;
-        animation_struct demo_anim, game_anim;
+        animation_struct demo_anim;
 
         switch(type) {
             case WALLNUT_PLANT:
@@ -116,14 +116,15 @@ namespace fvu {
                 demo_anim.set_defaults();
                 myObject = new Object(demo_anim, demo_anim, anim_count, 0, 0, 0, 2, NULL);
 
-                // children[0] is the bottom part of the stalk
+                // children[0] is the wallnut body
                 demo_anim.set_defaults();
                 demo_anim.set_x(-22.0, 0.0, 0.0);
                 demo_anim.set_y(-35.0, 0.0, 0.0);
+                demo_anim.set_angle(-10.0, 0.2, 10.0);
                 demo_anim.set_xscale(0.65, 0.0, 1.0);
-                demo_anim.set_yscale(0.65, 0.0, 1.0);
-                game_anim = demo_anim;
-                myObject->children[0] = new Object(demo_anim, game_anim, anim_count, TEX_PLANTS, WALLNUT_BODY, PLANTHEAD_DEPTH, 0, myObject);
+                demo_anim.set_yscale(0.65, 0.001, 0.66);
+
+                myObject->children[0] = new Object(demo_anim, demo_anim, anim_count, TEX_PLANTS, WALLNUT_BODY, PLANTHEAD_DEPTH, 0, myObject);
 
 
                 // children[1] is the shadow
@@ -133,8 +134,8 @@ namespace fvu {
                 demo_anim.start_y     = -50.0;demo_anim.delta_y     = 0.0;demo_anim.end_y     = 0.0;
                 demo_anim.set_xscale(0.85, 0.0, 1.0);
                 demo_anim.set_yscale(0.85, 0.0, 1.0);
-                game_anim = demo_anim;
-                myObject->children[1] = new Object(demo_anim, game_anim, anim_count, TEX_PLANTS, POT_SHADOW, PLANT_SHADOW_DEPTH, 0, myObject);
+
+                myObject->children[1] = new Object(demo_anim, demo_anim, anim_count, TEX_PLANTS, POT_SHADOW, PLANT_SHADOW_DEPTH, 0, myObject);
 
 
 
@@ -148,10 +149,9 @@ namespace fvu {
 
                 // children[0] is the bottom part of the stalk
                 demo_anim.set_defaults();
-                game_anim = demo_anim;
                 demo_anim.set_xscale(0.65, 0.0, 1.0);
                 demo_anim.set_yscale(0.65, 0.0, 1.0);
-                myObject->children[0] = new Object(demo_anim, game_anim, anim_count, TEX_PLANTS, PEASHOOTER_STALK_BOTTOM, STEM_DEPTH, 3, myObject);
+                myObject->children[0] = new Object(demo_anim, demo_anim, anim_count, TEX_PLANTS, PEASHOOTER_STALK_BOTTOM, STEM_DEPTH, 3, myObject);
 
                 // children[0]->children[0] is the top part of the stalk
                 demo_anim.set_defaults();
@@ -159,8 +159,7 @@ namespace fvu {
                 demo_anim.set_y(17.0, 0.0, 0.0);
                 demo_anim.set_xscale(0.65, 0.0, 1.0);
                 demo_anim.set_yscale(0.65, 0.0, 1.0);
-                game_anim = demo_anim;
-                myObject->children[0]->children[0] = new Object(demo_anim, game_anim, anim_count, TEX_PLANTS, PEASHOOTER_STALK_TOP, STEM_DEPTH, 1, myObject->children[0]);
+                myObject->children[0]->children[0] = new Object(demo_anim, demo_anim, anim_count, TEX_PLANTS, PEASHOOTER_STALK_TOP, STEM_DEPTH, 1, myObject->children[0]);
 
 
                 // children[0]->children[1] is the backleaf
@@ -169,8 +168,7 @@ namespace fvu {
                 demo_anim.set_y(-5.0, 0.0, 0.0);
                 demo_anim.set_xscale(0.65, 0.0, 1.0);
                 demo_anim.set_yscale(0.65, 0.0, 1.0);
-                game_anim = demo_anim;
-                myObject->children[0]->children[1] = new Object(demo_anim, game_anim, anim_count, TEX_PLANTS, PEASHOOTER_BACKLEAF, BACKLEAF_DEPTH, 2, myObject->children[0]);
+                myObject->children[0]->children[1] = new Object(demo_anim, demo_anim, anim_count, TEX_PLANTS, PEASHOOTER_BACKLEAF, BACKLEAF_DEPTH, 2, myObject->children[0]);
 
                 // children[0]->children[1]->children[0] is the left tip of the backleaf
                 local_object = myObject->children[0]->children[1];
@@ -179,8 +177,7 @@ namespace fvu {
                 demo_anim.set_y(9.0, 0.0, 0.0);
                 demo_anim.set_xscale(0.65, 0.0, 1.0);
                 demo_anim.set_yscale(0.65, 0.0, 1.0);
-                game_anim = demo_anim;
-                local_object->children[0] = new Object(demo_anim, game_anim, anim_count, TEX_PLANTS, PEASHOOTER_BACKLEAF_LEFTTIP, BACKLEAF_DEPTH, 0, local_object);
+                local_object->children[0] = new Object(demo_anim, demo_anim, anim_count, TEX_PLANTS, PEASHOOTER_BACKLEAF_LEFTTIP, BACKLEAF_DEPTH, 0, local_object);
 
                 // children[0]->children[1]->children[1] is the right tip of the backleaf
                 local_object = myObject->children[0]->children[1];
@@ -189,8 +186,7 @@ namespace fvu {
                 demo_anim.set_y(13.0, 0.0, 0.0);
                 demo_anim.set_xscale(0.65, 0.0, 1.0);
                 demo_anim.set_yscale(0.65, 0.0, 1.0);
-                game_anim = demo_anim;
-                local_object->children[1] = new Object(demo_anim, game_anim, anim_count, TEX_PLANTS, PEASHOOTER_BACKLEAF_RIGHTTIP, BACKLEAF_DEPTH, 0, local_object);
+                local_object->children[1] = new Object(demo_anim, demo_anim, anim_count, TEX_PLANTS, PEASHOOTER_BACKLEAF_RIGHTTIP, BACKLEAF_DEPTH, 0, local_object);
 
                 // children[0]->children[2] is the frontleaf
                 demo_anim.set_defaults();
@@ -198,8 +194,7 @@ namespace fvu {
                 demo_anim.set_y(-21.0, 0.0, 0.0);
                 demo_anim.set_xscale(0.65, 0.0, 1.0);
                 demo_anim.set_yscale(0.65, 0.0, 1.0);
-                game_anim = demo_anim;
-                myObject->children[0]->children[2] = new Object(demo_anim, game_anim, anim_count, TEX_PLANTS, PEASHOOTER_FRONTLEAF, FRONTLEAF_DEPTH, 2, myObject->children[0]);
+                myObject->children[0]->children[2] = new Object(demo_anim, demo_anim, anim_count, TEX_PLANTS, PEASHOOTER_FRONTLEAF, FRONTLEAF_DEPTH, 2, myObject->children[0]);
 
                 // children[0]->children[2]->children[0] is the left tip of the frontleaf
                 local_object = myObject->children[0]->children[2];
@@ -208,8 +203,7 @@ namespace fvu {
                 demo_anim.set_y(-2.0, 0.0, 0.0);
                 demo_anim.set_xscale(0.65, 0.0, 1.0);
                 demo_anim.set_yscale(0.65, 0.0, 1.0);
-                game_anim = demo_anim;
-                local_object->children[0] = new Object(demo_anim, game_anim, anim_count, TEX_PLANTS, PEASHOOTER_FRONTLEAF_LEFTTIP, FRONTLEAF_DEPTH, 0, local_object);
+                local_object->children[0] = new Object(demo_anim, demo_anim, anim_count, TEX_PLANTS, PEASHOOTER_FRONTLEAF_LEFTTIP, FRONTLEAF_DEPTH, 0, local_object);
 
                 // children[0]->children[2]->children[1] is the right tip of the frontleaf
                 local_object = myObject->children[0]->children[2];
@@ -218,8 +212,7 @@ namespace fvu {
                 demo_anim.set_y(7.0, 0.0, 0.0);
                 demo_anim.set_xscale(0.65, 0.0, 1.0);
                 demo_anim.set_yscale(0.65, 0.0, 1.0);
-                game_anim = demo_anim;
-                local_object->children[1] = new Object(demo_anim, game_anim, anim_count, TEX_PLANTS, PEASHOOTER_FRONTLEAF_RIGHTTIP, FRONTLEAF_DEPTH, 0, local_object);
+                local_object->children[1] = new Object(demo_anim, demo_anim, anim_count, TEX_PLANTS, PEASHOOTER_FRONTLEAF_RIGHTTIP, FRONTLEAF_DEPTH, 0, local_object);
 
                 // children[0]->children[0]->children[0] is the head
                 local_object = myObject->children[0]->children[0];
@@ -228,8 +221,7 @@ namespace fvu {
                 demo_anim.set_y(9.0, 0.0, 0.0);
                 demo_anim.set_xscale(0.65, 0.0, 1.0);
                 demo_anim.set_yscale(0.65, 0.0, 1.0);
-                game_anim = demo_anim;
-                local_object->children[0] = new Object(demo_anim, game_anim, anim_count, TEX_PLANTS, PEASHOOTER_HEAD, PLANTHEAD_DEPTH, 2, local_object);
+                local_object->children[0] = new Object(demo_anim, demo_anim, anim_count, TEX_PLANTS, PEASHOOTER_HEAD, PLANTHEAD_DEPTH, 2, local_object);
 
                 // children[0]->children[0]->children[0]->children[0] is the lips
                 local_object = myObject->children[0]->children[0]->children[0];
@@ -238,8 +230,7 @@ namespace fvu {
                 demo_anim.set_y(9.0, 0.0, 0.0);
                 demo_anim.set_xscale(0.65, 0.0, 1.0);
                 demo_anim.set_yscale(0.65, 0.0, 1.0);
-                game_anim = demo_anim;
-                local_object->children[0] = new Object(demo_anim, game_anim, anim_count, TEX_PLANTS, PEASHOOTER_LIPS, PLANTHEAD_DEPTH, 0, local_object);
+                local_object->children[0] = new Object(demo_anim, demo_anim, anim_count, TEX_PLANTS, PEASHOOTER_LIPS, PLANTHEAD_DEPTH, 0, local_object);
 
                 // children[0]->children[0]->children[0]->children[1] is the sprout
                 local_object = myObject->children[0]->children[0]->children[0];
@@ -248,8 +239,7 @@ namespace fvu {
                 demo_anim.set_y(27.0, 0.0, 0.0);
                 demo_anim.set_xscale(0.65, 0.0, 1.0);
                 demo_anim.set_yscale(0.65, 0.0, 1.0);
-                game_anim = demo_anim;
-                local_object->children[1] = new Object(demo_anim, game_anim, anim_count, TEX_PLANTS, PEASHOOTER_SPROUT, FRONTLEAF_DEPTH, 0, local_object);
+                local_object->children[1] = new Object(demo_anim, demo_anim, anim_count, TEX_PLANTS, PEASHOOTER_SPROUT, FRONTLEAF_DEPTH, 0, local_object);
 
                 // children[1] is the shadow
                 demo_anim.set_defaults();
@@ -258,8 +248,7 @@ namespace fvu {
                 demo_anim.start_y     = -50.0;demo_anim.delta_y     = 0.0;demo_anim.end_y     = 0.0;
                 demo_anim.set_xscale(0.85, 0.0, 1.0);
                 demo_anim.set_yscale(0.85, 0.0, 1.0);
-                game_anim = demo_anim;
-                myObject->children[1] = new Object(demo_anim, game_anim, anim_count, TEX_PLANTS, POT_SHADOW, PLANT_SHADOW_DEPTH, 0, myObject);
+                myObject->children[1] = new Object(demo_anim, demo_anim, anim_count, TEX_PLANTS, POT_SHADOW, PLANT_SHADOW_DEPTH, 0, myObject);
 
                 break;
         }
@@ -323,8 +312,8 @@ namespace fvu {
     *****************************************************************************/
     void Plant::endDemo() {
 
-        /* Reset all animation counts and angles */
-        myObject->endDemo();
+        /* Don't reset animation counts for the plants */
+//        myObject->endDemo();
 
         /* Point x,y to game_x and game_y */
         status = PLANT_STATUS_GAME;
@@ -370,6 +359,24 @@ namespace fvu {
 
     }
 
+
+
+    /*****************************************************************************
+    * Function: Plant::bite
+    * Description: Updates the health (and potentially other aspects) when a
+    * plant gets bitten
+    *****************************************************************************/
+    void Plant::bite() {
+
+        health--;
+
+        // WALLNUT_PLANTS stop moving once bitten
+        if (type == WALLNUT_PLANT) {
+            myObject->children[0]->demo_anim.set_defaults();
+            myObject->children[0]->angle = 0.0;
+        }
+
+    }
 
 
 

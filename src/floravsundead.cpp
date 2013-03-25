@@ -129,7 +129,7 @@ namespace fvu {
 
         // Check for the gameDone condition
         for (uint16_t i = 0; i < 4; i++) {
-            if ((myTeams[i].zombies_done == true) &&  (myTeams[i].cmds_done == true)) {
+            if ((myTeams[i].zombies_done == true)) { //&& (myTeams[i].cmds_done == true)) {
                 gameDone = true;
             }
             else {
@@ -230,6 +230,9 @@ namespace fvu {
         // Command loop: grab the next cmd for each team.
         for (uint16_t i = 0; i < 4; i++) {
 
+            if (myTeams[i].cmd_done == true) {
+                continue;
+            }
 
 
             bool pred_true = false;
@@ -251,7 +254,7 @@ namespace fvu {
 
 
 
-        // Main updatr/sort loop
+        // Main update/sort loop
         for (uint16_t i = 0; i < 4; i++) {
             for (uint16_t j = 0; j < myZombies[i].size(); j++) {
                 myZombies[i][j].update();

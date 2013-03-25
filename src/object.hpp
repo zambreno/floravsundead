@@ -44,7 +44,7 @@ namespace fvu {
     /* Object class. Each plant/zombie has multiple objects, each with links to the parent
      * object and (potentially) multiple children. */
      class Object {
-        private:
+        public:
             animation_struct demo_anim, game_anim;
             float x, y, angle;
             float xscale, yscale;
@@ -52,7 +52,6 @@ namespace fvu {
             uint32_t depth;
             uint8_t status;
             uint8_t texfile;
-        public:
             Object *parent;
             Object **children;
             uint8_t num_children;
