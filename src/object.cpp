@@ -87,22 +87,28 @@ namespace fvu {
         /* We don't draw the top-most object */
         glPushMatrix();
         if (parent) {
-            /* Draw the current object */
+            /* Get the sprite for the current object */
             myGame->getTexCoords(texfile, sprite, texCoords);
 
-            // Splitting up the x/y translations allows a smoother transition
-//            glTranslatef(x, 0.0, 0);
-
-
+            /* Modelview transformations are applied in opposite order. No matter how we want to rotate,
+             * we will be moving to the specified relative x/y position at the end */
             glTranslatef(x, y, 0);
 
-            glTranslatef(texCoords[4]/2, texCoords[5]/2, 0.0);
+            switch (anchor) {
+                // Anchor==0 is the center of the object
+                case 0:
+                default:
+                    glTranslatef(texCoords[4]/2, texCoords[5]/2, 0.0);
+                    glRotatef(angle, 0.0, 0.0, 1.0);
+                    glTranslatef(-texCoords[4]/2, -texCoords[5]/2, 0.0);
+                    break;
+                case 3:
+                    glTranslatef(0.0, texCoords[5]/2, 0.0);
+                    glRotatef(angle, 0.0, 0.0, 1.0);
+                    glTranslatef(0.0, -texCoords[5]/2, 0.0);
+                    break;
 
-            glRotatef(angle, 0.0, 0.0, 1.0);
-            //glTranslatef(0.0, y, 0.0);
-
-//            glTranslatef(-x, -y, 0);
-            glTranslatef(-texCoords[4]/2, -texCoords[5]/2, 0.0);
+            }
 
             glBegin(GL_QUADS);
                 glTexCoord2d(texCoords[0], texCoords[1]);

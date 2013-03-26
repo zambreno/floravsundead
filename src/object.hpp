@@ -51,6 +51,7 @@ namespace fvu {
             uint16_t sprite;
             uint32_t depth;
             uint8_t status;
+            uint8_t anchor;
             uint8_t texfile;
             Object *parent;
             Object **children;

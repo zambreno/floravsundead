@@ -73,6 +73,34 @@ namespace fvu {
 
     }
 
+
+    /*****************************************************************************
+    * Function: Game::reset()
+    * Description: Resets the game environment
+    *****************************************************************************/
+    void Game::reset() {
+
+        /* Delete all the existing dynamically allocated resources*/
+        for (uint8_t i = 0; i < 4; i++) {
+            myZombies[i].clear();
+            myPlants[i].clear();
+        }
+
+        init();
+        myStatus.mode = GAME_START;
+        myClock.restart();
+
+        /* Relocate the zombies so that they start using game_x, and game_y */
+        for (uint8_t i = 0; i < 4; i++) {
+            for (uint16_t j = 0; j < myZombies[i].size(); j++) {
+                myZombies[i][j].endDemo();
+            }
+        for (uint16_t j = 0; j < myPlants[i].size(); j++) {
+                myPlants[i][j].endDemo();
+            }
+        }
+    }
+
     /*****************************************************************************
     * Function: Game::mainLoop()
     * Description: Runs the main update, drawing, and event processing loop.

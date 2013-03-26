@@ -434,6 +434,9 @@ namespace fvu {
                     case sf::Keyboard::Q:
                         myWindow.close();
                         break;
+                    case sf::Keyboard::R:
+                        reset();
+                        break;
                     case sf::Keyboard::S:
                     case sf::Keyboard::Return:
                         if (myStatus.mode == DEMO_MID)

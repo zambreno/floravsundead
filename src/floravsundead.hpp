@@ -147,6 +147,7 @@ namespace fvu {
             Game(int argc, char **argv);
             ~Game();
             void init();
+            void reset();
             void compileZombies();
             void compileTeams();
             void mainLoop();

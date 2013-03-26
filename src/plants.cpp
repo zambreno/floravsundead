@@ -140,6 +140,27 @@ namespace fvu {
 
 
                 break;
+
+            // This is for testing purposes only. Don't mess with it.
+            case GATLING_PLANT:
+                /* The object structure starts at the x/y location of the plant head, and moves out in all directions */
+                demo_anim.set_defaults();
+                myObject = new Object(demo_anim, demo_anim, anim_count, 0, 0, 0, 1, NULL);
+
+                // children[0] is the bottom part of the stalk
+                demo_anim.set_defaults();
+                demo_anim.set_angle(0.0, 1.0, 7200.0);
+                myObject->children[0] = new Object(demo_anim, demo_anim, anim_count, TEX_PLANTS, WHITE_PLANT_SPRITE, PLANTHEAD_DEPTH, 1, myObject);
+
+                demo_anim.set_defaults();
+                demo_anim.set_x(108.0, 0.0, 0.0);
+                demo_anim.set_y(0.0, 0.0, 0.0);
+                demo_anim.set_angle(-90.0, 2.0, 90.0);
+                myObject->children[0]->children[0] = new Object(demo_anim, demo_anim, anim_count, TEX_PLANTS, WHITE_PLANT_SPRITE, PLANTHEAD_DEPTH, 0, myObject->children[0]);
+                myObject->children[0]->children[0]->anchor = 3;
+
+                break;
+
             case PEASHOOTER_PLANT:
             default:
 

@@ -34,7 +34,7 @@ select P12.peashooter
 
 place P1 2, 2
 place P2 2, 3
-place P3 2, 4
+place P3 3, 4
 place P4 2, 5
 place P5 2, 6
 place P6 2, 7
