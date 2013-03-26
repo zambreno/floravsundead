@@ -386,7 +386,7 @@ namespace fvu {
             if (myStatus.pan <= -352.5) {
                 myStatus.pan = -352.5;
                 pause_cnt++;
-                if (pause_cnt > 50) {
+                if (pause_cnt > 5000) {
                     dir = -dir;
                     pause_cnt = 0;
                 }
