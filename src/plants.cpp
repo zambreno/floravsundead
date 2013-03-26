@@ -173,202 +173,225 @@ namespace fvu {
 
                 break;
 
-            case PEASHOOTER_PLANT:
             case CHOMPER_PLANT:
                  /* The object structure starts at the x/y location of the plant head, and moves out in all directions */
-                demo_anim.set_defaults();
-                myObject = new Object(demo_anim, demo_anim, anim_count, 0, 0, 0, 2, NULL);
+                local_anim.set_defaults();
+                anim.clear();anim.push_back(local_anim);
+                myObject = new Object(anim, anim_count, 0, 0, 0, 2, NULL);
 
                 // children[0] is the bottom part of the stalk
-                demo_anim.set_defaults();
-                demo_anim.set_x(5.0, 0.0, 0.0);
-                demo_anim.set_y(-10.0, 0.0, 0.0);
-                demo_anim.set_xscale(0.8, 0.0, 1.0);
-                demo_anim.set_yscale(0.8, 0.0, 1.0);
-                myObject->children[0] = new Object(demo_anim, demo_anim, anim_count, TEX_PLANTS, CHOMPER_STEM_3, STEM_DEPTH, 5, myObject);
+                local_anim.set_defaults();
+                local_anim.set_x(5.0, 0.0, 0.0);
+                local_anim.set_y(-10.0, 0.0, 0.0);
+                local_anim.set_xscale(0.8, 0.0, 1.0);
+                local_anim.set_yscale(0.8, 0.0, 1.0);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_STEM_3, STEM_DEPTH, 5, myObject);
 
                 // children[0]->children[0] is the middle part of the stem
-                demo_anim.set_defaults();
-                demo_anim.set_x(-17.0, 0.0, 0.0);
-                demo_anim.set_y(4.75, 0.0, 0.0);
-                demo_anim.set_xscale(0.8, 0.0, 1.0);
-                demo_anim.set_yscale(0.8, 0.0, 1.0);
-                myObject->children[0]->children[0] = new Object(demo_anim, demo_anim, anim_count, TEX_PLANTS, CHOMPER_STEM_2, STEM_DEPTH, 1, myObject->children[0]);
+                local_anim.set_defaults();
+                local_anim.set_x(-17.0, 0.0, 0.0);
+                local_anim.set_y(4.75, 0.0, 0.0);
+                local_anim.set_xscale(0.8, 0.0, 1.0);
+                local_anim.set_yscale(0.8, 0.0, 1.0);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0]->children[0] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_STEM_2, STEM_DEPTH, 1, myObject->children[0]);
 
                    // children[0]->children[0]->children[0] is the top of the stem
                 local_object = myObject->children[0]->children[0];
-                demo_anim.set_defaults();
-                demo_anim.set_x(0.0, 0.0, 0.0);
-                demo_anim.set_y(20.0, 0.0, 0.0);
-                demo_anim.set_xscale(0.8, 0.0, 1.0);
-                demo_anim.set_yscale(0.8, 0.0, 1.0);
-
-                local_object->children[0] = new Object(demo_anim, demo_anim, anim_count, TEX_PLANTS, CHOMPER_STEM_1, STEM_DEPTH, 7, local_object);
+                local_anim.set_defaults();
+                local_anim.set_x(0.0, 0.0, 0.0);
+                local_anim.set_y(20.0, 0.0, 0.0);
+                local_anim.set_xscale(0.8, 0.0, 1.0);
+                local_anim.set_yscale(0.8, 0.0, 1.0);
+                anim.clear();anim.push_back(local_anim);
+                local_object->children[0] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_STEM_1, STEM_DEPTH, 7, local_object);
 
                 // children[0]->children[0]->children[0]->children[0] is lowest headleaf
                 local_object = myObject->children[0]->children[0]->children[0];
-                demo_anim.set_defaults();
-                demo_anim.set_x(3.0, 0.0, 0.0);
-                demo_anim.set_y(-3.5, 0.0, 0.0);
-                demo_anim.set_xscale(1, 0.0, 1.0);
-                demo_anim.set_yscale(1, 0.0, 1.0);
-                local_object->children[0] = new Object(demo_anim, demo_anim, anim_count, TEX_PLANTS, CHOMPER_HEADLEAF_4, HEADLEAF_2_4_DEPTH, 0, local_object);
+                local_anim.set_defaults();
+                local_anim.set_x(3.0, 0.0, 0.0);
+                local_anim.set_y(-3.5, 0.0, 0.0);
+                local_anim.set_xscale(1, 0.0, 1.0);
+                local_anim.set_yscale(1, 0.0, 1.0);
+                anim.clear();anim.push_back(local_anim);
+                local_object->children[0] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_HEADLEAF_4, HEADLEAF_2_4_DEPTH, 0, local_object);
 
                 // children[0]->children[0]->children[0]->children[1] is the middle headleaf
                 local_object = myObject->children[0]->children[0]->children[0];
-                demo_anim.set_defaults();
-                demo_anim.set_x(-8.0, 0.0, 0.0);
-                demo_anim.set_y(2.0, 0.0, 0.0);
-                demo_anim.set_xscale(1, 0.0, 1.0);
-                demo_anim.set_yscale(1, 0.0, 1.0);
-                local_object->children[1] = new Object(demo_anim, demo_anim, anim_count, TEX_PLANTS, CHOMPER_HEADLEAF_1, HEADLEAF_1_DEPTH, 0, local_object);
+                local_anim.set_defaults();
+                local_anim.set_x(-8.0, 0.0, 0.0);
+                local_anim.set_y(2.0, 0.0, 0.0);
+                local_anim.set_xscale(1, 0.0, 1.0);
+                local_anim.set_yscale(1, 0.0, 1.0);
+                anim.clear();anim.push_back(local_anim);
+                local_object->children[1] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_HEADLEAF_1, HEADLEAF_1_DEPTH, 0, local_object);
 
                  // children[0]->children[0]->children[0]->children[2] is the second highest headleaf
                 local_object = myObject->children[0]->children[0]->children[0];
-                demo_anim.set_defaults();
-                demo_anim.set_x(0.0, 0.0, 0.0);
-                demo_anim.set_y(1.25, 0.0, 0.0);
-                demo_anim.set_xscale(1, 0.0, 1.0);
-                demo_anim.set_yscale(1, 0.0, 1.0);
-                local_object->children[2] = new Object(demo_anim, demo_anim, anim_count, TEX_PLANTS, CHOMPER_HEADLEAF_2, HEADLEAF_2_4_DEPTH, 0, local_object);
+                local_anim.set_defaults();
+                local_anim.set_x(0.0, 0.0, 0.0);
+                local_anim.set_y(1.25, 0.0, 0.0);
+                local_anim.set_xscale(1, 0.0, 1.0);
+                local_anim.set_yscale(1, 0.0, 1.0);
+                anim.clear();anim.push_back(local_anim);
+                local_object->children[2] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_HEADLEAF_2, HEADLEAF_2_4_DEPTH, 0, local_object);
 
 
                 // children[0]->children[0]->children[0]->children[3] is the highest headleaf
                 local_object = myObject->children[0]->children[0]->children[0];
-                demo_anim.set_defaults();
-                demo_anim.set_x(5.0, 0.0, 0.0);
-                demo_anim.set_y(6.75, 0.0, 0.0);
-                demo_anim.set_xscale(1, 0.0, 1.0);
-                demo_anim.set_yscale(1, 0.0, 1.0);
-                local_object->children[3] = new Object(demo_anim, demo_anim, anim_count, TEX_PLANTS, CHOMPER_HEADLEAF_3, HEADLEAF_3, 0, local_object);
+                local_anim.set_defaults();
+                local_anim.set_x(5.0, 0.0, 0.0);
+                local_anim.set_y(6.75, 0.0, 0.0);
+                local_anim.set_xscale(1, 0.0, 1.0);
+                local_anim.set_yscale(1, 0.0, 1.0);
+                anim.clear();anim.push_back(local_anim);
+                local_object->children[3] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_HEADLEAF_3, HEADLEAF_3, 0, local_object);
 
 
  // children[0]->children[0]->children[0]->children[4] is the underjaw
                 local_object = myObject->children[0]->children[0]->children[0];
-                demo_anim.set_defaults();
-                demo_anim.set_x(10.0, 0.0, 0.0);
-                demo_anim.set_y(-25.0, 0.0, 0.0);
-                demo_anim.set_angle(0.0, 0.0, 0.0);
-                demo_anim.set_xscale(0.6, 0.0, 1.0);
-                demo_anim.set_yscale(0.6, 0.0, 1.0);
-                local_object->children[4] = new Object(demo_anim, demo_anim, anim_count, TEX_PLANTS, CHOMPER_UNDERJAW, PLANTHEAD_DEPTH, 1, local_object);
+                local_anim.set_defaults();
+                local_anim.set_x(10.0, 0.0, 0.0);
+                local_anim.set_y(-25.0, 0.0, 0.0);
+                local_anim.set_angle(0.0, 0.0, 0.0);
+                local_anim.set_xscale(0.6, 0.0, 1.0);
+                local_anim.set_yscale(0.6, 0.0, 1.0);
+                anim.clear();anim.push_back(local_anim);
+                local_object->children[4] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_UNDERJAW, PLANTHEAD_DEPTH, 1, local_object);
 
  // children[0]->children[0]->children[0]->children[4]->children[0] is the bottom lip
                 local_object = myObject->children[0]->children[0]->children[0]->children[4];
-                demo_anim.set_defaults();
-                demo_anim.set_x(8.75, 0.0, 0.0);
-                demo_anim.set_y(7.25, 0.0, 0.0);
-                demo_anim.set_xscale(0.6, 0.0, 1.0);
-                demo_anim.set_yscale(0.6, 0.0, 1.0);
-                local_object->children[0] = new Object(demo_anim, demo_anim, anim_count, TEX_PLANTS, CHOMPER_BOTTOMLIP, PLANTHEAD_DEPTH, 0, local_object);
+                local_anim.set_defaults();
+                local_anim.set_x(8.75, 0.0, 0.0);
+                local_anim.set_y(7.25, 0.0, 0.0);
+                local_anim.set_xscale(0.6, 0.0, 1.0);
+                local_anim.set_yscale(0.6, 0.0, 1.0);
+                anim.clear();anim.push_back(local_anim);
+                local_object->children[0] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_BOTTOMLIP, PLANTHEAD_DEPTH, 0, local_object);
 
 
  // children[0]->children[0]->children[0]->children[5] is the top of the head
                 local_object = myObject->children[0]->children[0]->children[0];
-                demo_anim.set_defaults();
-                demo_anim.set_x(14.5, 0.0, 0.0);
-                demo_anim.set_y(7.3, 0.0, 0.0);
-                demo_anim.set_xscale(0.60, 0.0, 1.0);
-                demo_anim.set_yscale(0.60, 0.0, 1.0);
-                local_object->children[5] = new Object(demo_anim, demo_anim, anim_count, TEX_PLANTS, CHOMPER_TOPJAW, PLANTHEAD_DEPTH, 4, local_object);
+                local_anim.set_defaults();
+                local_anim.set_x(14.5, 0.0, 0.0);
+                local_anim.set_y(7.3, 0.0, 0.0);
+                local_anim.set_xscale(0.60, 0.0, 1.0);
+                local_anim.set_yscale(0.60, 0.0, 1.0);
+                anim.clear();anim.push_back(local_anim);
+                local_object->children[5] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_TOPJAW, PLANTHEAD_DEPTH, 4, local_object);
+
  // children[0]->children[0]->children[0]->children[5]->children[0] is the 1st spike from the left
                 local_object = myObject->children[0]->children[0]->children[0]->children[5];
-                demo_anim.set_defaults();
-                demo_anim.set_x(14.5, 0.0, 0.0);
-                demo_anim.set_y(7.3, 0.0, 0.0);
-                demo_anim.set_xscale(0.60, 0.0, 1.0);
-                demo_anim.set_yscale(0.60, 0.0, 1.0);
-                local_object->children[0] = new Object(demo_anim, demo_anim, anim_count, TEX_PLANTS, CHOMPER_SPIKE, CHOMPER_INSIDEMOUTH_DEPTH, 0, local_object);
+                local_anim.set_defaults();
+                local_anim.set_x(14.5, 0.0, 0.0);
+                local_anim.set_y(7.3, 0.0, 0.0);
+                local_anim.set_xscale(0.60, 0.0, 1.0);
+                local_anim.set_yscale(0.60, 0.0, 1.0);
+                anim.clear();anim.push_back(local_anim);
+                local_object->children[0] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_SPIKE, CHOMPER_INSIDEMOUTH_DEPTH, 0, local_object);
 
                  // children[0]->children[0]->children[0]->children[5]->children[1] is the 2nd spike from the left
                 local_object = myObject->children[0]->children[0]->children[0]->children[5];
-                demo_anim.set_defaults();
-                demo_anim.set_x(14.5, 0.0, 0.0);
-                demo_anim.set_y(7.3, 0.0, 0.0);
-                demo_anim.set_xscale(0.60, 0.0, 1.0);
-                demo_anim.set_yscale(0.60, 0.0, 1.0);
-                local_object->children[1] = new Object(demo_anim, demo_anim, anim_count, TEX_PLANTS, CHOMPER_SPIKE, CHOMPER_INSIDEMOUTH_DEPTH, 0, local_object);
+                local_anim.set_defaults();
+                local_anim.set_x(14.5, 0.0, 0.0);
+                local_anim.set_y(7.3, 0.0, 0.0);
+                local_anim.set_xscale(0.60, 0.0, 1.0);
+                local_anim.set_yscale(0.60, 0.0, 1.0);
+                anim.clear();anim.push_back(local_anim);
+                local_object->children[1] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_SPIKE, CHOMPER_INSIDEMOUTH_DEPTH, 0, local_object);
 
                  // children[0]->children[0]->children[0]->children[5]->children[2] is the 3rd spike from the left
                 local_object = myObject->children[0]->children[0]->children[0]->children[5];
-                demo_anim.set_defaults();
-                demo_anim.set_x(14.5, 0.0, 0.0);
-                demo_anim.set_y(7.3, 0.0, 0.0);
-                demo_anim.set_xscale(0.60, 0.0, 1.0);
-                demo_anim.set_yscale(0.60, 0.0, 1.0);
-                local_object->children[2] = new Object(demo_anim, demo_anim, anim_count, TEX_PLANTS, CHOMPER_SPIKE, CHOMPER_INSIDEMOUTH_DEPTH, 0, local_object);
+                local_anim.set_defaults();
+                local_anim.set_x(14.5, 0.0, 0.0);
+                local_anim.set_y(7.3, 0.0, 0.0);
+                local_anim.set_xscale(0.60, 0.0, 1.0);
+                local_anim.set_yscale(0.60, 0.0, 1.0);
+                anim.clear();anim.push_back(local_anim);
+                local_object->children[2] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_SPIKE, CHOMPER_INSIDEMOUTH_DEPTH, 0, local_object);
 
                  // children[0]->children[0]->children[0]->children[5]->children[3] is the 4th spike from the left
                 local_object = myObject->children[0]->children[0]->children[0]->children[5];
-                demo_anim.set_defaults();
-                demo_anim.set_x(14.5, 0.0, 0.0);
-                demo_anim.set_y(7.3, 0.0, 0.0);
-                demo_anim.set_xscale(0.60, 0.0, 1.0);
-                demo_anim.set_yscale(0.60, 0.0, 1.0);
-                local_object->children[3] = new Object(demo_anim, demo_anim, anim_count, TEX_PLANTS, CHOMPER_SPIKE, CHOMPER_INSIDEMOUTH_DEPTH, 0, local_object);
+                local_anim.set_defaults();
+                local_anim.set_x(14.5, 0.0, 0.0);
+                local_anim.set_y(7.3, 0.0, 0.0);
+                local_anim.set_xscale(0.60, 0.0, 1.0);
+                local_anim.set_yscale(0.60, 0.0, 1.0);
+                anim.clear();anim.push_back(local_anim);
+                local_object->children[3] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_SPIKE, CHOMPER_INSIDEMOUTH_DEPTH, 0, local_object);
 
 // children[0]->children[0]->children[0]->children[6] is the inside of the mouth
                 local_object = myObject->children[0]->children[0]->children[0];
-                demo_anim.set_defaults();
-                demo_anim.set_x(19.5, 0.0, 0.0);
-                demo_anim.set_y(-12, 0.0, 0.0);
-                demo_anim.set_xscale(0.60, 0.0, 1.0);
-                demo_anim.set_yscale(0.60, 0.0, 1.0);
-                local_object->children[6] = new Object(demo_anim, demo_anim, anim_count, TEX_PLANTS, CHOMPER_INSIDEMOUTH, CHOMPER_INSIDEMOUTH_DEPTH, 1, local_object);
+                local_anim.set_defaults();
+                local_anim.set_x(19.5, 0.0, 0.0);
+                local_anim.set_y(-12, 0.0, 0.0);
+                local_anim.set_xscale(0.60, 0.0, 1.0);
+                local_anim.set_yscale(0.60, 0.0, 1.0);
+                anim.clear();anim.push_back(local_anim);
+                local_object->children[6] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_INSIDEMOUTH, CHOMPER_INSIDEMOUTH_DEPTH, 1, local_object);
 
 // children[0]->children[0]->children[0]->children[6]->children[0] is the tongue
                 local_object = myObject->children[0]->children[0]->children[0]->children[6];
-                demo_anim.set_defaults();
-                demo_anim.set_x(0, 0.0, 0.0);
-                demo_anim.set_y(7.3, 0.0, 0.0);
-                demo_anim.set_xscale(0.60, 0.0, 1.0);
-                demo_anim.set_yscale(0.60, 0.0, 1.0);
-                local_object->children[0] = new Object(demo_anim, demo_anim, anim_count, TEX_PLANTS, CHOMPER_TONGUE, CHOMPER_TONGUE_DEPTH, 0, local_object);
+                local_anim.set_defaults();
+                local_anim.set_x(0, 0.0, 0.0);
+                local_anim.set_y(7.3, 0.0, 0.0);
+                local_anim.set_xscale(0.60, 0.0, 1.0);
+                local_anim.set_yscale(0.60, 0.0, 1.0);
+                anim.clear();anim.push_back(local_anim);
+                local_object->children[0] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_TONGUE, CHOMPER_TONGUE_DEPTH, 0, local_object);
 
 
                 // children[0]->children[1] is the left backleaf
-                demo_anim.set_defaults();
-                demo_anim.set_x(-18.0, 0.0, 0.0);
-                demo_anim.set_y(-80.75, 0.0, 0.0);
-                demo_anim.set_xscale(0.65, 0.0, 1.0);
-                demo_anim.set_yscale(0.65, 0.0, 1.0);
-                myObject->children[0]->children[1] = new Object(demo_anim, demo_anim, anim_count, TEX_PLANTS, CHOMPER_GROUNDLEAF_3, BACKLEAF_DEPTH, 0, myObject->children[0]);
+                local_anim.set_defaults();
+                local_anim.set_x(-18.0, 0.0, 0.0);
+                local_anim.set_y(-80.75, 0.0, 0.0);
+                local_anim.set_xscale(0.65, 0.0, 1.0);
+                local_anim.set_yscale(0.65, 0.0, 1.0);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0]->children[1] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_GROUNDLEAF_3, BACKLEAF_DEPTH, 0, myObject->children[0]);
 
                 // children[0]->children[2] is the right backleaf
-                demo_anim.set_defaults();
-                demo_anim.set_x(-25.0, 0.0, 0.0);
-                demo_anim.set_y(-80.0, 0.0, 0.0);
-                demo_anim.set_xscale(0.65, 0.0, 1.0);
-                demo_anim.set_yscale(0.65, 0.0, 1.0);
-                myObject->children[0]->children[2] = new Object(demo_anim, demo_anim, anim_count, TEX_PLANTS, CHOMPER_GROUNDLEAF_4, BACKLEAF_DEPTH, 0, myObject->children[0]);
+                local_anim.set_defaults();
+                local_anim.set_x(-25.0, 0.0, 0.0);
+                local_anim.set_y(-80.0, 0.0, 0.0);
+                local_anim.set_xscale(0.65, 0.0, 1.0);
+                local_anim.set_yscale(0.65, 0.0, 1.0);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0]->children[2] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_GROUNDLEAF_4, BACKLEAF_DEPTH, 0, myObject->children[0]);
 
                 // children[0]->children[3] is the left frontleaf
-                demo_anim.set_defaults();
-                demo_anim.set_x(-25.0, 0.0, 0.0);
-                demo_anim.set_y(-80.0, 0.0, 0.0);
-                demo_anim.set_xscale(0.65, 0.0, 1.0);
-                demo_anim.set_yscale(0.65, 0.0, 1.0);
-                myObject->children[0]->children[3] = new Object(demo_anim, demo_anim, anim_count, TEX_PLANTS, CHOMPER_GROUNDLEAF_1, FRONTLEAF_DEPTH, 0, myObject->children[0]);
+                local_anim.set_defaults();
+                local_anim.set_x(-25.0, 0.0, 0.0);
+                local_anim.set_y(-80.0, 0.0, 0.0);
+                local_anim.set_xscale(0.65, 0.0, 1.0);
+                local_anim.set_yscale(0.65, 0.0, 1.0);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0]->children[3] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_GROUNDLEAF_1, FRONTLEAF_DEPTH, 0, myObject->children[0]);
 
                 // children[0]->children[4] is the right frontleaf
-                demo_anim.set_defaults();
-                demo_anim.set_x(0.0, 0.0, 0.0);
-                demo_anim.set_y(-20.0, 0.0, 0.0);
-                demo_anim.set_xscale(0.65, 0.0, 1.0);
-                demo_anim.set_yscale(0.65, 0.0, 1.0);
-                myObject->children[0]->children[4] = new Object(demo_anim, demo_anim, anim_count, TEX_PLANTS, CHOMPER_GROUNDLEAF_2, CHOMPER_RIGHT_FRONTLEAF_DEPTH, 0, myObject->children[0]);
+                local_anim.set_defaults();
+                local_anim.set_x(0.0, 0.0, 0.0);
+                local_anim.set_y(-20.0, 0.0, 0.0);
+                local_anim.set_xscale(0.65, 0.0, 1.0);
+                local_anim.set_yscale(0.65, 0.0, 1.0);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0]->children[4] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_GROUNDLEAF_2, CHOMPER_RIGHT_FRONTLEAF_DEPTH, 0, myObject->children[0]);
 
 
                 // children[1] is the shadow
-                demo_anim.set_defaults();
-                demo_anim.start_angle = 0.0;demo_anim.delta_angle = 0.0;demo_anim.end_angle = 0.0;
-                demo_anim.start_x     = -25.0;demo_anim.delta_x     = 0.0;demo_anim.end_x     = 0.0;
-                demo_anim.start_y     = -50.0;demo_anim.delta_y     = 0.0;demo_anim.end_y     = 0.0;
-                demo_anim.set_xscale(0.85, 0.0, 1.0);
-                demo_anim.set_yscale(0.85, 0.0, 1.0);
-                myObject->children[1] = new Object(demo_anim, demo_anim, anim_count, TEX_PLANTS, POT_SHADOW, PLANT_SHADOW_DEPTH, 0, myObject);
+                local_anim.set_defaults();
+                local_anim.start_angle = 0.0;local_anim.delta_angle = 0.0;local_anim.end_angle = 0.0;
+                local_anim.start_x     = -25.0;local_anim.delta_x     = 0.0;local_anim.end_x     = 0.0;
+                local_anim.start_y     = -50.0;local_anim.delta_y     = 0.0;local_anim.end_y     = 0.0;
+                local_anim.set_xscale(0.85, 0.0, 1.0);
+                local_anim.set_yscale(0.85, 0.0, 1.0);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[1] = new Object(anim, anim_count, TEX_PLANTS, POT_SHADOW, PLANT_SHADOW_DEPTH, 0, myObject);
 
                 break;
+
+            case PEASHOOTER_PLANT:
             default:
 
                 /* The object structure starts at the x/y location of the plant head, and moves out in all directions */
