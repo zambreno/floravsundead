@@ -153,7 +153,7 @@ namespace fvu {
                 // children[0] is the bottom part of the stalk
                 local_anim.set_defaults();
                 local_anim.set_xscale(1.0, 0.025, 2.0);
-                local_anim.set_angle(0.0, 1.0, 7200.0);
+                local_anim.set_angle(0.0, 1.0, 7200.0, ANCHOR_SW);
                 anim.clear();anim.push_back(local_anim);
                 myObject->children[0] = new Object(anim, anim_count, TEX_PLANTS, WHITE_PLANT_SPRITE, PLANTHEAD_DEPTH, 1, myObject);
 
