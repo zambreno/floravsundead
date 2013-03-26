@@ -152,12 +152,13 @@ namespace fvu {
 
                 // children[0] is the bottom part of the stalk
                 local_anim.set_defaults();
+                local_anim.set_xscale(1.0, 0.025, 2.0);
                 local_anim.set_angle(0.0, 1.0, 7200.0);
                 anim.clear();anim.push_back(local_anim);
                 myObject->children[0] = new Object(anim, anim_count, TEX_PLANTS, WHITE_PLANT_SPRITE, PLANTHEAD_DEPTH, 1, myObject);
 
                 local_anim.set_defaults();
-                local_anim.set_x(108.0, 0.0, 0.0);
+                local_anim.set_x(108.0, 2.7, 216.0);
                 local_anim.set_y(0.0, 0.0, 0.0);
                 local_anim.set_angle(-90.0, 2.0, 90.0, ANCHOR_W);
                 anim.clear();anim.push_back(local_anim);
@@ -381,9 +382,8 @@ namespace fvu {
 
                 // children[1] is the shadow
                 local_anim.set_defaults();
-                local_anim.start_angle = 0.0;local_anim.delta_angle = 0.0;local_anim.end_angle = 0.0;
-                local_anim.start_x     = -25.0;local_anim.delta_x     = 0.0;local_anim.end_x     = 0.0;
-                local_anim.start_y     = -50.0;local_anim.delta_y     = 0.0;local_anim.end_y     = 0.0;
+                local_anim.set_x(-25.0, 0.0, 0.0);
+                local_anim.set_y(-50.0, 0.0, 0.0);
                 local_anim.set_xscale(0.85, 0.0, 1.0);
                 local_anim.set_yscale(0.85, 0.0, 1.0);
                 anim.clear();anim.push_back(local_anim);
@@ -397,36 +397,38 @@ namespace fvu {
                 /* The object structure starts at the x/y location of the plant head, and moves out in all directions */
                 local_anim.set_defaults();
                 anim.clear();anim.push_back(local_anim);
-                myObject = new Object(anim, anim_count, 0, 0, 0, 2, NULL);
+                myObject = new Object(anim, anim_count, 0, 0, 0, 4, NULL);
 
                 // children[0] is the bottom part of the stalk
                 local_anim.set_defaults();
                 local_anim.set_xscale(0.65, 0.0, 1.0);
-                local_anim.set_yscale(0.65, 0.0, 1.0);
+                local_anim.set_yscale(0.65, -0.01, 0.45);
+                local_anim.set_y(-22.0, 0.0, 0.0);
+                local_anim.set_angle(-10.0, 0.25, 10.0, ANCHOR_S);
                 anim.clear();anim.push_back(local_anim);
-                myObject->children[0] = new Object(anim, anim_count, TEX_PLANTS, PEASHOOTER_STALK_BOTTOM, STEM_DEPTH, 3, myObject);
+                myObject->children[0] = new Object(anim, anim_count, TEX_PLANTS, PEASHOOTER_STALK_BOTTOM, STEM_DEPTH, 1, myObject);
 
                 // children[0]->children[0] is the top part of the stalk
                 local_anim.set_defaults();
                 local_anim.set_x(1.0, 0.0, 0.0);
-                local_anim.set_y(11.0, 0.0, 0.0);
+                local_anim.set_y(11.0, -0.34, 7.6);
                 local_anim.set_xscale(0.65, 0.0, 1.0);
                 local_anim.set_yscale(0.65, 0.0, 1.0);
                 anim.clear();anim.push_back(local_anim);
                 myObject->children[0]->children[0] = new Object(anim, anim_count, TEX_PLANTS, PEASHOOTER_STALK_TOP, STEM_DEPTH, 1, myObject->children[0]);
 
 
-                // children[0]->children[1] is the backleaf
+                // children[1] is the backleaf
                 local_anim.set_defaults();
                 local_anim.set_x(-11.0, 0.0, 0.0);
-                local_anim.set_y(2.0, 0.0, 0.0);
+                local_anim.set_y(-20.0, 0.0, 0.0);
                 local_anim.set_xscale(0.65, 0.0, 1.0);
                 local_anim.set_yscale(0.65, 0.0, 1.0);
                 anim.clear();anim.push_back(local_anim);
-                myObject->children[0]->children[1] = new Object(anim, anim_count, TEX_PLANTS, PEASHOOTER_BACKLEAF, BACKLEAF_DEPTH, 2, myObject->children[0]);
+                myObject->children[1] = new Object(anim, anim_count, TEX_PLANTS, PEASHOOTER_BACKLEAF, BACKLEAF_DEPTH, 2, myObject);
 
-                // children[0]->children[1]->children[0] is the left tip of the backleaf
-                local_object = myObject->children[0]->children[1];
+                // children[1]->children[0] is the left tip of the backleaf
+                local_object = myObject->children[1];
                 local_anim.set_defaults();
                 local_anim.set_x(-3.0, 0.0, 0.0);
                 local_anim.set_y(6.0, 0.0, 0.0);
@@ -435,8 +437,8 @@ namespace fvu {
                 anim.clear();anim.push_back(local_anim);
                 local_object->children[0] = new Object(anim, anim_count, TEX_PLANTS, PEASHOOTER_BACKLEAF_LEFTTIP, BACKLEAF_DEPTH, 0, local_object);
 
-                // children[0]->children[1]->children[1] is the right tip of the backleaf
-                local_object = myObject->children[0]->children[1];
+                // children[1]->children[1] is the right tip of the backleaf
+                local_object = myObject->children[1];
                 local_anim.set_defaults();
                 local_anim.set_x(24.0, 0.0, 0.0);
                 local_anim.set_y(8.0, 0.0, 0.0);
@@ -445,17 +447,17 @@ namespace fvu {
                 anim.clear();anim.push_back(local_anim);
                 local_object->children[1] = new Object(anim, anim_count, TEX_PLANTS, PEASHOOTER_BACKLEAF_RIGHTTIP, BACKLEAF_DEPTH, 0, local_object);
 
-                // children[0]->children[2] is the frontleaf
+                // children[2] is the frontleaf
                 local_anim.set_defaults();
                 local_anim.set_x(-17.0, 0.0, 0.0);
-                local_anim.set_y(-15.0, 0.0, 0.0);
+                local_anim.set_y(-35.0, 0.0, 0.0);
                 local_anim.set_xscale(0.65, 0.0, 1.0);
                 local_anim.set_yscale(0.65, 0.0, 1.0);
                 anim.clear();anim.push_back(local_anim);
-                myObject->children[0]->children[2] = new Object(anim, anim_count, TEX_PLANTS, PEASHOOTER_FRONTLEAF, FRONTLEAF_DEPTH, 2, myObject->children[0]);
+                myObject->children[2] = new Object(anim, anim_count, TEX_PLANTS, PEASHOOTER_FRONTLEAF, FRONTLEAF_DEPTH, 2, myObject);
 
-                // children[0]->children[2]->children[0] is the left tip of the frontleaf
-                local_object = myObject->children[0]->children[2];
+                // children[2]->children[0] is the left tip of the frontleaf
+                local_object = myObject->children[2];
                 local_anim.set_defaults();
                 local_anim.set_x(-3.0, 0.0, 0.0);
                 local_anim.set_y(-2.0, 0.0, 0.0);
@@ -464,8 +466,8 @@ namespace fvu {
                 anim.clear();anim.push_back(local_anim);
                 local_object->children[0] = new Object(anim, anim_count, TEX_PLANTS, PEASHOOTER_FRONTLEAF_LEFTTIP, FRONTLEAF_DEPTH, 0, local_object);
 
-                // children[0]->children[2]->children[1] is the right tip of the frontleaf
-                local_object = myObject->children[0]->children[2];
+                // children[2]->children[1] is the right tip of the frontleaf
+                local_object = myObject->children[2];
                 local_anim.set_defaults();
                 local_anim.set_x(39.0, 0.0, 0.0);
                 local_anim.set_y(4.0, 0.0, 0.0);
@@ -504,14 +506,14 @@ namespace fvu {
                 anim.clear();anim.push_back(local_anim);
                 local_object->children[1] = new Object(anim, anim_count, TEX_PLANTS, PEASHOOTER_SPROUT, FRONTLEAF_DEPTH, 0, local_object);
 
-                // children[1] is the shadow
+                // children[3] is the shadow
                 local_anim.set_defaults();
                 local_anim.set_x(-25.0, 0.0, 0.0);
-                local_anim.set_y(-30.0, 0.0, 0.0);
+                local_anim.set_y(-50.0, 0.0, 0.0);
                 local_anim.set_xscale(0.85, 0.0, 1.0);
                 local_anim.set_yscale(0.85, 0.0, 1.0);
                 anim.clear();anim.push_back(local_anim);
-                myObject->children[1] = new Object(anim, anim_count, TEX_PLANTS, POT_SHADOW, PLANT_SHADOW_DEPTH, 0, myObject);
+                myObject->children[3] = new Object(anim, anim_count, TEX_PLANTS, POT_SHADOW, PLANT_SHADOW_DEPTH, 0, myObject);
 
                 break;
         }
