@@ -22,6 +22,8 @@
 /* Object status enum */
 typedef enum {OBJECT_STATUS_DEMO=0, OBJECT_STATUS_GAME, OBJECT_STATUS_INACTIVE} OBJECT_STATUS_ENUM;
 
+/* Object anchor enum */
+typedef enum {ANCHOR_CENTER=0, ANCHOR_NW, ANCHOR_N, ANCHOR_NE, ANCHOR_E, ANCHOR_SE, ANCHOR_S, ANCHOR_SW, ANCHOR_W} ANCHOR_DIR_ENUM;
 
 namespace fvu {
 

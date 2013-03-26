@@ -96,13 +96,54 @@ namespace fvu {
 
             switch (anchor) {
                 // Anchor==0 is the center of the object
-                case 0:
+                case ANCHOR_CENTER:
                 default:
                     glTranslatef(texCoords[4]/2, texCoords[5]/2, 0.0);
                     glRotatef(angle, 0.0, 0.0, 1.0);
                     glTranslatef(-texCoords[4]/2, -texCoords[5]/2, 0.0);
                     break;
-                case 3:
+                // Anchor==1 is the Northwest corner of the object
+                case ANCHOR_NW:
+                    glTranslatef(0.0, texCoords[5], 0.0);
+                    glRotatef(angle, 0.0, 0.0, 1.0);
+                    glTranslatef(0.0, -texCoords[5], 0.0);
+                    break;
+                // Anchor==2 is the North center of the object
+                case ANCHOR_N:
+                    glTranslatef(texCoords[4]/2, texCoords[5], 0.0);
+                    glRotatef(angle, 0.0, 0.0, 1.0);
+                    glTranslatef(-texCoords[4]/2, -texCoords[5], 0.0);
+                    break;
+                // Anchor==3 is the Northeast corner of the object
+                case ANCHOR_NE:
+                    glTranslatef(texCoords[4], texCoords[5], 0.0);
+                    glRotatef(angle, 0.0, 0.0, 1.0);
+                    glTranslatef(-texCoords[4], -texCoords[5], 0.0);
+                    break;
+                // Anchor==4 is the East center of the object
+                case ANCHOR_E:
+                    glTranslatef(texCoords[4], texCoords[5]/2, 0.0);
+                    glRotatef(angle, 0.0, 0.0, 1.0);
+                    glTranslatef(-texCoords[4], -texCoords[5]/2, 0.0);
+                    break;
+                // Anchor==5 is the Southeast corner of the object
+                case ANCHOR_SE:
+                    glTranslatef(texCoords[4], 0.0, 0.0);
+                    glRotatef(angle, 0.0, 0.0, 1.0);
+                    glTranslatef(-texCoords[4], 0.0, 0.0);
+                    break;
+                // Anchor==6 is the South center of the object
+                case ANCHOR_S:
+                    glTranslatef(texCoords[4]/2, 0.0, 0.0);
+                    glRotatef(angle, 0.0, 0.0, 1.0);
+                    glTranslatef(-texCoords[4]/2, 0.0, 0.0);
+                    break;
+                // Anchor==7 is the Southwest corner of the object
+                case ANCHOR_SW:
+                    glRotatef(angle, 0.0, 0.0, 1.0);
+                    break;
+                // Anchor==8 is the West center of the object
+                case ANCHOR_W:
                     glTranslatef(0.0, texCoords[5]/2, 0.0);
                     glRotatef(angle, 0.0, 0.0, 1.0);
                     glTranslatef(0.0, -texCoords[5]/2, 0.0);

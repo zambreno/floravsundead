@@ -120,11 +120,12 @@ namespace fvu {
                 demo_anim.set_defaults();
                 demo_anim.set_x(-22.0, 0.0, 0.0);
                 demo_anim.set_y(-35.0, 0.0, 0.0);
-                demo_anim.set_angle(-90.0, 0.2, 90.0);
+                demo_anim.set_angle(-2.0, 0.1, 2.0);
                 demo_anim.set_xscale(0.65, 0.0, 1.0);
                 demo_anim.set_yscale(0.65, 0.001, 0.66);
 
                 myObject->children[0] = new Object(demo_anim, demo_anim, anim_count, TEX_PLANTS, WALLNUT_BODY, PLANTHEAD_DEPTH, 0, myObject);
+                myObject->children[0]->anchor = ANCHOR_S;
 
 
                 // children[1] is the shadow
@@ -156,8 +157,18 @@ namespace fvu {
                 demo_anim.set_x(108.0, 0.0, 0.0);
                 demo_anim.set_y(0.0, 0.0, 0.0);
                 demo_anim.set_angle(-90.0, 2.0, 90.0);
-                myObject->children[0]->children[0] = new Object(demo_anim, demo_anim, anim_count, TEX_PLANTS, WHITE_PLANT_SPRITE, PLANTHEAD_DEPTH, 0, myObject->children[0]);
-                myObject->children[0]->children[0]->anchor = 3;
+                myObject->children[0]->children[0] = new Object(demo_anim, demo_anim, anim_count, TEX_PLANTS, WHITE_PLANT_SPRITE, PLANTHEAD_DEPTH, 1, myObject->children[0]);
+                myObject->children[0]->children[0]->anchor = ANCHOR_W;
+
+
+                demo_anim.set_defaults();
+                demo_anim.set_x(54.0, 0.0, 0.0);
+                demo_anim.set_y(0.0, 0.0, 0.0);
+                demo_anim.set_angle(45.0, 2.0, 135.0);
+                myObject->children[0]->children[0]->children[0] = new Object(demo_anim, demo_anim, anim_count, TEX_PLANTS, WHITE_PLANT_SPRITE, PLANTHEAD_DEPTH, 0, myObject->children[0]->children[0]);
+                myObject->children[0]->children[0]->children[0]->anchor = ANCHOR_S;
+
+
 
                 break;
 
