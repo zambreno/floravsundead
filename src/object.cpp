@@ -95,6 +95,8 @@ namespace fvu {
 
             /* Modelview transformations are applied in opposite order. No matter how we want to rotate,
              * we will be moving to the specified relative x/y position at the end */
+
+            //glTranslatef(x+(parent->xscale-1.0)*parent->x, y+(parent->yscale-1.0)*parent->y, 0);
             glTranslatef(x, y, 0);
 
             switch (anchor) {

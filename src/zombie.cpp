@@ -122,37 +122,72 @@ namespace fvu {
             case FLAG_ZOMBIE:
             default:
 
-                /* The object structure starts at the x/y location of the torso, and moves out in all directions */
+                /* The object structure starts at the x/y location of the outer leg, and moves out in all directions */
                 local_anim.set_defaults();
-                anim.clear();anim.push_back(local_anim);
-                myObject = new Object(anim, anim_count, 0, 0, 0, 6, NULL);
+                anim.clear();
+                anim.push_back(local_anim);
+                myObject = new Object(anim, anim_count, 0, 0, 0, 3, NULL);
 
-                // children[0] is the body
+
+                // children[0] is the outer leg, starting at the upper part. It connects to the rest of the leg and the body
                 local_anim.set_defaults();
-                local_anim.start_angle = 10.0;local_anim.delta_angle = -0.2;local_anim.end_angle = 0.0;
-                local_anim.start_x     = 0.0;local_anim.delta_x     = 0.0;local_anim.end_x     = 0.0;
-                local_anim.start_y     = -3.0;local_anim.delta_y     = 0.0;local_anim.end_y     = 0.0;
+                local_anim.set_angle(1.0, 0.2, 9.0, ANCHOR_CENTER);
+                local_anim.set_xy(29.5, -15.0);
                 anim.clear();anim.push_back(local_anim);
-                myObject->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIEBODY, ZOMBIEBODY_DEPTH, 3, myObject);
+                myObject->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_OUTERLEG_UPPER,ZOMBIE_OUTERLEG_UPPER_DEPTH, 2, myObject);
 
-                // children[0][1] is the tie
                 local_anim.set_defaults();
-                local_anim.start_angle = 10.0;local_anim.delta_angle = 0.0;local_anim.end_angle = 0.0;
-                local_anim.start_x     = 5.0;local_anim.delta_x     = 0.0;local_anim.end_x     = 0.0;
-                local_anim.start_y     = 15.0;local_anim.delta_y     = 0.0;local_anim.end_y     = 0.0;
+                local_anim.set_angle(-1.0, -0.2, -9.0, ANCHOR_CENTER);
+                local_anim.set_xy(8.5, -19.75);
                 anim.clear();anim.push_back(local_anim);
-                myObject->children[0]->children[1] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_TIE, ZOMBIE_ACCESSORY_DEPTH, 0, myObject->children[0]);
+                myObject->children[0]->children[1] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_OUTERLEG_LOWER,ZOMBIE_OUTERLEG_LOWER_DEPTH,1, myObject->children[0]);
 
-                // children[0][2] is the zombie_underbody
                 local_anim.set_defaults();
-                local_anim.start_angle = 0.0;local_anim.delta_angle = 0.0;local_anim.end_angle = 0.0;
-                local_anim.start_x     = 15.0;local_anim.delta_x     = 0.0;local_anim.end_x     = 0.0;
-                local_anim.start_y     = 15.0;local_anim.delta_y     = 0.0;local_anim.end_y     = 0.0;
+                local_anim.set_xy(-14.75, -12.0);
                 anim.clear();anim.push_back(local_anim);
-                myObject->children[0]->children[2] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_UNDERBODY, ZOMBIE_ACCESSORY_DEPTH, 0, myObject->children[0]);
+                myObject->children[0]->children[1]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_OUTERLEG_FOOT,ZOMBIE_OUTERLEG_FOOT_DEPTH,0, myObject->children[0]->children[0]);
 
 
-                // children[0][0] is the head
+                // children[1] is the inner leg, starting at the foot. It connects to the rest of the leg
+                local_anim.set_defaults();
+                local_anim.set_xy(19.5, -16.5);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[1] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_INNERLEG_FOOT,ZOMBIE_INNERLEG_FOOT_DEPTH, 1, myObject);
+
+                local_anim.set_defaults();
+                local_anim.set_xy(-14.0, -23.0);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[1]->children[0] = new Object(anim, anim_count,  TEX_ZOMBIES, ZOMBIE_INNERLEG_LOWER,ZOMBIE_INNERLEG_LOWER_DEPTH,1, myObject->children[1]);
+
+                local_anim.set_defaults();
+                local_anim.set_xy(4.5, 3.5);
+                local_anim.set_angle(2.0, 0.2, 11.0, ANCHOR_CENTER);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[1]->children[0]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_INNERLEG_UPPER,ZOMBIE_INNERLEG_UPPER_DEPTH, 0, myObject->children[1]->children[0]);
+
+
+                // children[0][0] is the body. It connects to the tie, the underbody, the arms, and the head
+                local_anim.set_defaults();
+                local_anim.set_angle(10.0, -0.4, -5.0, ANCHOR_SE);
+                local_anim.set_xy(0.0, -3.0);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIEBODY, ZOMBIEBODY_DEPTH, 5, myObject->children[0]);
+
+                // children[0][0][0] is the tie
+                local_anim.set_defaults();
+                local_anim.set_angle(10.0, -0.4, -10.0, ANCHOR_N);
+                local_anim.set_xy(0.0, 15.0);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0]->children[0]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_TIE, ZOMBIE_ACCESSORY_DEPTH, 0, myObject->children[0]->children[0]);
+
+                // children[0][0][1] is the zombie_underbody
+                local_anim.set_defaults();
+                local_anim.set_xy(15.0, 15.0);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0]->children[0]->children[1] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_UNDERBODY, ZOMBIE_ACCESSORY_DEPTH, 0, myObject->children[0]->children[0]);
+
+
+                // children[0][0][2] is the head
                 // ZOMBIES have a tongue 50% of the time
                 uint8_t num_head_children = 2;
                 if ((type == CONE_ZOMBIE) || (type == BUCKET_ZOMBIE)) {
@@ -162,154 +197,96 @@ namespace fvu {
                     num_head_children += ((rand()%2) == 0);
                 }
 
-                local_object = myObject->children[0];
+                local_object = myObject->children[0]->children[0];
                 local_anim.set_defaults();
-                local_anim.start_angle = -2.0;local_anim.delta_angle = 0.25;local_anim.end_angle = 3.0;
-                local_anim.start_x     = -24.5;local_anim.delta_x     = 0.0;local_anim.end_x     = 0.0;
-                local_anim.start_y     = 51.75;local_anim.delta_y     = 0.0;local_anim.end_y     = 0.0;
+                local_anim.set_angle(-2.0, 0.25, 3.0, ANCHOR_CENTER);
+                local_anim.set_xy(-24.5, 51.75);
                 anim.clear();anim.push_back(local_anim);
-                local_object->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_HEAD,ZOMBIE_HEAD_DEPTH, num_head_children, local_object);
+                local_object->children[2] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_HEAD,ZOMBIE_HEAD_DEPTH, num_head_children, local_object);
 
-                // children[0][0][0] is the hair
+                // children[0][0][2][0] is the hair
                 local_anim.set_defaults();
-                local_anim.start_angle = -4.0;local_anim.delta_angle = 0.1;local_anim.end_angle = -3.0;
-                local_anim.start_x     = -5.5;local_anim.delta_x     = 0.0;local_anim.end_x     = 0.0;
-                local_anim.start_y     = 23.0;local_anim.delta_y     = 0.0;local_anim.end_y     = 0.0;
+                local_anim.set_angle(-2.0, 0.25, 3.0, ANCHOR_CENTER);
+                local_anim.set_xy(-5.5, 22.0);
                 anim.clear();anim.push_back(local_anim);
-                local_object->children[0]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_HAIR, ZOMBIE_HEAD_DEPTH, 0, local_object->children[0]);
+                local_object->children[2]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_HAIR, ZOMBIE_HEAD_DEPTH, 0, local_object->children[2]);
 
-                // children[0][0][1] is the jaw
+                // children[0][0][2][1] is the jaw
                 local_anim.set_defaults();
-                local_anim.start_angle = 8.0;local_anim.delta_angle = -0.2;local_anim.end_angle = -8.0;
-                local_anim.start_x     = 10.2;local_anim.delta_x     = 0.0;local_anim.end_x     = 0.0;
-                local_anim.start_y     = -10.5;local_anim.delta_y     = 0.0;local_anim.end_y     = 0.0;
+                local_anim.set_angle(4.0, -0.2, -8.0, ANCHOR_NE);
+                local_anim.set_xy(10.2, -10.5);
                 anim.clear();anim.push_back(local_anim);
-                local_object->children[0]->children[1] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_JAW, ZOMBIE_HEAD_DEPTH,0, local_object->children[0]);
+                local_object->children[2]->children[1] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_JAW, ZOMBIE_HEAD_DEPTH,0, local_object->children[2]);
 
-                // children[0][0][2] is the cone/bucket
+                // children[0][0][2][2] is the cone/bucket
                 if (type == CONE_ZOMBIE) {
                     local_anim.set_defaults();
-                    local_anim.start_angle = 0.0;local_anim.delta_angle = 0.0;local_anim.end_angle = 0.0;
-                    local_anim.start_x     = 2.5;local_anim.delta_x     = 0.0;local_anim.end_x     = 0.0;
-                    local_anim.start_y     = 22.0;local_anim.delta_y     = 0.0;local_anim.end_y     = 0.0;
+                    local_anim.set_xy(2.5, 22.0);
                     anim.clear();anim.push_back(local_anim);
-                    local_object->children[0]->children[2] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_CONE_1, ZOMBIE_HEAD_ACCESSORY_DEPTH, 0, local_object->children[0]);
+                    local_object->children[2]->children[2] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_CONE_1, ZOMBIE_HEAD_ACCESSORY_DEPTH, 0, local_object->children[2]);
                 }
                 else if (type == BUCKET_ZOMBIE) {
                     local_anim.set_defaults();
-                    local_anim.start_angle = 0.0;local_anim.delta_angle = 0.0;local_anim.end_angle = 0.0;
-                    local_anim.start_x     = -7.0;local_anim.delta_x     = 0.0;local_anim.end_x     = 0.0;
-                    local_anim.start_y     = 1.75;local_anim.delta_y     = 0.0;local_anim.end_y     = 0.0;
+                    local_anim.set_xy(-7.0, 1.75);
                     anim.clear();anim.push_back(local_anim);
-                    local_object->children[0]->children[2] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_BUCKET_1, ZOMBIE_HEAD_ACCESSORY_DEPTH, 0, local_object->children[0]);
+                    local_object->children[2]->children[2] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_BUCKET_1, ZOMBIE_HEAD_ACCESSORY_DEPTH, 0, local_object->children[2]);
                 }
 
-                // otherwise, children[0][0][2] is the tongue
+                // otherwise, children[0][0][2][2] is the tongue
                 else if (num_head_children > 2) {
                     local_anim.set_defaults();
-                    local_anim.start_angle = 0.0;local_anim.delta_angle = 0.0;local_anim.end_angle = 0.0;
-                    local_anim.start_x     = 20.0;local_anim.delta_x     = 0.0;local_anim.end_x     = 0.0;
-                    local_anim.start_y     = -10.0;local_anim.delta_y     = 0.0;local_anim.end_y     = 0.0;
+                    local_anim.set_xy(20.0, -10.0);
                     anim.clear();anim.push_back(local_anim);
-                    local_object->children[0]->children[2] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_TONGUE, ZOMBIE_HEAD_ACCESSORY_DEPTH, 0, local_object->children[0]);
+                    local_object->children[2]->children[2] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_TONGUE, ZOMBIE_HEAD_ACCESSORY_DEPTH, 0, local_object->children[2]);
                 }
 
-                // children[1] is the outer leg
-                local_anim.set_defaults();
-                local_anim.start_angle = 1.0;local_anim.delta_angle = 0.2;local_anim.end_angle = 9.0;
-                local_anim.start_x     = 29.5;local_anim.delta_x     = 0.0;local_anim.end_x     = 0.0;
-                local_anim.start_y     = -15.0;local_anim.delta_y     = 0.0;local_anim.end_y     = 0.0;
-                anim.clear();anim.push_back(local_anim);
-                myObject->children[1] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_OUTERLEG_UPPER,ZOMBIE_OUTERLEG_UPPER_DEPTH,1, myObject);
-
-                local_anim.set_defaults();
-                local_anim.start_angle = -1.0;local_anim.delta_angle = -0.2;local_anim.end_angle = -9.0;
-                local_anim.start_x     = 8.5;local_anim.delta_x     = 0.0;local_anim.end_x     = 0.0;
-                local_anim.start_y     = -19.75;local_anim.delta_y     = 0.0;local_anim.end_y     = 0.0;
-                anim.clear();anim.push_back(local_anim);
-                myObject->children[1]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_OUTERLEG_LOWER,ZOMBIE_OUTERLEG_LOWER_DEPTH,1, myObject->children[1]);
-
-                local_anim.set_defaults();
-                local_anim.start_angle = 0.0;local_anim.delta_angle = 0.0;local_anim.end_angle = 0.0;
-                local_anim.start_x     = -14.75;local_anim.delta_x     = 0.0;local_anim.end_x     = 0.0;
-                local_anim.start_y     = -12.0;local_anim.delta_y     = 0.0;local_anim.end_y     = 0.0;
-                anim.clear();anim.push_back(local_anim);
-                myObject->children[1]->children[0]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_OUTERLEG_FOOT,ZOMBIE_OUTERLEG_FOOT_DEPTH,0, myObject->children[1]->children[0]);
-
-                // children[2] is the inner leg
-                local_anim.set_defaults();
-                local_anim.start_angle = 0.0;local_anim.delta_angle = 0.0;local_anim.end_angle = 0.0;
-                local_anim.start_x     = 19.5;local_anim.delta_x     = 0.0;local_anim.end_x     = 0.0;
-                local_anim.start_y     = -16.5;local_anim.delta_y     = 0.0;local_anim.end_y     = 0.0;
-                anim.clear();anim.push_back(local_anim);
-                myObject->children[2] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_INNERLEG_UPPER,ZOMBIE_INNERLEG_UPPER_DEPTH,1, myObject);
-
-                local_anim.set_defaults();
-                local_anim.start_angle = 2.0;local_anim.delta_angle = 0.2;local_anim.end_angle = 11.0;
-                local_anim.start_x     = -14.0;local_anim.delta_x     = 0.0;local_anim.end_x     = 0.0;
-                local_anim.start_y     = -23.0;local_anim.delta_y     = 0.0;local_anim.end_y     = 0.0;
-                anim.clear();anim.push_back(local_anim);
-                myObject->children[2]->children[0] = new Object(anim, anim_count,  TEX_ZOMBIES, ZOMBIE_INNERLEG_LOWER,ZOMBIE_INNERLEG_LOWER_DEPTH,1, myObject->children[2]);
-
-                local_anim.set_defaults();
-                local_anim.start_angle = 0.0;local_anim.delta_angle = 0.0;local_anim.end_angle = 0.0;
-                local_anim.start_x     = 4.0;local_anim.delta_x     = 0.0;local_anim.end_x     = 0.0;
-                local_anim.start_y     = -3.0;local_anim.delta_y     = 0.0;local_anim.end_y     = 0.0;
-                anim.clear();anim.push_back(local_anim);
-                myObject->children[2]->children[0]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_INNERLEG_FOOT,ZOMBIE_INNERLEG_FOOT_DEPTH,0, myObject->children[2]->children[0]);
-
-                // children[3] is the inner arm
-                local_anim.set_defaults();
-                local_anim.start_angle = -10.0;local_anim.delta_angle = 0.0;local_anim.end_angle = 0.0;
-                local_anim.start_x     = 0.0;local_anim.delta_x     = 0.0;local_anim.end_x     = 0.0;
-                local_anim.start_y     = 23.5;local_anim.delta_y     = 0.0;local_anim.end_y     = 0.0;
-                anim.clear();anim.push_back(local_anim);
-                myObject->children[3] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_INNERARM_UPPER,ZOMBIE_INNERARM_UPPER_DEPTH,1, myObject);
-
-                local_anim.set_defaults();
-                local_anim.start_angle = 5.0;local_anim.delta_angle = 0.0;local_anim.end_angle = 0.0;
-                local_anim.start_x     = -2.5;local_anim.delta_x     = 0.0;local_anim.end_x     = 0.0;
-                local_anim.start_y     = -19.0;local_anim.delta_y     = 0.0;local_anim.end_y     = 0.0;
-                anim.clear();anim.push_back(local_anim);
-                myObject->children[3]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_INNERARM_LOWER,ZOMBIE_INNERARM_LOWER_DEPTH,1, myObject->children[3]);
-
-                local_anim.set_defaults();
-                local_anim.start_angle = 0.0;local_anim.delta_angle = 0.0;local_anim.end_angle = 0.0;
-                local_anim.start_x     = 0.0;local_anim.delta_x     = 0.0;local_anim.end_x     = 0.0;
-                local_anim.start_y     = -15.25;local_anim.delta_y     = 0.0;local_anim.end_y     = 0.0;
-                anim.clear();anim.push_back(local_anim);
-                myObject->children[3]->children[0]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_INNERARM_HAND,ZOMBIE_INNERARM_HAND_DEPTH,0, myObject->children[3]->children[0]);
-
-                // children[4] is the outer arm
-                local_anim.set_defaults();
-                local_anim.start_angle = 8.0;local_anim.delta_angle = 0.0;local_anim.end_angle = 0.0;
-                local_anim.start_x     = 23.5;local_anim.delta_x     = 0.0;local_anim.end_x     = 0.0;
-                local_anim.start_y     = 23.5;local_anim.delta_y     = 0.0;local_anim.end_y     = 0.0;
-                anim.clear();anim.push_back(local_anim);
-                myObject->children[4] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_OUTERARM_UPPER,ZOMBIE_OUTERARM_UPPER_DEPTH,1, myObject);
-
-                local_anim.set_defaults();
-                local_anim.start_angle = -10.0;local_anim.delta_angle = 0.0;local_anim.end_angle = 0.0;
-                local_anim.start_x     = -15.0;local_anim.delta_x     = 0.0;local_anim.end_x     = 0.0;
-                local_anim.start_y     = -15.0;local_anim.delta_y     = 0.0;local_anim.end_y     = 0.0;
-                anim.clear();anim.push_back(local_anim);
-                myObject->children[4]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_OUTERARM_LOWER,ZOMBIE_OUTERARM_LOWER_DEPTH,1, myObject->children[4]);
-
-                local_anim.set_defaults();
-                local_anim.start_angle = 0.0;local_anim.delta_angle = 0.0;local_anim.end_angle = 0.0;
-                local_anim.start_x     = -8.0;local_anim.delta_x     = 0.0;local_anim.end_x     = 0.0;
-                local_anim.start_y     = -25.0;local_anim.delta_y     = 0.0;local_anim.end_y     = 0.0;
-                anim.clear();anim.push_back(local_anim);
-                myObject->children[4]->children[0]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_OUTERARM_HAND,ZOMBIE_OUTERARM_HAND_DEPTH,0, myObject->children[4]->children[0]);
 
 
-                // children[5] is the shadow
+                // children[0][0][3] is the inner arm. It connects to the rest of the arm.
+                local_object = myObject->children[0]->children[0];
                 local_anim.set_defaults();
-                local_anim.start_angle = 0.0;local_anim.delta_angle = 0.0;local_anim.end_angle = 0.0;
-                local_anim.start_x     = 0.0;local_anim.delta_x     = 0.0;local_anim.end_x     = 0.0;
-                local_anim.start_y     = -50.0;local_anim.delta_y     = 0.0;local_anim.end_y     = 0.0;
+                local_anim.set_angle(-10.0, -0.1, -8.0, ANCHOR_NE);
+                local_anim.set_xy(0.0, 23.5);
                 anim.clear();anim.push_back(local_anim);
-                myObject->children[5] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_SHADOW, ZOMBIE_SHADOW_DEPTH, 0, myObject);
+                local_object->children[3] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_INNERARM_UPPER,ZOMBIE_INNERARM_UPPER_DEPTH,1, local_object);
+
+                local_anim.set_defaults();
+                local_anim.set_angle(5.0, 0.0, 0.0, ANCHOR_NE);
+                local_anim.set_xy(-2.5, -19.0);
+                anim.clear();anim.push_back(local_anim);
+                local_object->children[3]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_INNERARM_LOWER,ZOMBIE_INNERARM_LOWER_DEPTH,1, local_object->children[3]);
+
+                local_anim.set_defaults();
+                local_anim.set_x(0.0, 1.0, 5.0);
+                local_anim.set_y(-15.25);
+                anim.clear();anim.push_back(local_anim);
+                local_object->children[3]->children[0]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_INNERARM_HAND,ZOMBIE_INNERARM_HAND_DEPTH,0, local_object->children[3]->children[0]);
+
+                // children[0][0][4] is the outer arm. It connects to the rest of the arm.
+                local_anim.set_defaults();
+                local_anim.set_angle(8.0, 1.0, 13.0, ANCHOR_NW);
+                local_anim.set_x(23.5, 1.0, 28.5);
+                local_anim.set_y(23.5);
+                anim.clear();anim.push_back(local_anim);
+                local_object->children[4] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_OUTERARM_UPPER,ZOMBIE_OUTERARM_UPPER_DEPTH,1, local_object);
+
+                local_anim.set_defaults();
+                local_anim.set_angle(-10.0, 0.0, 0.0, ANCHOR_CENTER);
+                local_anim.set_xy(-15.0, -15.0);
+                anim.clear();anim.push_back(local_anim);
+                local_object->children[4]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_OUTERARM_LOWER,ZOMBIE_OUTERARM_LOWER_DEPTH,1, local_object->children[4]);
+
+                local_anim.set_defaults();
+                local_anim.set_xy(-8.0, -25.0);
+                anim.clear();anim.push_back(local_anim);
+                local_object->children[4]->children[0]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_OUTERARM_HAND,ZOMBIE_OUTERARM_HAND_DEPTH,0, local_object->children[4]->children[0]);
+
+
+                // children[2] is the shadow
+                local_anim.set_defaults();
+                local_anim.set_xy(0.0, -50.0);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[2] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_SHADOW, ZOMBIE_SHADOW_DEPTH, 0, myObject);
 
                 break;
         }
