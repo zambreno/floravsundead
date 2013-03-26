@@ -31,11 +31,13 @@ namespace fvu {
     class animation_struct {
         public:
             float start_angle, delta_angle, end_angle;
+            uint8_t anchor;
             float start_xscale, delta_xscale, end_xscale;
             float start_x, delta_x, end_x;
             float start_yscale, delta_yscale, end_yscale;
             float start_y, delta_y, end_y;
             void set_angle(float startval, float deltaval, float endval) {start_angle = startval; delta_angle = deltaval; end_angle = endval;}
+            void set_angle(float startval, float deltaval, float endval, uint8_t myanchor) {start_angle = startval; delta_angle = deltaval; end_angle = endval; anchor = myanchor;}
             void set_xscale(float startval, float deltaval, float endval) {start_xscale = startval; delta_xscale = deltaval; end_xscale = endval;}
             void set_x(float startval, float deltaval, float endval) {start_x = startval; delta_x = deltaval; end_x = endval;}
             void set_yscale(float startval, float deltaval, float endval) {start_yscale = startval; delta_yscale = deltaval; end_yscale = endval;}
@@ -47,13 +49,13 @@ namespace fvu {
      * object and (potentially) multiple children. */
      class Object {
         public:
-            animation_struct demo_anim, game_anim;
+            std::vector<animation_struct> anim;
+            uint8_t anim_mode;
             float x, y, angle;
+            uint8_t anchor;
             float xscale, yscale;
             uint16_t sprite;
             uint32_t depth;
-            uint8_t status;
-            uint8_t anchor;
             uint8_t texfile;
             Object *parent;
             Object **children;
@@ -61,7 +63,7 @@ namespace fvu {
             void endDemo();
             void update();
             void updateSprite(uint16_t mySprite) {sprite = mySprite;}
-            Object(animation_struct demo_anim, animation_struct game_anim, uint32_t anim_count, uint8_t texfile, uint16_t sprite, uint32_t depth, uint8_t num_children, Object *parent);
+            Object(std::vector<animation_struct> anim, uint32_t anim_count, uint8_t texfile, uint16_t sprite, uint32_t depth, uint8_t num_children, Object *parent);
             void draw();
      };
 

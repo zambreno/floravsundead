@@ -20,52 +20,55 @@
 
 namespace fvu {
 
+
     /*****************************************************************************
     * Function: Object::Object
     * Description: Object class constructor. Creates a set of linked lists
     * between parent and child.
     *****************************************************************************/
-    Object::Object(animation_struct demo_anim, animation_struct game_anim, uint32_t anim_count, uint8_t texfile, uint16_t sprite, uint32_t depth, uint8_t num_children, Object *parent) {
+    Object::Object(std::vector<animation_struct> myanim, uint32_t anim_count, uint8_t texfile, uint16_t sprite, uint32_t depth, uint8_t num_children, Object *parent) {
 
         /* Copy the default values over */
-        this->demo_anim = demo_anim;
-        this->game_anim = game_anim;
+        for (uint8_t i = 0; i < myanim.size(); i++) {
+            this->anim.push_back(myanim[i]);
+        }
+        this->anim_mode = OBJECT_STATUS_DEMO;
         this->texfile = texfile;
         this->sprite = sprite;
         this->depth = depth;
         this->num_children = num_children;
         this->parent = parent;
-        status = OBJECT_STATUS_DEMO;
+        this->anchor = anim[0].anchor;
 
         /* Update the object x/y/angle based on the randomized anim_count frame counter */
-        this->x = demo_anim.start_x;
-        if (demo_anim.delta_x != 0.0) {
-            uint32_t x_step = (uint32_t)((demo_anim.end_x - demo_anim.start_x) / demo_anim.delta_x);
-            this->x += (anim_count % x_step) * demo_anim.delta_x;
+        this->x = anim[0].start_x;
+        if (anim[0].delta_x != 0.0) {
+            uint32_t x_step = (uint32_t)((anim[0].end_x - anim[0].start_x) / anim[0].delta_x);
+            this->x += (anim_count % x_step) * anim[0].delta_x;
         }
 
-        this->xscale = demo_anim.start_xscale;
-        if (demo_anim.delta_xscale != 0.0) {
-            uint32_t xscale_step = (uint32_t)((demo_anim.end_xscale - demo_anim.start_xscale) / demo_anim.delta_xscale);
-            this->xscale += (anim_count % xscale_step) * demo_anim.delta_xscale;
+        this->xscale = anim[0].start_xscale;
+        if (anim[0].delta_xscale != 0.0) {
+            uint32_t xscale_step = (uint32_t)((anim[0].end_xscale - anim[0].start_xscale) / anim[0].delta_xscale);
+            this->xscale += (anim_count % xscale_step) * anim[0].delta_xscale;
         }
 
-        this->y = demo_anim.start_y;
-        if (demo_anim.delta_y != 0.0) {
-            uint32_t y_step = (uint32_t)((demo_anim.end_y - demo_anim.start_y) / demo_anim.delta_y);
-            this->y += (anim_count % y_step) * demo_anim.delta_y;
+        this->y = anim[0].start_y;
+        if (anim[0].delta_y != 0.0) {
+            uint32_t y_step = (uint32_t)((anim[0].end_y - anim[0].start_y) / anim[0].delta_y);
+            this->y += (anim_count % y_step) * anim[0].delta_y;
         }
 
-        this->yscale = demo_anim.start_yscale;
-        if (demo_anim.delta_yscale != 0.0) {
-            uint32_t yscale_step = (uint32_t)((demo_anim.end_yscale - demo_anim.start_yscale) / demo_anim.delta_yscale);
-            this->yscale += (anim_count % yscale_step) * demo_anim.delta_yscale;
+        this->yscale = anim[0].start_yscale;
+        if (anim[0].delta_yscale != 0.0) {
+            uint32_t yscale_step = (uint32_t)((anim[0].end_yscale - anim[0].start_yscale) / anim[0].delta_yscale);
+            this->yscale += (anim_count % yscale_step) * anim[0].delta_yscale;
         }
 
-        this->angle = demo_anim.start_angle;
-        if (demo_anim.delta_angle != 0.0) {
-            uint32_t angle_step = (uint32_t)((demo_anim.end_angle - demo_anim.start_angle) / demo_anim.delta_angle);
-            this->angle += (anim_count % angle_step) * demo_anim.delta_angle;
+        this->angle = anim[0].start_angle;
+        if (anim[0].delta_angle != 0.0) {
+            uint32_t angle_step = (uint32_t)((anim[0].end_angle - anim[0].start_angle) / anim[0].delta_angle);
+            this->angle += (anim_count % angle_step) * anim[0].delta_angle;
         }
 
 
@@ -180,60 +183,52 @@ namespace fvu {
     *****************************************************************************/
     void Object::update() {
 
-        animation_struct *anim;
-
-        if (status == OBJECT_STATUS_DEMO) {
-            anim = &demo_anim;
-        }
-        else {
-            anim = &game_anim;
-        }
 
         /* Update the angle - if we're close enough to the end, switch directions */
-        if (anim->delta_angle != 0.0) {
-            angle += anim->delta_angle;
-            if ((fabs(anim->end_angle - angle) < fabs(anim->delta_angle)) ||
-               (fabs(anim->start_angle - angle) < fabs(anim->delta_angle))) {
-                anim->delta_angle = anim->delta_angle * -1.0;
+        if (anim[anim_mode].delta_angle != 0.0) {
+            angle += anim[anim_mode].delta_angle;
+            if ((fabs(anim[anim_mode].end_angle - angle) < fabs(anim[anim_mode].delta_angle)) ||
+               (fabs(anim[anim_mode].start_angle - angle) < fabs(anim[anim_mode].delta_angle))) {
+                anim[anim_mode].delta_angle = anim[anim_mode].delta_angle * -1.0;
             }
         }
 
         /* Update the x position - if we're close enough to the end, switch directions */
-        if (anim->delta_x != 0.0) {
-            x += anim->delta_x;
-            if ((fabs(anim->end_x - x) < fabs(anim->delta_x)) ||
-               (fabs(anim->start_x - x) < fabs(anim->delta_x))) {
-                anim->delta_x = anim->delta_x * -1.0;
+        if (anim[anim_mode].delta_x != 0.0) {
+            x += anim[anim_mode].delta_x;
+            if ((fabs(anim[anim_mode].end_x - x) < fabs(anim[anim_mode].delta_x)) ||
+               (fabs(anim[anim_mode].start_x - x) < fabs(anim[anim_mode].delta_x))) {
+                anim[anim_mode].delta_x = anim[anim_mode].delta_x * -1.0;
             }
         }
 
 
         /* Update the xscale  - if we're close enough to the end, switch directions */
-        if (anim->delta_xscale != 0.0) {
-            xscale += anim->delta_xscale;
-            if ((fabs(anim->end_xscale - xscale) < fabs(anim->delta_xscale)) ||
-               (fabs(anim->start_xscale - xscale) < fabs(anim->delta_xscale))) {
-                anim->delta_xscale = anim->delta_xscale * -1.0;
+        if (anim[anim_mode].delta_xscale != 0.0) {
+            xscale += anim[anim_mode].delta_xscale;
+            if ((fabs(anim[anim_mode].end_xscale - xscale) < fabs(anim[anim_mode].delta_xscale)) ||
+               (fabs(anim[anim_mode].start_xscale - xscale) < fabs(anim[anim_mode].delta_xscale))) {
+                anim[anim_mode].delta_xscale = anim[anim_mode].delta_xscale * -1.0;
             }
         }
 
 
         /* Update the y position - if we're close enough to the end, switch directions */
-        if (anim->delta_y != 0.0) {
-            y += anim->delta_y;
-            if ((fabs(anim->end_y - y) < fabs(anim->delta_y)) ||
-               (fabs(anim->start_y - y) < fabs(anim->delta_y))) {
-                anim->delta_y = anim->delta_y * -1.0;
+        if (anim[anim_mode].delta_y != 0.0) {
+            y += anim[anim_mode].delta_y;
+            if ((fabs(anim[anim_mode].end_y - y) < fabs(anim[anim_mode].delta_y)) ||
+               (fabs(anim[anim_mode].start_y - y) < fabs(anim[anim_mode].delta_y))) {
+                anim[anim_mode].delta_y = anim[anim_mode].delta_y * -1.0;
             }
         }
 
 
         /* Update the yscale  - if we're close enough to the end, switch directions */
-        if (anim->delta_yscale != 0.0) {
-            yscale += anim->delta_yscale;
-            if ((fabs(anim->end_yscale - yscale) < fabs(anim->delta_yscale)) ||
-               (fabs(anim->start_yscale - yscale) < fabs(anim->delta_yscale))) {
-                anim->delta_yscale = anim->delta_yscale * -1.0;
+        if (anim[anim_mode].delta_yscale != 0.0) {
+            yscale += anim[anim_mode].delta_yscale;
+            if ((fabs(anim[anim_mode].end_yscale - yscale) < fabs(anim[anim_mode].delta_yscale)) ||
+               (fabs(anim[anim_mode].start_yscale - yscale) < fabs(anim[anim_mode].delta_yscale))) {
+                anim[anim_mode].delta_yscale = anim[anim_mode].delta_yscale * -1.0;
             }
         }
 
@@ -253,12 +248,16 @@ namespace fvu {
     *****************************************************************************/
     void Object::endDemo() {
 
-        x = game_anim.start_x;
-        xscale = game_anim.start_xscale;
-        y = game_anim.start_y;
-        yscale = game_anim.start_yscale;
-        angle = game_anim.start_angle;
-        status = OBJECT_STATUS_GAME;
+        if (anim.size() > 1) {
+            anim_mode = OBJECT_STATUS_GAME;
+
+            x = anim[anim_mode].start_x;
+            xscale = anim[anim_mode].start_xscale;
+            y = anim[anim_mode].start_y;
+            yscale = anim[anim_mode].start_yscale;
+            angle = anim[anim_mode].start_angle;
+            anchor = anim[anim_mode].anchor;
+        }
 
         /* Update the children */
         for (uint8_t i = 0; i < num_children; i++) {
@@ -280,6 +279,7 @@ namespace fvu {
         start_x = 0.0; delta_x = 0.0; end_x = 0.0;
         start_yscale = 1.0; delta_yscale = 0.0; end_yscale = 1.0;
         start_y = 0.0; delta_y = 0.0; end_y = 0.0;
+        anchor = ANCHOR_CENTER;
     }
 
 } // namespace fvu
