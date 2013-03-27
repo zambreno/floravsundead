@@ -42,30 +42,35 @@ namespace fvu {
 
         /* Update the object x/y/angle based on the randomized anim_count frame counter */
         this->x = anim[0].start_x;
+        this->delta_x = anim[0].delta_x;
         if (anim[0].delta_x != 0.0) {
             uint32_t x_step = (uint32_t)((anim[0].end_x - anim[0].start_x) / anim[0].delta_x);
             this->x += (anim_count % x_step) * anim[0].delta_x;
         }
 
         this->xscale = anim[0].start_xscale;
+        this->delta_xscale = anim[0].delta_xscale;
         if (anim[0].delta_xscale != 0.0) {
             uint32_t xscale_step = (uint32_t)((anim[0].end_xscale - anim[0].start_xscale) / anim[0].delta_xscale);
             this->xscale += (anim_count % xscale_step) * anim[0].delta_xscale;
         }
 
         this->y = anim[0].start_y;
+        this->delta_y = anim[0].delta_y;
         if (anim[0].delta_y != 0.0) {
             uint32_t y_step = (uint32_t)((anim[0].end_y - anim[0].start_y) / anim[0].delta_y);
             this->y += (anim_count % y_step) * anim[0].delta_y;
         }
 
         this->yscale = anim[0].start_yscale;
+        this->delta_yscale = anim[0].delta_yscale;
         if (anim[0].delta_yscale != 0.0) {
             uint32_t yscale_step = (uint32_t)((anim[0].end_yscale - anim[0].start_yscale) / anim[0].delta_yscale);
             this->yscale += (anim_count % yscale_step) * anim[0].delta_yscale;
         }
 
         this->angle = anim[0].start_angle;
+        this->delta_angle = anim[0].delta_angle;
         if (anim[0].delta_angle != 0.0) {
             uint32_t angle_step = (uint32_t)((anim[0].end_angle - anim[0].start_angle) / anim[0].delta_angle);
             this->angle += (anim_count % angle_step) * anim[0].delta_angle;
@@ -187,50 +192,50 @@ namespace fvu {
 
 
         /* Update the angle - if we're close enough to the end, switch directions */
-        if (anim[anim_mode].delta_angle != 0.0) {
-            angle += anim[anim_mode].delta_angle;
-            if ((fabs(anim[anim_mode].end_angle - angle) < fabs(anim[anim_mode].delta_angle)) ||
-               (fabs(anim[anim_mode].start_angle - angle) < fabs(anim[anim_mode].delta_angle))) {
-                anim[anim_mode].delta_angle = anim[anim_mode].delta_angle * -1.0;
+        if (delta_angle != 0.0) {
+            angle += delta_angle;
+            if ((fabs(anim[anim_mode].end_angle - angle) < fabs(delta_angle)) ||
+               (fabs(anim[anim_mode].start_angle - angle) < fabs(delta_angle))) {
+                delta_angle = delta_angle * -1.0;
             }
         }
 
         /* Update the x position - if we're close enough to the end, switch directions */
-        if (anim[anim_mode].delta_x != 0.0) {
-            x += anim[anim_mode].delta_x;
-            if ((fabs(anim[anim_mode].end_x - x) < fabs(anim[anim_mode].delta_x)) ||
-               (fabs(anim[anim_mode].start_x - x) < fabs(anim[anim_mode].delta_x))) {
-                anim[anim_mode].delta_x = anim[anim_mode].delta_x * -1.0;
+        if (delta_x != 0.0) {
+            x += delta_x;
+            if ((fabs(anim[anim_mode].end_x - x) < fabs(delta_x)) ||
+               (fabs(anim[anim_mode].start_x - x) < fabs(delta_x))) {
+                delta_x = delta_x * -1.0;
             }
         }
 
 
         /* Update the xscale  - if we're close enough to the end, switch directions */
-        if (anim[anim_mode].delta_xscale != 0.0) {
-            xscale += anim[anim_mode].delta_xscale;
-            if ((fabs(anim[anim_mode].end_xscale - xscale) < fabs(anim[anim_mode].delta_xscale)) ||
-               (fabs(anim[anim_mode].start_xscale - xscale) < fabs(anim[anim_mode].delta_xscale))) {
-                anim[anim_mode].delta_xscale = anim[anim_mode].delta_xscale * -1.0;
+        if (delta_xscale != 0.0) {
+            xscale += delta_xscale;
+            if ((fabs(anim[anim_mode].end_xscale - xscale) < fabs(delta_xscale)) ||
+               (fabs(anim[anim_mode].start_xscale - xscale) < fabs(delta_xscale))) {
+                delta_xscale = delta_xscale * -1.0;
             }
         }
 
 
         /* Update the y position - if we're close enough to the end, switch directions */
-        if (anim[anim_mode].delta_y != 0.0) {
-            y += anim[anim_mode].delta_y;
-            if ((fabs(anim[anim_mode].end_y - y) < fabs(anim[anim_mode].delta_y)) ||
-               (fabs(anim[anim_mode].start_y - y) < fabs(anim[anim_mode].delta_y))) {
-                anim[anim_mode].delta_y = anim[anim_mode].delta_y * -1.0;
+        if (delta_y != 0.0) {
+            y += delta_y;
+            if ((fabs(anim[anim_mode].end_y - y) < fabs(delta_y)) ||
+               (fabs(anim[anim_mode].start_y - y) < fabs(delta_y))) {
+                delta_y = delta_y * -1.0;
             }
         }
 
 
         /* Update the yscale  - if we're close enough to the end, switch directions */
-        if (anim[anim_mode].delta_yscale != 0.0) {
-            yscale += anim[anim_mode].delta_yscale;
-            if ((fabs(anim[anim_mode].end_yscale - yscale) < fabs(anim[anim_mode].delta_yscale)) ||
-               (fabs(anim[anim_mode].start_yscale - yscale) < fabs(anim[anim_mode].delta_yscale))) {
-                anim[anim_mode].delta_yscale = anim[anim_mode].delta_yscale * -1.0;
+        if (delta_yscale != 0.0) {
+            yscale += delta_yscale;
+            if ((fabs(anim[anim_mode].end_yscale - yscale) < fabs(delta_yscale)) ||
+               (fabs(anim[anim_mode].start_yscale - yscale) < fabs(delta_yscale))) {
+                delta_yscale = delta_yscale * -1.0;
             }
         }
 
@@ -253,10 +258,15 @@ namespace fvu {
             anim_mode = mode;
 
             x = anim[anim_mode].start_x;
+            delta_x = anim[anim_mode].delta_x;
             xscale = anim[anim_mode].start_xscale;
+            delta_xscale = anim[anim_mode].delta_xscale;
             y = anim[anim_mode].start_y;
+            delta_y = anim[anim_mode].delta_y;
             yscale = anim[anim_mode].start_yscale;
+            delta_yscale = anim[anim_mode].delta_yscale;
             angle = anim[anim_mode].start_angle;
+            delta_angle = anim[anim_mode].delta_angle;
             anchor = anim[anim_mode].anchor;
         }
 

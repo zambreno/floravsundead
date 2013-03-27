@@ -60,25 +60,91 @@ namespace fvu {
     *****************************************************************************/
     void Zombie::draw(uint16_t index) {
 
-        float x = demo_x;
-        float y = demo_y;
-        float z;
+        float x, y, z;
 
-        // Put objects on a different depth level if they're on the bottom
-        if (team % 2 == 1) {
-            z = index*ZOMBIE_DEPTH_RANGE+OBJECT_BOTTOM_DEPTH;
-        }
-        else {
-            z = index*ZOMBIE_DEPTH_RANGE+OBJECT_TOP_DEPTH;
+        // In DEMO mode, we can do a pure depth sort of all the zombies
+        if (status == ZOMBIE_STATUS_DEMO) {
+            x = demo_x;
+            y = demo_y;
+            z = index*ZOMBIE_DEPTH_RANGE;
+
+            // Put objects on a different depth level if they're on the bottom
+            if (team % 2 == 1) {
+                z += OBJECT_BOTTOM_DEPTH;
+            }
+            else {
+                z += OBJECT_TOP_DEPTH;
+            }
+
         }
 
-        if (status > ZOMBIE_STATUS_DEMO) {
+        // In WINNING status, the Zombies will leave their rows so we can do the full sort again.
+        else if (status == ZOMBIE_STATUS_WINNING) {
             x = game_x;
             y = game_y;
+            z = index*ZOMBIE_DEPTH_RANGE;
+
+            // Put objects on a different depth level if they're on the bottom
+            if (team % 2 == 1) {
+                z += OBJECT_BOTTOM_DEPTH;
+            }
+            else {
+                z += OBJECT_TOP_DEPTH;
+            }
+
         }
-        else if (status == ZOMBIE_STATUS_SKIP) {
-            return;
+
+        // In GAME/ACTIVE mode, we need to be row-aware with our sorting
+        else {
+            x = game_x;
+            y = game_y;
+            z = index*ZOMBIE_DEPTH_RANGE;
+
+            // Put objects on a different depth level if they're on the bottom
+            if (team % 2 == 1) {
+                switch (row) {
+                    case 0:
+                    default:
+                        z += BOTTOMROW_1_DEPTH;
+                        break;
+                    case 1:
+                        z += BOTTOMROW_2_DEPTH;
+                        break;
+                    case 2:
+                        z += BOTTOMROW_3_DEPTH;
+                        break;
+                    case 3:
+                        z += BOTTOMROW_4_DEPTH;
+                         break;
+                    case 4:
+                        z += BOTTOMROW_5_DEPTH;
+                        break;
+                }
+            }
+            else {
+                switch (row) {
+                    case 0:
+                    default:
+                        z += TOPROW_1_DEPTH;
+                        break;
+                    case 1:
+                        z += TOPROW_2_DEPTH;
+                        break;
+                    case 2:
+                        z += TOPROW_3_DEPTH;
+                        break;
+                    case 3:
+                        z += TOPROW_4_DEPTH;
+                         break;
+                    case 4:
+                        z += TOPROW_5_DEPTH;
+                        break;
+                }
+            }
+
+
         }
+
 
         glPushMatrix();
         glTranslatef(x, y, z);
@@ -288,17 +354,17 @@ namespace fvu {
                     // children[0][0][3] is the inner arm. It connects to the rest of the arm.
                     local_object = myObject->children[0]->children[0];
                     local_anim.set_defaults();
-                    local_anim.set_angle(-10.0, 0.01, -8.0, ANCHOR_NE);
+                    local_anim.set_angle(-24.0, 0.225, -8.0, ANCHOR_NE);
                     local_anim.set_xy(3, 23.5);
                     anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);
-                    local_anim.set_angle(-8.0, -0.75, -16.0, ANCHOR_NE);anim.push_back(local_anim);
+                    local_anim.set_angle(-8.0, -1.6, -32.0, ANCHOR_NE);anim.push_back(local_anim);
                     local_object->children[3] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_INNERARM_UPPER,ZOMBIE_INNERARM_UPPER_DEPTH,1, local_object);
 
                     local_anim.set_defaults();
-                    //local_anim.set_angle(5.0, 0.0, 0.0, ANCHOR_NE);
+                    local_anim.set_angle(5.0, 0.0, 0.0, ANCHOR_NE);
                     local_anim.set_xy(-2.5, -19.0);
                     anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);
-                    local_anim.set_angle(-8.0, -0.75, -16.0, ANCHOR_NE);anim.push_back(local_anim);
+                    local_anim.set_angle(-8.0, -3.2, -80.0, ANCHOR_NE);anim.push_back(local_anim);
                     local_object->children[3]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_INNERARM_LOWER,ZOMBIE_INNERARM_LOWER_DEPTH,1, local_object->children[3]);
 
                     local_anim.set_defaults();
@@ -319,7 +385,7 @@ namespace fvu {
                 local_anim.set_defaults();
                 local_anim.set_xy(-12, -17.0);
                 anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);
-                local_anim.set_angle(-17.0, -1.15, -40.0, ANCHOR_NE);
+                local_anim.set_angle(-17.0, -1.15, -80.0, ANCHOR_NE);
                 anim.push_back(local_anim);
                 local_object->children[4]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_OUTERARM_LOWER,ZOMBIE_OUTERARM_LOWER_DEPTH,1, local_object->children[4]);
 

@@ -54,24 +54,73 @@ namespace fvu {
     *****************************************************************************/
     void Plant::draw(uint16_t index) {
 
-        float x = demo_x;
-        float y = demo_y;
-        float z;
+        float x, y, z;
 
-        // Put objects on a different depth level if they're on the bottom
-        if (team % 2 == 1) {
-            z = index*PLANT_DEPTH_RANGE+OBJECT_BOTTOM_DEPTH;
+        // In DEMO mode, we can do a pure depth sort of all the zombies
+        if (status == PLANT_STATUS_DEMO) {
+            x = demo_x;
+            y = demo_y;
+            z = index*PLANT_DEPTH_RANGE;
+
+            // Put objects on a different depth level if they're on the bottom
+            if (team % 2 == 1) {
+                z += OBJECT_BOTTOM_DEPTH;
+            }
+            else {
+                z += OBJECT_TOP_DEPTH;
+            }
+
         }
+
+        // In GAME/ACTIVE mode, we need to be row-aware with our sorting
         else {
-            z = index*PLANT_DEPTH_RANGE+OBJECT_TOP_DEPTH;
-        }
-
-        if (status > PLANT_STATUS_DEMO) {
             x = game_x;
             y = game_y;
-        }
-        else if (status == PLANT_STATUS_SKIP) {
-            return;
+            z = index*PLANT_DEPTH_RANGE;
+
+            // Put objects on a different depth level if they're on the bottom
+            if (team % 2 == 1) {
+                switch (row) {
+                    case 0:
+                    default:
+                        z += BOTTOMROW_1_DEPTH;
+                        break;
+                    case 1:
+                        z += BOTTOMROW_2_DEPTH;
+                        break;
+                    case 2:
+                        z += BOTTOMROW_3_DEPTH;
+                        break;
+                    case 3:
+                        z += BOTTOMROW_4_DEPTH;
+                         break;
+                    case 4:
+                        z += BOTTOMROW_5_DEPTH;
+                        break;
+                }
+            }
+            else {
+                switch (row) {
+                    case 0:
+                    default:
+                        z += TOPROW_1_DEPTH;
+                        break;
+                    case 1:
+                        z += TOPROW_2_DEPTH;
+                        break;
+                    case 2:
+                        z += TOPROW_3_DEPTH;
+                        break;
+                    case 3:
+                        z += TOPROW_4_DEPTH;
+                         break;
+                    case 4:
+                        z += TOPROW_5_DEPTH;
+                        break;
+                }
+            }
+
+
         }
 
         glPushMatrix();
@@ -637,8 +686,9 @@ namespace fvu {
 
         // WALLNUT_PLANTS stop moving once bitten
         if (type == WALLNUT_PLANT) {
-            myObject->children[0]->anim[0].set_defaults();
-            myObject->children[0]->angle = 0.0;
+            myObject->children[0]->anim[OBJECT_STATUS_DEMO].delta_angle = 0.0;
+            myObject->children[0]->anim[OBJECT_STATUS_DEMO].delta_yscale = 0.0;
+            myObject->setMode(OBJECT_STATUS_DEMO);
         }
 
     }

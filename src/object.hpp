@@ -58,8 +58,10 @@ namespace fvu {
             std::vector<animation_struct> anim;
             uint8_t anim_mode;
             float x, y, angle;
+            float delta_x, delta_y, delta_angle;
             uint8_t anchor;
             float xscale, yscale;
+            float delta_xscale, delta_yscale;
             uint16_t sprite;
             uint32_t depth;
             uint8_t texfile;
