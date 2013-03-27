@@ -78,18 +78,18 @@ namespace fvu {
 
         }
 
-        // In WINNING status, the Zombies will leave their rows so we can do the full sort again.
-        else if (status == ZOMBIE_STATUS_WINNING) {
+        // In WINNING/GAMEOVER status, the Zombies will leave their rows so we can do the full sort again.
+        else if ((status == ZOMBIE_STATUS_WINNING) || (status == ZOMBIE_STATUS_WINNING)) {
             x = game_x;
             y = game_y;
-            z = index*ZOMBIE_DEPTH_RANGE;
+            z = index*ZOMBIE_DEPTH_RANGE + OBJECT_BOTTOM_DEPTH;
 
             // Put objects on a different depth level if they're on the bottom
             if (team % 2 == 1) {
-                z += OBJECT_BOTTOM_DEPTH;
+//                z += OBJECT_BOTTOM_DEPTH;
             }
             else {
-                z += OBJECT_TOP_DEPTH;
+//                z += OBJECT_TOP_DEPTH;
             }
 
         }
@@ -358,6 +358,7 @@ namespace fvu {
                     local_anim.set_xy(3, 23.5);
                     anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);
                     local_anim.set_angle(-8.0, -1.6, -32.0, ANCHOR_NE);anim.push_back(local_anim);
+                    local_anim.set_angle(-17.0, -2.0, -80.0, ANCHOR_NE);anim.push_back(local_anim);
                     local_object->children[3] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_INNERARM_UPPER,ZOMBIE_INNERARM_UPPER_DEPTH,1, local_object);
 
                     local_anim.set_defaults();
@@ -365,6 +366,7 @@ namespace fvu {
                     local_anim.set_xy(-2.5, -19.0);
                     anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);
                     local_anim.set_angle(-8.0, -3.2, -80.0, ANCHOR_NE);anim.push_back(local_anim);
+                    local_anim.set_angle(-60.0, 0.0, -60.0, ANCHOR_NE);anim.push_back(local_anim);
                     local_object->children[3]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_INNERARM_LOWER,ZOMBIE_INNERARM_LOWER_DEPTH,1, local_object->children[3]);
 
                     local_anim.set_defaults();
@@ -378,15 +380,15 @@ namespace fvu {
                 local_anim.set_angle(8.0, 0.05, 13.0, ANCHOR_NE);
                 local_anim.set_xy(23.5, 23.5);
                 anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);
-                local_anim.set_angle(13.0, -1.85, -25.0, ANCHOR_NE);
-                anim.push_back(local_anim);
+                local_anim.set_angle(13.0, -1.85, -25.0, ANCHOR_N);anim.push_back(local_anim);
+                local_anim.set_angle(13.0, -2.0, -47.0, ANCHOR_N);anim.push_back(local_anim);
                 local_object->children[4] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_OUTERARM_UPPER,ZOMBIE_OUTERARM_UPPER_DEPTH,1, local_object);
 
                 local_anim.set_defaults();
-                local_anim.set_xy(-12, -17.0);
+                local_anim.set_xy(-12.0, -25.0);
                 anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);
-                local_anim.set_angle(-17.0, -1.15, -80.0, ANCHOR_NE);
-                anim.push_back(local_anim);
+                local_anim.set_angle(-17.0, -1.15, -80.0, ANCHOR_NE);anim.push_back(local_anim);
+                local_anim.set_angle(-80.0, 0.0, -80.0, ANCHOR_NE);anim.push_back(local_anim);
                 local_object->children[4]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_OUTERARM_LOWER,ZOMBIE_OUTERARM_LOWER_DEPTH,1, local_object->children[4]);
 
                 local_anim.set_defaults();
@@ -522,7 +524,10 @@ namespace fvu {
                     if (game_x >= (left_gridWidths[col-1]-60.0)) {
                         if (col == 1) {
                             status = ZOMBIE_STATUS_WINNING;
+                            myObject->setMode(OBJECT_STATUS_WINNING);
                             myGame->myStatus.scores[team] += ZOMBIE_SCORE;
+                            final_x = -173.0 + rand()%292;
+                            final_y = -333.0 + rand()%620;
                         }
                         else {
                             col--;
@@ -544,7 +549,10 @@ namespace fvu {
                     if (game_x <= (right_gridWidths[col-1]+60.0)) {
                         if (col == 1) {
                             status = ZOMBIE_STATUS_WINNING;
+                            myObject->setMode(OBJECT_STATUS_WINNING);
                             myGame->myStatus.scores[team] += ZOMBIE_SCORE;
+                            final_x = -173.0 + rand()%292;
+                            final_y = -333.0 + rand()%620;
                         }
                         else {
                             col--;
@@ -578,6 +586,31 @@ namespace fvu {
 
         }
         else if (status == ZOMBIE_STATUS_WINNING) {
+
+            bool gameover = true;
+            if (fabs(game_x - final_x) >= speed) {
+                if (game_x > final_x) {
+                    game_x -= speed;
+                }
+                else {
+                    game_x += speed;
+                }
+                gameover = false;
+            }
+
+            if (fabs(game_y - final_y) >= speed) {
+                if (game_y > final_y) {
+                    game_y -= speed;
+                }
+                else {
+                    game_y += speed;
+                }
+                gameover = false;
+            }
+
+            if (gameover == true) {
+                status = ZOMBIE_STATUS_GAMEOVER;
+            }
 
         }
 

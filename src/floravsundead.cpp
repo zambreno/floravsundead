@@ -171,7 +171,7 @@ namespace fvu {
         }
 
 
-        // Zombie loo: grab the next zombie for each team. Note that they are sorted
+        // Zombie loop: grab the next zombie for each team. Note that they are sorted
         // graphically, so we have to perform a linear search based on zombie_index
         for (uint16_t i = 0; i < 4; i++) {
 
@@ -185,7 +185,9 @@ namespace fvu {
             if (myTeams[i].zombie_index >= myZombies[i].size()) {
                 bool zombies_done = true;
                 for (uint16_t k = 0; k < myZombies[i].size(); k++) {
-                    if ((myZombies[i][k].getStatus() != ZOMBIE_STATUS_INACTIVE) && (myZombies[i][k].getStatus() != ZOMBIE_STATUS_WINNING)) {
+                    if ((myZombies[i][k].getStatus() != ZOMBIE_STATUS_INACTIVE) &&
+                        (myZombies[i][k].getStatus() != ZOMBIE_STATUS_WINNING) &&
+                        (myZombies[i][k].getStatus() != ZOMBIE_STATUS_GAMEOVER)) {
                         zombies_done = false;
                         break;
                     }
@@ -210,7 +212,10 @@ namespace fvu {
             bool sendZombie = true;
             if (myZombies[i][j].getDelay() == -1) {
                 for (uint16_t k = 0; k < myZombies[i].size(); k++) {
-                    if ((myZombies[i][k].getStatus() != ZOMBIE_STATUS_GAME) && (myZombies[i][k].getStatus() != ZOMBIE_STATUS_INACTIVE) && (myZombies[i][k].getStatus() != ZOMBIE_STATUS_WINNING)) {
+                    if ((myZombies[i][k].getStatus() != ZOMBIE_STATUS_GAME) &&
+                        (myZombies[i][k].getStatus() != ZOMBIE_STATUS_INACTIVE) &&
+                        (myZombies[i][k].getStatus() != ZOMBIE_STATUS_WINNING) &&
+                        (myZombies[i][k].getStatus() != ZOMBIE_STATUS_GAMEOVER)) {
                         sendZombie = false;
                         break;
                     }
