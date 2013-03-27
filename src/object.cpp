@@ -235,7 +235,6 @@ namespace fvu {
         }
 
 
-
         /* Update the children */
         for (uint8_t i = 0; i < num_children; i++) {
             children[i]->update();
@@ -245,13 +244,13 @@ namespace fvu {
 
 
     /*****************************************************************************
-    * Function: Object::endDemo
-    * Description: Transfers to game mode for each object.
+    * Function: Object::setMode
+    * Description: Transfers to a new mode for each object.
     *****************************************************************************/
-    void Object::endDemo() {
+    void Object::setMode(uint8_t mode) {
 
-        if (anim.size() > 1) {
-            anim_mode = OBJECT_STATUS_GAME;
+        if (anim.size() > mode) {
+            anim_mode = mode;
 
             x = anim[anim_mode].start_x;
             xscale = anim[anim_mode].start_xscale;
@@ -263,7 +262,7 @@ namespace fvu {
 
         /* Update the children */
         for (uint8_t i = 0; i < num_children; i++) {
-            children[i]->endDemo();
+            children[i]->setMode(mode);
         }
 
     }

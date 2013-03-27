@@ -20,7 +20,7 @@
 #include "floravsundead.hpp"
 
 /* Object status enum */
-typedef enum {OBJECT_STATUS_DEMO=0, OBJECT_STATUS_GAME, OBJECT_STATUS_INACTIVE} OBJECT_STATUS_ENUM;
+typedef enum {OBJECT_STATUS_DEMO=0, OBJECT_STATUS_GAME, OBJECT_STATUS_ACTION, OBJECT_STATUS_INACTIVE} OBJECT_STATUS_ENUM;
 
 /* Object anchor enum */
 typedef enum {ANCHOR_CENTER=0, ANCHOR_NW, ANCHOR_N, ANCHOR_NE, ANCHOR_E, ANCHOR_SE, ANCHOR_S, ANCHOR_SW, ANCHOR_W} ANCHOR_DIR_ENUM;
@@ -66,7 +66,7 @@ namespace fvu {
             Object *parent;
             Object **children;
             uint8_t num_children;
-            void endDemo();
+            void setMode(uint8_t mode);
             void update();
             void updateSprite(uint16_t mySprite) {sprite = mySprite;}
             Object(std::vector<animation_struct> anim, uint32_t anim_count, uint8_t texfile, uint16_t sprite, uint32_t depth, uint8_t num_children, Object *parent);

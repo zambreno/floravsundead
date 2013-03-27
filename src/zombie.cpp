@@ -35,7 +35,7 @@ std::string zombieNames[NUM_ZOMBIE_TYPE][NUM_ZOMBIE_SPELLINGS] = {
 /* Zombie healths */
 int16_t zombieHealths[NUM_ZOMBIE_TYPE] = {10, 10, 28, 17, 65, 16, 65, 80, 17, 46};
 /* Plant speeds. This variable is zombie-specific */
-float zombieSpeeds[NUM_ZOMBIE_TYPE] = {1.0, 1.5, 1.0, 2.0, 1.0, 1.0, 2.0, 1.0, 1.0, 1.0};
+float zombieSpeeds[NUM_ZOMBIE_TYPE] = {0.25, 0.35, 0.25, 0.5, 0.25, 0.25, 0.25, 0.75, 1.0, 1.0};
 /* Plant transitions */
 uint16_t zombieTransitions[NUM_ZOMBIE_TYPE][NUM_ZOMBIE_TRANSITIONS] = {
     {5, 0, 0, 0},
@@ -215,7 +215,8 @@ namespace fvu {
                 local_anim.set_defaults();
                 local_anim.set_angle(-12.0, 0.25, 5.0, ANCHOR_S);
                 local_anim.set_xy(-24.5, 51.75);
-                anim.clear();anim.push_back(local_anim);
+                anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);
+                local_anim.set_angle(7.0, 0.0, 0.0, ANCHOR_S);anim.push_back(local_anim);
                 local_object->children[2] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_HEAD,ZOMBIE_HEAD_DEPTH, num_head_children, local_object);
 
                 // children[0][0][2][0] is the hair
@@ -229,7 +230,8 @@ namespace fvu {
                 local_anim.set_defaults();
                 local_anim.set_angle(4.0, -0.2, -12.0, ANCHOR_NE);
                 local_anim.set_xy(10.2, -9.5);
-                anim.clear();anim.push_back(local_anim);
+                anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);
+                local_anim.set_angle(4.0, -1.0, -12.0, ANCHOR_NE);anim.push_back(local_anim);
                 local_object->children[2]->children[1] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_JAW, ZOMBIE_HEAD_DEPTH, has_tongue, local_object->children[2]);
 
                 // children[0][0][2][2] is the cone/bucket
@@ -286,15 +288,17 @@ namespace fvu {
                     // children[0][0][3] is the inner arm. It connects to the rest of the arm.
                     local_object = myObject->children[0]->children[0];
                     local_anim.set_defaults();
-                    //local_anim.set_angle(-10.0, -0.1, -8.0, ANCHOR_NE);
+                    local_anim.set_angle(-10.0, 0.01, -8.0, ANCHOR_NE);
                     local_anim.set_xy(3, 23.5);
-                    anim.clear();anim.push_back(local_anim);
+                    anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);
+                    local_anim.set_angle(-8.0, -0.75, -16.0, ANCHOR_NE);anim.push_back(local_anim);
                     local_object->children[3] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_INNERARM_UPPER,ZOMBIE_INNERARM_UPPER_DEPTH,1, local_object);
 
                     local_anim.set_defaults();
                     //local_anim.set_angle(5.0, 0.0, 0.0, ANCHOR_NE);
                     local_anim.set_xy(-2.5, -19.0);
-                    anim.clear();anim.push_back(local_anim);
+                    anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);
+                    local_anim.set_angle(-8.0, -0.75, -16.0, ANCHOR_NE);anim.push_back(local_anim);
                     local_object->children[3]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_INNERARM_LOWER,ZOMBIE_INNERARM_LOWER_DEPTH,1, local_object->children[3]);
 
                     local_anim.set_defaults();
@@ -305,15 +309,18 @@ namespace fvu {
 
                 // children[0][0][4] is the outer arm. It connects to the rest of the arm.
                 local_anim.set_defaults();
-                //local_anim.set_angle(8.0, 1.0, 13.0, ANCHOR_NW);
+                local_anim.set_angle(8.0, 0.05, 13.0, ANCHOR_NE);
                 local_anim.set_xy(23.5, 23.5);
-                anim.clear();anim.push_back(local_anim);
+                anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);
+                local_anim.set_angle(13.0, -1.85, -25.0, ANCHOR_NE);
+                anim.push_back(local_anim);
                 local_object->children[4] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_OUTERARM_UPPER,ZOMBIE_OUTERARM_UPPER_DEPTH,1, local_object);
 
                 local_anim.set_defaults();
-                //local_anim.set_angle(-10.0, 0.0, 0.0, ANCHOR_CENTER);
                 local_anim.set_xy(-12, -17.0);
-                anim.clear();anim.push_back(local_anim);
+                anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);
+                local_anim.set_angle(-17.0, -1.15, -40.0, ANCHOR_NE);
+                anim.push_back(local_anim);
                 local_object->children[4]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_OUTERARM_LOWER,ZOMBIE_OUTERARM_LOWER_DEPTH,1, local_object->children[4]);
 
                 local_anim.set_defaults();
@@ -395,7 +402,7 @@ namespace fvu {
     void Zombie::endDemo() {
 
         /* Reset all animation counts and angles */
-        myObject->endDemo();
+        myObject->setMode(OBJECT_STATUS_GAME);
 
         /* Point x,y to game_x and game_y */
         status = ZOMBIE_STATUS_GAME;
@@ -456,6 +463,7 @@ namespace fvu {
                             // We've entered a grid in which there is a plant
                             if (myGame->plantGrid[team][row][col] == true) {
                                 status = ZOMBIE_STATUS_EATING;
+                                myObject->setMode(OBJECT_STATUS_ACTION);
                             }
                         }
                     }
@@ -477,6 +485,7 @@ namespace fvu {
                             // We've entered a grid in which there is a plant
                             if (myGame->plantGrid[team][row][col] == true) {
                                 status = ZOMBIE_STATUS_EATING;
+                                myObject->setMode(OBJECT_STATUS_ACTION);
                             }
                         }
                     }
@@ -491,6 +500,7 @@ namespace fvu {
             // Is the plant gone/moved?
             if (myGame->plantGrid[team][row][col] == false) {
                 status = ZOMBIE_STATUS_ACTIVE;
+                myObject->setMode(OBJECT_STATUS_GAME);
             }
             // Otherwise find the appropriate plant and take a byte
             for (uint16_t i = 0; i < myGame->myPlants[team].size(); i++) {
