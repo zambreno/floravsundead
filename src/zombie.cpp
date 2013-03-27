@@ -131,7 +131,12 @@ namespace fvu {
 
                 // children[0] is the outer leg, starting at the upper part. It connects to the rest of the leg and the body
                 local_anim.set_defaults();
-                local_anim.set_angle(1.0, 0.2, 9.0, ANCHOR_N);
+                if (type == FLAG_ZOMBIE) {
+                    local_anim.set_angle(1.0, 0.05, 4.0, ANCHOR_N);
+                }
+                else {
+                    local_anim.set_angle(1.0, 0.2, 9.0, ANCHOR_N);
+                }
                 local_anim.set_xy(27.0, -15.0);
                 anim.clear();anim.push_back(local_anim);
                 myObject->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_OUTERLEG_UPPER,ZOMBIE_OUTERLEG_UPPER_DEPTH, 2, myObject);
@@ -169,7 +174,12 @@ namespace fvu {
 
                 // children[0][0] is the body. It connects to the tie, the underbody, the arms, and the head
                 local_anim.set_defaults();
-                local_anim.set_angle(5.0, -0.1, -5.0, ANCHOR_SE);
+                if (type == FLAG_ZOMBIE) {
+                    local_anim.set_angle(2.0, -0.04, -2.0, ANCHOR_SE);
+                }
+                else {
+                    local_anim.set_angle(5.0, -0.1, -5.0, ANCHOR_SE);
+                }
                 local_anim.set_xy(-25, 20);
                 anim.clear();anim.push_back(local_anim);
                 myObject->children[0]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIEBODY, ZOMBIEBODY_DEPTH, 5, myObject->children[0]);
@@ -187,14 +197,20 @@ namespace fvu {
                 anim.clear();anim.push_back(local_anim);
                 myObject->children[0]->children[0]->children[1] = new Object(anim, anim_count, TEX_ZOMBIES, BLANK_SPRITE, ZOMBIEBODY_DEPTH, 0, myObject->children[0]->children[0]);
 
-
-                // children[0][0][2] is the head
                 // CONE and BUCKET zombies have a second object on their head
+                // ZOMBIES have a tongue 50% of the time
                 uint8_t num_head_children = 2;
+                uint8_t has_tongue=0;
+
+                if (type == REGULAR_ZOMBIE) {
+                    has_tongue = rand()%2;
+                }
                 if ((type == CONE_ZOMBIE) || (type == BUCKET_ZOMBIE)) {
                    num_head_children++;
                 }
 
+
+                // children[0][0][2] is the head
                 local_object = myObject->children[0]->children[0];
                 local_anim.set_defaults();
                 local_anim.set_angle(-12.0, 0.25, 5.0, ANCHOR_S);
@@ -210,8 +226,6 @@ namespace fvu {
                 local_object->children[2]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_HAIR, ZOMBIE_HEAD_DEPTH, 0, local_object->children[2]);
 
                 // children[0][0][2][1] is the jaw
-                // ZOMBIES have a tongue 50% of the time
-                uint8_t has_tongue = rand()%2;
                 local_anim.set_defaults();
                 local_anim.set_angle(4.0, -0.2, -12.0, ANCHOR_NE);
                 local_anim.set_xy(10.2, -9.5);
