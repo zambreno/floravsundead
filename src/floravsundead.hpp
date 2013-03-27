@@ -164,6 +164,7 @@ namespace fvu {
             void drawMap();
             void drawScoreboard();
             void processEvents();
+            void drawPoleZombie();
 
             /* Utility functions (utils.cpp) */
             void print_help();

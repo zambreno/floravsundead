@@ -373,6 +373,8 @@ namespace fvu {
     void Game::drawMap() {
 
 
+        drawPoleZombie();
+
         /* Draw all the objects properly */
         glBindTexture(GL_TEXTURE_2D, myTextures[TEX_ZOMBIES].texHandle);
         for (uint8_t i = 0; i < 4; i++) {
@@ -394,7 +396,293 @@ namespace fvu {
 
     }
 
+    /*****************************************************************************
+    * Function: Game::drawPoleZombie()
+    * Description: Draws a zombie.
+    *****************************************************************************/
 
+    void Game::drawPoleZombie() {
+
+        float texCoords[6];
+        float x, y;
+        glBindTexture(GL_TEXTURE_2D, myTextures[TEX_ZOMBIES].texHandle);
+
+
+    //Head
+        getTexCoords(TEX_ZOMBIES, ZOMBIE_HEAD, texCoords);
+        x = 0;y = 40;
+        glBegin(GL_QUADS);
+            glTexCoord2d(texCoords[0], texCoords[1]);
+            glVertex3f(x, y, ZOMBIE_HEAD_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[1]);
+            glVertex3f(x+texCoords[4], y, ZOMBIE_HEAD_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[3]);
+            glVertex3f(x+texCoords[4], y+texCoords[5], ZOMBIE_HEAD_DEPTH);
+            glTexCoord2d(texCoords[0], texCoords[3]);
+            glVertex3f(x, y+texCoords[5], ZOMBIE_HEAD_DEPTH);
+        glEnd();
+
+        getTexCoords(TEX_ZOMBIES, ZOMBIE_JAW, texCoords);
+        x = 10;y = 31;
+        glBegin(GL_QUADS);
+            glTexCoord2d(texCoords[0], texCoords[1]);
+            glVertex3f(x, y, ZOMBIE_HEAD_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[1]);
+            glVertex3f(x+texCoords[4], y, ZOMBIE_HEAD_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[3]);
+            glVertex3f(x+texCoords[4], y+texCoords[5], ZOMBIE_HEAD_DEPTH);
+            glTexCoord2d(texCoords[0], texCoords[3]);
+            glVertex3f(x, y+texCoords[5], ZOMBIE_HEAD_DEPTH);
+        glEnd();
+
+        getTexCoords(TEX_ZOMBIES, ZOMBIE_POLEVAULTER_HAIR, texCoords);
+        x = -10;y = 50;
+        glBegin(GL_QUADS);
+            glTexCoord2d(texCoords[0], texCoords[1]);
+            glVertex3f(x, y, ZOMBIE_HEAD_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[1]);
+            glVertex3f(x+texCoords[4], y, ZOMBIE_HEAD_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[3]);
+            glVertex3f(x+texCoords[4], y+texCoords[5], ZOMBIE_HEAD_DEPTH);
+            glTexCoord2d(texCoords[0], texCoords[3]);
+            glVertex3f(x, y+texCoords[5], ZOMBIE_HEAD_DEPTH);
+        glEnd();
+    //Body
+        getTexCoords(TEX_ZOMBIES, ZOMBIE_POLEVAULTER_BODY1, texCoords);
+        x = 20;y = -10;
+        glBegin(GL_QUADS);
+            glTexCoord2d(texCoords[0], texCoords[1]);
+            glVertex3f(x, y, ZOMBIEBODY_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[1]);
+            glVertex3f(x+texCoords[4], y, ZOMBIEBODY_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[3]);
+            glVertex3f(x+texCoords[4], y+texCoords[5], ZOMBIEBODY_DEPTH);
+            glTexCoord2d(texCoords[0], texCoords[3]);
+            glVertex3f(x, y+texCoords[5], ZOMBIEBODY_DEPTH);
+        glEnd();
+
+         getTexCoords(TEX_ZOMBIES, ZOMBIE_POLEVAULTER_BODY2, texCoords);
+        x = 40;y = -20;
+        glBegin(GL_QUADS);
+            glTexCoord2d(texCoords[0], texCoords[1]);
+            glVertex3f(x, y, ZOMBIEBODY2_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[1]);
+            glVertex3f(x+texCoords[4], y, ZOMBIEBODY2_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[3]);
+            glVertex3f(x+texCoords[4], y+texCoords[5], ZOMBIEBODY2_DEPTH);
+            glTexCoord2d(texCoords[0], texCoords[3]);
+            glVertex3f(x, y+texCoords[5], ZOMBIEBODY2_DEPTH);
+        glEnd();
+    //Inner Arm
+        getTexCoords(TEX_ZOMBIES, ZOMBIE_POLEVAULTER_INNERARM_UPPER, texCoords);
+        x = -16;y = 32;
+        glBegin(GL_QUADS);
+            glTexCoord2d(texCoords[0], texCoords[1]);
+            glVertex3f(x, y, ZOMBIE_INNERARM_LOWER_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[1]);
+            glVertex3f(x+texCoords[4], y, ZOMBIE_INNERARM_LOWER_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[3]);
+            glVertex3f(x+texCoords[4], y+texCoords[5], ZOMBIE_INNERARM_LOWER_DEPTH);
+            glTexCoord2d(texCoords[0], texCoords[3]);
+            glVertex3f(x, y+texCoords[5], ZOMBIE_INNERARM_LOWER_DEPTH);
+        glEnd();
+
+        getTexCoords(TEX_ZOMBIES, ZOMBIE_POLEVAULTER_INNERARM_LOWER, texCoords);
+        x = 0;y = 33;
+        glBegin(GL_QUADS);
+            glTexCoord2d(texCoords[0], texCoords[1]);
+            glVertex3f(x, y, ZOMBIE_INNERARM_UPPER_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[1]);
+            glVertex3f(x+texCoords[4], y, ZOMBIE_INNERARM_UPPER_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[3]);
+            glVertex3f(x+texCoords[4], y+texCoords[5], ZOMBIE_INNERARM_UPPER_DEPTH);
+            glTexCoord2d(texCoords[0], texCoords[3]);
+            glVertex3f(x, y+texCoords[5], ZOMBIE_INNERARM_UPPER_DEPTH);
+        glEnd();
+
+         getTexCoords(TEX_ZOMBIES, ZOMBIE_POLEVAULTER_INNERHAND, texCoords);
+        x = -18;y = 64;
+        glBegin(GL_QUADS);
+            glTexCoord2d(texCoords[0], texCoords[1]);
+            glVertex3f(x, y, ZOMBIE_INNERARM_HAND_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[1]);
+            glVertex3f(x+texCoords[4], y, ZOMBIE_INNERARM_HAND_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[3]);
+            glVertex3f(x+texCoords[4], y+texCoords[5], ZOMBIE_INNERARM_HAND_DEPTH);
+            glTexCoord2d(texCoords[0], texCoords[3]);
+            glVertex3f(x, y+texCoords[5], ZOMBIE_INNERARM_HAND_DEPTH);
+        glEnd();
+    //Outer Arm
+        getTexCoords(TEX_ZOMBIES, ZOMBIE_POLEVAULTER_OUTERARM_UPPER, texCoords);
+        x = 46;y = 12;
+        glBegin(GL_QUADS);
+            glTexCoord2d(texCoords[0], texCoords[1]);
+            glVertex3f(x, y, ZOMBIE_OUTERARM_LOWER_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[1]);
+            glVertex3f(x+texCoords[4], y, ZOMBIE_OUTERARM_LOWER_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[3]);
+            glVertex3f(x+texCoords[4], y+texCoords[5], ZOMBIE_OUTERARM_LOWER_DEPTH);
+            glTexCoord2d(texCoords[0], texCoords[3]);
+            glVertex3f(x, y+texCoords[5], ZOMBIE_OUTERARM_LOWER_DEPTH);
+        glEnd();
+
+         getTexCoords(TEX_ZOMBIES, ZOMBIE_POLEVAULTER_OUTERARM_LOWER, texCoords);
+        x = 30;y = -6;
+        glBegin(GL_QUADS);
+            glTexCoord2d(texCoords[0], texCoords[1]);
+            glVertex3f(x, y, ZOMBIE_OUTERARM_LOWER_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[1]);
+            glVertex3f(x+texCoords[4], y, ZOMBIE_OUTERARM_LOWER_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[3]);
+            glVertex3f(x+texCoords[4], y+texCoords[5], ZOMBIE_OUTERARM_LOWER_DEPTH);
+            glTexCoord2d(texCoords[0], texCoords[3]);
+            glVertex3f(x, y+texCoords[5], ZOMBIE_OUTERARM_LOWER_DEPTH);
+        glEnd();
+
+         getTexCoords(TEX_ZOMBIES, ZOMBIE_OUTERARM_HAND, texCoords);
+        x = 25;y = -30;
+        glBegin(GL_QUADS);
+            glTexCoord2d(texCoords[0], texCoords[1]);
+            glVertex3f(x, y, ZOMBIE_OUTERARM_HAND_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[1]);
+            glVertex3f(x+texCoords[4], y, ZOMBIE_OUTERARM_HAND_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[3]);
+            glVertex3f(x+texCoords[4], y+texCoords[5], ZOMBIE_OUTERARM_HAND_DEPTH);
+            glTexCoord2d(texCoords[0], texCoords[3]);
+            glVertex3f(x, y+texCoords[5], ZOMBIE_OUTERARM_HAND_DEPTH);
+        glEnd();
+    //Pole
+        getTexCoords(TEX_ZOMBIES, ZOMBIE_POLEVAULTER_POLE, texCoords);
+        x = -80;y = 75;
+        glBegin(GL_QUADS);
+            glTexCoord2d(texCoords[0], texCoords[1]);
+            glVertex3f(x, y, ZOMBIE_INNERARM_UPPER_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[1]);
+            glVertex3f(x+texCoords[4], y, ZOMBIE_INNERARM_UPPER_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[3]);
+            glVertex3f(x+texCoords[4], y+texCoords[5], ZOMBIE_INNERARM_UPPER_DEPTH);
+            glTexCoord2d(texCoords[0], texCoords[3]);
+            glVertex3f(x, y+texCoords[5], ZOMBIE_INNERARM_UPPER_DEPTH);
+        glEnd();
+
+        getTexCoords(TEX_ZOMBIES, ZOMBIE_POLEVAULTER_POLE2, texCoords);
+        x = -100;y = 75;
+        glBegin(GL_QUADS);
+            glTexCoord2d(texCoords[0], texCoords[1]);
+            glVertex3f(x, y, ZOMBIE_INNERARM_UPPER_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[1]);
+            glVertex3f(x+texCoords[4], y, ZOMBIE_INNERARM_UPPER_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[3]);
+            glVertex3f(x+texCoords[4], y+texCoords[5], ZOMBIE_INNERARM_UPPER_DEPTH);
+            glTexCoord2d(texCoords[0], texCoords[3]);
+            glVertex3f(x, y+texCoords[5], ZOMBIE_INNERARM_UPPER_DEPTH);
+        glEnd();
+    //Inner Leg
+        getTexCoords(TEX_ZOMBIES, ZOMBIE_POLEVAULTER_INNERLEG_UPPER, texCoords);
+        x = 43; y = -35;
+        glBegin(GL_QUADS);
+            glTexCoord2d(texCoords[0], texCoords[1]);
+            glVertex3f(x, y, ZOMBIE_INNERLEG_UPPER_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[1]);
+            glVertex3f(x+texCoords[4], y, ZOMBIE_INNERLEG_UPPER_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[3]);
+            glVertex3f(x+texCoords[4], y+texCoords[5], ZOMBIE_INNERLEG_UPPER_DEPTH);
+            glTexCoord2d(texCoords[0], texCoords[3]);
+            glVertex3f(x, y+texCoords[5], ZOMBIE_INNERLEG_UPPER_DEPTH);
+        glEnd();
+
+         getTexCoords(TEX_ZOMBIES, ZOMBIE_POLEVAULTER_INNERLEG_LOWER, texCoords);
+        x = 30; y = -57;
+        glBegin(GL_QUADS);
+            glTexCoord2d(texCoords[0], texCoords[1]);
+            glVertex3f(x, y, ZOMBIE_INNERLEG_LOWER_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[1]);
+            glVertex3f(x+texCoords[4], y, ZOMBIE_INNERLEG_LOWER_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[3]);
+            glVertex3f(x+texCoords[4], y+texCoords[5], ZOMBIE_INNERLEG_LOWER_DEPTH);
+            glTexCoord2d(texCoords[0], texCoords[3]);
+            glVertex3f(x, y+texCoords[5], ZOMBIE_INNERLEG_LOWER_DEPTH);
+        glEnd();
+
+         getTexCoords(TEX_ZOMBIES, ZOMBIE_POLEVAULTER_INNERLEG_FOOT, texCoords);
+        x = 23; y = -67;
+        glBegin(GL_QUADS);
+            glTexCoord2d(texCoords[0], texCoords[1]);
+            glVertex3f(x, y, ZOMBIE_INNERLEG_FOOT_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[1]);
+            glVertex3f(x+texCoords[4], y, ZOMBIE_INNERLEG_FOOT_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[3]);
+            glVertex3f(x+texCoords[4], y+texCoords[5], ZOMBIE_INNERLEG_FOOT_DEPTH);
+            glTexCoord2d(texCoords[0], texCoords[3]);
+            glVertex3f(x, y+texCoords[5], ZOMBIE_INNERLEG_FOOT_DEPTH);
+        glEnd();
+
+          getTexCoords(TEX_ZOMBIES, ZOMBIE_POLEVAULTER_INNERLEG_TOE, texCoords);
+        x = 33; y = -70;
+        glBegin(GL_QUADS);
+            glTexCoord2d(texCoords[0], texCoords[1]);
+            glVertex3f(x, y, ZOMBIE_INNERLEG_FOOT_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[1]);
+            glVertex3f(x+texCoords[4], y, ZOMBIE_INNERLEG_FOOT_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[3]);
+            glVertex3f(x+texCoords[4], y+texCoords[5], ZOMBIE_INNERLEG_FOOT_DEPTH);
+            glTexCoord2d(texCoords[0], texCoords[3]);
+            glVertex3f(x, y+texCoords[5], ZOMBIE_INNERLEG_FOOT_DEPTH);
+        glEnd();
+    //Outer Leg
+         getTexCoords(TEX_ZOMBIES, ZOMBIE_POLEVAULTER_OUTERLEG_UPPER, texCoords);
+        x = 63; y = -24;
+        glBegin(GL_QUADS);
+            glTexCoord2d(texCoords[0], texCoords[1]);
+            glVertex3f(x, y, ZOMBIE_INNERLEG_FOOT_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[1]);
+            glVertex3f(x+texCoords[4], y, ZOMBIE_INNERLEG_FOOT_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[3]);
+            glVertex3f(x+texCoords[4], y+texCoords[5], ZOMBIE_INNERLEG_FOOT_DEPTH);
+            glTexCoord2d(texCoords[0], texCoords[3]);
+            glVertex3f(x, y+texCoords[5], ZOMBIE_INNERLEG_FOOT_DEPTH);
+        glEnd();
+
+
+         getTexCoords(TEX_ZOMBIES, ZOMBIE_POLEVAULTER_OUTERLEG_LOWER, texCoords);
+        x = 64; y = -50;
+        glBegin(GL_QUADS);
+            glTexCoord2d(texCoords[0], texCoords[1]);
+            glVertex3f(x, y, ZOMBIE_OUTERLEG_LOWER_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[1]);
+            glVertex3f(x+texCoords[4], y, ZOMBIE_OUTERLEG_LOWER_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[3]);
+            glVertex3f(x+texCoords[4], y+texCoords[5], ZOMBIE_OUTERLEG_LOWER_DEPTH);
+            glTexCoord2d(texCoords[0], texCoords[3]);
+            glVertex3f(x, y+texCoords[5], ZOMBIE_OUTERLEG_LOWER_DEPTH);
+        glEnd();
+
+         getTexCoords(TEX_ZOMBIES, ZOMBIE_POLEVAULTER_OUTERLEG_FOOT, texCoords);
+        x = 58; y = -64;
+        glBegin(GL_QUADS);
+            glTexCoord2d(texCoords[0], texCoords[1]);
+            glVertex3f(x, y, ZOMBIE_OUTERLEG_FOOT_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[1]);
+            glVertex3f(x+texCoords[4], y, ZOMBIE_OUTERLEG_FOOT_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[3]);
+            glVertex3f(x+texCoords[4], y+texCoords[5], ZOMBIE_OUTERLEG_FOOT_DEPTH);
+            glTexCoord2d(texCoords[0], texCoords[3]);
+            glVertex3f(x, y+texCoords[5], ZOMBIE_OUTERLEG_FOOT_DEPTH);
+        glEnd();
+
+            getTexCoords(TEX_ZOMBIES, ZOMBIE_POLEVAULTER_OUTERLEG_TOE, texCoords);
+        x = 48; y = -65;
+        glBegin(GL_QUADS);
+            glTexCoord2d(texCoords[0], texCoords[1]);
+            glVertex3f(x, y, ZOMBIE_OUTERLEG_FOOT_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[1]);
+            glVertex3f(x+texCoords[4], y, ZOMBIE_OUTERLEG_FOOT_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[3]);
+            glVertex3f(x+texCoords[4], y+texCoords[5], ZOMBIE_OUTERLEG_FOOT_DEPTH);
+            glTexCoord2d(texCoords[0], texCoords[3]);
+            glVertex3f(x, y+texCoords[5], ZOMBIE_OUTERLEG_FOOT_DEPTH);
+        glEnd();
+    }
     /*****************************************************************************
     * Function: Game::processEvents
     * Description: Processes keyboard and other SFML events.
