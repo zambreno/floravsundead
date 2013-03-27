@@ -629,8 +629,9 @@ namespace fvu {
         /* Don't reset animation counts for the plants */
 //        myObject->endDemo();
 
-        /* Point x,y to game_x and game_y */
-        status = PLANT_STATUS_GAME;
+        /* Put placed zombies into GAME mode */
+        if (status != PLANT_STATUS_DEFAULT)
+            status = PLANT_STATUS_GAME;
     }
 
 

@@ -383,7 +383,7 @@ namespace fvu {
             if (myStatus.pan >= 352.5) {
                 myStatus.pan = 352.5;
                 pause_cnt++;
-                if (pause_cnt > 50) {
+                if (pause_cnt > 5000) {
                     dir = -dir;
                     pause_cnt = 0;
                 }
@@ -391,7 +391,7 @@ namespace fvu {
             if (myStatus.pan <= -352.5) {
                 myStatus.pan = -352.5;
                 pause_cnt++;
-                if (pause_cnt > 5000) {
+                if (pause_cnt > 50) {
                     dir = -dir;
                     pause_cnt = 0;
                 }
@@ -529,7 +529,8 @@ namespace fvu {
                                 raise_error(ERR_BADFILE2, myConfig.team_fname[i_team]);
                             }
                             local_plant = new Plant(p, select_tok);
-                            myPlants[i_team].insert(myPlants[i_team].end(), 1, *local_plant);
+                            //myPlants[i_team].insert(myPlants[i_team].end(), 1, *local_plant);
+                            myPlants[i_team].push_back(*local_plant);
                             delete local_plant;
                             break;
                         }

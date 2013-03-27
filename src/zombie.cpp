@@ -84,14 +84,6 @@ namespace fvu {
             y = game_y;
             z = index*ZOMBIE_DEPTH_RANGE + OBJECT_BOTTOM_DEPTH;
 
-            // Put objects on a different depth level if they're on the bottom
-            if (team % 2 == 1) {
-//                z += OBJECT_BOTTOM_DEPTH;
-            }
-            else {
-//                z += OBJECT_TOP_DEPTH;
-            }
-
         }
 
         // In GAME/ACTIVE mode, we need to be row-aware with our sorting

@@ -42,7 +42,7 @@ place P7 2, 8
 place P8 2, 1
 place P9 2, 9
 place P11 4, 4
-place P12 5, 5
+#place P12 5, 5
 # Specify the run-time commands. The valid commands are:
 # place, fire, goto. 
 # Each command can be made optional based on your team's condition. Prefix the 
