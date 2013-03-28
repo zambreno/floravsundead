@@ -25,7 +25,7 @@ extern const float left_gridWidths[NUM_COLS];
 extern const float right_gridWidths[NUM_COLS];
 
 /* Command types and spellings */
-#define NUM_CMD_SPELLINGS 2
+#define NUM_CMD_SPELLINGS 3
 typedef enum {SELECT_CMD=0, PLACE_CMD, FIRE_CMD, GOTO_CMD, NUM_CMD_TYPES} CMD_TYPE;
 extern std::string cmdNames[NUM_CMD_TYPES][NUM_CMD_SPELLINGS];
 

@@ -14,8 +14,8 @@
 # select P#.plant_name
 
 select P1.peashooter
-select P2.repeater
-select P3.Gatling
+select P2.peashooter
+select P3.peashooter
 select P4.peashooter
 select P5.snowpea
 select P6.Chomper
@@ -36,7 +36,7 @@ place P1 2, 2
 place P2 2, 3
 place P3 3, 4
 place P4 2, 5
-place P5 2, 6
+place P2 2, 6
 place P6 2, 7
 place P7 2, 8
 place P8 2, 1
@@ -60,7 +60,7 @@ fire P2
 # if we've hit a zombie, continue firing
 if hit, fire P3
 if not hit, goto L2
-fire P4
+fire P3
 fire P6
 
 # L2 is a label that the previous code jumped to

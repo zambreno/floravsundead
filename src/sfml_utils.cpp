@@ -393,6 +393,10 @@ namespace fvu {
                    myPlants[i][j].draw(j);
                 }
             }
+            for (uint16_t j = 0; j < myParticles[i].size(); j++) {
+                myParticles[i][j].draw(j);
+            }
+
         }
 
     }

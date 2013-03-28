@@ -19,7 +19,7 @@
 
 
 /* Particle speeds.*/
-float particleSpeeds[NUM_PARTICLE_TYPE] = {1.0, 1.0, 1.0, 1.0, 1.0};
+float particleSpeeds[NUM_PARTICLE_TYPE] = {5.0, 5.0, 5.0, 5.0, 5.0};
 
 namespace fvu {
 
@@ -47,6 +47,7 @@ namespace fvu {
 
         glPushMatrix();
         glTranslatef(x, y, z);
+        glScalef(dir, 1.0, 1.0);
         myObject->draw();
         glPopMatrix();
     }
@@ -57,8 +58,46 @@ namespace fvu {
     * Description: Class constructor. Uses an enum type to set particle-specific
     * parameters
     *****************************************************************************/
-    Particle::Particle(uint8_t mytype) {
+    Particle::Particle(uint8_t mytype, fvu::Plant *myPlant) {
 
+        uint32_t anim_count = 0;
+
+        status = PARTICLE_STATUS_ACTIVE;
+        type = mytype;
+        this->myPlant = myPlant;
+        row = myPlant->getRow();col = myPlant->getCol();
+        team = myPlant->getTeam();
+
+        // game_x and game_y are a function of the parent plant (tweaked as needed)
+        game_x = myPlant->getGameX();
+        game_y = myPlant->getGameY();
+        dir = myPlant->getDir();
+
+        /* Initialize particle information here so we can leave the rest of this function as object assembly */
+        speed = particleSpeeds[type];
+
+        std::vector<animation_struct> anim;
+        animation_struct local_anim;
+
+        switch(type) {
+            case PEA_PROJECTILE:
+            default:
+
+                /* The object structure starts at the x/y location of the particle, and moves out in all directions */
+                local_anim.set_defaults();
+                anim.clear();anim.push_back(local_anim);
+                myObject = new Object(anim, anim_count, 0, 0, 0, 1, NULL);
+
+                // children[0] is the main projectile
+                local_anim.set_defaults();
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0] = new Object(anim, anim_count, TEX_PLANTS, PROJECTILEPEA, 0, 0, myObject);
+
+
+
+
+                break;
+        }
 
     }
 
@@ -69,6 +108,10 @@ namespace fvu {
     * Description: Updates each particle
     *****************************************************************************/
     void Particle::update() {
+
+
+        // This needs to be particle-specific as well
+        game_x += speed*dir;
 
 
         myObject->update();

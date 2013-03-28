@@ -267,6 +267,8 @@ namespace fvu {
                 continue;
             }
 
+            // Grab the current command
+            fvu::cmd_type *mycmd = &myTeams[i].cmds[myTeams[i].cur_cmd];
 
             bool pred_true = false;
 
@@ -275,12 +277,32 @@ namespace fvu {
 
             if (pred_true == true) {
 
+                switch (mycmd->cmd) {
+                    // For fire commands, we should check if the plant is active first
+                    case FIRE_CMD:
+
+                        for (uint16_t p = 0; p < myPlants[i].size(); p++) {
+                            if (myPlants[i][p].getID() == mycmd->plant) {
+                                myPlants[i][p].fire();
+                                break;
+                            }
+                        }
+                        break;
+                    case GOTO_CMD:
+                        myTeams[i].cur_cmd = mycmd->opt[0];
+                        break;
+                    default:
+                        break;
+                }
+
             }
 
             // Advance the next command, after some per-command delay
-            myTeams[i].cur_cmd++;
-            if (myTeams[i].cur_cmd >= myTeams[i].cmds.size()) {
-                myTeams[i].cmds_done = true;
+            if (mycmd->cmd != GOTO_CMD) {
+                myTeams[i].cur_cmd++;
+                if (myTeams[i].cur_cmd >= myTeams[i].cmds.size()) {
+                    myTeams[i].cmds_done = true;
+                }
             }
 
         }
@@ -295,11 +317,18 @@ namespace fvu {
             for (uint16_t j = 0; j < myPlants[i].size(); j++) {
                 myPlants[i][j].update();
             }
+            for (uint16_t j = 0; j < myParticles[i].size(); j++) {
+                myParticles[i][j].update();
+            }
+
 
             /* Sort each zombie based on the custom zombie function */
             std::stable_sort(myZombies[i].begin(), myZombies[i].end());
             /* Sort each plant as well */
             std::stable_sort(myPlants[i].begin(), myPlants[i].end());
+            /* Sort each particle as well */
+            std::stable_sort(myParticles[i].begin(), myParticles[i].end());
+
         }
     }
 
@@ -750,7 +779,7 @@ namespace fvu {
             }
 
 
-            // Only after the file is compiled can we do a second pass and verify the target strings
+            // Only after the file is compiled can we do a second pass and verify the target strings and plant targets
             for (uint16_t i = 0; i < myTeams[i_team].cmds.size(); i++) {
                 if (myTeams[i_team].cmds[i].cmd == GOTO_CMD) {
                     bool goto_valid = false;
@@ -768,6 +797,22 @@ namespace fvu {
                         printf("  goto target of %s not found\n", myTeams[i_team].cmds[i].target_str);
                         raise_error(ERR_BADFILE2, myConfig.team_fname[i_team]);
                     }
+                }
+                else {
+                    bool plant_match = false;
+                    for (uint16_t p = 0; p < myPlants[i_team].size(); p++) {
+                        if (myPlants[i_team][p].getID() == myTeams[i_team].cmds[i].plant) {
+                            plant_match = true;
+                            break;
+                        }
+                    }
+                    if (plant_match == false) {
+                        printf("Error compiling %s, line %d\n", myConfig.team_fname[i_team], myTeams[i_team].cmds[i].line);
+                        printf("  plant target of p%hu not found\n", myTeams[i_team].cmds[i].plant);
+                        raise_error(ERR_BADFILE2, myConfig.team_fname[i_team]);
+                    }
+
+
                 }
             }
 

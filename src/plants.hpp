@@ -51,11 +51,16 @@ namespace fvu {
             void updateDemo();
             void updateTransition(uint16_t val);
             void draw(uint16_t index);
+            void fire();
             uint8_t getStatus() {return status;}
             uint16_t getID() {return id;}
             uint8_t getType() {return type;}
             uint16_t getRow() {return row;}
             uint16_t getCol() {return col;}
+            uint8_t getTeam() {return team;}
+            float getGameX() {return game_x;}
+            float getGameY() {return game_y;}
+            float getDir() {return dir;}
             void bite();
             bool operator< (const Plant &rhs) const;
 

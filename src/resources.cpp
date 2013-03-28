@@ -10,10 +10,10 @@ const float right_gridWidths[NUM_COLS] = {172.0,  261.0,  344.0,  430.0,  513.0,
 
 /* Command spellings */
 std::string cmdNames[NUM_CMD_TYPES][NUM_CMD_SPELLINGS] = {
-    {"select", "buy"},
-    {"place", "move"},
-    {"fire", "shoot"},
-    {"goto", "jump"}
+    {"select", "buy", "use"},
+    {"place", "move", "shift"},
+    {"fire", "bite", "shoot"},
+    {"goto", "jump", "loop"}
     };
 
 

@@ -180,6 +180,7 @@ namespace fvu {
             fvu::Status myStatus;
             std::vector<fvu::Zombie> myZombies[4];
             std::vector<fvu::Plant> myPlants[4];
+            std::vector<fvu::Particle> myParticles[4];
 
         private:
             fvu::Config myConfig;

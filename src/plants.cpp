@@ -694,6 +694,29 @@ namespace fvu {
     }
 
 
+    /*****************************************************************************
+    * Function: Plant::fire
+    * Description: Performs a plant-specific action command
+    *****************************************************************************/
+    void Plant::fire() {
+
+        // We shouldn't fire a non-placed plant
+        if (status != PLANT_STATUS_GAME)
+            return;
+
+        fvu::Particle *local_particle;
+
+        switch (type) {
+            case PEASHOOTER_PLANT:
+                local_particle = new Particle(PEA_PROJECTILE, this);
+                myGame->myParticles[team].push_back(*local_particle);
+                break;
+            default:
+                break;
+        }
+    }
+
+
 
     /*****************************************************************************
     * Function: Plant::update

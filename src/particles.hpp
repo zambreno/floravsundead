@@ -25,14 +25,14 @@ typedef enum {PEA_PROJECTILE=0, ICE_PROJECTILE, PEA_PARTICLE, ICE_PARTICLE, WALL
 extern float particleSpeeds[NUM_PARTICLE_TYPE];
 
 /* Particle status enum */
-typedef enum {PARTICLE_STATUS_INACTIVE = 0, PLANT_STATUS_ACTIVE} PARTICLE_STATUS_ENUM;
+typedef enum {PARTICLE_STATUS_INACTIVE = 0, PARTICLE_STATUS_ACTIVE} PARTICLE_STATUS_ENUM;
 
 namespace fvu {
 
     /* Main particle class */
     class Particle {
         public:
-            Particle(uint8_t type);
+            Particle(uint8_t type, fvu::Plant *myPlant);
             void update();
             void draw(uint16_t index);
             uint8_t getStatus() {return status;}
@@ -47,7 +47,9 @@ namespace fvu {
             uint16_t row, col;
             float speed;
             float game_x, game_y;
+            float dir;
             uint8_t team;
+            fvu::Plant *myPlant;
             Object *myObject;
     };
 
