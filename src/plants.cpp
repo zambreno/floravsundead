@@ -255,7 +255,7 @@ namespace fvu {
                 local_anim.set_xscale(0.8, 0.0, 1.0);
                 local_anim.set_yscale(0.8, 0.0, 1.0);
                 anim.clear();anim.push_back(local_anim);
-                local_object->children[0] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_STEM_1, STEM_DEPTH, 7, local_object);
+                local_object->children[0] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_STEM_1, STEM_DEPTH, 6, local_object);
 
                 // children[0]->children[0]->children[0]->children[0] is lowest headleaf
                 local_object = myObject->children[0]->children[0]->children[0];
@@ -295,6 +295,7 @@ namespace fvu {
                 local_anim.set_y(6.75, 0.0, 0.0);
                 local_anim.set_xscale(1, 0.0, 1.0);
                 local_anim.set_yscale(1, 0.0, 1.0);
+
                 anim.clear();anim.push_back(local_anim);
                 local_object->children[3] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_HEADLEAF_3, HEADLEAF_3, 0, local_object);
 
@@ -302,13 +303,13 @@ namespace fvu {
  // children[0]->children[0]->children[0]->children[4] is the underjaw
                 local_object = myObject->children[0]->children[0]->children[0];
                 local_anim.set_defaults();
-                local_anim.set_x(10.0, 0.0, 0.0);
-                local_anim.set_y(-25.0, 0.0, 0.0);
-                local_anim.set_angle(0.0, 0.0, 0.0);
+                local_anim.set_x(8.5, 0.0, 0.0);
+                local_anim.set_y(-26.5, 0.0, 0.0);
                 local_anim.set_xscale(0.6, 0.0, 1.0);
                 local_anim.set_yscale(0.6, 0.0, 1.0);
+                local_anim.set_angle(15.0, 0.0, 0, ANCHOR_NW);
                 anim.clear();anim.push_back(local_anim);
-                local_object->children[4] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_UNDERJAW, PLANTHEAD_DEPTH, 1, local_object);
+                local_object->children[4] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_UNDERJAW, PLANTHEAD_DEPTH, 3, local_object);
 
  // children[0]->children[0]->children[0]->children[4]->children[0] is the bottom lip
                 local_object = myObject->children[0]->children[0]->children[0]->children[4];
@@ -320,12 +321,33 @@ namespace fvu {
                 anim.clear();anim.push_back(local_anim);
                 local_object->children[0] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_BOTTOMLIP, PLANTHEAD_DEPTH, 0, local_object);
 
+// children[0]->children[0]->children[0]->children[4]->children[1] is the inside of the mouth
+                local_object = myObject->children[0]->children[0]->children[0]->children[4];
+                local_anim.set_defaults();
+                local_anim.set_x(19.5, 0.0, 0.0);
+                local_anim.set_y(-6, 0.0, 0.0);
+                local_anim.set_xscale(0.60, 0.0, 1.0);
+                local_anim.set_yscale(0.60, 0.0, 1.0);
+                anim.clear();anim.push_back(local_anim);
+                local_object->children[1] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_INSIDEMOUTH, CHOMPER_INSIDEMOUTH_DEPTH, 0, local_object);
+
+// children[0]->children[0]->children[0]->children[6]->children[0] is the tongue
+                local_object = myObject->children[0]->children[0]->children[0]->children[4];
+                local_anim.set_defaults();
+                local_anim.set_x(0, 0.0, 0.0);
+                local_anim.set_y(7.3, 0.0, 0.0);
+                local_anim.set_xscale(0.60, 0.0, 1.0);
+                local_anim.set_yscale(0.60, 0.0, 1.0);
+                anim.clear();anim.push_back(local_anim);
+                local_object->children[2] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_TONGUE, CHOMPER_TONGUE_DEPTH, 0, local_object);
+
+
 
  // children[0]->children[0]->children[0]->children[5] is the top of the head
                 local_object = myObject->children[0]->children[0]->children[0];
                 local_anim.set_defaults();
                 local_anim.set_x(14.5, 0.0, 0.0);
-                local_anim.set_y(7.3, 0.0, 0.0);
+                local_anim.set_y(27.3, 0.0, 0.0);
                 local_anim.set_xscale(0.60, 0.0, 1.0);
                 local_anim.set_yscale(0.60, 0.0, 1.0);
                 anim.clear();anim.push_back(local_anim);
@@ -334,62 +356,47 @@ namespace fvu {
  // children[0]->children[0]->children[0]->children[5]->children[0] is the 1st spike from the left
                 local_object = myObject->children[0]->children[0]->children[0]->children[5];
                 local_anim.set_defaults();
-                local_anim.set_x(14.5, 0.0, 0.0);
-                local_anim.set_y(7.3, 0.0, 0.0);
-                local_anim.set_xscale(0.60, 0.0, 1.0);
-                local_anim.set_yscale(0.60, 0.0, 1.0);
+                local_anim.set_x(0, 0.0, 0.0);
+                local_anim.set_y(12, 0.0, 0.0);
+                local_anim.set_xscale(.7, 0.0, 1.0);
+                local_anim.set_yscale(.7, 0.0, 1.0);
+                local_anim.set_angle(58.0, 0.0, 0, ANCHOR_S);
                 anim.clear();anim.push_back(local_anim);
                 local_object->children[0] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_SPIKE, CHOMPER_INSIDEMOUTH_DEPTH, 0, local_object);
+
 
                  // children[0]->children[0]->children[0]->children[5]->children[1] is the 2nd spike from the left
                 local_object = myObject->children[0]->children[0]->children[0]->children[5];
                 local_anim.set_defaults();
-                local_anim.set_x(14.5, 0.0, 0.0);
-                local_anim.set_y(7.3, 0.0, 0.0);
-                local_anim.set_xscale(0.60, 0.0, 1.0);
-                local_anim.set_yscale(0.60, 0.0, 1.0);
+                local_anim.set_x(6.5, 0.0, 0.0);
+                local_anim.set_y(17, 0.0, 0.0);
+                local_anim.set_xscale(0.7, 0.0, 1.0);
+                local_anim.set_yscale(0.7, 0.0, 1.0);
+                local_anim.set_angle(40, 0, 0, ANCHOR_S);
                 anim.clear();anim.push_back(local_anim);
                 local_object->children[1] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_SPIKE, CHOMPER_INSIDEMOUTH_DEPTH, 0, local_object);
 
                  // children[0]->children[0]->children[0]->children[5]->children[2] is the 3rd spike from the left
                 local_object = myObject->children[0]->children[0]->children[0]->children[5];
                 local_anim.set_defaults();
-                local_anim.set_x(14.5, 0.0, 0.0);
-                local_anim.set_y(7.3, 0.0, 0.0);
-                local_anim.set_xscale(0.60, 0.0, 1.0);
-                local_anim.set_yscale(0.60, 0.0, 1.0);
+                local_anim.set_x(12, 0.0, 0.0);
+                local_anim.set_y(21, 0.0, 0.0);
+                local_anim.set_xscale(0.70, 0.0, 1.0);
+                local_anim.set_yscale(0.70, 0.0, 1.0);
+                local_anim.set_angle(30.0, 0, 0, ANCHOR_S);
                 anim.clear();anim.push_back(local_anim);
                 local_object->children[2] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_SPIKE, CHOMPER_INSIDEMOUTH_DEPTH, 0, local_object);
 
                  // children[0]->children[0]->children[0]->children[5]->children[3] is the 4th spike from the left
                 local_object = myObject->children[0]->children[0]->children[0]->children[5];
                 local_anim.set_defaults();
-                local_anim.set_x(14.5, 0.0, 0.0);
-                local_anim.set_y(7.3, 0.0, 0.0);
-                local_anim.set_xscale(0.60, 0.0, 1.0);
-                local_anim.set_yscale(0.60, 0.0, 1.0);
+                local_anim.set_x(20, 0.0, 0.0);
+                local_anim.set_y(21.75, 0.0, 0.0);
+                local_anim.set_xscale(0.70, 0.0, 1.0);
+                local_anim.set_yscale(0.70, 0.0, 1.0);
+                local_anim.set_angle(15.0, 0, 0, ANCHOR_S);
                 anim.clear();anim.push_back(local_anim);
                 local_object->children[3] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_SPIKE, CHOMPER_INSIDEMOUTH_DEPTH, 0, local_object);
-
-// children[0]->children[0]->children[0]->children[6] is the inside of the mouth
-                local_object = myObject->children[0]->children[0]->children[0];
-                local_anim.set_defaults();
-                local_anim.set_x(19.5, 0.0, 0.0);
-                local_anim.set_y(-12, 0.0, 0.0);
-                local_anim.set_xscale(0.60, 0.0, 1.0);
-                local_anim.set_yscale(0.60, 0.0, 1.0);
-                anim.clear();anim.push_back(local_anim);
-                local_object->children[6] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_INSIDEMOUTH, CHOMPER_INSIDEMOUTH_DEPTH, 1, local_object);
-
-// children[0]->children[0]->children[0]->children[6]->children[0] is the tongue
-                local_object = myObject->children[0]->children[0]->children[0]->children[6];
-                local_anim.set_defaults();
-                local_anim.set_x(0, 0.0, 0.0);
-                local_anim.set_y(7.3, 0.0, 0.0);
-                local_anim.set_xscale(0.60, 0.0, 1.0);
-                local_anim.set_yscale(0.60, 0.0, 1.0);
-                anim.clear();anim.push_back(local_anim);
-                local_object->children[0] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_TONGUE, CHOMPER_TONGUE_DEPTH, 0, local_object);
 
 
                 // children[0]->children[1] is the left backleaf
@@ -413,7 +420,7 @@ namespace fvu {
                 // children[0]->children[3] is the left frontleaf
                 local_anim.set_defaults();
                 local_anim.set_x(-25.0, 0.0, 0.0);
-                local_anim.set_y(-80.0, 0.0, 0.0);
+                local_anim.set_y(-55.0, 0.0, 0.0);
                 local_anim.set_xscale(0.65, 0.0, 1.0);
                 local_anim.set_yscale(0.65, 0.0, 1.0);
                 anim.clear();anim.push_back(local_anim);
