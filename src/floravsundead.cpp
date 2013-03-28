@@ -84,6 +84,7 @@ namespace fvu {
         for (uint8_t i = 0; i < 4; i++) {
             myZombies[i].clear();
             myPlants[i].clear();
+            myParticles[i].clear();
         }
 
         init();
@@ -239,12 +240,12 @@ namespace fvu {
                 myZombies[i][j].setStatus(ZOMBIE_STATUS_ACTIVE);
                 myTeams[i].zombie_index++;
                 if (firstZombie == true) {
-                    playSound(SFX_AWOOGA);
+                    playSound(SFX_AWOOGA, 100);
                     firstZombie = false;
                 }
                 // Play a sound for those "final wave" zombies
                 else if (myZombies[i][j].getDelay() == -1) {
-                    playSound(SFX_FINALWAVE);
+                    playSound(SFX_FINALWAVE, 100);
                 }
 
 
@@ -280,7 +281,7 @@ namespace fvu {
                             if (myPlants[i][p].getID() == mycmd->plant) {
                                 if (myPlants[i][p].action_count == 0) {
                                     myPlants[i][p].fire();
-                                    myPlants[i][p].action_count = (uint16_t)plantSpeeds[p];
+                                    myPlants[i][p].action_count = plantSpeeds[myPlants[i][p].getType()];
                                 }
                                 break;
                             }
@@ -316,7 +317,12 @@ namespace fvu {
                 myPlants[i][j].update();
             }
             for (uint16_t j = 0; j < myParticles[i].size(); j++) {
-                myParticles[i][j].update();
+                if (myParticles[i][j].isOffscreen()) {
+                    myParticles[i].erase(myParticles[i].begin()+j);
+                }
+                else {
+                    myParticles[i][j].update();
+                }
             }
 
 
@@ -346,7 +352,7 @@ namespace fvu {
             myMusic[0].setVolume(vol_counter);
             if (vol_counter == 0) {
                 myMusic[1].stop();
-                playSound(SFX_WINMUSIC);
+                playSound(SFX_WINMUSIC, 100);
                 end_music = true;
             }
         }

@@ -67,6 +67,7 @@ namespace fvu {
         this->myPlant = myPlant;
         row = myPlant->getRow();col = myPlant->getCol();
         team = myPlant->getTeam();
+        offscreen = false;
 
         // game_x and game_y are a function of the parent plant (tweaked as needed)
         game_x = myPlant->getGameX();
@@ -113,8 +114,31 @@ namespace fvu {
         // This needs to be particle-specific as well
         game_x += speed*dir;
 
+        if ((game_x > 1050.0) || (game_x < -1050.0))
+            offscreen = true;
 
         myObject->update();
+
+        // Calculate any zombie impacts here
+        switch(type) {
+            case PEA_PROJECTILE:
+                // We iterate through the loop backwards to get the closest zombie that is in hit range
+                for (int16_t j = myGame->myZombies[team].size(); j >= 0; j--) {
+                    uint8_t status = myGame->myZombies[team][j].getStatus();
+                    if (((status == ZOMBIE_STATUS_ACTIVE) || (status == ZOMBIE_STATUS_EATING)) &&
+                        (myGame->myZombies[team][j].getRow() == row) &&
+                        (fabs(myGame->myZombies[team][j].getGameX() - game_x) < 15.0)) {
+                        myGame->myZombies[team][j].shoot(this);
+                        offscreen = true;
+                        break;
+                    }
+                }
+                break;
+            default:
+                break;
+        }
+
+
     }
 
 

@@ -18,6 +18,7 @@
 #pragma once
 
 #include "floravsundead.hpp"
+#include "particles.hpp"
 #include "object.hpp"
 
 /* Main enum for the zombie types. We specify NUM_SPELLINGS to some reasonable amount to minimize
@@ -54,13 +55,19 @@ namespace fvu {
             void endDemo();
             void updateDemo();
             void draw(uint16_t index);
+            void updateTransition(uint16_t val);
             uint8_t getStatus() {return status;}
             void setStatus(uint8_t val) {status = val;}
             uint8_t getType() {return type;}
             uint16_t getIndex() {return index;}
             int16_t getDelay() {return delay;}
-            void setDelay(int16_t val) {delay = val; }
-            void shoot(uint16_t shot) {health -= shot;}
+            uint16_t getRow() {return row;}
+            uint16_t getCol() {return col;}
+            uint8_t getTeam() {return team;}
+            float getGameX() {return game_x;}
+            float getGameY() {return game_y;}
+            void setDelay(int16_t val) {delay = val;}
+            void shoot(fvu::Particle *myParticle);
             bool operator< (const Zombie &rhs) const;
 
         private:

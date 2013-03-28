@@ -54,7 +54,7 @@
 #define ERR_UNDEFINED 100
 
 #define FRAME_RATE 30
-#define NUM_SOUNDS 8
+#define NUM_SOUNDS 64
 #define SCREEN_WIDTH_DEFAULT 1920
 #define SCREEN_HEIGHT_DEFAULT 1080
 #define SCREEN_DEPTH_DEFAULT 32
@@ -172,7 +172,7 @@ namespace fvu {
             void print_help();
             void raise_error(uint32_t, const char *msg);
             float *getTexCoords(uint8_t texID, uint16_t spriteID, float *texCoords);
-            void playSound(uint16_t sfxID);
+            void playSound(uint16_t sfxID, uint8_t vol);
             void printConfig();
             void printStatus();
 

@@ -18,6 +18,7 @@
 #pragma once
 
 #include "floravsundead.hpp"
+#include "plants.hpp"
 #include "object.hpp"
 
 /* Main enum for the plant types. */
@@ -39,6 +40,7 @@ namespace fvu {
             uint8_t getType() {return type;}
             uint16_t getRow() {return row;}
             uint16_t getCol() {return col;}
+            bool isOffscreen() {return offscreen;}
             bool operator< (const Particle &rhs) const;
 
         private:
@@ -46,6 +48,7 @@ namespace fvu {
             uint8_t status;
             uint16_t row, col;
             float speed;
+            bool offscreen;
             float game_x, game_y;
             float dir;
             uint8_t team;

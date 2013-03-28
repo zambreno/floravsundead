@@ -644,6 +644,39 @@ namespace fvu {
     }
 
 
+
+    /*****************************************************************************
+    * Function: Zombie::shoot
+    * Description: Updates the health (and potentially other aspects) when a
+    * zombie gets hit by a particle
+    *****************************************************************************/
+    void Zombie::shoot(fvu::Particle *myParticle) {
+
+        health--;
+
+    }
+
+
+
+    /*****************************************************************************
+    * Function: Zombie::updateTransition
+    * Description: When a transition event occurs, perform some zombie-specific
+    * update.
+    *****************************************************************************/
+    void Zombie::updateTransition(uint16_t val) {
+
+
+        /* Transitions are zombie-specific, and usually will involve specific sprite swaps */
+        switch (type) {
+            default:
+                break;
+        }
+
+    }
+
+
+
+
     /*****************************************************************************
     * Function: Zombie::update
     * Description: Updates each zombie
@@ -655,38 +688,41 @@ namespace fvu {
          * all the plant grid locations */
         if (status == ZOMBIE_STATUS_ACTIVE) {
 
-
             /* First, have we been hit recently? If so, check transitions / death conditions */
-            if (health <= transitions[0]) {
-
-                // This part is a little tricky. How do we know what transition to do in fact here?
-                transitions.erase(transitions.begin());
-
-                if (health <= 0) {
-                    status = ZOMBIE_STATUS_INACTIVE;
-                    return;
+            while (!transitions.empty()) {
+                if (health <= transitions[0]) {
+                    updateTransition(transitions[0]);
+                    transitions.erase(transitions.begin());
+                }
+                else {
+                    break;
                 }
             }
+
+            if (health <= 0) {
+                status = ZOMBIE_STATUS_INACTIVE;
+                myGame->myStatus.scores[team] += KILL_SCORE;
+                row = 25;
+            }
+
 
             switch(team) {
                 case 0:
                 case 1:
-                    // Check if we've moved locations and are now within range of a plant
-                    if (game_x >= (left_gridWidths[col-1]-60.0)) {
-                        if (col == 1) {
-                            status = ZOMBIE_STATUS_WINNING;
-                            myObject->setMode(OBJECT_STATUS_WINNING);
-                            myGame->myStatus.scores[team] += ZOMBIE_SCORE;
-                            final_x = -173.0 + rand()%292;
-                            final_y = -333.0 + rand()%620;
-                        }
-                        else {
-                            col--;
-                            // We've entered a grid in which there is a plant
-                            if (myGame->plantGrid[team][row][col] == true) {
-                                status = ZOMBIE_STATUS_EATING;
-                                myObject->setMode(OBJECT_STATUS_ACTION);
-                            }
+                    // Check if we've moved locations and have won or are now within range of a plant
+                    if (col == 0) {
+                        status = ZOMBIE_STATUS_WINNING;
+                        myObject->setMode(OBJECT_STATUS_WINNING);
+                        myGame->myStatus.scores[team] += ZOMBIE_SCORE;
+                        final_x = -173.0 + rand()%292;
+                        final_y = -333.0 + rand()%620;
+                    }
+                    else if (game_x >= (left_gridWidths[col-1]-60.0)) {
+                        col--;
+                        // We've entered a grid in which there is a plant
+                        if (myGame->plantGrid[team][row][col] == true) {
+                            status = ZOMBIE_STATUS_EATING;
+                            myObject->setMode(OBJECT_STATUS_ACTION);
                         }
                     }
 
@@ -696,22 +732,20 @@ namespace fvu {
                 case 2:
                 case 3:
                 default:
-                    // Check if we've moved locations and are now within range of a plant
-                    if (game_x <= (right_gridWidths[col-1]+60.0)) {
-                        if (col == 1) {
-                            status = ZOMBIE_STATUS_WINNING;
-                            myObject->setMode(OBJECT_STATUS_WINNING);
-                            myGame->myStatus.scores[team] += ZOMBIE_SCORE;
-                            final_x = -173.0 + rand()%292;
-                            final_y = -333.0 + rand()%620;
-                        }
-                        else {
-                            col--;
-                            // We've entered a grid in which there is a plant
-                            if (myGame->plantGrid[team][row][col] == true) {
-                                status = ZOMBIE_STATUS_EATING;
-                                myObject->setMode(OBJECT_STATUS_ACTION);
-                            }
+                    // Check if we've moved locations and have won or are now within range of a plant
+                    if (col == 0) {
+                        status = ZOMBIE_STATUS_WINNING;
+                        myObject->setMode(OBJECT_STATUS_WINNING);
+                        myGame->myStatus.scores[team] += ZOMBIE_SCORE;
+                        final_x = -173.0 + rand()%292;
+                        final_y = -333.0 + rand()%620;
+                    }
+                    else if (game_x <= (right_gridWidths[col-1]+60.0)) {
+                        col--;
+                        // We've entered a grid in which there is a plant
+                        if (myGame->plantGrid[team][row][col] == true) {
+                            status = ZOMBIE_STATUS_EATING;
+                            myObject->setMode(OBJECT_STATUS_ACTION);
                         }
                     }
 
@@ -721,6 +755,22 @@ namespace fvu {
             }
         }
         else if (status == ZOMBIE_STATUS_EATING) {
+
+            /* First, have we been hit recently? If so, check transitions / death conditions */
+            while (!transitions.empty()) {
+
+                if (health <= transitions[0]) {
+                    updateTransition(transitions[0]);
+                    transitions.erase(transitions.begin());
+                }
+                else {
+                    break;
+                }
+            }
+
+            if (health <= 0) {
+                status = ZOMBIE_STATUS_INACTIVE;
+            }
 
             // Is the plant gone/moved?
             if (myGame->plantGrid[team][row][col] == false) {
@@ -735,7 +785,7 @@ namespace fvu {
                 for (uint16_t i = 0; i < myGame->myPlants[team].size(); i++) {
                     if ((myGame->myPlants[team][i].getRow() == row) && (myGame->myPlants[team][i].getCol() == col)) {
                                                 myGame->myPlants[team][i].bite();
-                        myGame->playSound(SFX_CHOMP+chomp_counter);
+                        myGame->playSound(SFX_CHOMP+chomp_counter, 25);
                         chomp_counter++;
                         chomp_counter %= 3;
                         action_count = 0;
