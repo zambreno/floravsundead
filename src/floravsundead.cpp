@@ -272,12 +272,16 @@ namespace fvu {
             if (pred_true == true) {
 
                 switch (mycmd->cmd) {
+
                     // For fire commands, we should check if the plant is active first
                     case FIRE_CMD:
 
                         for (uint16_t p = 0; p < myPlants[i].size(); p++) {
                             if (myPlants[i][p].getID() == mycmd->plant) {
-                                myPlants[i][p].fire();
+                                if (myPlants[i][p].action_count == 0) {
+                                    myPlants[i][p].fire();
+                                    myPlants[i][p].action_count = (uint16_t)plantSpeeds[p];
+                                }
                                 break;
                             }
                         }

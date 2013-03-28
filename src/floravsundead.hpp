@@ -63,7 +63,7 @@
 #define TEAM_FNAME_DEFAULT "default.fpl"
 #define TIME_MS_DEFAULT 300000
 #define DEMO_ZOMBIE_COUNT 40
-#define BITE_FRAMES 30
+#define BITE_FRAMES FRAME_RATE
 
 #define KILL_SCORE 5
 #define ZOMBIE_SCORE -10

@@ -34,7 +34,7 @@ uint16_t plantCosts[NUM_PLANT_TYPE] = {100, 200, 450, 175, 150, 50};
 /* Plant healths */
 int16_t plantHealths[NUM_PLANT_TYPE] = {9, 9, 9, 9, 9, 72};
 /* Plant speeds. This variable is plant-specific */
-float plantSpeeds[NUM_PLANT_TYPE] = {1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
+float plantSpeeds[NUM_PLANT_TYPE] = {FRAME_RATE*2.25, FRAME_RATE*2.25/1.5, FRAME_RATE*2.25/3, FRAME_RATE*2.25, 300.0, FRAME_RATE*2.25};
 /* Plant transitions */
 uint16_t plantTransitions[NUM_PLANT_TYPE][NUM_PLANT_TRANSITIONS] = {
     {0, 0, 0},
@@ -729,6 +729,10 @@ namespace fvu {
 
         /* Check all the active plants and if their current health has triggered a transition */
         if (status == PLANT_STATUS_GAME) {
+
+            // Update our action counter, so that we can act again in the near future
+            if (action_count > 0)
+                action_count--;
 
 
             /* Check if there are any transitions left */
