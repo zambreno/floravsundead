@@ -21,7 +21,7 @@
 #include "object.hpp"
 
 /* Main enum for the plant types. */
-typedef enum {PEA_PARTICLE=0, ICE_PARTICLE, NUM_PARTICLE_TYPE} PARTICLE_TYPE;
+typedef enum {PEA_PROJECTILE=0, ICE_PROJECTILE, PEA_PARTICLE, ICE_PARTICLE, WALLNUT_PARTICLE, NUM_PARTICLE_TYPE} PARTICLE_TYPE;
 extern float particleSpeeds[NUM_PARTICLE_TYPE];
 
 /* Particle status enum */

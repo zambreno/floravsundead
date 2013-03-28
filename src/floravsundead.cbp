@@ -38,6 +38,8 @@
 		<Unit filename="floravsundead.hpp" />
 		<Unit filename="object.cpp" />
 		<Unit filename="object.hpp" />
+		<Unit filename="particles.cpp" />
+		<Unit filename="particles.hpp" />
 		<Unit filename="plants.cpp" />
 		<Unit filename="plants.hpp" />
 		<Unit filename="resources.cpp" />
