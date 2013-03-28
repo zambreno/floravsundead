@@ -451,16 +451,16 @@ namespace fvu {
                 // children[0] is the bottom part of the stalk
                 local_anim.set_defaults();
                 local_anim.set_xscale(0.65, 0.0, 1.0);
-                local_anim.set_yscale(0.65, -0.01, 0.45);
+                local_anim.set_yscale(0.65, -0.01, 0.25);
                 local_anim.set_y(-22.0, 0.0, 0.0);
-                local_anim.set_angle(-10.0, 0.25, 10.0, ANCHOR_S);
+                local_anim.set_angle(-18.0, 0.9, 18.0, ANCHOR_S);
                 anim.clear();anim.push_back(local_anim);
                 myObject->children[0] = new Object(anim, anim_count, TEX_PLANTS, PEASHOOTER_STALK_BOTTOM, STEM_DEPTH, 1, myObject);
 
                 // children[0]->children[0] is the top part of the stalk
                 local_anim.set_defaults();
                 local_anim.set_x(1.0, 0.0, 0.0);
-                local_anim.set_y(11.0, -0.34, 7.6);
+                local_anim.set_y(10.0, -0.169, 4.23);
                 local_anim.set_xscale(0.65, 0.0, 1.0);
                 local_anim.set_yscale(0.65, 0.0, 1.0);
                 anim.clear();anim.push_back(local_anim);
@@ -479,8 +479,7 @@ namespace fvu {
                 // children[1]->children[0] is the left tip of the backleaf
                 local_object = myObject->children[1];
                 local_anim.set_defaults();
-                local_anim.set_x(-3.0, 0.0, 0.0);
-                local_anim.set_y(6.0, 0.0, 0.0);
+                local_anim.set_xy(-3.0, 6.0);
                 local_anim.set_xscale(0.65, 0.0, 1.0);
                 local_anim.set_yscale(0.65, 0.0, 1.0);
                 anim.clear();anim.push_back(local_anim);
@@ -489,8 +488,7 @@ namespace fvu {
                 // children[1]->children[1] is the right tip of the backleaf
                 local_object = myObject->children[1];
                 local_anim.set_defaults();
-                local_anim.set_x(24.0, 0.0, 0.0);
-                local_anim.set_y(8.0, 0.0, 0.0);
+                local_anim.set_xy(24.0, 8.0);
                 local_anim.set_xscale(0.65, 0.0, 1.0);
                 local_anim.set_yscale(0.65, 0.0, 1.0);
                 anim.clear();anim.push_back(local_anim);
@@ -498,8 +496,7 @@ namespace fvu {
 
                 // children[2] is the frontleaf
                 local_anim.set_defaults();
-                local_anim.set_x(-17.0, 0.0, 0.0);
-                local_anim.set_y(-35.0, 0.0, 0.0);
+                local_anim.set_xy(-17.0, -35.0);
                 local_anim.set_xscale(0.65, 0.0, 1.0);
                 local_anim.set_yscale(0.65, 0.0, 1.0);
                 anim.clear();anim.push_back(local_anim);
@@ -508,8 +505,7 @@ namespace fvu {
                 // children[2]->children[0] is the left tip of the frontleaf
                 local_object = myObject->children[2];
                 local_anim.set_defaults();
-                local_anim.set_x(-3.0, 0.0, 0.0);
-                local_anim.set_y(-2.0, 0.0, 0.0);
+                local_anim.set_xy(-3.0, -2.0);
                 local_anim.set_xscale(0.65, 0.0, 1.0);
                 local_anim.set_yscale(0.65, 0.0, 1.0);
                 anim.clear();anim.push_back(local_anim);
@@ -518,8 +514,7 @@ namespace fvu {
                 // children[2]->children[1] is the right tip of the frontleaf
                 local_object = myObject->children[2];
                 local_anim.set_defaults();
-                local_anim.set_x(39.0, 0.0, 0.0);
-                local_anim.set_y(4.0, 0.0, 0.0);
+                local_anim.set_xy(39.0, 4.0);
                 local_anim.set_xscale(0.65, 0.0, 1.0);
                 local_anim.set_yscale(0.65, 0.0, 1.0);
                 anim.clear();anim.push_back(local_anim);
@@ -528,8 +523,8 @@ namespace fvu {
                 // children[0]->children[0]->children[0] is the head
                 local_object = myObject->children[0]->children[0];
                 local_anim.set_defaults();
-                local_anim.set_x(-19.0, 0.0, 0.0);
-                local_anim.set_y(6.0, 0.0, 0.0);
+                local_anim.set_xy(-19.0, 6.0);
+                local_anim.set_angle(18.0, -0.9, -18.0, ANCHOR_S);
                 local_anim.set_xscale(0.65, 0.0, 1.0);
                 local_anim.set_yscale(0.65, 0.0, 1.0);
                 anim.clear();anim.push_back(local_anim);
@@ -538,8 +533,7 @@ namespace fvu {
                 // children[0]->children[0]->children[0]->children[0] is the lips
                 local_object = myObject->children[0]->children[0]->children[0];
                 local_anim.set_defaults();
-                local_anim.set_x(39.0, 0.0, 0.0);
-                local_anim.set_y(7.0, 0.0, 0.0);
+                local_anim.set_xy(39.0, 7.0);
                 local_anim.set_xscale(0.65, 0.0, 1.0);
                 local_anim.set_yscale(0.65, 0.0, 1.0);
                 anim.clear();anim.push_back(local_anim);
@@ -548,8 +542,7 @@ namespace fvu {
                 // children[0]->children[0]->children[0]->children[1] is the sprout
                 local_object = myObject->children[0]->children[0]->children[0];
                 local_anim.set_defaults();
-                local_anim.set_x(-9.0, 0.0, 0.0);
-                local_anim.set_y(19.0, 0.0, 0.0);
+                local_anim.set_xy(-9.0, 19.0);
                 local_anim.set_xscale(0.65, 0.0, 1.0);
                 local_anim.set_yscale(0.65, 0.0, 1.0);
                 anim.clear();anim.push_back(local_anim);
@@ -557,8 +550,7 @@ namespace fvu {
 
                 // children[3] is the shadow
                 local_anim.set_defaults();
-                local_anim.set_x(-25.0, 0.0, 0.0);
-                local_anim.set_y(-50.0, 0.0, 0.0);
+                local_anim.set_xy(-25.0, -50.0);
                 local_anim.set_xscale(0.85, 0.0, 1.0);
                 local_anim.set_yscale(0.85, 0.0, 1.0);
                 anim.clear();anim.push_back(local_anim);
