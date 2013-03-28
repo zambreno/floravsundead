@@ -33,6 +33,7 @@
 #include "resources.hpp"
 #include "zombie.hpp"
 #include "plants.hpp"
+#include "particles.hpp"
 #include "object.hpp"
 
 #define EXEC_NAME "floravsundead"
