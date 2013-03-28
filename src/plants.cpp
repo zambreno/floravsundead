@@ -32,7 +32,7 @@ std::string plantNames[NUM_PLANT_TYPE][NUM_PLANT_SPELLINGS] = {
 /* Plant costs */
 uint16_t plantCosts[NUM_PLANT_TYPE] = {100, 200, 450, 175, 150, 50};
 /* Plant healths */
-int16_t plantHealths[NUM_PLANT_TYPE] = {90, 90, 90, 90, 90, 720};
+int16_t plantHealths[NUM_PLANT_TYPE] = {9, 9, 9, 9, 9, 72};
 /* Plant speeds. This variable is plant-specific */
 float plantSpeeds[NUM_PLANT_TYPE] = {1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
 /* Plant transitions */
@@ -55,6 +55,7 @@ namespace fvu {
     void Plant::draw(uint16_t index) {
 
         float x, y, z;
+
 
         // In DEMO mode, we can do a pure depth sort of all the zombies
         if (status == PLANT_STATUS_DEMO) {
@@ -144,6 +145,7 @@ namespace fvu {
         type = mytype;
         id = myid;
         row = 0;col = 0;
+        action_count = 0;
 
         /* Initialize plant information here so we can leave the rest of this function as object assembly */
         health = plantHealths[type];
@@ -628,7 +630,7 @@ namespace fvu {
         /* Don't reset animation counts for the plants */
 //        myObject->endDemo();
 
-        /* Put placed zombies into GAME mode */
+        /* Put placed plants into GAME mode */
         if (status != PLANT_STATUS_DEFAULT)
             status = PLANT_STATUS_GAME;
     }
@@ -742,6 +744,7 @@ namespace fvu {
             }
 
             if (health <= 0) {
+                myGame->playSound(SFX_GULP);
                 status = PLANT_STATUS_INACTIVE;
                 myGame->plantGrid[team][row][col] = false;
             }

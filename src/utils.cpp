@@ -33,6 +33,17 @@ namespace fvu {
 
 
     /*****************************************************************************
+    * Function: Game::playSound
+    * Description: Plays a specific sound effect and updates the sound buffer
+    *****************************************************************************/
+    void Game::playSound(uint16_t sfxID) {
+        mySounds[myStatus.music_buffer].setBuffer(mySoundBuffers[sfxID]);
+        mySounds[myStatus.music_buffer].play();
+        myStatus.music_buffer++;
+        myStatus.music_buffer %= NUM_SOUNDS;
+    }
+
+    /*****************************************************************************
     * Function: Game::getTexCoords
     * Description: Returns texture coordinates for a specified texture map and
     * object name.

@@ -63,6 +63,7 @@
 #define TEAM_FNAME_DEFAULT "default.fpl"
 #define TIME_MS_DEFAULT 300000
 #define DEMO_ZOMBIE_COUNT 40
+#define BITE_FRAMES 30
 
 #define KILL_SCORE 5
 #define ZOMBIE_SCORE -10
@@ -171,6 +172,7 @@ namespace fvu {
             void print_help();
             void raise_error(uint32_t, const char *msg);
             float *getTexCoords(uint8_t texID, uint16_t spriteID, float *texCoords);
+            void playSound(uint16_t sfxID);
             void printConfig();
             void printStatus();
 

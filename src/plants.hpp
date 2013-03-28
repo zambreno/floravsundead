@@ -75,6 +75,7 @@ namespace fvu {
             float game_x, game_y, demo_x, demo_y;
             float dir;
             uint8_t team;
+            uint16_t action_count;
             uint16_t delay;
             Object *myObject;
     };

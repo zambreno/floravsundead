@@ -17,8 +17,8 @@ select P1.peashooter
 select P2.peashooter
 select P3.peashooter
 select P4.peashooter
-select P5.snowpea
-select P6.Chomper
+select P5.chomper
+select P6.peashooter
 select P7.wallnut
 select P8.snowpea
 select P9.peashooter
@@ -32,17 +32,16 @@ select P12.peashooter
 # 
 # place P# row, col
 
-place P1 2, 2
-place P2 2, 3
-place P3 3, 4
-place P4 2, 5
-place P2 2, 6
-place P6 2, 7
-place P7 2, 8
-place P8 2, 1
-place P9 2, 9
-place P11 4, 4
-#place P12 5, 5
+place P1 2, 1
+place P2 1, 2
+place P3 3, 3
+place P4 5, 1
+place P5 2, 2
+place P6 3, 10
+place P7 4, 4
+place P8 5, 5
+place P9 3, 1
+
 # Specify the run-time commands. The valid commands are:
 # place, fire, goto. 
 # Each command can be made optional based on your team's condition. Prefix the 

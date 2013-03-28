@@ -23,9 +23,10 @@ budget 20000
 # Zombie, Flag, Conehead, Polevault, Buckethead, Newspaper, Screendoor, Football, Dancing, Yeti. 
 # You can specify more than 1 of a type in a line.
 #
-select Pole 1
+select Flag 1
 select Bucket 1
-select Zombie 9
+select Zombie 3
+select Pole 1
 select Conehead 1
 select Bucket 1
 select flag 1

@@ -695,7 +695,6 @@ namespace fvu {
     void Game::processEvents() {
 
         sf::Event event;
-        static int16_t i = 0;
         while (myWindow.pollEvent(event)) {
             if (event.type == sf::Event::KeyPressed) {
                 switch (event.key.code) {
@@ -736,10 +735,6 @@ namespace fvu {
                             myStatus.mode = DEMO_END;
                         break;
                     default:
-                        mySounds[myStatus.music_buffer].setBuffer(mySoundBuffers[i]);
-                        mySounds[myStatus.music_buffer].play();
-                        i++; myStatus.music_buffer++;
-                        i %= NUM_SFX; myStatus.music_buffer %= NUM_SOUNDS;
                         break;
                 }
 

@@ -239,18 +239,12 @@ namespace fvu {
                 myZombies[i][j].setStatus(ZOMBIE_STATUS_ACTIVE);
                 myTeams[i].zombie_index++;
                 if (firstZombie == true) {
-                    mySounds[myStatus.music_buffer].setBuffer(mySoundBuffers[SFX_AWOOGA]);
-                    mySounds[myStatus.music_buffer].play();
-                    myStatus.music_buffer++;
-                    myStatus.music_buffer %= NUM_SOUNDS;
+                    playSound(SFX_AWOOGA);
                     firstZombie = false;
                 }
                 // Play a sound for those "final wave" zombies
                 else if (myZombies[i][j].getDelay() == -1) {
-                    mySounds[myStatus.music_buffer].setBuffer(mySoundBuffers[SFX_FINALWAVE]);
-                    mySounds[myStatus.music_buffer].play();
-                    myStatus.music_buffer++;
-                    myStatus.music_buffer %= NUM_SOUNDS;
+                    playSound(SFX_FINALWAVE);
                 }
 
 
@@ -348,10 +342,7 @@ namespace fvu {
             myMusic[0].setVolume(vol_counter);
             if (vol_counter == 0) {
                 myMusic[1].stop();
-                mySounds[myStatus.music_buffer].setBuffer(mySoundBuffers[SFX_WINMUSIC]);
-                mySounds[myStatus.music_buffer].play();
-                myStatus.music_buffer++;
-                myStatus.music_buffer %= NUM_SOUNDS;
+                playSound(SFX_WINMUSIC);
                 end_music = true;
             }
         }

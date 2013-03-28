@@ -158,8 +158,9 @@ namespace fvu {
         status = ZOMBIE_STATUS_DEFAULT;
         type = mytype;
         index = myindex;
-        Object *local_object;
+        action_count = 0;
 
+        Object *local_object;
 
         /* Initialize zombie information here so we can leave the rest of this function as object assembly */
         health = zombieHealths[type];
@@ -726,11 +727,20 @@ namespace fvu {
                 status = ZOMBIE_STATUS_ACTIVE;
                 myObject->setMode(OBJECT_STATUS_GAME);
             }
-            // Otherwise find the appropriate plant and take a byte
-            for (uint16_t i = 0; i < myGame->myPlants[team].size(); i++) {
-                if ((myGame->myPlants[team][i].getRow() == row) && (myGame->myPlants[team][i].getCol() == col)) {
-                    myGame->myPlants[team][i].bite();
-                    break;
+
+            // Otherwise find the appropriate plant (every BITE_FRAMES) and take a byte
+            static uint16_t chomp_counter = 0;
+            action_count++;
+            if (action_count > BITE_FRAMES) {
+                for (uint16_t i = 0; i < myGame->myPlants[team].size(); i++) {
+                    if ((myGame->myPlants[team][i].getRow() == row) && (myGame->myPlants[team][i].getCol() == col)) {
+                                                myGame->myPlants[team][i].bite();
+                        myGame->playSound(SFX_CHOMP+chomp_counter);
+                        chomp_counter++;
+                        chomp_counter %= 3;
+                        action_count = 0;
+                        break;
+                    }
                 }
             }
 

@@ -38,6 +38,7 @@ std::string sfxFiles[NUM_SFX] = {
     "audio/sfx/groan5.ogg",
     "audio/sfx/groan6.ogg",
     "audio/sfx/winmusic.ogg",
+    "audio/sfx/gulp.ogg",
     "audio/sfx/yuck.ogg",
     "audio/sfx/yuck2.ogg",
     "audio/sfx/sukhbir.ogg",
