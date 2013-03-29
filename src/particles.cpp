@@ -120,8 +120,8 @@ namespace fvu {
         // Calculate any zombie impacts here
         switch(type) {
             case PEA_PROJECTILE:
-                // We iterate through the loop backwards to get the closest zombie that is in hit range
-                for (int16_t j = myGame->myZombies[team].size(); j >= 0; j--) {
+                // We iterate through the loop forwards to get the closest zombie that is in hit range
+                for (uint16_t j = 0; j < myGame->myZombies[team].size(); j++) {
                     uint8_t status = myGame->myZombies[team][j].getStatus();
                     if (((status == ZOMBIE_STATUS_ACTIVE) || (status == ZOMBIE_STATUS_EATING)) &&
                         (myGame->myZombies[team][j].getRow() == row) &&
