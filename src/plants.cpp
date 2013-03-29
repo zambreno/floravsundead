@@ -25,16 +25,17 @@ std::string plantNames[NUM_PLANT_TYPE][NUM_PLANT_SPELLINGS] = {
     {"gatling", "quadruple"},
     {"snowpea", "snow"},
     {"chomper", "chomp"},
-    {"wallnut", "walnut"}
+    {"wallnut", "walnut"},
+    {"tallnut", "talnut"}
     };
 
 
 /* Plant costs */
-uint16_t plantCosts[NUM_PLANT_TYPE] = {100, 200, 450, 175, 150, 50};
+uint16_t plantCosts[NUM_PLANT_TYPE] = {100, 200, 450, 175, 150, 50, 125};
 /* Plant healths */
-int16_t plantHealths[NUM_PLANT_TYPE] = {9, 9, 9, 9, 9, 72};
+int16_t plantHealths[NUM_PLANT_TYPE] = {9, 9, 9, 9, 9, 72, 144};
 /* Plant speeds. This variable is plant-specific */
-uint16_t plantSpeeds[NUM_PLANT_TYPE] = {80, 40, 20, 80, 300, 1};
+uint16_t plantSpeeds[NUM_PLANT_TYPE] = {80, 40, 20, 80, 300, 1, 1};
 /* Plant transitions */
 uint16_t plantTransitions[NUM_PLANT_TYPE][NUM_PLANT_TRANSITIONS] = {
     {0, 0, 0},
@@ -42,7 +43,8 @@ uint16_t plantTransitions[NUM_PLANT_TYPE][NUM_PLANT_TRANSITIONS] = {
     {0, 0, 0},
     {0, 0, 0},
     {0, 0, 0},
-    {48, 24, 0}
+    {48, 24, 0},
+    {96, 48, 0}
     };
 
 namespace fvu {
@@ -195,6 +197,38 @@ namespace fvu {
 
 
                 break;
+
+            case TALLNUT_PLANT:
+
+                /* The object structure starts at the x/y location of the plant head, and moves out in all directions */
+                local_anim.set_defaults();
+                anim.clear();anim.push_back(local_anim);
+                myObject = new Object(anim, anim_count, 0, 0, 0, 2, NULL);
+
+                // children[0] is the wallnut body
+                local_anim.set_defaults();
+                local_anim.set_x(-22.0, 0.0, 0.0);
+                local_anim.set_y(-35.0, 0.0, 0.0);
+                local_anim.set_angle(-2.0, 0.1, 2.0, ANCHOR_S);
+                local_anim.set_xscale(0.65, 0.0, 1.0);
+                local_anim.set_yscale(0.65, 0.001, 0.66);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0] = new Object(anim, anim_count, TEX_PLANTS, TALLNUT_BODY, PLANTHEAD_DEPTH, 0, myObject);
+
+
+                // children[1] is the shadow
+                local_anim.set_defaults();
+                local_anim.set_x(-22.0, 0.0, 0.0);
+                local_anim.set_y(-50.0, 0.0, 0.0);
+                local_anim.set_xscale(0.85, 0.0, 1.0);
+                local_anim.set_yscale(0.85, 0.0, 1.0);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[1] = new Object(anim, anim_count, TEX_PLANTS, POT_SHADOW, PLANT_SHADOW_DEPTH, 0, myObject);
+
+
+
+                break;
+
 
             case CHOMPER_PLANT:
                  /* The object structure starts at the x/y location of the plant head, and moves out in all directions */
@@ -503,38 +537,207 @@ namespace fvu {
                 local_object->children[1] = new Object(anim, anim_count, TEX_PLANTS, PEASHOOTER_FRONTLEAF_RIGHTTIP, FRONTLEAF_DEPTH, 0, local_object);
 
                 // children[0]->children[0]->children[0] is the head
-                local_object = myObject->children[0]->children[0];
-                local_anim.set_defaults();
-                local_anim.set_xy(-19.0, 6.0);
-                local_anim.set_angle(18.0, -1.8, -18.0, ANCHOR_S);
-                local_anim.set_xscale(0.65, 0.0, 1.0);
-                local_anim.set_yscale(0.65, 0.0, 1.0);
-                anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);
-                local_anim.set_xscale(0.65, -0.015, 0.5);
-                local_anim.set_angle(9.0, -1.8, -9.0, ANCHOR_S);
-                anim.push_back(local_anim);
-                local_object->children[0] = new Object(anim, anim_count, TEX_PLANTS, PEASHOOTER_HEAD, PLANTHEAD_DEPTH, 2, local_object);
+                if (type == PEASHOOTER_PLANT) {
+                    local_object = myObject->children[0]->children[0];
+                    local_anim.set_defaults();
+                    local_anim.set_xy(-19.0, 6.0);
+                    local_anim.set_angle(18.0, -1.8, -18.0, ANCHOR_S);
+                    local_anim.set_xscale(0.65, 0.0, 1.0);
+                    local_anim.set_yscale(0.65, 0.0, 1.0);
+                    anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);
+                    local_anim.set_xscale(0.65, -0.015, 0.5);
+                    local_anim.set_angle(9.0, -1.8, -9.0, ANCHOR_S);
+                    anim.push_back(local_anim);
+                    local_object->children[0] = new Object(anim, anim_count, TEX_PLANTS, PEASHOOTER_HEAD, PLANTHEAD_DEPTH, 2, local_object);
 
-                // children[0]->children[0]->children[0]->children[0] is the lips
-                local_object = myObject->children[0]->children[0]->children[0];
-                local_anim.set_defaults();
-                local_anim.set_xy(39.0, 7.0);
-                local_anim.set_angle(-4.0, 0.2, 4.0, ANCHOR_E);
-                local_anim.set_xscale(0.65, 0.0, 1.0);
-                local_anim.set_yscale(0.65, 0.0, 1.0);
-                anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);
-                local_anim.set_x(39.0, -1.05, 28.5);
-                anim.push_back(local_anim);
-                local_object->children[0] = new Object(anim, anim_count, TEX_PLANTS, PEASHOOTER_LIPS, PLANTHEAD_DEPTH, 0, local_object);
+                    // children[0]->children[0]->children[0]->children[0] is the lips
+                    local_object = myObject->children[0]->children[0]->children[0];
+                    local_anim.set_defaults();
+                    local_anim.set_xy(39.0, 7.0);
+                    local_anim.set_angle(-4.0, 0.2, 4.0, ANCHOR_E);
+                    local_anim.set_xscale(0.65, 0.0, 1.0);
+                    local_anim.set_yscale(0.65, 0.0, 1.0);
+                    anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);
+                    local_anim.set_x(39.0, -1.05, 28.5);
+                    anim.push_back(local_anim);
+                    local_object->children[0] = new Object(anim, anim_count, TEX_PLANTS, PEASHOOTER_LIPS, PLANTHEAD_DEPTH, 0, local_object);
 
-                // children[0]->children[0]->children[0]->children[1] is the sprout
-                local_object = myObject->children[0]->children[0]->children[0];
-                local_anim.set_defaults();
-                local_anim.set_xy(-9.0, 19.0);
-                local_anim.set_xscale(0.65, 0.0, 1.0);
-                local_anim.set_yscale(0.65, 0.0, 1.0);
-                anim.clear();anim.push_back(local_anim);
-                local_object->children[1] = new Object(anim, anim_count, TEX_PLANTS, PEASHOOTER_SPROUT, FRONTLEAF_DEPTH, 0, local_object);
+                    // children[0]->children[0]->children[0]->children[1] is the sprout
+                    local_object = myObject->children[0]->children[0]->children[0];
+                    local_anim.set_defaults();
+                    local_anim.set_xy(-9.0, 19.0);
+                    local_anim.set_xscale(0.65, 0.0, 1.0);
+                    local_anim.set_yscale(0.65, 0.0, 1.0);
+                    anim.clear();anim.push_back(local_anim);
+                    local_object->children[1] = new Object(anim, anim_count, TEX_PLANTS, PEASHOOTER_SPROUT, FRONTLEAF_DEPTH, 0, local_object);
+                }
+
+                if (type == GATLING_PLANT) {
+                    local_object = myObject->children[0]->children[0];
+                    local_anim.set_defaults();
+                    local_anim.set_xy(-19.0, 6.0);
+                    local_anim.set_angle(18.0, -1.8, -18.0, ANCHOR_S);
+                    local_anim.set_xscale(0.65, 0.0, 1.0);
+                    local_anim.set_yscale(0.65, 0.0, 1.0);
+                    anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);
+                    local_anim.set_xscale(0.65, -0.015, 0.5);
+                    local_anim.set_angle(9.0, -1.8, -9.0, ANCHOR_S);
+                    anim.push_back(local_anim);
+                    local_object->children[0] = new Object(anim, anim_count, TEX_PLANTS, GATLINGPEA_HEAD, PLANTHEAD_DEPTH, 7, local_object);
+
+                    // children[0]->children[0]->children[0]->children[0] is the lips
+                    local_object = myObject->children[0]->children[0]->children[0];
+                    local_anim.set_defaults();
+                    local_anim.set_xy(37.0, 7.0);
+                    local_anim.set_angle(-2.0, 0.1, 2.0, ANCHOR_E);
+                    local_anim.set_xscale(0.65, 0.0, 1.0);
+                    local_anim.set_yscale(0.65, 0.0, 1.0);
+                    anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);
+                    local_anim.set_x(37.0, -0.85, 28.5);
+                    anim.push_back(local_anim);
+                    local_object->children[0] = new Object(anim, anim_count, TEX_PLANTS, GATLINGPEA_MOUTH, PLANTHEAD_DEPTH, 0, local_object);
+
+                    // children[0]->children[0]->children[0]->children[1] is the sprout
+                    local_object = myObject->children[0]->children[0]->children[0];
+                    local_anim.set_defaults();
+                    local_anim.set_xy(37.0, 7.0);
+                    local_anim.set_angle(-2.0, 0.1, 2.0, ANCHOR_E);
+                    local_anim.set_xscale(0.65, 0.0, 1.0);
+                    local_anim.set_yscale(0.65, 0.0, 1.0);
+                    anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);
+                    local_anim.set_x(37.0, -0.85, 28.5);
+                    anim.push_back(local_anim);
+                    local_object->children[1] = new Object(anim, anim_count, TEX_PLANTS, GATLINGPEA_MOUTH_OVERLAY, PLANTHEAD_OVERLAY_DEPTH, 0, local_object);
+
+
+                    // children[0]->children[0]->children[0]->children[2] through [5] are the barrels.
+                    local_object = myObject->children[0]->children[0]->children[0];
+                    local_anim.set_defaults();
+                    local_anim.set_xy(53.0, 20.0);
+                    local_anim.set_xscale(0.65, 0.0, 1.0);
+                    local_anim.set_yscale(0.65, 0.0, 1.0);
+                    anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);
+                    local_anim.set_x(53.0, -1.0, 43.0);
+                    anim.push_back(local_anim);
+                    local_object->children[2] = new Object(anim, anim_count, TEX_PLANTS, GATLINGPEA_BARREL, PLANTHEAD_ACCESSORY_DEPTH, 0, local_object);
+
+                    local_object = myObject->children[0]->children[0]->children[0];
+                    local_anim.set_defaults();
+                    local_anim.set_xy(50.0, 12.0);
+                    local_anim.set_xscale(0.65, 0.0, 1.0);
+                    local_anim.set_yscale(0.65, 0.0, 1.0);
+                    anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);
+                    local_anim.set_x(50.0, -1.0, 40.0);
+                    anim.push_back(local_anim);
+                    local_object->children[3] = new Object(anim, anim_count, TEX_PLANTS, GATLINGPEA_BARREL, PLANTHEAD_ACCESSORY_DEPTH, 0, local_object);
+
+                    local_object = myObject->children[0]->children[0]->children[0];
+                    local_anim.set_defaults();
+                    local_anim.set_xy(50.0, 28.0);
+                    local_anim.set_xscale(0.65, 0.0, 1.0);
+                    local_anim.set_yscale(0.65, 0.0, 1.0);
+                    anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);
+                    local_anim.set_x(50.0, -1.0, 40.0);
+                    anim.push_back(local_anim);
+                    local_object->children[4] = new Object(anim, anim_count, TEX_PLANTS, GATLINGPEA_BARREL, PLANTHEAD_ACCESSORY_DEPTH, 0, local_object);
+
+                    local_object = myObject->children[0]->children[0]->children[0];
+                    local_anim.set_defaults();
+                    local_anim.set_xy(47.0, 20.0);
+                    local_anim.set_xscale(0.65, 0.0, 1.0);
+                    local_anim.set_yscale(0.65, 0.0, 1.0);
+                    anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);
+                    local_anim.set_x(47.0, -1.0, 37.0);
+                    anim.push_back(local_anim);
+                    local_object->children[5] = new Object(anim, anim_count, TEX_PLANTS, GATLINGPEA_BARREL, PLANTHEAD_ACCESSORY_DEPTH, 0, local_object);
+
+
+                    // children[0]->children[0]->children[0]->children[6] is the helmet
+                    local_object = myObject->children[0]->children[0]->children[0];
+                    local_anim.set_defaults();
+                    local_anim.set_xy(-10.0, -2.0);
+                    local_anim.set_xscale(0.65, 0.0, 1.0);
+                    local_anim.set_yscale(0.65, 0.0, 1.0);
+                    anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);
+                    local_anim.set_angle(-9.0, 1.8, 9.0, ANCHOR_S);
+                    anim.push_back(local_anim);
+                    local_object->children[6] = new Object(anim, anim_count, TEX_PLANTS, GATLINGPEA_HELMET, PLANTHEAD_OVERLAY_DEPTH, 0, local_object);
+
+
+
+                }
+
+                // children[0]->children[0]->children[0] is the head
+                if (type == REPEATER_PLANT) {
+                    local_object = myObject->children[0]->children[0];
+                    local_anim.set_defaults();
+                    local_anim.set_xy(-19.0, 6.0);
+                    local_anim.set_angle(18.0, -1.8, -18.0, ANCHOR_S);
+                    local_anim.set_xscale(0.65, 0.0, 1.0);
+                    local_anim.set_yscale(0.65, 0.0, 1.0);
+                    anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);
+                    local_anim.set_xscale(0.65, -0.015, 0.5);
+                    local_anim.set_angle(9.0, -1.8, -9.0, ANCHOR_S);
+                    anim.push_back(local_anim);
+                    local_object->children[0] = new Object(anim, anim_count, TEX_PLANTS, PEASHOOTER_HEAD, PLANTHEAD_DEPTH, 2, local_object);
+
+                    // children[0]->children[0]->children[0]->children[0] is the lips
+                    local_object = myObject->children[0]->children[0]->children[0];
+                    local_anim.set_defaults();
+                    local_anim.set_xy(39.0, 7.0);
+                    local_anim.set_angle(-4.0, 0.2, 4.0, ANCHOR_E);
+                    local_anim.set_xscale(0.65, 0.0, 1.0);
+                    local_anim.set_yscale(0.65, 0.0, 1.0);
+                    anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);
+                    local_anim.set_x(39.0, -1.05, 28.5);
+                    anim.push_back(local_anim);
+                    local_object->children[0] = new Object(anim, anim_count, TEX_PLANTS, PEASHOOTER_LIPS, PLANTHEAD_DEPTH, 0, local_object);
+
+                    // children[0]->children[0]->children[0]->children[1] is the sprout
+                    local_object = myObject->children[0]->children[0]->children[0];
+                    local_anim.set_defaults();
+                    local_anim.set_xy(-9.0, 19.0);
+                    local_anim.set_xscale(0.65, 0.0, 1.0);
+                    local_anim.set_yscale(0.65, 0.0, 1.0);
+                    anim.clear();anim.push_back(local_anim);
+                    local_object->children[1] = new Object(anim, anim_count, TEX_PLANTS, PEASHOOTER_SPROUT, FRONTLEAF_DEPTH, 0, local_object);
+                }
+
+                // children[0]->children[0]->children[0] is the head
+                if (type == SNOW_PLANT) {
+                    local_object = myObject->children[0]->children[0];
+                    local_anim.set_defaults();
+                    local_anim.set_xy(-19.0, 6.0);
+                    local_anim.set_angle(18.0, -1.8, -18.0, ANCHOR_S);
+                    local_anim.set_xscale(0.65, 0.0, 1.0);
+                    local_anim.set_yscale(0.65, 0.0, 1.0);
+                    anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);
+                    local_anim.set_xscale(0.65, -0.015, 0.5);
+                    local_anim.set_angle(9.0, -1.8, -9.0, ANCHOR_S);
+                    anim.push_back(local_anim);
+                    local_object->children[0] = new Object(anim, anim_count, TEX_PLANTS, PEASHOOTER_HEAD, PLANTHEAD_DEPTH, 2, local_object);
+
+                    // children[0]->children[0]->children[0]->children[0] is the lips
+                    local_object = myObject->children[0]->children[0]->children[0];
+                    local_anim.set_defaults();
+                    local_anim.set_xy(39.0, 7.0);
+                    local_anim.set_angle(-4.0, 0.2, 4.0, ANCHOR_E);
+                    local_anim.set_xscale(0.65, 0.0, 1.0);
+                    local_anim.set_yscale(0.65, 0.0, 1.0);
+                    anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);
+                    local_anim.set_x(39.0, -1.05, 28.5);
+                    anim.push_back(local_anim);
+                    local_object->children[0] = new Object(anim, anim_count, TEX_PLANTS, PEASHOOTER_LIPS, PLANTHEAD_DEPTH, 0, local_object);
+
+                    // children[0]->children[0]->children[0]->children[1] is the sprout
+                    local_object = myObject->children[0]->children[0]->children[0];
+                    local_anim.set_defaults();
+                    local_anim.set_xy(-9.0, 19.0);
+                    local_anim.set_xscale(0.65, 0.0, 1.0);
+                    local_anim.set_yscale(0.65, 0.0, 1.0);
+                    anim.clear();anim.push_back(local_anim);
+                    local_object->children[1] = new Object(anim, anim_count, TEX_PLANTS, PEASHOOTER_SPROUT, FRONTLEAF_DEPTH, 0, local_object);
+                }
 
                 // children[3] is the shadow
                 local_anim.set_defaults();
@@ -550,7 +753,7 @@ namespace fvu {
                 /* The object structure starts at the x/y location of the plant head, and moves out in all directions */
                 local_anim.set_defaults();
                 anim.clear();anim.push_back(local_anim);
-            myObject = new Object(anim, anim_count, 0, 0, 0, 1, NULL);
+                myObject = new Object(anim, anim_count, 0, 0, 0, 1, NULL);
 
                 // children[0] is the bottom part of the stalk
                 local_anim.set_defaults();
@@ -679,6 +882,13 @@ namespace fvu {
                 if (val == plantTransitions[WALLNUT_PLANT][1])
                     myObject->children[0]->updateSprite(WALLNUT_CRACKED_2);
                 break;
+            case TALLNUT_PLANT:
+                if (val == plantTransitions[TALLNUT_PLANT][0])
+                    myObject->children[0]->updateSprite(TALLNUT_CRACKED_1);
+                if (val == plantTransitions[TALLNUT_PLANT][1])
+                    myObject->children[0]->updateSprite(TALLNUT_CRACKED_2);
+                break;
+
             default:
                 break;
         }
@@ -696,12 +906,13 @@ namespace fvu {
 
         health--;
 
-        // WALLNUT_PLANTS stop moving once bitten
-        if (type == WALLNUT_PLANT) {
+        // WALLNUT_PLANTS and TALLNUT_PLANTS stop moving once bitten
+        if ((type == WALLNUT_PLANT) || (type == TALLNUT_PLANT)) {
             myObject->children[0]->anim[OBJECT_STATUS_DEMO].delta_angle = 0.0;
             myObject->children[0]->anim[OBJECT_STATUS_DEMO].delta_yscale = 0.0;
             myObject->setMode(OBJECT_STATUS_DEMO);
         }
+
 
     }
 

@@ -7,7 +7,7 @@
 
 
 # Select/buy the plants first. The valid options are:
-# Peashooter, Repeater, Gatling, Snowpea, Chomper, Wallnut, Portal. You are limited by a total budget.
+# Peashooter, Repeater, Gatling, Snowpea, Chomper, Wallnut, Tallnut, Portal. You are limited by a total budget.
 #
 # Each type has their own cost and strengths - see the documentation for more detail.
 #
@@ -18,10 +18,10 @@ select P2.peashooter
 select P3.repeater
 select P4.peashooter
 select P5.chomper
-select P6.peashooter
+select P6.gatling
 select P7.wallnut
 select P8.snowpea
-select P9.peashooter
+select P9.tallnut
 select P10.peashooter
 select P11.peashooter
 select P12.peashooter
