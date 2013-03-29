@@ -384,18 +384,18 @@ namespace fvu {
                 // children[0][0][0][1] is the inner arm. It connects to the rest of the arm.
                 local_object = myObject->children[0]->children[0]->children[0];
                 local_anim.set_defaults();
-                local_anim.set_xy(-32.0, 23.0);
+                local_anim.set_xy(-42.0, 43.0);
                 anim.clear();anim.push_back(local_anim);
-                local_object->children[1] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_POLEVAULTER_INNERARM_UPPER, ZOMBIE_INNERARM_UPPER_DEPTH,1, local_object);
+                local_object->children[1] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_POLEVAULTER_INNERARM_UPPER, ZOMBIE_INNERARM_LOWER_DEPTH,1, local_object);
 
                 local_anim.set_defaults();
-                local_anim.set_angle(5.0, 0.0, 0.0, ANCHOR_NE);
-                local_anim.set_xy(-2.5, -19.0);
+                //local_anim.set_angle(5.0, 0.0, 0.0, ANCHOR_NE);
+                local_anim.set_xy(8.5, 0.0);
                 anim.clear();anim.push_back(local_anim);
-                local_object->children[1]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_POLEVAULTER_INNERARM_LOWER,ZOMBIE_INNERARM_LOWER_DEPTH,1, local_object->children[1]);
+                local_object->children[1]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_POLEVAULTER_INNERARM_LOWER,ZOMBIE_INNERARM_UPPER_DEPTH,1, local_object->children[1]);
 
                 local_anim.set_defaults();
-                local_anim.set_xy(2.0,-14);
+                local_anim.set_xy(-6.0, 21.0);
                 anim.clear();anim.push_back(local_anim);
                 local_object->children[1]->children[0]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_POLEVAULTER_INNERHAND,ZOMBIE_INNERARM_HAND_DEPTH, 1, local_object->children[1]->children[0]);
 
