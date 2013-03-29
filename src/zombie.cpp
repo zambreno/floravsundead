@@ -820,6 +820,7 @@ namespace fvu {
             }
 
             if (health <= 0) {
+                myGame->playSound(SFX_LIMBS_POP, 25);
                 status = ZOMBIE_STATUS_INACTIVE;
                 myGame->myStatus.scores[team] += KILL_SCORE;
                 row = 25;

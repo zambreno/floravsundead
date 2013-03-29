@@ -21,6 +21,7 @@ std::string cmdNames[NUM_CMD_TYPES][NUM_CMD_SPELLINGS] = {
 std::string predNames[NUM_PRED_TYPES][NUM_PRED_SPELLINGS] = {
     {"always", "true"},
     {"never", "false"},
+    {"ready", "free"},
     {"damage", "damaged"},
     {"eaten", "eat"},
     {"hit", "contact"},
@@ -68,7 +69,13 @@ std::string sfxFiles[NUM_SFX] = {
     "audio/sfx/splat2.ogg",
     "audio/sfx/splat3.ogg",
     "audio/sfx/tap.ogg",
-    "audio/sfx/tap2.ogg"
+    "audio/sfx/tap2.ogg",
+    "audio/sfx/frozen.ogg",
+    "audio/sfx/newspaper_rarrgh.ogg",
+    "audio/sfx/newspaper_rarrgh2.ogg",
+    "audio/sfx/newspaper_rip.ogg",
+    "audio/sfx/throw.ogg",
+    "audio/sfx/throw2.ogg"
     };
 
 /* Music files */

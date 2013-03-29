@@ -301,6 +301,7 @@ namespace fvu {
                 if (myTeams[i].cur_cmd >= myTeams[i].cmds.size()) {
                     myTeams[i].cmds_done = true;
                 }
+
             }
 
         }

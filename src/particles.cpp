@@ -94,10 +94,8 @@ namespace fvu {
                 anim.clear();anim.push_back(local_anim);
                 myObject->children[0] = new Object(anim, anim_count, TEX_PLANTS, PROJECTILEPEA, 0, 0, myObject);
 
-
-
-
                 break;
+
         }
 
     }

@@ -64,6 +64,7 @@ namespace fvu {
             void bite();
             bool operator< (const Plant &rhs) const;
             uint16_t action_count;
+            bool has_fired;
 
 
         private:
@@ -78,6 +79,7 @@ namespace fvu {
             float dir;
             uint8_t team;
             uint16_t delay;
+            uint16_t fire_count;
             Object *myObject;
     };
 

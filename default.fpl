@@ -15,7 +15,7 @@
 
 select P1.peashooter
 select P2.peashooter
-select P3.peashooter
+select P3.repeater
 select P4.peashooter
 select P5.chomper
 select P6.peashooter
@@ -34,10 +34,10 @@ select P12.peashooter
 
 place P1 2, 1
 place P2 1, 2
-place P3 3, 3
+place P3 3, 2
 place P4 5, 1
 place P5 2, 2
-place P6 3, 10
+place P6 3, 5
 place P7 4, 4
 place P8 5, 5
 place P9 3, 1
@@ -46,7 +46,7 @@ place P9 3, 1
 # place, fire, goto. 
 # Each command can be made optional based on your team's condition. Prefix the 
 # instruction with "if" or "if not" and query the state, from the following options:
-# damaged, eaten, hit, score. 
+# ready, damaged, eaten, hit, score. 
 # Each command can also be identified with a label that can be the target of a "goto" 
 # command. Execution will begin with the "Start: " command. 
 
@@ -59,12 +59,14 @@ fire P2
 # if we've hit a zombie, continue firing
 if hit, fire P3
 if not hit, goto L2
-fire P3
+fire P4
 fire P6
 
 # L2 is a label that the previous code jumped to
 # In this case, if one of our plants is damaged, move things around
 L2: if damaged, move P3 1, 3
+fire P4
+fire P6
 
 # Loop back to the start. 
 goto Start

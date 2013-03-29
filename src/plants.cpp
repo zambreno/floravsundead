@@ -34,7 +34,7 @@ uint16_t plantCosts[NUM_PLANT_TYPE] = {100, 200, 450, 175, 150, 50};
 /* Plant healths */
 int16_t plantHealths[NUM_PLANT_TYPE] = {9, 9, 9, 9, 9, 72};
 /* Plant speeds. This variable is plant-specific */
-uint16_t plantSpeeds[NUM_PLANT_TYPE] = {80, 60, 40, 80, 300, 1};
+uint16_t plantSpeeds[NUM_PLANT_TYPE] = {80, 40, 20, 80, 300, 1};
 /* Plant transitions */
 uint16_t plantTransitions[NUM_PLANT_TYPE][NUM_PLANT_TRANSITIONS] = {
     {0, 0, 0},
@@ -146,6 +146,8 @@ namespace fvu {
         id = myid;
         row = 0;col = 0;
         action_count = 0;
+        fire_count = 0;
+        has_fired = false;
 
         /* Initialize plant information here so we can leave the rest of this function as object assembly */
         health = plantHealths[type];
@@ -191,37 +193,6 @@ namespace fvu {
                 myObject->children[1] = new Object(anim, anim_count, TEX_PLANTS, POT_SHADOW, PLANT_SHADOW_DEPTH, 0, myObject);
 
 
-
-                break;
-
-            // This is for testing purposes only. Don't mess with it.
-            case GATLING_PLANT:
-                /* The object structure starts at the x/y location of the plant head, and moves out in all directions */
-                local_anim.set_defaults();
-                anim.clear();anim.push_back(local_anim);
-                myObject = new Object(anim, anim_count, 0, 0, 0, 1, NULL);
-
-                // children[0] is the bottom part of the stalk
-                local_anim.set_defaults();
-                local_anim.set_xscale(1.0, 0.025, 2.0);
-                local_anim.set_angle(0.0, 1.0, 7200.0, ANCHOR_SW);
-                anim.clear();anim.push_back(local_anim);
-                myObject->children[0] = new Object(anim, anim_count, TEX_PLANTS, WHITE_PLANT_SPRITE, PLANTHEAD_DEPTH, 1, myObject);
-
-                local_anim.set_defaults();
-                local_anim.set_x(108.0, 2.7, 216.0);
-                local_anim.set_y(0.0, 0.0, 0.0);
-                local_anim.set_angle(-90.0, 2.0, 90.0, ANCHOR_W);
-                anim.clear();anim.push_back(local_anim);
-                myObject->children[0]->children[0] = new Object(anim, anim_count, TEX_PLANTS, WHITE_PLANT_SPRITE, PLANTHEAD_DEPTH, 1, myObject->children[0]);
-
-
-                local_anim.set_defaults();
-                local_anim.set_x(54.0, 0.0, 0.0);
-                local_anim.set_y(0.0, 0.0, 0.0);
-                local_anim.set_angle(45.0, 2.0, 135.0, ANCHOR_S);
-                anim.clear();anim.push_back(local_anim);
-                myObject->children[0]->children[0]->children[0] = new Object(anim, anim_count, TEX_PLANTS, WHITE_PLANT_SPRITE, PLANTHEAD_DEPTH, 0, myObject->children[0]->children[0]);
 
                 break;
 
@@ -450,7 +421,9 @@ namespace fvu {
                 break;
 
             case PEASHOOTER_PLANT:
-            default:
+            case REPEATER_PLANT:
+            case GATLING_PLANT:
+            case SNOW_PLANT:
 
                 /* The object structure starts at the x/y location of the plant head, and moves out in all directions */
                 local_anim.set_defaults();
@@ -462,7 +435,7 @@ namespace fvu {
                 local_anim.set_xscale(0.65, 0.0, 1.0);
                 local_anim.set_yscale(0.65, -0.01, 0.25);
                 local_anim.set_y(-22.0, 0.0, 0.0);
-                local_anim.set_angle(-18.0, 0.9, 18.0, ANCHOR_S);
+                local_anim.set_angle(-18.0, 1.8, 18.0, ANCHOR_S);
                 anim.clear();anim.push_back(local_anim);
                 myObject->children[0] = new Object(anim, anim_count, TEX_PLANTS, PEASHOOTER_STALK_BOTTOM, STEM_DEPTH, 1, myObject);
 
@@ -533,19 +506,25 @@ namespace fvu {
                 local_object = myObject->children[0]->children[0];
                 local_anim.set_defaults();
                 local_anim.set_xy(-19.0, 6.0);
-                local_anim.set_angle(18.0, -0.9, -18.0, ANCHOR_S);
+                local_anim.set_angle(18.0, -1.8, -18.0, ANCHOR_S);
                 local_anim.set_xscale(0.65, 0.0, 1.0);
                 local_anim.set_yscale(0.65, 0.0, 1.0);
-                anim.clear();anim.push_back(local_anim);
+                anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);
+                local_anim.set_xscale(0.65, -0.015, 0.5);
+                local_anim.set_angle(9.0, -1.8, -9.0, ANCHOR_S);
+                anim.push_back(local_anim);
                 local_object->children[0] = new Object(anim, anim_count, TEX_PLANTS, PEASHOOTER_HEAD, PLANTHEAD_DEPTH, 2, local_object);
 
                 // children[0]->children[0]->children[0]->children[0] is the lips
                 local_object = myObject->children[0]->children[0]->children[0];
                 local_anim.set_defaults();
                 local_anim.set_xy(39.0, 7.0);
+                local_anim.set_angle(-4.0, 0.2, 4.0, ANCHOR_E);
                 local_anim.set_xscale(0.65, 0.0, 1.0);
                 local_anim.set_yscale(0.65, 0.0, 1.0);
-                anim.clear();anim.push_back(local_anim);
+                anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);
+                local_anim.set_x(39.0, -1.05, 28.5);
+                anim.push_back(local_anim);
                 local_object->children[0] = new Object(anim, anim_count, TEX_PLANTS, PEASHOOTER_LIPS, PLANTHEAD_DEPTH, 0, local_object);
 
                 // children[0]->children[0]->children[0]->children[1] is the sprout
@@ -566,6 +545,37 @@ namespace fvu {
                 myObject->children[3] = new Object(anim, anim_count, TEX_PLANTS, POT_SHADOW, PLANT_SHADOW_DEPTH, 0, myObject);
 
                 break;
+
+            default:
+                /* The object structure starts at the x/y location of the plant head, and moves out in all directions */
+                local_anim.set_defaults();
+                anim.clear();anim.push_back(local_anim);
+            myObject = new Object(anim, anim_count, 0, 0, 0, 1, NULL);
+
+                // children[0] is the bottom part of the stalk
+                local_anim.set_defaults();
+                local_anim.set_xscale(1.0, 0.025, 2.0);
+                local_anim.set_angle(0.0, 1.0, 7200.0, ANCHOR_SW);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0] = new Object(anim, anim_count, TEX_PLANTS, WHITE_PLANT_SPRITE, PLANTHEAD_DEPTH, 1, myObject);
+
+                local_anim.set_defaults();
+                local_anim.set_x(108.0, 2.7, 216.0);
+                local_anim.set_y(0.0, 0.0, 0.0);
+                local_anim.set_angle(-90.0, 2.0, 90.0, ANCHOR_W);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0]->children[0] = new Object(anim, anim_count, TEX_PLANTS, WHITE_PLANT_SPRITE, PLANTHEAD_DEPTH, 1, myObject->children[0]);
+
+
+                local_anim.set_defaults();
+                local_anim.set_x(54.0, 0.0, 0.0);
+                local_anim.set_y(0.0, 0.0, 0.0);
+                local_anim.set_angle(45.0, 2.0, 135.0, ANCHOR_S);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0]->children[0]->children[0] = new Object(anim, anim_count, TEX_PLANTS, WHITE_PLANT_SPRITE, PLANTHEAD_DEPTH, 0, myObject->children[0]->children[0]);
+
+                break;
+
         }
 
     }
@@ -710,8 +720,29 @@ namespace fvu {
 
         switch (type) {
             case PEASHOOTER_PLANT:
-                local_particle = new Particle(PEA_PROJECTILE, this);
-                myGame->myParticles[team].push_back(*local_particle);
+            case REPEATER_PLANT:
+            case GATLING_PLANT:
+            case SNOW_PLANT:
+                if (fire_count == 0) {
+                    myObject->setMode(OBJECT_STATUS_ACTION);
+                    fire_count++;
+                }
+                else {
+                    fire_count++;
+                    if (fire_count == 20) {
+                        if (type == SNOW_PLANT) {
+                            local_particle = new Particle(SNOW_PROJECTILE, this);
+                        }
+                        else {
+                            local_particle = new Particle(PEA_PROJECTILE, this);
+                        }
+                        myGame->myParticles[team].push_back(*local_particle);
+                        myGame->playSound(SFX_THROW, 25);
+                        has_fired = true;
+                        fire_count = 0;
+                        myObject->setMode(OBJECT_STATUS_DEMO);
+                    }
+                }
                 break;
             default:
                 break;
@@ -730,10 +761,15 @@ namespace fvu {
         /* Check all the active plants and if their current health has triggered a transition */
         if (status == PLANT_STATUS_GAME) {
 
-            // Update our action counter, so that we can act again in the near future
-            if (action_count > 0)
-                action_count--;
+            // If we're in the middle of a fire operation, continue it
+            if (fire_count != 0) {
+                fire();
+            }
 
+            // Otherwise, update our action counter, so that we can act again in the near future
+            else if (action_count > 0) {
+                action_count--;
+            }
 
             /* Check if there are any transitions left */
             while (!transitions.empty()) {
