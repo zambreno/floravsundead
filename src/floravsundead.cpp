@@ -187,7 +187,6 @@ namespace fvu {
                 bool zombies_done = true;
                 for (uint16_t k = 0; k < myZombies[i].size(); k++) {
                     if ((myZombies[i][k].getStatus() != ZOMBIE_STATUS_INACTIVE) &&
-                        (myZombies[i][k].getStatus() != ZOMBIE_STATUS_WINNING) &&
                         (myZombies[i][k].getStatus() != ZOMBIE_STATUS_GAMEOVER)) {
                         zombies_done = false;
                         break;

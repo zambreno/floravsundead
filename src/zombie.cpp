@@ -40,7 +40,7 @@ float zombieSpeeds[NUM_ZOMBIE_TYPE] = {0.25, 0.35, 0.25, 0.5, 0.25, 0.25, 0.25, 
 uint16_t zombieTransitions[NUM_ZOMBIE_TYPE][NUM_ZOMBIE_TRANSITIONS] = {
     {5, 0, 0, 0},
     {5, 0, 0, 0},
-    {21, 15, 10, 0},
+    {21, 15, 10, 5},
     {8, 0, 0, 0},
     {46, 28, 10, 5},
     {13, 10, 8, 4},
@@ -159,6 +159,7 @@ namespace fvu {
         type = mytype;
         index = myindex;
         action_count = 0;
+        has_item = true;
 
         Object *local_object;
 
@@ -336,6 +337,7 @@ namespace fvu {
             case CONE_ZOMBIE:
             case BUCKET_ZOMBIE:
             case FLAG_ZOMBIE:
+            case SCREEN_ZOMBIE:
             default:
 
                 /* The object structure starts at the x/y location of the outer leg, and moves out in all directions */
@@ -390,7 +392,7 @@ namespace fvu {
 
                 // children[0][0] is the body. It connects to the tie, the underbody, the arms, and the head
                 local_anim.set_defaults();
-                if (type == FLAG_ZOMBIE) {
+                if ((type == FLAG_ZOMBIE) || (type == SCREEN_ZOMBIE)) {
                     local_anim.set_angle(2.0, -0.04, -2.0, ANCHOR_SE);
                 }
                 else {
@@ -474,7 +476,7 @@ namespace fvu {
                 }
 
                 // The FLAG_ZOMBIE has a slightly different inner arm
-                if (type == FLAG_ZOMBIE) {
+                if ((type == FLAG_ZOMBIE) || (type == SCREEN_ZOMBIE)) {
                     // children[0][0][3] is the inner arm. It connects to the rest of the arm.
                     local_object = myObject->children[0]->children[0];
                     local_anim.set_defaults();
@@ -482,23 +484,30 @@ namespace fvu {
                     anim.clear();anim.push_back(local_anim);
                     local_object->children[3] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_INNERARM_SCREENDOOR,ZOMBIE_INNERARM_LOWER_DEPTH, 1, local_object);
 
-                    local_anim.set_defaults();
-                    local_anim.set_xy(-9.0, 3.0);
-                    local_anim.set_angle(45.0, 0.0, 0.0, ANCHOR_CENTER);
-                    anim.clear();anim.push_back(local_anim);
-                    local_object->children[3]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_FLAGHAND, ZOMBIE_INNERARM_HAND_DEPTH, 1, local_object->children[3]);
+                    if (type == FLAG_ZOMBIE) {
+                        local_anim.set_defaults();
+                        local_anim.set_xy(-9.0, 3.0);
+                        local_anim.set_angle(45.0, 0.0, 0.0, ANCHOR_CENTER);
+                        anim.clear();anim.push_back(local_anim);
+                        local_object->children[3]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_FLAGHAND, ZOMBIE_INNERARM_HAND_DEPTH, 1, local_object->children[3]);
 
-                    local_anim.set_defaults();
-                    local_anim.set_xy(0.0, 0.0);
-                    anim.clear();anim.push_back(local_anim);
-                    local_object->children[3]->children[0]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_FLAGPOLE, ZOMBIE_INNERARM_HAND_DEPTH, 1, local_object->children[3]->children[0]);
+                        local_anim.set_defaults();
+                        local_anim.set_xy(0.0, 0.0);
+                        anim.clear();anim.push_back(local_anim);
+                        local_object->children[3]->children[0]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_FLAGPOLE, ZOMBIE_INNERARM_HAND_DEPTH, 1, local_object->children[3]->children[0]);
 
-                    local_anim.set_defaults();
-                    local_anim.set_xy(21.0, 27.0);
-                    anim.clear();anim.push_back(local_anim);
-                    local_object->children[3]->children[0]->children[0]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_FLAG_1, ZOMBIE_INNERARM_HAND_DEPTH, 0, local_object->children[3]->children[0]->children[0]);
-
-
+                        local_anim.set_defaults();
+                        local_anim.set_xy(21.0, 27.0);
+                        anim.clear();anim.push_back(local_anim);
+                        local_object->children[3]->children[0]->children[0]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_FLAG_1, ZOMBIE_INNERARM_HAND_DEPTH, 0, local_object->children[3]->children[0]->children[0]);
+                    }
+                    else {
+                        local_anim.set_defaults();
+                        local_anim.set_xy(-9.0, 3.0);
+                        //local_anim.set_angle(45.0, 0.0, 0.0, ANCHOR_CENTER);
+                        anim.clear();anim.push_back(local_anim);
+                        local_object->children[3]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_INNERARM_SCREENDOOR_HAND, ZOMBIE_INNERARM_HAND_DEPTH, 0, local_object->children[3]);
+                    }
                 }
                 else {
                     // children[0][0][3] is the inner arm. It connects to the rest of the arm.
@@ -525,33 +534,50 @@ namespace fvu {
                     local_object->children[3]->children[0]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_INNERARM_HAND,ZOMBIE_INNERARM_HAND_DEPTH,0, local_object->children[3]->children[0]);
                 }
 
-                // children[0][0][4] is the outer arm. It connects to the rest of the arm.
-                local_anim.set_defaults();
-                local_anim.set_angle(8.0, 0.05, 13.0, ANCHOR_NE);
-                local_anim.set_xy(23.5, 23.5);
-                anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);
-                local_anim.set_angle(13.0, -1.85, -25.0, ANCHOR_N);anim.push_back(local_anim);
-                local_anim.set_angle(13.0, -2.0, -47.0, ANCHOR_N);anim.push_back(local_anim);
-                local_object->children[4] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_OUTERARM_UPPER,ZOMBIE_OUTERARM_UPPER_DEPTH,1, local_object);
+                // children[0][0][4] is the outer arm. SCREEN_ZOMBIES have a difference outer arm
+                if (type == SCREEN_ZOMBIE) {
+                    local_anim.set_defaults();
+                    local_anim.set_angle(8.0, 0.05, 13.0, ANCHOR_NE);
+                    local_anim.set_xy(5.5, 5.5);
+                    anim.clear();anim.push_back(local_anim);
+                    local_object->children[4] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_OUTERARM_SCREENDOOR, ZOMBIE_OUTERARM_UPPER_DEPTH, 1, local_object);
 
-                local_anim.set_defaults();
-                local_anim.set_xy(-12.0, -25.0);
-                anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);
-                local_anim.set_angle(-17.0, -1.15, -80.0, ANCHOR_NE);anim.push_back(local_anim);
-                local_anim.set_angle(-80.0, 0.0, -80.0, ANCHOR_NE);anim.push_back(local_anim);
-                local_object->children[4]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_OUTERARM_LOWER,ZOMBIE_OUTERARM_LOWER_DEPTH,1, local_object->children[4]);
+                    local_anim.set_defaults();
+                    local_anim.set_angle(-8.0, -0.05, -13.0, ANCHOR_NE);
+                    local_anim.set_xy(-40.5, -55.5);
+                    anim.clear();anim.push_back(local_anim);
+                    local_object->children[4]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_SCREENDOOR_1, ZOMBIE_ACCESSORY_DEPTH, 0, local_object);
+                }
+                else {
+                    // children[0][0][4] is the outer arm. It connects to the rest of the arm.
+                    local_anim.set_defaults();
+                    local_anim.set_angle(8.0, 0.05, 13.0, ANCHOR_NE);
+                    local_anim.set_xy(23.5, 23.5);
+                    anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);
+                    local_anim.set_angle(13.0, -1.85, -25.0, ANCHOR_N);anim.push_back(local_anim);
+                    local_anim.set_angle(13.0, -2.0, -47.0, ANCHOR_N);anim.push_back(local_anim);
+                    local_object->children[4] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_OUTERARM_UPPER,ZOMBIE_OUTERARM_UPPER_DEPTH,1, local_object);
 
-                local_anim.set_defaults();
-                local_anim.set_xy(-4.0, -22.0);
-                anim.clear();anim.push_back(local_anim);
-                local_object->children[4]->children[0]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_OUTERARM_HAND,ZOMBIE_OUTERARM_HAND_DEPTH,0, local_object->children[4]->children[0]);
+                    local_anim.set_defaults();
+                    local_anim.set_xy(-12.0, -25.0);
+                    anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);
+                    local_anim.set_angle(-17.0, -1.15, -80.0, ANCHOR_NE);anim.push_back(local_anim);
+                    local_anim.set_angle(-80.0, 0.0, -80.0, ANCHOR_NE);anim.push_back(local_anim);
+                    local_object->children[4]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_OUTERARM_LOWER,ZOMBIE_OUTERARM_LOWER_DEPTH,1, local_object->children[4]);
 
+                    local_anim.set_defaults();
+                    local_anim.set_xy(-4.0, -22.0);
+                    anim.clear();anim.push_back(local_anim);
+                    local_object->children[4]->children[0]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_OUTERARM_HAND,ZOMBIE_OUTERARM_HAND_DEPTH,0, local_object->children[4]->children[0]);
+
+                }
 
                 // children[2] is the shadow
                 local_anim.set_defaults();
                 local_anim.set_xy(0.0, -50.0);
                 anim.clear();anim.push_back(local_anim);
                 myObject->children[2] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_SHADOW, ZOMBIE_SHADOW_DEPTH, 0, myObject);
+
 
                 break;
 
@@ -653,7 +679,38 @@ namespace fvu {
     void Zombie::shoot(fvu::Particle *myParticle) {
 
         health--;
-
+        switch (type) {
+            case REGULAR_ZOMBIE:
+            case FLAG_ZOMBIE:
+                myGame->playSound(SFX_SPLAT, 25);
+                break;
+            case BUCKET_ZOMBIE:
+                if (has_item) {
+                    myGame->playSound(SFX_SHIELDHIT, 25);
+                }
+                else {
+                    myGame->playSound(SFX_SPLAT, 25);
+                }
+                break;
+            case CONE_ZOMBIE:
+                if (has_item) {
+                    myGame->playSound(SFX_SPLAT2, 25);
+                }
+                else {
+                    myGame->playSound(SFX_SPLAT, 25);
+                }
+                break;
+            case SCREEN_ZOMBIE:
+                if (has_item) {
+                    myGame->playSound(SFX_SHIELDHIT2, 25);
+                }
+                else {
+                    myGame->playSound(SFX_SPLAT, 25);
+                }
+                break;
+            default:
+                break;
+        }
     }
 
 
@@ -668,9 +725,72 @@ namespace fvu {
 
         /* Transitions are zombie-specific, and usually will involve specific sprite swaps */
         switch (type) {
+            case REGULAR_ZOMBIE:
+            case FLAG_ZOMBIE:
+                if (val == zombieTransitions[REGULAR_ZOMBIE][0]) {
+                    myGame->playSound(SFX_LIMBS_POP, 25);
+                    myObject->children[0]->children[0]->children[4]->updateSprite(ZOMBIE_OUTERARM_UPPER_2);
+                    myObject->children[0]->children[0]->children[4]->children[0]->updateSprite(BLANK_SPRITE);
+                    myObject->children[0]->children[0]->children[4]->children[0]->children[0]->updateSprite(BLANK_SPRITE);
+                }
+                break;
+            case BUCKET_ZOMBIE:
+                if (val == zombieTransitions[BUCKET_ZOMBIE][0]) {
+                    myObject->children[0]->children[0]->children[2]->children[2]->updateSprite(ZOMBIE_BUCKET_2);
+                }
+                if (val == zombieTransitions[BUCKET_ZOMBIE][1]) {
+                    myObject->children[0]->children[0]->children[2]->children[2]->updateSprite(ZOMBIE_BUCKET_3);
+                }
+                if (val == zombieTransitions[BUCKET_ZOMBIE][2]) {
+                    myObject->children[0]->children[0]->children[2]->children[2]->updateSprite(BLANK_SPRITE);
+                    has_item = false;
+                }
+                if (val == zombieTransitions[BUCKET_ZOMBIE][3]) {
+                    myGame->playSound(SFX_LIMBS_POP, 25);
+                    myObject->children[0]->children[0]->children[4]->updateSprite(ZOMBIE_OUTERARM_UPPER_2);
+                    myObject->children[0]->children[0]->children[4]->children[0]->updateSprite(BLANK_SPRITE);
+                    myObject->children[0]->children[0]->children[4]->children[0]->children[0]->updateSprite(BLANK_SPRITE);
+                }
+                break;
+            case CONE_ZOMBIE:
+                if (val == zombieTransitions[CONE_ZOMBIE][0]) {
+                    myObject->children[0]->children[0]->children[2]->children[2]->updateSprite(ZOMBIE_CONE_2);
+                }
+                if (val == zombieTransitions[CONE_ZOMBIE][1]) {
+                    myObject->children[0]->children[0]->children[2]->children[2]->updateSprite(ZOMBIE_CONE_3);
+                }
+                if (val == zombieTransitions[CONE_ZOMBIE][2]) {
+                    myObject->children[0]->children[0]->children[2]->children[2]->updateSprite(BLANK_SPRITE);
+                }
+                if (val == zombieTransitions[CONE_ZOMBIE][3]) {
+                    myGame->playSound(SFX_LIMBS_POP, 25);
+                    myObject->children[0]->children[0]->children[4]->updateSprite(ZOMBIE_OUTERARM_UPPER_2);
+                    myObject->children[0]->children[0]->children[4]->children[0]->updateSprite(BLANK_SPRITE);
+                    myObject->children[0]->children[0]->children[4]->children[0]->children[0]->updateSprite(BLANK_SPRITE);
+                    has_item = false;
+                }
+                break;
+            case SCREEN_ZOMBIE:
+                if (val == zombieTransitions[SCREEN_ZOMBIE][0]) {
+                    myObject->children[0]->children[0]->children[4]->children[0]->updateSprite(ZOMBIE_SCREENDOOR_2);
+                }
+                if (val == zombieTransitions[SCREEN_ZOMBIE][1]) {
+                    myObject->children[0]->children[0]->children[4]->children[0]->updateSprite(ZOMBIE_SCREENDOOR_3);
+                }
+                if (val == zombieTransitions[SCREEN_ZOMBIE][2]) {
+                    myObject->children[0]->children[0]->children[4]->children[0]->updateSprite(BLANK_SPRITE);
+                    has_item = false;
+                }
+                if (val == zombieTransitions[SCREEN_ZOMBIE][3]) {
+                    myGame->playSound(SFX_LIMBS_POP, 25);
+                    myObject->children[0]->children[0]->children[4]->updateSprite(ZOMBIE_OUTERARM_UPPER_2);
+                }
+                break;
             default:
                 break;
+
         }
+
 
     }
 
