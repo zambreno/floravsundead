@@ -24,7 +24,7 @@ budget 20000
 # You can specify more than 1 of a type in a line.
 #
 select Screendoor 1
-select Bucket 1
+select Football 1
 select Zombie 1
 select Pole 1
 select Conehead 1
