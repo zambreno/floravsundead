@@ -16,7 +16,7 @@
 select P1.peashooter
 select P2.peashooter
 select P3.repeater
-select P4.peashooter
+select P4.snowpea
 select P5.chomper
 select P6.gatling
 select P7.wallnut
