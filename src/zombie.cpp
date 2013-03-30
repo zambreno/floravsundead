@@ -193,6 +193,7 @@ namespace fvu {
             case FOOTBALL_ZOMBIE:
                 /* The object structure starts at the x/y location of the outer leg, and moves out in all directions */
                 local_anim.set_defaults();
+                local_anim.set_xy(0.0, 0.0);
                 anim.clear();
                 anim.push_back(local_anim);
                 myObject = new Object(anim, anim_count, 0, 0, 0, 2, NULL);
@@ -200,90 +201,104 @@ namespace fvu {
 
                 // children[0] is the lower body
                 local_anim.set_defaults();
+                local_anim.set_xy(0.0, 0.0);
                 anim.clear();anim.push_back(local_anim);
                 myObject->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_FOOTBALL_LOWERBODY, ZOMBIEBODY_DEPTH, 4, myObject);
 
                 // children[0][0] is the left leg
                 local_anim.set_defaults();
-                local_anim.set_xy(-50.0, -50.0);
+                local_anim.set_xy(-16, -23);
                 anim.clear();anim.push_back(local_anim);
                 myObject->children[0]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_FOOTBALL_LEFTLEG_UPPER, ZOMBIE_INNERLEG_UPPER_DEPTH, 1, myObject->children[0]);
 
                 local_anim.set_defaults();
+                local_anim.set_xy(5, -17);
                 anim.clear();anim.push_back(local_anim);
                 myObject->children[0]->children[0]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_FOOTBALL_LEFTLEG_LOWER, ZOMBIE_INNERLEG_LOWER_DEPTH, 1, myObject->children[0]->children[0]);
 
                 local_anim.set_defaults();
+                local_anim.set_xy(-19, -17);
                 anim.clear();anim.push_back(local_anim);
                 myObject->children[0]->children[0]->children[0]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_FOOTBALL_LEFTLEG_FOOT, ZOMBIE_INNERLEG_FOOT_DEPTH, 0, myObject->children[0]->children[0]->children[0]);
 
 
                 // children[0][1] is the right leg
                 local_anim.set_defaults();
-                local_anim.set_xy(50.0, 50.0);
+                local_anim.set_xy(22, -30);
                 anim.clear();anim.push_back(local_anim);
                 myObject->children[0]->children[1] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_FOOTBALL_RIGHTLEG_UPPER, ZOMBIE_OUTERLEG_UPPER_DEPTH, 1, myObject->children[0]);
 
                 local_anim.set_defaults();
+                local_anim.set_xy(17, -20);
                 anim.clear();anim.push_back(local_anim);
                 myObject->children[0]->children[1]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_FOOTBALL_RIGHTLEG_LOWER, ZOMBIE_OUTERLEG_LOWER_DEPTH, 1, myObject->children[0]->children[1]);
 
                 local_anim.set_defaults();
+                local_anim.set_xy(-27, -19);
                 anim.clear();anim.push_back(local_anim);
                 myObject->children[0]->children[1]->children[0]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_FOOTBALL_RIGHTLEG_FOOT, ZOMBIE_OUTERLEG_FOOT_DEPTH, 0, myObject->children[0]->children[1]->children[0]);
 
 
                 // children[0][2] is the left upper body
                 local_anim.set_defaults();
-                local_anim.set_xy(-25.0, 50.0);
+                local_anim.set_xy(-53, 32);
                 anim.clear();anim.push_back(local_anim);
                 myObject->children[0]->children[2] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_FOOTBALL_UPPERBODY_2, ZOMBIEBODY_DEPTH, 1, myObject->children[0]);
 
                 local_object = myObject->children[0]->children[2];
                 local_anim.set_defaults();
+                local_anim.set_xy(18, -5);
                 anim.clear();anim.push_back(local_anim);
                 local_object->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_FOOTBALL_LEFTARM_UPPER, ZOMBIE_INNERARM_UPPER_DEPTH, 1, local_object);
 
                 local_anim.set_defaults();
+                local_anim.set_xy(-22, -1);
                 anim.clear();anim.push_back(local_anim);
                 local_object->children[0]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_FOOTBALL_LEFTARM_LOWER, ZOMBIE_INNERARM_LOWER_DEPTH, 1, local_object->children[0]);
 
                 local_anim.set_defaults();
+                local_anim.set_xy(-29, -1);
                 anim.clear();anim.push_back(local_anim);
                 local_object->children[0]->children[0]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_FOOTBALL_LEFTARM_HAND, ZOMBIE_INNERARM_HAND_DEPTH, 0, local_object->children[0]->children[0]);
 
                 // children[0][2][1] is the head body
                 local_object = myObject->children[0]->children[2];
-                local_anim.set_xy(25.0, 50.0);
+                local_anim.set_xy(-1000, -1000);
                 local_anim.set_defaults();
                 anim.clear();anim.push_back(local_anim);
                 local_object->children[1] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_FOOTBALL_HEAD, ZOMBIE_HEAD_DEPTH, 1, local_object);
 
                 local_anim.set_defaults();
+                  local_anim.set_xy(0, 0);
                 anim.clear();anim.push_back(local_anim);
                 local_object->children[1]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_FOOTBALL_HELMET, ZOMBIE_HEAD_ACCESSORY_DEPTH, 0, local_object->children[1]);
 
 
                 // children[0][3] is the right upper body
                 local_anim.set_defaults();
-                local_anim.set_xy(55.0, 150.0);
+                local_anim.set_xy(-53, 10);
                 anim.clear();anim.push_back(local_anim);
                 myObject->children[0]->children[3] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_FOOTBALL_UPPERBODY, ZOMBIEBODY_DEPTH, 2, myObject->children[0]);
 
+                //Drawn off screen temporarily
                 local_object = myObject->children[0]->children[3];
                 local_anim.set_defaults();
+                local_anim.set_xy(500, 500);
                 anim.clear();anim.push_back(local_anim);
                 local_object->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_FOOTBALL_UPPERBODY_3, ZOMBIE_ACCESSORY_DEPTH, 0, local_object);
 
                 local_anim.set_defaults();
+                local_anim.set_xy(85, 10);
                 anim.clear();anim.push_back(local_anim);
                 local_object->children[1] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_FOOTBALL_RIGHTARM_UPPER, ZOMBIE_OUTERARM_UPPER_DEPTH, 1, local_object);
 
                 local_anim.set_defaults();
+                local_anim.set_xy(-18, -8);
                 anim.clear();anim.push_back(local_anim);
                 local_object->children[1]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_FOOTBALL_RIGHTARM_LOWER, ZOMBIE_OUTERARM_LOWER_DEPTH, 1, local_object->children[1]);
 
                 local_anim.set_defaults();
+                local_anim.set_xy(-32, -15);
                 anim.clear();anim.push_back(local_anim);
                 local_object->children[1]->children[0]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_FOOTBALL_RIGHTARM_HAND, ZOMBIE_OUTERARM_HAND_DEPTH, 0, local_object->children[1]->children[0]);
 
