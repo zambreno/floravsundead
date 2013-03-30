@@ -82,7 +82,7 @@ namespace fvu {
 
         switch(type) {
             case PEA_PROJECTILE:
-            default:
+            case SNOW_PROJECTILE:
 
                 /* The object structure starts at the x/y location of the particle, and moves out in all directions */
                 local_anim.set_defaults();
@@ -94,6 +94,8 @@ namespace fvu {
                 anim.clear();anim.push_back(local_anim);
                 myObject->children[0] = new Object(anim, anim_count, TEX_PLANTS, PROJECTILEPEA, 0, 0, myObject);
 
+                break;
+            default:
                 break;
 
         }
@@ -120,6 +122,7 @@ namespace fvu {
         // Calculate any zombie impacts here
         switch(type) {
             case PEA_PROJECTILE:
+            case SNOW_PROJECTILE:
                 // We iterate through the loop forwards to get the closest zombie that is in hit range
                 for (uint16_t j = 0; j < myGame->myZombies[team].size(); j++) {
                     uint8_t status = myGame->myZombies[team][j].getStatus();
