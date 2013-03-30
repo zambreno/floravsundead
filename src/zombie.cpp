@@ -64,7 +64,7 @@ namespace fvu {
 
         // Frozen zombies have their color modulated appropriately
         if (frozen == true) {
-            glColor3ub(0, 0, 255);
+            glColor3ub(1, 145, 182);
         }
         else {
             glColor3ub(255, 255, 255);
