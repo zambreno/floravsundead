@@ -34,6 +34,7 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="../default.zom" />
 		<Unit filename="floravsundead.cpp" />
 		<Unit filename="floravsundead.hpp" />
 		<Unit filename="object.cpp" />

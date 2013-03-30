@@ -158,6 +158,7 @@ namespace fvu {
             void restartGame();
             void demoMode();
             void endGame();
+            void drawFootballZombie();
 
             /* SFML functions (sfml_utils.cpp) */
             void initSFML();

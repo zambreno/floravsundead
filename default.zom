@@ -9,18 +9,18 @@
 #
 day 1
 
-# Set the run-time. The game ends either when the clock goes down to 0 
-# or when there are no zombies remaining. 
+# Set the run-time. The game ends either when the clock goes down to 0
+# or when there are no zombies remaining.
 time 180000
 
 
-# Set the total budget for plants. Note that the game-supplied zombie file has an 
-# unlimited budget (for zombies), so we are specifying the per-team budget here. 
+# Set the total budget for plants. Note that the game-supplied zombie file has an
+# unlimited budget (for zombies), so we are specifying the per-team budget here.
 #
 budget 20000
 
 # Select the blocks next. The currently valid options are:
-# Zombie, Flag, Conehead, Polevault, Buckethead, Newspaper, Screendoor, Football, Dancing, Yeti. 
+# Zombie, Flag, Conehead, Polevault, Buckethead, Newspaper, Screendoor, Football, Dancing, Yeti.
 # You can specify more than 1 of a type in a line.
 #
 select Screendoor 1
@@ -37,9 +37,9 @@ select Conehead 3
 # the entering lane in the range [0,4], and a delay from the previous zombie
 # (in milliseconds) in the range [-1, 10000]. A delay of -1 directs the game
 # to wait until all the previous zombies are defeated before sending this one
-# (similar to the final wave). Note that the placement is in order of selection, 
-# and that certain zombies may have game-enforced limitations on which lane they 
-# can be placed. 
+# (similar to the final wave). Note that the placement is in order of selection,
+# and that certain zombies may have game-enforced limitations on which lane they
+# can be placed.
 #
 place 0, 2500
 place 1, 1000

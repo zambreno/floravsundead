@@ -372,6 +372,8 @@ namespace fvu {
     *****************************************************************************/
     void Game::drawMap() {
 
+        drawFootballZombie();
+
         /* Draw all the objects properly */
         glBindTexture(GL_TEXTURE_2D, myTextures[TEX_ZOMBIES].texHandle);
         for (uint8_t i = 0; i < 4; i++) {
@@ -396,6 +398,85 @@ namespace fvu {
 
         }
 
+    }
+/*****************************************************************************
+    * Function: Game::drawFootballZombie()
+    * Description: Draws a football zombie.
+    *****************************************************************************/
+
+    void Game::drawFootballZombie() {
+
+        float texCoords[6];
+        float x, y;
+        glBindTexture(GL_TEXTURE_2D, myTextures[TEX_ZOMBIES].texHandle);
+
+
+    //Head
+        getTexCoords(TEX_ZOMBIES, ZOMBIE_FOOTBALL_UPPERBODY_3, texCoords);
+        x = 0;y = 40;
+        glBegin(GL_QUADS);
+            glTexCoord2d(texCoords[0], texCoords[1]);
+            glVertex3f(x, y, ZOMBIE_HEAD_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[1]);
+            glVertex3f(x+texCoords[4], y, ZOMBIE_HEAD_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[3]);
+            glVertex3f(x+texCoords[4], y+texCoords[5], ZOMBIE_HEAD_DEPTH);
+            glTexCoord2d(texCoords[0], texCoords[3]);
+            glVertex3f(x, y+texCoords[5], ZOMBIE_HEAD_DEPTH);
+        glEnd();
+/*
+        getTexCoords(TEX_ZOMBIES, ZOMBIE_JAW, texCoords);
+        x = 10;y = 31;
+        glBegin(GL_QUADS);
+            glTexCoord2d(texCoords[0], texCoords[1]);
+            glVertex3f(x, y, ZOMBIE_HEAD_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[1]);
+            glVertex3f(x+texCoords[4], y, ZOMBIE_HEAD_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[3]);
+            glVertex3f(x+texCoords[4], y+texCoords[5], ZOMBIE_HEAD_DEPTH);
+            glTexCoord2d(texCoords[0], texCoords[3]);
+            glVertex3f(x, y+texCoords[5], ZOMBIE_HEAD_DEPTH);
+        glEnd();
+
+        getTexCoords(TEX_ZOMBIES, ZOMBIE_POLEVAULTER_HAIR, texCoords);
+        x = -10;y = 50;
+        glBegin(GL_QUADS);
+            glTexCoord2d(texCoords[0], texCoords[1]);
+            glVertex3f(x, y, ZOMBIE_HEAD_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[1]);
+            glVertex3f(x+texCoords[4], y, ZOMBIE_HEAD_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[3]);
+            glVertex3f(x+texCoords[4], y+texCoords[5], ZOMBIE_HEAD_DEPTH);
+            glTexCoord2d(texCoords[0], texCoords[3]);
+            glVertex3f(x, y+texCoords[5], ZOMBIE_HEAD_DEPTH);
+        glEnd();
+    //Body
+        getTexCoords(TEX_ZOMBIES, ZOMBIE_POLEVAULTER_BODY1, texCoords);
+        x = 20;y = -10;
+        glBegin(GL_QUADS);
+            glTexCoord2d(texCoords[0], texCoords[1]);
+            glVertex3f(x, y, ZOMBIEBODY_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[1]);
+            glVertex3f(x+texCoords[4], y, ZOMBIEBODY_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[3]);
+            glVertex3f(x+texCoords[4], y+texCoords[5], ZOMBIEBODY_DEPTH);
+            glTexCoord2d(texCoords[0], texCoords[3]);
+            glVertex3f(x, y+texCoords[5], ZOMBIEBODY_DEPTH);
+        glEnd();
+
+         getTexCoords(TEX_ZOMBIES, ZOMBIE_POLEVAULTER_BODY2, texCoords);
+        x = 40;y = -20;
+        glBegin(GL_QUADS);
+            glTexCoord2d(texCoords[0], texCoords[1]);
+            glVertex3f(x, y, ZOMBIEBODY2_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[1]);
+            glVertex3f(x+texCoords[4], y, ZOMBIEBODY2_DEPTH);
+            glTexCoord2d(texCoords[2], texCoords[3]);
+            glVertex3f(x+texCoords[4], y+texCoords[5], ZOMBIEBODY2_DEPTH);
+            glTexCoord2d(texCoords[0], texCoords[3]);
+            glVertex3f(x, y+texCoords[5], ZOMBIEBODY2_DEPTH);
+        glEnd();
+*/
     }
 
     /*****************************************************************************
@@ -452,7 +533,6 @@ namespace fvu {
         }
 
     }
-
 
     /*****************************************************************************
     * Function: Game::loadResources
