@@ -92,7 +92,12 @@ namespace fvu {
                 // children[0] is the main projectile
                 local_anim.set_defaults();
                 anim.clear();anim.push_back(local_anim);
-                myObject->children[0] = new Object(anim, anim_count, TEX_PLANTS, PROJECTILEPEA, 0, 0, myObject);
+                if (type == PEA_PROJECTILE) {
+                    myObject->children[0] = new Object(anim, anim_count, TEX_PLANTS, PROJECTILEPEA, 0, 0, myObject);
+                }
+                else if (type == SNOW_PROJECTILE) {
+                    myObject->children[0] = new Object(anim, anim_count, TEX_PLANTS, PROJECTILE_SNOW_PEA, 0, 0, myObject);
+                }
 
                 break;
             default:
