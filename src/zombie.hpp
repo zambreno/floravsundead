@@ -36,7 +36,7 @@ extern float zombieSpeeds[NUM_ZOMBIE_TYPE];
 
 /* Zombie depth enum, front to back */
 typedef enum {ZOMBIE_OUTERARM_LOWER_DEPTH = 0, ZOMBIE_OUTERARM_UPPER_DEPTH,ZOMBIE_OUTERARM_HAND_DEPTH, ZOMBIE_ACCESSORY_DEPTH, ZOMBIE_HEADFRONT_DEPTH, ZOMBIEBODY_DEPTH, ZOMBIEBODY2_DEPTH,
-ZOMBIE_HEAD_ACCESSORY_DEPTH, ZOMBIE_HEAD_DEPTH,  ZOMBIE_OUTERLEG_UPPER_DEPTH, ZOMBIE_OUTERLEG_LOWER_DEPTH, ZOMBIE_OUTERLEG_FOOT_DEPTH, ZOMBIE_INNERLEG_FOOT_DEPTH, ZOMBIE_INNERLEG_LOWER_DEPTH,
+ZOMBIE_HEAD_ACCESSORY_DEPTH, ZOMBIE_HEAD_DEPTH,  ZOMBIE_OUTERLEG_UPPER_DEPTH, ZOMBIE_OUTERLEG_LOWER_DEPTH, ZOMBIE_INNERLEG_TOE_DEPTH, ZOMBIE_INNERLEG_FOOT_DEPTH, ZOMBIE_OUTERLEG_FOOT_DEPTH, ZOMBIE_INNERLEG_LOWER_DEPTH,
 ZOMBIE_INNERLEG_UPPER_DEPTH,  ZOMBIE_INNERARM_LOWER_DEPTH, ZOMBIE_INNERARM_HAND_DEPTH, ZOMBIE_INNERARM_UPPER_DEPTH, ZOMBIE_SHADOW_DEPTH, ZOMBIE_DEPTH_RANGE} ZOMBIE_DEPTH_ENUM;
 
 
@@ -68,6 +68,7 @@ namespace fvu {
             float getGameY() {return game_y;}
             void setDelay(int16_t val) {delay = val;}
             void shoot(fvu::Particle *myParticle);
+            void special();
             bool operator< (const Zombie &rhs) const;
 
         private:
@@ -84,6 +85,8 @@ namespace fvu {
             bool has_item;
             uint16_t action_count;
             int16_t delay;
+            uint16_t special_count;
+            bool special_done;
             Object *myObject;
     };
 

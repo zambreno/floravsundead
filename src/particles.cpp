@@ -70,9 +70,9 @@ namespace fvu {
         offscreen = false;
 
         // game_x and game_y are a function of the parent plant (tweaked as needed)
-        game_x = myPlant->getGameX();
-        game_y = myPlant->getGameY();
         dir = myPlant->getDir();
+        game_x = myPlant->getGameX()+dir*25;
+        game_y = myPlant->getGameY();
 
         /* Initialize particle information here so we can leave the rest of this function as object assembly */
         speed = particleSpeeds[type];

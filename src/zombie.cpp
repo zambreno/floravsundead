@@ -159,6 +159,8 @@ namespace fvu {
         type = mytype;
         index = myindex;
         action_count = 0;
+        special_count = 0;
+        special_done = false;
         has_item = true;
 
         Object *local_object;
@@ -297,47 +299,48 @@ namespace fvu {
                 // children[0] is the outer leg, starting at the upper part. It connects to the rest of the leg and the body
                 local_anim.set_defaults();
                 local_anim.set_angle(1.0, 0.2, 9.0, ANCHOR_N);
-                local_anim.set_xy(27.0, -15.0);
-                anim.clear();anim.push_back(local_anim);
+                local_anim.set_xy(39.0, -2.0);
+                anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);anim.push_back(local_anim);anim.push_back(local_anim);
+                local_anim.set_angle(9.0, -3.0, -81.0, ANCHOR_N);anim.push_back(local_anim);
                 myObject->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_POLEVAULTER_OUTERLEG_UPPER,ZOMBIE_OUTERLEG_UPPER_DEPTH, 2, myObject);
 
                 local_anim.set_defaults();
                 local_anim.set_angle(-1.0, -0.2, -9.0, ANCHOR_N);
-                local_anim.set_xy(10, -20);
+                local_anim.set_xy(0, -23.0);
                 anim.clear();anim.push_back(local_anim);
                 myObject->children[0]->children[1] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_POLEVAULTER_OUTERLEG_LOWER, ZOMBIE_OUTERLEG_LOWER_DEPTH,1, myObject->children[0]);
 
                 local_anim.set_defaults();
-                local_anim.set_xy(-18, -10);
-                local_anim.set_angle(1.0, 0.2, 9.0, ANCHOR_SE);
+                local_anim.set_xy(-6.0, -16.5);
                 anim.clear();anim.push_back(local_anim);
                 myObject->children[0]->children[1]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_POLEVAULTER_OUTERLEG_FOOT, ZOMBIE_OUTERLEG_FOOT_DEPTH, 1, myObject->children[0]->children[0]);
 
                 local_anim.set_defaults();
-                local_anim.set_xy(-18, -10);
+                local_anim.set_xy(-11.0, 0.0);
                 anim.clear();anim.push_back(local_anim);
                 myObject->children[0]->children[1]->children[0]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_POLEVAULTER_OUTERLEG_TOE, ZOMBIE_OUTERLEG_FOOT_DEPTH, 0, myObject->children[0]->children[1]->children[0]);
 
 
                 // children[1] is the inner leg, starting at the foot. It connects to the rest of the leg
                 local_anim.set_defaults();
-                local_anim.set_xy(7.0, -34.0);
+                local_anim.set_xy(14.0, -34.0);
                 anim.clear();anim.push_back(local_anim);
-                myObject->children[1] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_POLEVAULTER_INNERLEG_TOE, ZOMBIE_INNERLEG_FOOT_DEPTH, 2, myObject);
+                myObject->children[1] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_POLEVAULTER_INNERLEG_TOE, ZOMBIE_INNERLEG_TOE_DEPTH, 2, myObject);
 
                 local_anim.set_defaults();
-                local_anim.set_xy(7.0, -34.0);
+                local_anim.set_xy(-10.0, 2.0);
+                local_anim.set_angle(0.0, 0.25, 10.0, ANCHOR_CENTER);
                 anim.clear();anim.push_back(local_anim);
                 myObject->children[1]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_POLEVAULTER_INNERLEG_FOOT, ZOMBIE_INNERLEG_FOOT_DEPTH, 0, myObject->children[1]);
 
                 local_anim.set_defaults();
-                local_anim.set_xy(0.0, 0.0);
+                local_anim.set_xy(-3.0, 9.0);
                 local_anim.set_angle(0.0, 0.25, 10.0, ANCHOR_CENTER);
                 anim.clear();anim.push_back(local_anim);
                 myObject->children[1]->children[1] = new Object(anim, anim_count,  TEX_ZOMBIES, ZOMBIE_POLEVAULTER_INNERLEG_LOWER, ZOMBIE_INNERLEG_LOWER_DEPTH,1, myObject->children[1]);
 
                 local_anim.set_defaults();
-                local_anim.set_xy(16, 27);
+                local_anim.set_xy(12.0, 21.0);
                 anim.clear();anim.push_back(local_anim);
                 myObject->children[1]->children[1]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_POLEVAULTER_INNERLEG_UPPER, ZOMBIE_INNERLEG_UPPER_DEPTH, 0, myObject->children[1]->children[1]);
 
@@ -345,13 +348,13 @@ namespace fvu {
                 // children[0][0] is the underbody. It connects to the upperbody
                 local_anim.set_defaults();
                 local_anim.set_angle(5.0, -0.1, -5.0, ANCHOR_SE);
-                local_anim.set_xy(-25, 20);
+                local_anim.set_xy(-22.0, 4.0);
                 anim.clear();anim.push_back(local_anim);
                 myObject->children[0]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_POLEVAULTER_BODY2, ZOMBIEBODY_DEPTH, 1, myObject->children[0]);
 
                 // children[0][0][0] is the upper body
                 local_anim.set_defaults();
-                local_anim.set_xy(0.0, 15.0);
+                local_anim.set_xy(-16.0, 15.0);
                 anim.clear();anim.push_back(local_anim);
                 myObject->children[0]->children[0]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_POLEVAULTER_BODY1, ZOMBIEBODY_DEPTH, 3, myObject->children[0]->children[0]);
 
@@ -381,47 +384,50 @@ namespace fvu {
                 local_object->children[0]->children[1] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_JAW, ZOMBIE_HEADFRONT_DEPTH, 0, local_object->children[0]);
 
 
-                // children[0][0][0][1] is the inner arm. It connects to the rest of the arm.
+                // children[0][0][0][1] is the inner arm. It connects to the rest of the arm. Note that these 2 sprites are backwards.
                 local_object = myObject->children[0]->children[0]->children[0];
                 local_anim.set_defaults();
-                local_anim.set_xy(-42.0, 43.0);
-                anim.clear();anim.push_back(local_anim);
-                local_object->children[1] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_POLEVAULTER_INNERARM_UPPER, ZOMBIE_INNERARM_LOWER_DEPTH,1, local_object);
+                local_anim.set_xy(-18.0, 40.0);
+                anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);anim.push_back(local_anim);anim.push_back(local_anim);
+                local_anim.set_angle(90.0, 0.0, 0.0, ANCHOR_N);anim.push_back(local_anim);
+                local_object->children[1] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_POLEVAULTER_INNERARM_LOWER, ZOMBIE_INNERARM_UPPER_DEPTH,1, local_object);
 
                 local_anim.set_defaults();
-                //local_anim.set_angle(5.0, 0.0, 0.0, ANCHOR_NE);
-                local_anim.set_xy(8.5, 0.0);
+                local_anim.set_xy(-15.0, -1.0);
                 anim.clear();anim.push_back(local_anim);
-                local_object->children[1]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_POLEVAULTER_INNERARM_LOWER,ZOMBIE_INNERARM_UPPER_DEPTH,1, local_object->children[1]);
+                local_object->children[1]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_POLEVAULTER_INNERARM_UPPER,ZOMBIE_INNERARM_LOWER_DEPTH,1, local_object->children[1]);
 
                 local_anim.set_defaults();
-                local_anim.set_xy(-6.0, 21.0);
+                local_anim.set_xy(-2.0, 33.0);
                 anim.clear();anim.push_back(local_anim);
-                local_object->children[1]->children[0]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_POLEVAULTER_INNERHAND,ZOMBIE_INNERARM_HAND_DEPTH, 1, local_object->children[1]->children[0]);
+                local_object->children[1]->children[0]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_POLEVAULTER_INNERHAND, ZOMBIE_INNERARM_HAND_DEPTH, 2, local_object->children[1]->children[0]);
 
                 local_anim.set_defaults();
-                local_anim.set_xy(2.0,-14);
+                local_anim.set_xy(-72.0, 12.0);
+                local_anim.set_angle(0.0, -0.1, -1.5, ANCHOR_W);
                 anim.clear();anim.push_back(local_anim);
-                local_object->children[1]->children[0]->children[0]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_POLEVAULTER_POLE, ZOMBIE_INNERARM_HAND_DEPTH, 1, local_object->children[1]->children[0]->children[0]);
+                local_object->children[1]->children[0]->children[0]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_POLEVAULTER_POLE, ZOMBIE_INNERARM_UPPER_DEPTH, 0, local_object->children[1]->children[0]->children[0]);
 
                 local_anim.set_defaults();
-                local_anim.set_xy(2.0,-14);
+                local_anim.set_xy(-72.0,12.0);
+                local_anim.set_angle(0.0, 0.1, 1.5, ANCHOR_E);
                 anim.clear();anim.push_back(local_anim);
-                local_object->children[1]->children[0]->children[0]->children[0]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_POLEVAULTER_POLE2, ZOMBIE_INNERARM_HAND_DEPTH, 0, local_object->children[1]->children[0]->children[0]->children[0]);
+                local_object->children[1]->children[0]->children[0]->children[1] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_POLEVAULTER_POLE2, ZOMBIE_INNERARM_UPPER_DEPTH, 0, local_object->children[1]->children[0]->children[0]);
 
 
 
                 // children[0][0][0][2] is the outer arm. It connects to the rest of the arm.
                 local_anim.set_defaults();
                 local_anim.set_angle(8.0, 0.05, 13.0, ANCHOR_NE);
-                local_anim.set_xy(23.5, 23.5);
+                local_anim.set_xy(26.5, 20.5);
                 anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);
                 local_anim.set_angle(13.0, -1.85, -25.0, ANCHOR_N);anim.push_back(local_anim);
                 local_anim.set_angle(13.0, -2.0, -47.0, ANCHOR_N);anim.push_back(local_anim);
+                local_anim.set_angle(-90.0, 0.0, 0.0, ANCHOR_N);anim.push_back(local_anim);
                 local_object->children[2] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_POLEVAULTER_OUTERARM_UPPER, ZOMBIE_OUTERARM_UPPER_DEPTH,1, local_object);
 
                 local_anim.set_defaults();
-                local_anim.set_xy(-12.0, -25.0);
+                local_anim.set_xy(-15.0, -30.0);
                 anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);
                 local_anim.set_angle(-17.0, -1.15, -80.0, ANCHOR_NE);anim.push_back(local_anim);
                 local_anim.set_angle(-80.0, 0.0, -80.0, ANCHOR_NE);anim.push_back(local_anim);
@@ -711,6 +717,8 @@ namespace fvu {
             case 0:
             default:
                 game_x = left_gridWidths[NUM_COLS-1];
+                if (type == POLE_ZOMBIE)
+                    game_x -= 35.0;
                 game_y = top_gridHeights[location];
                 demo_x = 1.5*(rand()%200)-1375.0;
                 demo_y = 1.5*(rand()%300);
@@ -718,6 +726,8 @@ namespace fvu {
                 break;
             case 1:
                 game_x = left_gridWidths[NUM_COLS-1];
+                if (type == POLE_ZOMBIE)
+                    game_x -= 35.0;
                 game_y = bottom_gridHeights[location];
                 demo_x = 1.5*(rand()%200)-1375.0;
                 demo_y = -1.5*(rand()%300);
@@ -725,6 +735,8 @@ namespace fvu {
                 break;
             case 2:
                 game_x = right_gridWidths[NUM_COLS-1];
+                if (type == POLE_ZOMBIE)
+                    game_x += 35.0;
                 game_y = top_gridHeights[location];
                 demo_x = 1.5*(rand()%200)+1100.0;
                 demo_y = 1.5*(rand()%300);
@@ -732,6 +744,8 @@ namespace fvu {
                 break;
             case 3:
                 game_x = right_gridWidths[NUM_COLS-1];
+                if (type == POLE_ZOMBIE)
+                    game_x += 35.0;
                 game_y = bottom_gridHeights[location];
                 demo_x = 1.5*(rand()%200)+1100.0;
                 demo_y = -1.5*(rand()%300);
@@ -821,6 +835,47 @@ namespace fvu {
         }
     }
 
+
+
+    /*****************************************************************************
+    * Function: Zombie::special
+    * Description: Performs a zombie-specific action command
+    *****************************************************************************/
+    void Zombie::special() {
+
+        switch (type) {
+            // POLE_ZOMBIE jumps over a plant for its special move. Straight forward x/y update, followed by some manual sprite removal.
+            case POLE_ZOMBIE:
+                if (special_count == 0) {
+                    myObject->setMode(OBJECT_STATUS_SPECIAL);
+                    special_count++;
+                }
+                else {
+                    special_count++;
+                    game_x -= 1.0*dir*speed;
+                    if (special_count > 30) {
+                        game_y -= 3.0;
+                    }
+                    else {
+                        game_y += 3.0;
+                    }
+                    if (special_count == 60) {
+                        special_count = 0;
+                        special_done = true;
+                        speed = zombieSpeeds[0];
+                        myObject->children[0]->children[0]->children[0]->children[1]->children[0]->children[0]->children[0]->updateSprite(BLANK_SPRITE);
+                        myObject->children[0]->children[0]->children[0]->children[1]->children[0]->children[0]->children[1]->updateSprite(BLANK_SPRITE);
+                        myObject->children[0]->children[0]->children[0]->children[1]->anim[OBJECT_STATUS_GAME].set_angle(130.0, 0.0, 0.0, ANCHOR_N);
+                        myObject->children[0]->children[0]->children[0]->children[1]->anim[OBJECT_STATUS_GAME].set_x(-8.0);
+                        myObject->setMode(OBJECT_STATUS_GAME);
+                        col--;
+                    }
+                }
+                break;
+            default:
+                break;
+        }
+    }
 
 
     /*****************************************************************************
@@ -916,6 +971,12 @@ namespace fvu {
          * all the plant grid locations */
         if (status == ZOMBIE_STATUS_ACTIVE) {
 
+            // If we're in the middle of a special operation, continue it
+            if (special_count != 0) {
+                special();
+                return;
+            }
+
             /* First, have we been hit recently? If so, check transitions / death conditions */
             while (!transitions.empty()) {
                 if (health <= transitions[0]) {
@@ -950,8 +1011,25 @@ namespace fvu {
                         col--;
                         // We've entered a grid in which there is a plant
                         if (myGame->plantGrid[team][row][col] == true) {
-                            status = ZOMBIE_STATUS_EATING;
-                            myObject->setMode(OBJECT_STATUS_ACTION);
+                            bool do_eat = true;
+                            if ((type == POLE_ZOMBIE) && (special_done == false)) {
+                                for (uint16_t i = 0; i < myGame->myPlants[team].size(); i++) {
+                                    if ((myGame->myPlants[team][i].getRow() == row) && (myGame->myPlants[team][i].getCol() == col)) {
+                                        if (myGame->myPlants[team][i].getType() != TALLNUT_PLANT) {
+                                            do_eat = false;
+                                        }
+                                        break;
+                                    }
+                                }
+                            }
+
+                            if (do_eat == true) {
+                                status = ZOMBIE_STATUS_EATING;
+                                myObject->setMode(OBJECT_STATUS_ACTION);
+                            }
+                            else {
+                                special();
+                            }
                         }
                     }
 
@@ -973,8 +1051,25 @@ namespace fvu {
                         col--;
                         // We've entered a grid in which there is a plant
                         if (myGame->plantGrid[team][row][col] == true) {
-                            status = ZOMBIE_STATUS_EATING;
-                            myObject->setMode(OBJECT_STATUS_ACTION);
+                            bool do_eat = true;
+                            if ((type == POLE_ZOMBIE) && (special_done == false)) {
+                                for (uint16_t i = 0; i < myGame->myPlants[team].size(); i++) {
+                                    if ((myGame->myPlants[team][i].getRow() == row) && (myGame->myPlants[team][i].getCol() == col)) {
+                                        if (myGame->myPlants[team][i].getType() != TALLNUT_PLANT) {
+                                            do_eat = false;
+                                        }
+                                        break;
+                                    }
+                                }
+                            }
+
+                            if (do_eat == true) {
+                                status = ZOMBIE_STATUS_EATING;
+                                myObject->setMode(OBJECT_STATUS_ACTION);
+                            }
+                            else {
+                                special();
+                            }
                         }
                     }
 

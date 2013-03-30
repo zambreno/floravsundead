@@ -20,7 +20,7 @@ select P4.peashooter
 select P5.chomper
 select P6.gatling
 select P7.wallnut
-select P8.snowpea
+select P8.wallnut
 select P9.tallnut
 select P10.peashooter
 select P11.peashooter
@@ -38,8 +38,8 @@ place P3 3, 2
 place P4 5, 1
 place P5 2, 2
 place P6 3, 5
-place P7 4, 4
-place P8 5, 5
+place P7 4, 9
+place P8 4, 8
 place P9 3, 1
 
 # Specify the run-time commands. The valid commands are:
