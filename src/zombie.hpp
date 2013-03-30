@@ -87,6 +87,8 @@ namespace fvu {
             int16_t delay;
             uint16_t special_count;
             bool special_done;
+            uint16_t frozen_count;
+            bool frozen;
             Object *myObject;
     };
 

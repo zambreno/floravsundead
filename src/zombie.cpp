@@ -62,6 +62,15 @@ namespace fvu {
 
         float x, y, z;
 
+        // Frozen zombies have their color modulated appropriately
+        if (frozen == true) {
+            glColor3ub(0, 0, 255);
+        }
+        else {
+            glColor3ub(255, 255, 255);
+        }
+
+
         // In DEMO mode, we can do a pure depth sort of all the zombies
         if (status == ZOMBIE_STATUS_DEMO) {
             x = demo_x;
@@ -162,6 +171,8 @@ namespace fvu {
         special_count = 0;
         special_done = false;
         has_item = true;
+        frozen_count = 0;
+        frozen = false;
 
         Object *local_object;
 
@@ -301,7 +312,7 @@ namespace fvu {
                 local_anim.set_angle(1.0, 0.2, 9.0, ANCHOR_N);
                 local_anim.set_xy(39.0, -2.0);
                 anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);anim.push_back(local_anim);anim.push_back(local_anim);
-                local_anim.set_angle(9.0, -3.0, -81.0, ANCHOR_N);anim.push_back(local_anim);
+                local_anim.set_angle(9.0, -3.3, -90.0, ANCHOR_N);anim.push_back(local_anim);
                 myObject->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_POLEVAULTER_OUTERLEG_UPPER,ZOMBIE_OUTERLEG_UPPER_DEPTH, 2, myObject);
 
                 local_anim.set_defaults();
@@ -804,6 +815,7 @@ namespace fvu {
         switch (type) {
             case REGULAR_ZOMBIE:
             case FLAG_ZOMBIE:
+            default:
                 myGame->playSound(SFX_SPLAT, 25);
                 break;
             case BUCKET_ZOMBIE:
@@ -830,9 +842,18 @@ namespace fvu {
                     myGame->playSound(SFX_SPLAT, 25);
                 }
                 break;
-            default:
-                break;
         }
+
+        // Were we hit by a SNOW_PROJECTILE? If we still have our screen door it doesn't matter.
+        if ((myParticle->getType() == SNOW_PROJECTILE) && ((type != SCREEN_ZOMBIE) || (has_item == false))) {
+            if (frozen == false) {
+                frozen = true;
+                speed /= 2.0;
+                myGame->playSound(SFX_FROZEN, 25);
+            }
+            frozen_count = FREEZE_LENGTH;
+        }
+
     }
 
 
@@ -851,12 +872,14 @@ namespace fvu {
                     special_count++;
                 }
                 else {
+                    // For now, we skip the conventional update in special mode. I'm not sure now if special() even needs an additional function.
+                    myObject->update();
                     special_count++;
                     if ((team == 0) || (team == 1)) {
                         game_x += (left_gridWidths[col-1]-left_gridWidths[col])/60.0;
                     }
                     else {
-                        game_x -= (right_gridWidths[col]-right_gridWidths[col-1])/60.0;
+                        game_x += (right_gridWidths[col-1]-right_gridWidths[col])/60.0;
                     }
                     if (special_count > 30) {
                         game_y -= 3.0;
@@ -931,13 +954,13 @@ namespace fvu {
                 }
                 if (val == zombieTransitions[CONE_ZOMBIE][2]) {
                     myObject->children[0]->children[0]->children[2]->children[2]->updateSprite(BLANK_SPRITE);
+                    has_item = false;
                 }
                 if (val == zombieTransitions[CONE_ZOMBIE][3]) {
                     myGame->playSound(SFX_LIMBS_POP, 25);
                     myObject->children[0]->children[0]->children[4]->updateSprite(ZOMBIE_OUTERARM_UPPER_2);
                     myObject->children[0]->children[0]->children[4]->children[0]->updateSprite(BLANK_SPRITE);
                     myObject->children[0]->children[0]->children[4]->children[0]->children[0]->updateSprite(BLANK_SPRITE);
-                    has_item = false;
                 }
                 break;
             case SCREEN_ZOMBIE:
@@ -947,13 +970,70 @@ namespace fvu {
                 if (val == zombieTransitions[SCREEN_ZOMBIE][1]) {
                     myObject->children[0]->children[0]->children[4]->children[0]->updateSprite(ZOMBIE_SCREENDOOR_3);
                 }
+                // When we lose the screen, essentially translate the SCREEN_ZOMBIE into a REGULAR_ZOMBIE
                 if (val == zombieTransitions[SCREEN_ZOMBIE][2]) {
-                    myObject->children[0]->children[0]->children[4]->children[0]->updateSprite(BLANK_SPRITE);
+                    //myObject->children[0]->children[0]->children[4]->children[0]->updateSprite(BLANK_SPRITE);
+
+                    // children[0][0][4] is the outer arm. It connects to the rest of the arm.
+                    std::vector<animation_struct> anim;
+                    animation_struct local_anim;
+                    fvu::Object *local_object = myObject->children[0]->children[0];
+
+                    delete local_object->children[4]->children[0];
+                    delete local_object->children[4];
+                    local_anim.set_defaults();
+                    local_anim.set_angle(8.0, 0.05, 13.0, ANCHOR_NE);
+                    local_anim.set_xy(23.5, 23.5);
+                    anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);
+                    local_anim.set_angle(13.0, -1.85, -25.0, ANCHOR_N);anim.push_back(local_anim);
+                    local_anim.set_angle(13.0, -2.0, -47.0, ANCHOR_N);anim.push_back(local_anim);
+                    local_object->children[4] = new Object(anim, 0, TEX_ZOMBIES, ZOMBIE_OUTERARM_UPPER,ZOMBIE_OUTERARM_UPPER_DEPTH,1, local_object);
+
+                    local_anim.set_defaults();
+                    local_anim.set_xy(-12.0, -25.0);
+                    anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);
+                    local_anim.set_angle(-17.0, -1.15, -80.0, ANCHOR_NE);anim.push_back(local_anim);
+                    local_anim.set_angle(-80.0, 0.0, -80.0, ANCHOR_NE);anim.push_back(local_anim);
+                    local_object->children[4]->children[0] = new Object(anim, 0, TEX_ZOMBIES, ZOMBIE_OUTERARM_LOWER,ZOMBIE_OUTERARM_LOWER_DEPTH,1, local_object->children[4]);
+
+                    local_anim.set_defaults();
+                    local_anim.set_xy(-4.0, -22.0);
+                    anim.clear();anim.push_back(local_anim);
+                    local_object->children[4]->children[0]->children[0] = new Object(anim, 0, TEX_ZOMBIES, ZOMBIE_OUTERARM_HAND,ZOMBIE_OUTERARM_HAND_DEPTH,0, local_object->children[4]->children[0]);
+
+
+                    // children[0][0][3] is the inner arm. It connects to the rest of the arm.
+                    delete local_object->children[3]->children[0];
+                    delete local_object->children[3];
+                    local_anim.set_defaults();
+                    local_anim.set_angle(-24.0, 0.225, -8.0, ANCHOR_NE);
+                    local_anim.set_xy(3, 23.5);
+                    anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);
+                    local_anim.set_angle(-8.0, -1.6, -32.0, ANCHOR_NE);anim.push_back(local_anim);
+                    local_anim.set_angle(-17.0, -2.0, -80.0, ANCHOR_NE);anim.push_back(local_anim);
+                    local_object->children[3] = new Object(anim, 0, TEX_ZOMBIES, ZOMBIE_INNERARM_UPPER,ZOMBIE_INNERARM_UPPER_DEPTH,1, local_object);
+
+                    local_anim.set_defaults();
+                    local_anim.set_angle(5.0, 0.0, 0.0, ANCHOR_NE);
+                    local_anim.set_xy(-2.5, -19.0);
+                    anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);
+                    local_anim.set_angle(-8.0, -3.2, -80.0, ANCHOR_NE);anim.push_back(local_anim);
+                    local_anim.set_angle(-60.0, 0.0, -60.0, ANCHOR_NE);anim.push_back(local_anim);
+                    local_object->children[3]->children[0] = new Object(anim, 0, TEX_ZOMBIES, ZOMBIE_INNERARM_LOWER,ZOMBIE_INNERARM_LOWER_DEPTH,1, local_object->children[3]);
+
+                    local_anim.set_defaults();
+                    local_anim.set_xy(2.0,-14);
+                    anim.clear();anim.push_back(local_anim);
+                    local_object->children[3]->children[0]->children[0] = new Object(anim, 0, TEX_ZOMBIES, ZOMBIE_INNERARM_HAND,ZOMBIE_INNERARM_HAND_DEPTH,0, local_object->children[3]->children[0]);
+
+
                     has_item = false;
                 }
                 if (val == zombieTransitions[SCREEN_ZOMBIE][3]) {
                     myGame->playSound(SFX_LIMBS_POP, 25);
                     myObject->children[0]->children[0]->children[4]->updateSprite(ZOMBIE_OUTERARM_UPPER_2);
+                    myObject->children[0]->children[0]->children[4]->children[0]->updateSprite(BLANK_SPRITE);
+                    myObject->children[0]->children[0]->children[4]->children[0]->children[0]->updateSprite(BLANK_SPRITE);
                 }
                 break;
             default:
@@ -983,6 +1063,16 @@ namespace fvu {
                 special();
                 return;
             }
+
+            // Are we still frozen? If so decrease the count appropriately
+            if (frozen_count != 0) {
+                frozen_count--;
+                if (frozen_count == 0) {
+                    frozen = false;
+                    speed *= 2.0;
+                }
+            }
+
 
             /* First, have we been hit recently? If so, check transitions / death conditions */
             while (!transitions.empty()) {
@@ -1014,6 +1104,7 @@ namespace fvu {
                         final_x = -173.0 + rand()%292;
                         final_y = -333.0 + rand()%620;
                     }
+
                     else if (game_x >= (left_gridWidths[col-1]-60.0)) {
                         col--;
                         // We've entered a grid in which there is a plant
@@ -1100,7 +1191,10 @@ namespace fvu {
             }
 
             if (health <= 0) {
+                myGame->playSound(SFX_LIMBS_POP, 25);
                 status = ZOMBIE_STATUS_INACTIVE;
+                myGame->myStatus.scores[team] += KILL_SCORE;
+                row = 25;
             }
 
             // Is the plant gone/moved?
