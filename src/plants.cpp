@@ -568,6 +568,7 @@ namespace fvu {
                     local_anim.set_xy(-9.0, 19.0);
                     local_anim.set_xscale(0.65, 0.0, 1.0);
                     local_anim.set_yscale(0.65, 0.0, 1.0);
+                    local_anim.set_angle(-10.0, 0.75, 10.0, ANCHOR_E);
                     anim.clear();anim.push_back(local_anim);
                     local_object->children[1] = new Object(anim, anim_count, TEX_PLANTS, PEASHOOTER_SPROUT, FRONTLEAF_DEPTH, 0, local_object);
                 }
@@ -773,7 +774,7 @@ namespace fvu {
                     local_anim.set_xscale(0.65, -0.015, 0.5);
                     local_anim.set_angle(9.0, -1.8, -9.0, ANCHOR_S);
                     anim.push_back(local_anim);
-                    local_object->children[0] = new Object(anim, anim_count, TEX_PLANTS, SNOWPEA_HEAD, PLANTHEAD_DEPTH, 5, local_object);
+                    local_object->children[0] = new Object(anim, anim_count, TEX_PLANTS, SNOWPEA_HEAD, PLANTHEAD_DEPTH, 4, local_object);
 
                     // children[0]->children[0]->children[0]->children[0] is the lips
                     local_object = myObject->children[0]->children[0]->children[0];
@@ -787,57 +788,31 @@ namespace fvu {
                     anim.push_back(local_anim);
                     local_object->children[0] = new Object(anim, anim_count, TEX_PLANTS, SNOWPEA_MOUTH, PLANTHEAD_DEPTH, 0, local_object);
 
-                    // children[0]->children[0]->children[0]->children[1] is the HEADLEAF_FARTHEST
+                    // children[0]->children[0]->children[0]->children[1] is the SNOWPEA_CRYSTALS
                     local_anim.set_defaults();
-                    local_anim.set_xy(-9.0, 13.0);
+                    local_anim.set_xy(-9.0, 1.0);
                     local_anim.set_xscale(0.65, 0.0, 1.0);
                     local_anim.set_yscale(0.65, 0.0, 1.0);
-                    local_anim.set_angle(-10.0, 0.75, 10.0, ANCHOR_E);
+                    local_anim.set_angle(-3.0, 0.375*0.4, 3.0, ANCHOR_E);
                     anim.clear();anim.push_back(local_anim);
-                    local_object->children[1] = new Object(anim, anim_count, TEX_PLANTS, PEASHOOTER_HEADLEAF_FARTHEST, FRONTLEAF_DEPTH, 0, local_object);
+                    local_object->children[1] = new Object(anim, anim_count, TEX_PLANTS, SNOWPEA_CRYSTALS_1, FRONTLEAF_DEPTH, 0, local_object);
 
-                    // children[0]->children[0]->children[0]->children[2] is the HEADLEAF_2NDFARTHEST
                     local_anim.set_defaults();
-                    local_anim.set_xy(-3.0, 25.0);
+                    local_anim.set_xy(-9.0, 20.0);
+                    local_anim.set_xscale(0.65, 0.0, 1.0);
+                    local_anim.set_yscale(0.65, 0.0, 1.0);
+                    local_anim.set_angle(2.5, -0.375/2, -2.5, ANCHOR_E);
+                    anim.clear();anim.push_back(local_anim);
+                    local_object->children[2] = new Object(anim, anim_count, TEX_PLANTS, SNOWPEA_CRYSTALS_2, FRONTLEAF_DEPTH, 0, local_object);
+
+                    local_anim.set_defaults();
+                    local_anim.set_xy(-10.0, 3.0);
                     local_anim.set_xscale(0.65, 0.0, 1.0);
                     local_anim.set_yscale(0.65, 0.0, 1.0);
                     local_anim.set_angle(-5.0, 0.375, 5.0, ANCHOR_E);
                     anim.clear();anim.push_back(local_anim);
-                    local_object->children[2] = new Object(anim, anim_count, TEX_PLANTS, PEASHOOTER_HEADLEAF_2RDFARTHEST, FRONTLEAF_DEPTH, 1, local_object);
+                    local_object->children[3] = new Object(anim, anim_count, TEX_PLANTS, SNOWPEA_CRYSTALS_3, FRONTLEAF_DEPTH, 0, local_object);
 
-                    local_anim.set_defaults();
-                    local_anim.set_xy(-6.0, 7.0);
-                    local_anim.set_xscale(0.65, 0.0, 1.0);
-                    local_anim.set_yscale(0.65, 0.0, 1.0);
-                    anim.clear();anim.push_back(local_anim);
-                    local_object->children[2]->children[0] = new Object(anim, anim_count, TEX_PLANTS, PEASHOOTER_HEADLEAF_TIP_TOP, FRONTLEAF_DEPTH, 0, local_object->children[2]);
-
-
-                    // children[0]->children[0]->children[0]->children[3] is the HEADLEAF_3RDFARTHEST
-                    local_anim.set_defaults();
-                    local_anim.set_xy(4.0, 32.0);
-                    local_anim.set_xscale(0.65, 0.0, 1.0);
-                    local_anim.set_yscale(0.65, 0.0, 1.0);
-                    local_anim.set_angle(10.0, -0.75, -10.0, ANCHOR_E);
-                    anim.clear();anim.push_back(local_anim);
-                    local_object->children[3] = new Object(anim, anim_count, TEX_PLANTS, PEASHOOTER_HEADLEAF_3RDFARTHEST, FRONTLEAF_DEPTH, 0, local_object);
-
-
-                    // children[0]->children[0]->children[0]->children[4] is the HEADLEAF_NEAREST
-                    local_anim.set_defaults();
-                    local_anim.set_xy(-10.0, 14.0);
-                    local_anim.set_xscale(0.65, 0.0, 1.0);
-                    local_anim.set_yscale(0.65, 0.0, 1.0);
-                    local_anim.set_angle(5.0, -0.375, -5.0, ANCHOR_E);
-                    anim.clear();anim.push_back(local_anim);
-                    local_object->children[4] = new Object(anim, anim_count, TEX_PLANTS, PEASHOOTER_HEADLEAF_NEAREST, FRONTLEAF_DEPTH, 1, local_object);
-
-                    local_anim.set_defaults();
-                    local_anim.set_xy(-4.0, 3.0);
-                    local_anim.set_xscale(0.65, 0.0, 1.0);
-                    local_anim.set_yscale(0.65, 0.0, 1.0);
-                    anim.clear();anim.push_back(local_anim);
-                    local_object->children[4]->children[0] = new Object(anim, anim_count, TEX_PLANTS, PEASHOOTER_HEADLEAF_TIP_BOTTOM, FRONTLEAF_DEPTH, 0, local_object->children[4]);
 
                 }
 
