@@ -852,7 +852,12 @@ namespace fvu {
                 }
                 else {
                     special_count++;
-                    game_x -= 1.0*dir*speed;
+                    if ((team == 0) || (team == 1)) {
+                        game_x += (left_gridWidths[col-1]-left_gridWidths[col])/60.0;
+                    }
+                    else {
+                        game_x -= (right_gridWidths[col]-right_gridWidths[col-1])/60.0;
+                    }
                     if (special_count > 30) {
                         game_y -= 3.0;
                     }
@@ -865,10 +870,12 @@ namespace fvu {
                         speed = zombieSpeeds[0];
                         myObject->children[0]->children[0]->children[0]->children[1]->children[0]->children[0]->children[0]->updateSprite(BLANK_SPRITE);
                         myObject->children[0]->children[0]->children[0]->children[1]->children[0]->children[0]->children[1]->updateSprite(BLANK_SPRITE);
-                        myObject->children[0]->children[0]->children[0]->children[1]->anim[OBJECT_STATUS_GAME].set_angle(130.0, 0.0, 0.0, ANCHOR_N);
-                        myObject->children[0]->children[0]->children[0]->children[1]->anim[OBJECT_STATUS_GAME].set_x(-8.0);
+                        myObject->children[0]->children[0]->children[0]->children[1]->anim[OBJECT_STATUS_GAME].set_angle(130.0, -0.5, 115.0, ANCHOR_N);
+                        myObject->children[0]->children[0]->children[0]->children[1]->anim[OBJECT_STATUS_GAME].set_x(-12.0);
+                        myObject->children[0]->children[0]->children[0]->children[1]->anim[OBJECT_STATUS_ACTION].set_angle(130.0, -2.0, 100.0, ANCHOR_N);
+                        myObject->children[0]->children[0]->children[0]->children[1]->anim[OBJECT_STATUS_ACTION].set_x(-12.0);
                         myObject->setMode(OBJECT_STATUS_GAME);
-                        col--;
+                        //col--;
                     }
                 }
                 break;
