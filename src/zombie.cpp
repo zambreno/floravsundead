@@ -301,7 +301,7 @@ namespace fvu {
                 local_anim.set_angle(1.0, 0.2, 9.0, ANCHOR_N);
                 local_anim.set_xy(39.0, -2.0);
                 anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);anim.push_back(local_anim);anim.push_back(local_anim);
-                local_anim.set_angle(9.0, -3.0, -81.0, ANCHOR_N);anim.push_back(local_anim);
+                local_anim.set_angle(9.0, -3.3, -90.0, ANCHOR_N);anim.push_back(local_anim);
                 myObject->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_POLEVAULTER_OUTERLEG_UPPER,ZOMBIE_OUTERLEG_UPPER_DEPTH, 2, myObject);
 
                 local_anim.set_defaults();
@@ -1072,6 +1072,7 @@ namespace fvu {
                         final_x = -173.0 + rand()%292;
                         final_y = -333.0 + rand()%620;
                     }
+
                     else if (game_x >= (left_gridWidths[col-1]-60.0)) {
                         col--;
                         // We've entered a grid in which there is a plant
