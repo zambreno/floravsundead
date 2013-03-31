@@ -239,7 +239,7 @@ namespace fvu {
                 // children[0] is the bottom part of the stalk
                 local_anim.set_defaults();
                 local_anim.set_x(5.0, 0.0, 0.0);
-                local_anim.set_y(-10.0, 0.0, 0.0);
+                local_anim.set_y(-20.0, 0.0, 0.0);
                 local_anim.set_xscale(0.8, 0.0, 1.0);
                 local_anim.set_yscale(0.8, 0.0, 1.0);
                 anim.clear();anim.push_back(local_anim);
@@ -331,18 +331,18 @@ namespace fvu {
 // children[0]->children[0]->children[0]->children[4]->children[1] is the inside of the mouth
                 local_object = myObject->children[0]->children[0]->children[0]->children[4];
                 local_anim.set_defaults();
-                local_anim.set_x(19.5, 0.0, 0.0);
-                local_anim.set_y(-6, 0.0, 0.0);
+                local_anim.set_x(12, 0.0, 0.0);
+                local_anim.set_y(12, 0.0, 0.0);
                 local_anim.set_xscale(0.60, 0.0, 1.0);
                 local_anim.set_yscale(0.60, 0.0, 1.0);
                 anim.clear();anim.push_back(local_anim);
                 local_object->children[1] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_INSIDEMOUTH, CHOMPER_INSIDEMOUTH_DEPTH, 0, local_object);
 
-// children[0]->children[0]->children[0]->children[6]->children[0] is the tongue
+// children[0]->children[0]->children[0]->children[4]->children[2] is the tongue
                 local_object = myObject->children[0]->children[0]->children[0]->children[4];
                 local_anim.set_defaults();
-                local_anim.set_x(0, 0.0, 0.0);
-                local_anim.set_y(7.3, 0.0, 0.0);
+                local_anim.set_x(10, 0.0, 0.0);
+                local_anim.set_y(20, 0.0, 0.0);
                 local_anim.set_xscale(0.60, 0.0, 1.0);
                 local_anim.set_yscale(0.60, 0.0, 1.0);
                 anim.clear();anim.push_back(local_anim);
@@ -354,7 +354,7 @@ namespace fvu {
                 local_object = myObject->children[0]->children[0]->children[0];
                 local_anim.set_defaults();
                 local_anim.set_x(14.5, 0.0, 0.0);
-                local_anim.set_y(27.3, 0.0, 0.0);
+                local_anim.set_y(7.5, 0.0, 0.0);
                 local_anim.set_xscale(0.60, 0.0, 1.0);
                 local_anim.set_yscale(0.60, 0.0, 1.0);
                 anim.clear();anim.push_back(local_anim);
@@ -408,8 +408,8 @@ namespace fvu {
 
                 // children[0]->children[1] is the left backleaf
                 local_anim.set_defaults();
-                local_anim.set_x(-18.0, 0.0, 0.0);
-                local_anim.set_y(-80.75, 0.0, 0.0);
+                local_anim.set_x(-21.0, 0.0, 0.0);
+                local_anim.set_y(-5, 0.0, 0.0);
                 local_anim.set_xscale(0.65, 0.0, 1.0);
                 local_anim.set_yscale(0.65, 0.0, 1.0);
                 anim.clear();anim.push_back(local_anim);
@@ -417,8 +417,8 @@ namespace fvu {
 
                 // children[0]->children[2] is the right backleaf
                 local_anim.set_defaults();
-                local_anim.set_x(-25.0, 0.0, 0.0);
-                local_anim.set_y(-80.0, 0.0, 0.0);
+                local_anim.set_x(3.5, 0.0, 0.0);
+                local_anim.set_y(-5.0, 0.0, 0.0);
                 local_anim.set_xscale(0.65, 0.0, 1.0);
                 local_anim.set_yscale(0.65, 0.0, 1.0);
                 anim.clear();anim.push_back(local_anim);
@@ -426,22 +426,43 @@ namespace fvu {
 
                 // children[0]->children[3] is the left frontleaf
                 local_anim.set_defaults();
-                local_anim.set_x(-25.0, 0.0, 0.0);
-                local_anim.set_y(-55.0, 0.0, 0.0);
+                local_anim.set_x(-24.0, 0.0, 0.0);
+                local_anim.set_y(-14.0, 0.0, 0.0);
                 local_anim.set_xscale(0.65, 0.0, 1.0);
                 local_anim.set_yscale(0.65, 0.0, 1.0);
                 anim.clear();anim.push_back(local_anim);
-                myObject->children[0]->children[3] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_GROUNDLEAF_1, FRONTLEAF_DEPTH, 0, myObject->children[0]);
+                myObject->children[0]->children[3] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_GROUNDLEAF_1, FRONTLEAF_DEPTH, 1, myObject->children[0]);
+
+                // children[0]->children[4] is the left frontleaf tip
+                local_object = myObject->children[0]->children[3];
+                local_anim.set_defaults();
+                local_anim.set_x(-11, 0.0, 0.0);
+                local_anim.set_y(.75, 0.0, 0.0);
+                local_anim.set_xscale(0.65, 0.0, 1.0);
+                local_anim.set_yscale(0.65, 0.0, 1.0);
+                anim.clear();anim.push_back(local_anim);
+                local_object->children[0] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_GROUNDLEAF_1_TIP, FRONTLEAF_DEPTH, 0, local_object);
+
 
                 // children[0]->children[4] is the right frontleaf
                 local_anim.set_defaults();
-                local_anim.set_x(0.0, 0.0, 0.0);
-                local_anim.set_y(-20.0, 0.0, 0.0);
+                local_anim.set_x(1.0, 0.0, 0.0);
+                local_anim.set_y(-12.25, 0.0, 0.0);
                 local_anim.set_xscale(0.65, 0.0, 1.0);
                 local_anim.set_yscale(0.65, 0.0, 1.0);
                 anim.clear();anim.push_back(local_anim);
-                myObject->children[0]->children[4] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_GROUNDLEAF_2, CHOMPER_RIGHT_FRONTLEAF_DEPTH, 0, myObject->children[0]);
+                myObject->children[0]->children[4] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_GROUNDLEAF_2, CHOMPER_RIGHT_FRONTLEAF_DEPTH, 1, myObject->children[0]);
 
+
+                // children[0]->children[4] is the right frontleaf tip
+                local_object = myObject->children[0]->children[4];
+                local_anim.set_defaults();
+                local_anim.set_x(24.5, 0.0, 0.0);
+                local_anim.set_y(3, 0.0, 0.0);
+                local_anim.set_xscale(0.65, 0.0, 1.0);
+                local_anim.set_yscale(0.65, 0.0, 1.0);
+                anim.clear();anim.push_back(local_anim);
+                local_object->children[0] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_GROUNDLEAF_2_TIP, CHOMPER_RIGHT_FRONTLEAF_DEPTH, 0, local_object);
 
                 // children[1] is the shadow
                 local_anim.set_defaults();

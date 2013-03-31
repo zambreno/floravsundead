@@ -189,7 +189,8 @@ PUFFSHROOM_PUFF_1, PUFFSHROOM_PUFF_2, PUFFSHROOM_STEM, PUFFSHROOM_TIP, SHOVEL_HI
 TALLNUT_BLINK_1, TALLNUT_BLINK_2, TALLNUT_BODY, TALLNUT_CRACKED_1, TALLNUT_CRACKED_2,                                                                                           //41
 WALLNUT_BLINK1, WALLNUT_BLINK2, WALLNUT_BODY, WALLNUT_CRACKED_1, WALLNUT_CRACKED_2,                                                                                             //42
 WALLNUT_TWITCH, BLANK_PLANT_SPRITE, WHITE_PLANT_SPRITE, SNOWPEA_BLINK_1, SNOWPEA_BLINK_2,                                                                                       //43
-SNOWPEA_CRYSTALS_1, SNOWPEA_CRYSTALS_2, SNOWPEA_CRYSTALS_3, SNOWPEA_HEAD, SNOWPEA_MOUTH, PROJECTILE_SNOW_PEA,                                                                   //44
+SNOWPEA_CRYSTALS_1, SNOWPEA_CRYSTALS_2, SNOWPEA_CRYSTALS_3, SNOWPEA_HEAD, SNOWPEA_MOUTH, PROJECTILE_SNOW_PEA,
+CHOMPER_GROUNDLEAF_2_TIP,                                                                 //44
 NUM_PLANT_SPRITES} PLANT_SPRITE_ENUM ;
 extern uint16_t plant_object_spriteMap[][4];
 
