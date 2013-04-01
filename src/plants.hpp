@@ -45,6 +45,7 @@ namespace fvu {
     class Plant {
         public:
             Plant(uint8_t type, uint16_t myid);
+            //~Plant() {delete myObject;}
             void update();
             void place(uint8_t team, uint16_t row, uint16_t col);
             void endDemo();

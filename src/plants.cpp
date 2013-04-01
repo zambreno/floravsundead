@@ -377,6 +377,7 @@ namespace fvu {
                 local_anim.set_xscale(0.8);local_anim.set_yscale(0.8);
                 anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);
                 local_anim.set_xscale(0.8, 0.2, 2.8);anim.push_back(local_anim);
+                local_anim.set_xscale(0.8);anim.push_back(local_anim);
                 local_object->children[2] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_TONGUE, CHOMPER_TONGUE_DEPTH, 0, local_object);
 
                 // children[0]->children[0]->children[0]->children[5] is the top of the head

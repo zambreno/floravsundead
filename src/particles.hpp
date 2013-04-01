@@ -34,6 +34,7 @@ namespace fvu {
     class Particle {
         public:
             Particle(uint8_t type, fvu::Plant *myPlant);
+            //~Particle() {delete myObject;}
             void update();
             void draw(uint16_t index);
             uint8_t getStatus() {return status;}

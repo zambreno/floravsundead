@@ -72,6 +72,7 @@ namespace fvu {
             void update();
             void updateSprite(uint16_t mySprite) {sprite = mySprite;}
             Object(std::vector<animation_struct> anim, uint32_t anim_count, uint8_t texfile, uint16_t sprite, uint32_t depth, uint8_t num_children, Object *parent);
+            ~Object();
             void draw();
      };
 

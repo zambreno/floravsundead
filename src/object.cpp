@@ -280,6 +280,18 @@ namespace fvu {
 
 
     /*****************************************************************************
+    * Function: Object::~Object
+    * Description: Object class deconstructor. Makes sure to destroy all child
+    * objects as well.
+    *****************************************************************************/
+    Object::~Object() {
+        for (uint8_t i = 0; i < num_children; i++) {
+            delete children[i];
+        }
+    }
+
+
+    /*****************************************************************************
     * Function: animation_struct::set_defaults
     * Description: Sets default values for an animation struct, which helps simplify
     * other parts of the fvu codebase.

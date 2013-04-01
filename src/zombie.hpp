@@ -49,6 +49,7 @@ namespace fvu {
     class Zombie {
         public:
             Zombie(uint8_t type, uint16_t index);
+            //~Zombie() {delete myObject;}
             void update();
             void place(int16_t location, int16_t delay, uint8_t team);
             void move(float delta_x, float delta_y);
