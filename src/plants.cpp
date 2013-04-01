@@ -20,22 +20,23 @@
 
 /* Plant names */
 std::string plantNames[NUM_PLANT_TYPE][NUM_PLANT_SPELLINGS] = {
-    {"peashooter", "regular"},
-    {"repeater", "double"},
-    {"gatling", "quadruple"},
-    {"snowpea", "snow"},
-    {"chomper", "chomp"},
-    {"wallnut", "walnut"},
-    {"tallnut", "talnut"}
+    {"peashooter", "regular", "pea", "peeshooter"},
+    {"repeater", "double", "repeater", "double"},
+    {"gatling", "quadruple", "machine", "quad"},
+    {"snowpea", "snow", "ice", "icepea"},
+    {"chomper", "chomp", "venus", "eater"},
+    {"wallnut", "walnut", "wall", "nut"},
+    {"tallnut", "talnut", "tall", "bignut"},
+    {"portal", "h_portal", "v_portal", "d_portal"}
     };
 
 
 /* Plant costs */
-uint16_t plantCosts[NUM_PLANT_TYPE] = {100, 200, 450, 175, 150, 50, 125};
+uint16_t plantCosts[NUM_PLANT_TYPE] = {100, 200, 450, 175, 150, 50, 125, 700};
 /* Plant healths */
-int16_t plantHealths[NUM_PLANT_TYPE] = {9, 9, 9, 9, 9, 72, 144};
+int16_t plantHealths[NUM_PLANT_TYPE] = {9, 9, 9, 9, 9, 72, 144, 1};
 /* Plant speeds. This variable is plant-specific */
-uint16_t plantSpeeds[NUM_PLANT_TYPE] = {80, 40, 20, 80, 300, 1, 1};
+uint16_t plantSpeeds[NUM_PLANT_TYPE] = {80, 40, 20, 80, 300, 1, 1, 1};
 /* Plant transitions */
 uint16_t plantTransitions[NUM_PLANT_TYPE][NUM_PLANT_TRANSITIONS] = {
     {0, 0, 0},
@@ -44,7 +45,8 @@ uint16_t plantTransitions[NUM_PLANT_TYPE][NUM_PLANT_TRANSITIONS] = {
     {0, 0, 0},
     {0, 0, 0},
     {48, 24, 0},
-    {96, 48, 0}
+    {96, 48, 0},
+    {0, 0, 0}
     };
 
 namespace fvu {
@@ -168,6 +170,43 @@ namespace fvu {
         animation_struct local_anim;
 
         switch(type) {
+
+            case PORTAL_PLANT:
+
+                /* The object structure starts at the x/y location of the plant head, and moves out in all directions */
+                local_anim.set_defaults();
+                anim.clear();anim.push_back(local_anim);
+                myObject = new Object(anim, anim_count, 0, 0, 0, 3, NULL);
+
+                // children[0] is the outer glow
+                local_anim.set_defaults();
+                local_anim.set_xy(-22.0, -47.0);
+                local_anim.set_xscale(1.0, 0.005, 1.15);
+                local_anim.set_yscale(0.9);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0] = new Object(anim, anim_count, TEX_PLANTS, PORTAL_CIRCLE_GLOW, PLANTHEAD_DEPTH, 0, myObject);
+
+
+                // children[2] is the outer circle
+                local_anim.set_defaults();
+                local_anim.set_xy(-42.0, -47.0);
+                local_anim.set_xscale(1.0, 0.005, 1.15);
+                local_anim.set_yscale(0.9);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[2] = new Object(anim, anim_count, TEX_PLANTS, PORTAL_CIRCLE_OUTER, PLANTHEAD_DEPTH, 0, myObject);
+
+                // children[1] is the inner circle
+                local_anim.set_defaults();
+                local_anim.set_xy(-10.0, -47.0);
+                local_anim.set_xscale(1.0, 0.005, 1.15);
+                local_anim.set_yscale(0.9);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[1] = new Object(anim, anim_count, TEX_PLANTS, PORTAL_CIRCLE_CENTER, PLANTHEAD_DEPTH, 0, myObject);
+
+
+
+                break;
+
             case WALLNUT_PLANT:
 
                 /* The object structure starts at the x/y location of the plant head, and moves out in all directions */
@@ -194,8 +233,6 @@ namespace fvu {
                 local_anim.set_yscale(0.85, 0.0, 1.0);
                 anim.clear();anim.push_back(local_anim);
                 myObject->children[1] = new Object(anim, anim_count, TEX_PLANTS, POT_SHADOW, PLANT_SHADOW_DEPTH, 0, myObject);
-
-
 
                 break;
 

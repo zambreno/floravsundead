@@ -544,7 +544,8 @@ namespace fvu {
 
                     // It's a valid command, let's see what we selected
                     for (uint8_t p = 0; p < NUM_PLANT_TYPE; p++) {
-                        for (uint8_t i = 0; i < NUM_PLANT_SPELLINGS; i++) {
+                        uint8_t i;
+                        for (i = 0; i < NUM_PLANT_SPELLINGS; i++) {
                             if (!strcmp(select_str2, plantNames[p][i].c_str())) {
                                 plant_match = true;
                                 break;
@@ -559,7 +560,37 @@ namespace fvu {
                                 raise_error(ERR_BADFILE2, myConfig.team_fname[i_team]);
                             }
                             local_plant = new Plant(p, select_tok);
-                            //myPlants[i_team].insert(myPlants[i_team].end(), 1, *local_plant);
+                            // We overloaded the portal type to specify different target teams
+                            if (p == PORTAL_PLANT) {
+                                if ((i == 0) || (i == 1)) { // H_PORTAL
+                                    local_plant->dest_team = (i_team + 2) % 4;
+                                }
+                                else if (i == 2) { // V_PORTAL
+                                    if ((i_team % 1) == 1) {
+                                        local_plant->dest_team = i_team - 1;
+                                    }
+                                    else {
+                                        local_plant->dest_team = i_team + 1;
+                                    }
+                                }
+                                else { // D_PORTAL
+                                    switch (i_team) {
+                                        case 0:
+                                        default:
+                                            local_plant->dest_team = 3;
+                                            break;
+                                        case 1:
+                                            break;
+                                            local_plant->dest_team = 2;
+                                        case 2:
+                                            break;
+                                            local_plant->dest_team = 0;
+                                        case 3:
+                                            break;
+                                            local_plant->dest_team = 1;
+                                    }
+                                }
+                            }
                             myPlants[i_team].push_back(*local_plant);
                             delete local_plant;
                             break;

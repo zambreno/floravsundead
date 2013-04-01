@@ -22,8 +22,8 @@
 
 /* Main enum for the plant types. We specify NUM_SPELLINGS to some reasonable amount to minimize
  * the number of compile errors */
-#define NUM_PLANT_SPELLINGS 2
-typedef enum {PEASHOOTER_PLANT=0, REPEATER_PLANT, GATLING_PLANT, SNOW_PLANT, CHOMPER_PLANT, WALLNUT_PLANT, TALLNUT_PLANT, NUM_PLANT_TYPE} PLANT_TYPE;
+#define NUM_PLANT_SPELLINGS 4
+typedef enum {PEASHOOTER_PLANT=0, REPEATER_PLANT, GATLING_PLANT, SNOW_PLANT, CHOMPER_PLANT, WALLNUT_PLANT, TALLNUT_PLANT, PORTAL_PLANT, NUM_PLANT_TYPE} PLANT_TYPE;
 extern std::string plantNames[NUM_PLANT_TYPE][NUM_PLANT_SPELLINGS];
 
 /* Data arrays for the main plant types */
@@ -67,7 +67,9 @@ namespace fvu {
             uint16_t action_count;
             bool has_fired;
             bool has_hit;
-
+            // For portals only
+            uint8_t dest_team;
+            uint16_t dest_row, dest_col;
 
         private:
             uint8_t type;
