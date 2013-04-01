@@ -19,7 +19,7 @@
 
 
 /* Particle speeds.*/
-float particleSpeeds[NUM_PARTICLE_TYPE] = {5.0, 5.0, 5.0, 5.0, 5.0};
+float particleSpeeds[NUM_PARTICLE_TYPE] = {5.0, 5.0, 5.0, 5.0, 5.0, 5.0};
 
 namespace fvu {
 

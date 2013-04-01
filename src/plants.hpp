@@ -65,6 +65,7 @@ namespace fvu {
             bool operator< (const Plant &rhs) const;
             uint16_t action_count;
             bool has_fired;
+            bool has_hit;
 
 
         private:

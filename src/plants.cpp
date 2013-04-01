@@ -150,6 +150,7 @@ namespace fvu {
         action_count = 0;
         fire_count = 0;
         has_fired = false;
+        has_hit = false;
 
         /* Initialize plant information here so we can leave the rest of this function as object assembly */
         health = plantHealths[type];
@@ -242,143 +243,173 @@ namespace fvu {
                 local_anim.set_y(-20.0, 0.0, 0.0);
                 local_anim.set_xscale(0.8, 0.0, 1.0);
                 local_anim.set_yscale(0.8, 0.0, 1.0);
-                anim.clear();anim.push_back(local_anim);
+                anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);
                 myObject->children[0] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_STEM_3, STEM_DEPTH, 5, myObject);
 
                 // children[0]->children[0] is the middle part of the stem
                 local_anim.set_defaults();
-                local_anim.set_x(-17.0, 0.0, 0.0);
-                local_anim.set_y(4.75, 0.0, 0.0);
+                local_anim.set_xy(-17.0, 4.75);
                 local_anim.set_xscale(0.8, 0.0, 1.0);
                 local_anim.set_yscale(0.8, 0.0, 1.0);
-                anim.clear();anim.push_back(local_anim);
+                local_anim.set_angle(-10.0, 0.25, 10.0, ANCHOR_S);
+                anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);
+                local_anim.set_yscale(0.8, 0.15, 2.3);local_anim.set_angle(0.0, -9.0, -90.0, ANCHOR_S);anim.push_back(local_anim);
+                local_anim.set_xy(-17.0, 4.75);
+                local_anim.set_xscale(0.8, 0.0, 1.0);
+                local_anim.set_yscale(0.8, 0.0, 1.0);
+                local_anim.set_angle(-10.0, 0.25, 10.0, ANCHOR_S);
+                anim.push_back(local_anim);
                 myObject->children[0]->children[0] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_STEM_2, STEM_DEPTH, 1, myObject->children[0]);
 
                    // children[0]->children[0]->children[0] is the top of the stem
                 local_object = myObject->children[0]->children[0];
                 local_anim.set_defaults();
-                local_anim.set_x(0.0, 0.0, 0.0);
-                local_anim.set_y(20.0, 0.0, 0.0);
+                local_anim.set_xy(0.0, 18.0);
                 local_anim.set_xscale(0.8, 0.0, 1.0);
                 local_anim.set_yscale(0.8, 0.0, 1.0);
-                anim.clear();anim.push_back(local_anim);
+                local_anim.set_angle(-10.0, 0.25, 10.0, ANCHOR_S);
+                anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);
+                local_anim.set_x(0.0, 2.0, 20.0);local_anim.set_y(18.0, 2.0, 38.0);local_anim.set_angle(0.0, 9.0, 90.0, ANCHOR_S);anim.push_back(local_anim);
+                local_anim.set_xy(0.0, 18.0);
+                local_anim.set_xscale(0.8, 0.0, 1.0);
+                local_anim.set_yscale(0.8, 0.0, 1.0);
+                local_anim.set_angle(-10.0, 0.25, 10.0, ANCHOR_S);anim.push_back(local_anim);
                 local_object->children[0] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_STEM_1, STEM_DEPTH, 6, local_object);
 
                 // children[0]->children[0]->children[0]->children[0] is lowest headleaf
                 local_object = myObject->children[0]->children[0]->children[0];
                 local_anim.set_defaults();
                 local_anim.set_x(3.0, 0.0, 0.0);
-                local_anim.set_y(-3.5, 0.0, 0.0);
+                local_anim.set_y(7.5, 0.0, 0.0);
                 local_anim.set_xscale(1, 0.0, 1.0);
                 local_anim.set_yscale(1, 0.0, 1.0);
-                anim.clear();anim.push_back(local_anim);
+                local_anim.set_angle(-10.0, 0.75, 10.0, ANCHOR_E);
+                anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);
                 local_object->children[0] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_HEADLEAF_4, HEADLEAF_2_4_DEPTH, 0, local_object);
 
                 // children[0]->children[0]->children[0]->children[1] is the middle headleaf
                 local_object = myObject->children[0]->children[0]->children[0];
                 local_anim.set_defaults();
                 local_anim.set_x(-8.0, 0.0, 0.0);
-                local_anim.set_y(2.0, 0.0, 0.0);
+                local_anim.set_y(12.0, 0.0, 0.0);
                 local_anim.set_xscale(1, 0.0, 1.0);
                 local_anim.set_yscale(1, 0.0, 1.0);
-                anim.clear();anim.push_back(local_anim);
+                local_anim.set_angle(-5.0, 0.375, 5.0, ANCHOR_E);
+                anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);
                 local_object->children[1] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_HEADLEAF_1, HEADLEAF_1_DEPTH, 0, local_object);
 
                  // children[0]->children[0]->children[0]->children[2] is the second highest headleaf
                 local_object = myObject->children[0]->children[0]->children[0];
                 local_anim.set_defaults();
                 local_anim.set_x(0.0, 0.0, 0.0);
-                local_anim.set_y(1.25, 0.0, 0.0);
+                local_anim.set_y(11.25, 0.0, 0.0);
                 local_anim.set_xscale(1, 0.0, 1.0);
                 local_anim.set_yscale(1, 0.0, 1.0);
-                anim.clear();anim.push_back(local_anim);
+                local_anim.set_angle(5.0, -0.375, -5.0, ANCHOR_E);
+                anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);
                 local_object->children[2] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_HEADLEAF_2, HEADLEAF_2_4_DEPTH, 0, local_object);
 
 
                 // children[0]->children[0]->children[0]->children[3] is the highest headleaf
                 local_object = myObject->children[0]->children[0]->children[0];
                 local_anim.set_defaults();
-                local_anim.set_x(5.0, 0.0, 0.0);
-                local_anim.set_y(6.75, 0.0, 0.0);
+                local_anim.set_x(6.0, 0.0, 0.0);
+                local_anim.set_y(22.75, 0.0, 0.0);
                 local_anim.set_xscale(1, 0.0, 1.0);
                 local_anim.set_yscale(1, 0.0, 1.0);
-
-                anim.clear();anim.push_back(local_anim);
+                local_anim.set_angle(10.0, -0.75, -10.0, ANCHOR_E);
+                anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);
                 local_object->children[3] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_HEADLEAF_3, HEADLEAF_3, 0, local_object);
 
 
- // children[0]->children[0]->children[0]->children[4] is the underjaw
+                // children[0]->children[0]->children[0]->children[4] is the underjaw
                 local_object = myObject->children[0]->children[0]->children[0];
                 local_anim.set_defaults();
-                local_anim.set_x(8.5, 0.0, 0.0);
-                local_anim.set_y(-26.5, 0.0, 0.0);
-                local_anim.set_xscale(0.6, 0.0, 1.0);
-                local_anim.set_yscale(0.6, 0.0, 1.0);
-                local_anim.set_angle(15.0, 0.0, 0, ANCHOR_NW);
-                anim.clear();anim.push_back(local_anim);
+                local_anim.set_xy(6.5, -36.5);
+                local_anim.set_xscale(0.8, 0.0, 1.0);
+                local_anim.set_yscale(0.8, 0.0, 1.0);
+                local_anim.set_angle(20.0, 0.75, 30.0, ANCHOR_NW);
+                anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);
+                local_anim.set_angle(20.0, -2.0, 0.0, ANCHOR_NW);anim.push_back(local_anim);
+                local_anim.set_x(3.5, 0.2, 9.5);local_anim.set_angle(42.0, -0.25, 30.0, ANCHOR_NW);anim.push_back(local_anim);
                 local_object->children[4] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_UNDERJAW, PLANTHEAD_DEPTH, 3, local_object);
 
- // children[0]->children[0]->children[0]->children[4]->children[0] is the bottom lip
+                // children[0]->children[0]->children[0]->children[4]->children[0] is the bottom lip
                 local_object = myObject->children[0]->children[0]->children[0]->children[4];
                 local_anim.set_defaults();
                 local_anim.set_x(8.75, 0.0, 0.0);
                 local_anim.set_y(7.25, 0.0, 0.0);
-                local_anim.set_xscale(0.6, 0.0, 1.0);
-                local_anim.set_yscale(0.6, 0.0, 1.0);
-                anim.clear();anim.push_back(local_anim);
-                local_object->children[0] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_BOTTOMLIP, PLANTHEAD_DEPTH, 0, local_object);
+                local_anim.set_xscale(0.8, 0.0, 1.0);
+                local_anim.set_yscale(0.8, 0.0, 1.0);
+                anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);
+                local_object->children[0] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_BOTTOMLIP, PLANTHEAD_DEPTH, 1, local_object);
 
-// children[0]->children[0]->children[0]->children[4]->children[1] is the inside of the mouth
+
+                // children[0][0][0][4][0][0] is the zombie arm (only visible during eating)
+                local_object = myObject->children[0]->children[0]->children[0]->children[4]->children[0];
+                local_anim.set_defaults();
+                local_anim.set_angle(-24.0, 1.225, -8.0, ANCHOR_NE);
+                local_anim.set_xy(2.0, -4.0);
+                anim.clear();anim.push_back(local_anim);
+                local_object->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, BLANK_SPRITE, PLANTHEAD_ACCESSORY_DEPTH, 1, local_object);
+
+
+                local_anim.set_defaults();
+                local_anim.set_xy(2.0,-14);
+                anim.clear();anim.push_back(local_anim);
+                local_object->children[0]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, BLANK_SPRITE, PLANTHEAD_DEPTH, 0, local_object->children[0]);
+
+
+                // children[0]->children[0]->children[0]->children[4]->children[1] is the inside of the mouth
                 local_object = myObject->children[0]->children[0]->children[0]->children[4];
                 local_anim.set_defaults();
                 local_anim.set_x(12, 0.0, 0.0);
                 local_anim.set_y(12, 0.0, 0.0);
-                local_anim.set_xscale(0.60, 0.0, 1.0);
-                local_anim.set_yscale(0.60, 0.0, 1.0);
-                anim.clear();anim.push_back(local_anim);
+                local_anim.set_xscale(0.80);local_anim.set_yscale(0.80);
+                anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);
                 local_object->children[1] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_INSIDEMOUTH, CHOMPER_INSIDEMOUTH_DEPTH, 0, local_object);
 
-// children[0]->children[0]->children[0]->children[4]->children[2] is the tongue
+                // children[0]->children[0]->children[0]->children[4]->children[2] is the tongue
                 local_object = myObject->children[0]->children[0]->children[0]->children[4];
                 local_anim.set_defaults();
-                local_anim.set_x(10, 0.0, 0.0);
-                local_anim.set_y(20, 0.0, 0.0);
-                local_anim.set_xscale(0.60, 0.0, 1.0);
-                local_anim.set_yscale(0.60, 0.0, 1.0);
-                anim.clear();anim.push_back(local_anim);
+                local_anim.set_x(10.0, 0.25, 20.0);
+                local_anim.set_y(22.0);
+                local_anim.set_xscale(0.8);local_anim.set_yscale(0.8);
+                anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);
+                local_anim.set_xscale(0.8, 0.2, 2.8);anim.push_back(local_anim);
                 local_object->children[2] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_TONGUE, CHOMPER_TONGUE_DEPTH, 0, local_object);
 
-
-
- // children[0]->children[0]->children[0]->children[5] is the top of the head
+                // children[0]->children[0]->children[0]->children[5] is the top of the head
                 local_object = myObject->children[0]->children[0]->children[0];
                 local_anim.set_defaults();
-                local_anim.set_x(14.5, 0.0, 0.0);
-                local_anim.set_y(7.5, 0.0, 0.0);
-                local_anim.set_xscale(0.60, 0.0, 1.0);
-                local_anim.set_yscale(0.60, 0.0, 1.0);
-                anim.clear();anim.push_back(local_anim);
+                local_anim.set_xy(13.5, 9.0);
+                local_anim.set_xscale(0.80);local_anim.set_yscale(0.80);
+                local_anim.set_angle(0.0, 0.5, 10.0, ANCHOR_W);
+                anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);
+                local_anim.set_y(9.0, -0.4, 5.0);local_anim.set_angle(10.0, 2.0, 30.0, ANCHOR_W);anim.push_back(local_anim);
+                local_anim.set_xy(13.5, 9.0);
+                local_anim.set_angle(0.0, -0.125, -5.0, ANCHOR_NW);anim.push_back(local_anim);
                 local_object->children[5] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_TOPJAW, PLANTHEAD_DEPTH, 4, local_object);
 
- // children[0]->children[0]->children[0]->children[5]->children[0] is the 1st spike from the left
+                // children[0]->children[0]->children[0]->children[5]->children[0] is the 1st spike from the left
                 local_object = myObject->children[0]->children[0]->children[0]->children[5];
                 local_anim.set_defaults();
-                local_anim.set_x(0, 0.0, 0.0);
-                local_anim.set_y(12, 0.0, 0.0);
-                local_anim.set_xscale(.7, 0.0, 1.0);
-                local_anim.set_yscale(.7, 0.0, 1.0);
+                local_anim.set_x(5.0, 0.0, 0.0);
+                local_anim.set_y(22.0, 0.0, 0.0);
+                local_anim.set_xscale(0.8, 0.0, 1.0);
+                local_anim.set_yscale(0.8, 0.0, 1.0);
                 local_anim.set_angle(58.0, 0.0, 0, ANCHOR_S);
-                anim.clear();anim.push_back(local_anim);
+                anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);
                 local_object->children[0] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_SPIKE, CHOMPER_INSIDEMOUTH_DEPTH, 0, local_object);
 
 
                  // children[0]->children[0]->children[0]->children[5]->children[1] is the 2nd spike from the left
                 local_object = myObject->children[0]->children[0]->children[0]->children[5];
                 local_anim.set_defaults();
-                local_anim.set_x(6.5, 0.0, 0.0);
-                local_anim.set_y(17, 0.0, 0.0);
-                local_anim.set_xscale(0.7, 0.0, 1.0);
-                local_anim.set_yscale(0.7, 0.0, 1.0);
+                local_anim.set_x(9.5, 0.0, 0.0);
+                local_anim.set_y(25.0, 0.0, 0.0);
+                local_anim.set_xscale(0.8, 0.0, 1.0);
+                local_anim.set_yscale(0.8, 0.0, 1.0);
                 local_anim.set_angle(40, 0, 0, ANCHOR_S);
                 anim.clear();anim.push_back(local_anim);
                 local_object->children[1] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_SPIKE, CHOMPER_INSIDEMOUTH_DEPTH, 0, local_object);
@@ -386,10 +417,10 @@ namespace fvu {
                  // children[0]->children[0]->children[0]->children[5]->children[2] is the 3rd spike from the left
                 local_object = myObject->children[0]->children[0]->children[0]->children[5];
                 local_anim.set_defaults();
-                local_anim.set_x(12, 0.0, 0.0);
-                local_anim.set_y(21, 0.0, 0.0);
-                local_anim.set_xscale(0.70, 0.0, 1.0);
-                local_anim.set_yscale(0.70, 0.0, 1.0);
+                local_anim.set_x(16.0, 0.0, 0.0);
+                local_anim.set_y(28.0, 0.0, 0.0);
+                local_anim.set_xscale(0.80, 0.0, 1.0);
+                local_anim.set_yscale(0.80, 0.0, 1.0);
                 local_anim.set_angle(30.0, 0, 0, ANCHOR_S);
                 anim.clear();anim.push_back(local_anim);
                 local_object->children[2] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_SPIKE, CHOMPER_INSIDEMOUTH_DEPTH, 0, local_object);
@@ -397,10 +428,10 @@ namespace fvu {
                  // children[0]->children[0]->children[0]->children[5]->children[3] is the 4th spike from the left
                 local_object = myObject->children[0]->children[0]->children[0]->children[5];
                 local_anim.set_defaults();
-                local_anim.set_x(20, 0.0, 0.0);
-                local_anim.set_y(21.75, 0.0, 0.0);
-                local_anim.set_xscale(0.70, 0.0, 1.0);
-                local_anim.set_yscale(0.70, 0.0, 1.0);
+                local_anim.set_x(25.0, 0.0, 0.0);
+                local_anim.set_y(29.0, 0.0, 0.0);
+                local_anim.set_xscale(0.80, 0.0, 1.0);
+                local_anim.set_yscale(0.80, 0.0, 1.0);
                 local_anim.set_angle(15.0, 0, 0, ANCHOR_S);
                 anim.clear();anim.push_back(local_anim);
                 local_object->children[3] = new Object(anim, anim_count, TEX_PLANTS, CHOMPER_SPIKE, CHOMPER_INSIDEMOUTH_DEPTH, 0, local_object);
@@ -1053,6 +1084,48 @@ namespace fvu {
                     }
                 }
                 break;
+            case CHOMPER_PLANT:
+                if (fire_count == 0) {
+                    myObject->setMode(OBJECT_STATUS_ACTION);
+                    fire_count++;
+                }
+                else {
+                    fire_count++;
+                    if (fire_count == 20) {
+                        has_fired = true;
+                        fire_count = 0;
+
+                        // Did we chomp a zombie? If so, act accordingly
+                        has_hit = false;
+                        uint16_t i;
+                        for (i = 0; i < myGame->myZombies[team].size(); i++) {
+                            if ((myGame->myZombies[team][i].getRow() == row) && (myGame->myZombies[team][i].getCol() == col)) {
+                                has_hit = true;
+                                break;
+                            }
+                            if ((col != NUM_COLS) && (myGame->myZombies[team][i].getRow() == row) && (myGame->myZombies[team][i].getCol() == col+1)) {
+                                has_hit = true;
+                                break;
+                            }
+                        }
+
+                        // We can use the zombie::shoot()
+                        if (has_hit == true) {
+                            local_particle = new Particle(CHOMP_PROJECTILE, this);
+                            myGame->myZombies[team][i].shoot(local_particle);
+                            myGame->playSound(SFX_BIGCHOMP, 25);
+                            myObject->setMode(OBJECT_STATUS_WINNING);
+                            myObject->children[0]->children[0]->children[0]->children[4]->children[0]->children[0]->updateSprite(ZOMBIE_INNERARM_LOWER);
+                            myObject->children[0]->children[0]->children[0]->children[4]->children[0]->children[0]->children[0]->updateSprite(ZOMBIE_INNERARM_HAND);
+                            action_count = 1000;
+                            delete local_particle;
+                        }
+                        else {
+                            myObject->setMode(OBJECT_STATUS_DEMO);
+                        }
+                    }
+                }
+                break;
             default:
                 break;
         }
@@ -1078,7 +1151,14 @@ namespace fvu {
             // Otherwise, update our action counter, so that we can act again in the near future
             else if (action_count > 0) {
                 action_count--;
+                // Special case for CHOMPER plants
+                if ((action_count == 0) && (type == CHOMPER_PLANT) && (has_hit == true)) {
+                    myObject->children[0]->children[0]->children[0]->children[4]->children[0]->children[0]->updateSprite(BLANK_SPRITE);
+                    myObject->children[0]->children[0]->children[0]->children[4]->children[0]->children[0]->children[0]->updateSprite(BLANK_SPRITE);
+                    myObject->setMode(OBJECT_STATUS_DEMO);
+                }
             }
+
 
             /* Check if there are any transitions left */
             while (!transitions.empty()) {

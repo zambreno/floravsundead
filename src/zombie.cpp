@@ -870,6 +870,13 @@ namespace fvu {
     *****************************************************************************/
     void Zombie::shoot(fvu::Particle *myParticle) {
 
+        // A chomp is an invisible particle specifically to destroy a zombie
+        if (myParticle->getType() == CHOMP_PROJECTILE) {
+            health = 0;
+            return;
+        }
+
+
         health--;
         switch (type) {
             case REGULAR_ZOMBIE:
@@ -928,6 +935,7 @@ namespace fvu {
             case POLE_ZOMBIE:
                 if (special_count == 0) {
                     myObject->setMode(OBJECT_STATUS_SPECIAL);
+                    myGame->playSound(SFX_POLEVAULT, 25);
                     special_count++;
                 }
                 else {
