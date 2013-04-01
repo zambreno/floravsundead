@@ -1155,7 +1155,7 @@ namespace fvu {
                             myObject->setMode(OBJECT_STATUS_WINNING);
                             myObject->children[0]->children[0]->children[0]->children[4]->children[0]->children[0]->updateSprite(ZOMBIE_INNERARM_LOWER);
                             myObject->children[0]->children[0]->children[0]->children[4]->children[0]->children[0]->children[0]->updateSprite(ZOMBIE_INNERARM_HAND);
-                            action_count = 1000;
+                            action_count = 3000;
                             delete local_particle;
                         }
                         else {
