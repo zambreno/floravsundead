@@ -45,6 +45,7 @@ namespace fvu {
     *****************************************************************************/
     void Game::init() {
 
+
         // Set the random seed here
         srand(0);
 
@@ -61,6 +62,10 @@ namespace fvu {
         myStatus.pan = 0.0;
         myStatus.mode = DEMO_START;
         myStatus.music_buffer = 0;
+        myStatus.firstZombie = true;
+        myStatus.end_music = false;
+        myStatus.vol_counter = 110;
+        myMusic[1].setVolume(myStatus.vol_counter);
         for (uint8_t i = 0; i < 4; i++) {
             myStatus.scores[i] = 0;
             myTeams[i].budget = 0;
@@ -89,6 +94,8 @@ namespace fvu {
         }
 
         init();
+        if (myMusic[1].getStatus() == sf::Music::Stopped)
+            myMusic[1].play();
         myStatus.mode = GAME_START;
         myClock.restart();
 
@@ -154,7 +161,6 @@ namespace fvu {
     *****************************************************************************/
     void Game::updateGame() {
 
-        static bool firstZombie = true;
         bool gameDone;
 
         // Check for the gameDone condition
@@ -239,9 +245,9 @@ namespace fvu {
 
                 myZombies[i][j].setStatus(ZOMBIE_STATUS_ACTIVE);
                 myTeams[i].zombie_index++;
-                if (firstZombie == true) {
+                if (myStatus.firstZombie == true) {
                     playSound(SFX_AWOOGA, 100);
-                    firstZombie = false;
+                    myStatus.firstZombie = false;
                 }
                 // Play a sound for those "final wave" zombies
                 else if (myZombies[i][j].getDelay() == -1) {
@@ -299,8 +305,8 @@ namespace fvu {
                                     if (myGame->plantGrid[i][mycmd->opt[0]-1][mycmd->opt[1]-1] == false) {
                                         myGame->plantGrid[i][mycmd->opt[0]-1][mycmd->opt[1]-1] = true;
                                         myGame->plantGrid[i][myPlants[i][p].getRow()][myPlants[i][p].getCol()] = false;
-                                        myPlants[i][p].place(i, mycmd->opt[0], mycmd->opt[1]);
                                         myPlants[i][p].move();
+                                        myPlants[i][p].place(i, mycmd->opt[0], mycmd->opt[1]);
                                         myPlants[i][p].action_count = PLANT_MOVE_INACTIVE;
                                     }
                                 }
@@ -369,17 +375,21 @@ namespace fvu {
     *****************************************************************************/
     void Game::endGame() {
 
-        static bool end_music = false;
-        static uint8_t vol_counter = 110;
 
-        if (end_music == false) {
+        if (myStatus.end_music == false) {
 
-            vol_counter -= 10;
-            myMusic[0].setVolume(vol_counter);
-            if (vol_counter == 0) {
+            myStatus.vol_counter -= 10;
+            myMusic[1].setVolume(myStatus.vol_counter);
+            if (myStatus.vol_counter == 0) {
                 myMusic[1].stop();
                 playSound(SFX_WINMUSIC, 100);
-                end_music = true;
+                myStatus.end_music = true;
+                printf("\n\n---------------------------------\n");
+                printf("-- Final %s scores\n", EXEC_NAME);
+                for (uint8_t i = 0; i < 4; i++) {
+                    printf("-- \tTeam %-12s - %5d\n", myTeams[i].name, myStatus.scores[i]);
+                }
+                printf("---------------------------------\n\n");
             }
         }
 
@@ -508,7 +518,7 @@ namespace fvu {
             team = &myTeams[i_team];
 
             // Copy the file name, removing the .fpl extension
-            team->name = (char *)calloc(9, sizeof(char));
+            team->name = (char *)calloc(strlen(myConfig.team_fname[i_team])-3, sizeof(char));
             if (!team->name) {
                 raise_error(ERR_NOMEM, (char *)"team->name");
             }

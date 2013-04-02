@@ -1197,7 +1197,7 @@ namespace fvu {
                             if ((type == POLE_ZOMBIE) && (special_done == false)) {
                                 for (uint16_t i = 0; i < myGame->myPlants[team].size(); i++) {
                                     if ((myGame->myPlants[team][i].getRow() == row) && (myGame->myPlants[team][i].getCol() == col)) {
-                                        if (myGame->myPlants[team][i].getType() != TALLNUT_PLANT) {
+                                        if ((myGame->myPlants[team][i].getType() != TALLNUT_PLANT) && (myGame->myPlants[team][i].getType() != PORTAL_PLANT)){
                                             do_eat = false;
                                         }
                                         break;

@@ -170,12 +170,15 @@ namespace fvu {
 
                 }
 
-                if (i == 1) {
-                    baseX = -152.0;
+                if (i == 0) {
                     baseY = -479.0;
                 }
-                else {
-                    baseX += 206.0;
+                if (i == 1) {
+                    baseX = 54.0;
+                    baseY = 435.0;
+                }
+                if (i == 2) {
+                    baseY = -479.0;
                 }
 
 
@@ -319,11 +322,11 @@ namespace fvu {
         char name[9];
         glBegin(GL_QUADS);
             for (uint8_t i = 0; i < 4; i++) {
-                if (i % 2) {
-                    snprintf(name, 9, "%-8s", myTeams[i].name);
+                if (i < 2) {
+                    snprintf(name, 9, "%8s", myTeams[i].name);
                 }
                 else {
-                    snprintf(name, 9, "%8s", myTeams[i].name);
+                    snprintf(name, 9, "%-8s", myTeams[i].name);
                 }
 
                 uint16_t width;
@@ -355,11 +358,25 @@ namespace fvu {
                     }
                     baseX += width;
                 }
+                if (i == 0) {
+                    baseX = -228.0;
+                    baseY = -555.0;
+                }
+                if (i == 1) {
+                    baseX = 82.0;
+                    baseY = 505.0;
+                }
+                if (i == 2) {
+                    baseX = 82.0;
+                    baseY = -555.0;
+                }
+/*
                 baseX = 82.0;
                 if (i == 1) {
                     baseX = -228.0;
                     baseY = -555.0;
                 }
+*/
             }
         glEnd();
 
@@ -437,6 +454,9 @@ namespace fvu {
                     case sf::Keyboard::Escape:
                     case sf::Keyboard::Q:
                         myWindow.close();
+                        break;
+                    case sf::Keyboard::E:
+                        myStatus.mode = GAME_END;
                         break;
                     case sf::Keyboard::R:
                         reset();
