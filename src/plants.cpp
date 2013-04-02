@@ -150,7 +150,7 @@ namespace fvu {
         id = myid;
         row = 0;col = 0;
         action_count = 0;
-        fire_count = 0;
+        fire_count = 0;move_count = 0;
         has_fired = false;
         has_hit = false;
 
@@ -1155,7 +1155,7 @@ namespace fvu {
                             myObject->setMode(OBJECT_STATUS_WINNING);
                             myObject->children[0]->children[0]->children[0]->children[4]->children[0]->children[0]->updateSprite(ZOMBIE_INNERARM_LOWER);
                             myObject->children[0]->children[0]->children[0]->children[4]->children[0]->children[0]->children[0]->updateSprite(ZOMBIE_INNERARM_HAND);
-                            action_count = 3000;
+                            action_count = CHOMPER_EAT_COUNT;
                             delete local_particle;
                         }
                         else {
@@ -1171,11 +1171,50 @@ namespace fvu {
 
 
 
+
+    /*****************************************************************************
+    * Function: Plant::move
+    * Description: Moves a plant to a different location (the actual movement
+    * is taken care of in Plant::place
+    *****************************************************************************/
+    void Plant::move() {
+
+
+        fvu::Particle *local_particle;
+
+        if (move_count == 0) {
+            status = PLANT_STATUS_INACTIVE;
+            local_particle = new Particle(SHOVEL_PARTICLE, this);
+            myGame->myParticles[team].push_back(*local_particle);
+            myGame->playSound(SFX_PLANT, 25);
+            move_count++;
+        }
+        else {
+            move_count++;
+            if (move_count == 60) {
+                move_count = 0;
+                status = PLANT_STATUS_GAME;
+                myGame->playSound(SFX_PLANT2, 25);
+            }
+        }
+    }
+
+
+
+
     /*****************************************************************************
     * Function: Plant::update
     * Description: Updates each plant
     *****************************************************************************/
     void Plant::update() {
+
+
+
+        // If we're in the middle of a move operation, continue it
+        if (move_count != 0) {
+            move();
+            return;
+        }
 
 
         /* Check all the active plants and if their current health has triggered a transition */

@@ -57,12 +57,15 @@ namespace fvu {
             uint16_t getID() {return id;}
             uint8_t getType() {return type;}
             uint16_t getRow() {return row;}
+            void setRow(uint16_t myrow) {row = myrow;}
+            void setCol(uint16_t mycol) {col = mycol;}
             uint16_t getCol() {return col;}
             uint8_t getTeam() {return team;}
             float getGameX() {return game_x;}
             float getGameY() {return game_y;}
             float getDir() {return dir;}
             void bite();
+            void move();
             bool operator< (const Plant &rhs) const;
             uint16_t action_count;
             bool has_fired;
@@ -83,7 +86,7 @@ namespace fvu {
             float dir;
             uint8_t team;
             uint16_t delay;
-            uint16_t fire_count;
+            uint16_t fire_count, move_count;
             Object *myObject;
     };
 

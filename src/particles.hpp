@@ -22,7 +22,7 @@
 #include "object.hpp"
 
 /* Main enum for the plant types. */
-typedef enum {PEA_PROJECTILE=0, SNOW_PROJECTILE, PEA_PARTICLE, SNOW_PARTICLE, CHOMP_PROJECTILE, CHOMP_PARTICLE, WALLNUT_PARTICLE, POLE_PARTICLE, NUM_PARTICLE_TYPE} PARTICLE_TYPE;
+typedef enum {PEA_PROJECTILE=0, SNOW_PROJECTILE, PEA_PARTICLE, SNOW_PARTICLE, CHOMP_PROJECTILE, CHOMP_PARTICLE, SHOVEL_PARTICLE, WALLNUT_PARTICLE, POLE_PARTICLE, NUM_PARTICLE_TYPE} PARTICLE_TYPE;
 extern float particleSpeeds[NUM_PARTICLE_TYPE];
 
 /* Particle status enum */
@@ -48,6 +48,7 @@ namespace fvu {
             uint8_t type;
             uint8_t status;
             uint16_t row, col;
+            uint16_t live_count;
             float speed;
             bool offscreen;
             float game_x, game_y;

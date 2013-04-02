@@ -63,6 +63,7 @@ namespace fvu {
         myStatus.music_buffer = 0;
         for (uint8_t i = 0; i < 4; i++) {
             myStatus.scores[i] = 0;
+            myTeams[i].budget = 0;
             myTeams[i].status = 0;
             myTeams[i].timer_ms = 0;
             myTeams[i].zombie_index = 0;
@@ -286,6 +287,31 @@ namespace fvu {
                             }
                         }
                         break;
+
+                    // Move commands are similar to fire commands, except we have to do some extra bookkeeping as well
+                    case PLACE_CMD:
+
+                        for (uint16_t p = 0; p < myPlants[i].size(); p++) {
+                            if (myPlants[i][p].getID() == mycmd->plant) {
+                                // Are we ready to move?
+                                if (myPlants[i][p].action_count == 0) {
+                                    // Is there a free space where we want to move?
+                                    if (myGame->plantGrid[i][mycmd->opt[0]-1][mycmd->opt[1]-1] == false) {
+                                        myGame->plantGrid[i][mycmd->opt[0]-1][mycmd->opt[1]-1] = true;
+                                        myGame->plantGrid[i][myPlants[i][p].getRow()][myPlants[i][p].getCol()] = false;
+                                        myPlants[i][p].place(i, mycmd->opt[0], mycmd->opt[1]);
+                                        myPlants[i][p].move();
+                                        myPlants[i][p].action_count = PLANT_MOVE_INACTIVE;
+                                    }
+                                }
+                                break;
+                            }
+                        }
+                        break;
+
+
+
+
                     case GOTO_CMD:
                         myTeams[i].cur_cmd = mycmd->opt[0];
                         break;

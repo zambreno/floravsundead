@@ -19,7 +19,7 @@
 
 
 /* Particle speeds.*/
-float particleSpeeds[NUM_PARTICLE_TYPE] = {5.0, 5.0, 5.0, 5.0, 5.0, 5.0};
+float particleSpeeds[NUM_PARTICLE_TYPE] = {5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0};
 
 namespace fvu {
 
@@ -68,6 +68,7 @@ namespace fvu {
         row = myPlant->getRow();col = myPlant->getCol();
         team = myPlant->getTeam();
         offscreen = false;
+        live_count = 0;
 
         // game_x and game_y are a function of the parent plant (tweaked as needed)
         dir = myPlant->getDir();
@@ -100,6 +101,24 @@ namespace fvu {
                 }
 
                 break;
+
+            case SHOVEL_PARTICLE:
+
+                /* The object structure starts at the x/y location of the particle, and moves out in all directions */
+                local_anim.set_defaults();
+                anim.clear();anim.push_back(local_anim);
+                myObject = new Object(anim, anim_count, 0, 0, 0, 1, NULL);
+
+                // children[0] is the main shovel
+                local_anim.set_defaults();
+                local_anim.set_xscale(-0.65);
+                local_anim.set_yscale(0.65);
+                local_anim.set_angle(-20.0, 2.0, 20.0, ANCHOR_NW);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0] = new Object(anim, anim_count, TEX_PLANTS, SHOVEL_HI_RES, 0, 0, myObject);
+
+                break;
+
             default:
                 break;
 
@@ -116,18 +135,17 @@ namespace fvu {
     void Particle::update() {
 
 
-        // This needs to be particle-specific as well
-        game_x += speed*dir;
-
-        if ((game_x > 1050.0) || (game_x < -1050.0))
-            offscreen = true;
-
         myObject->update();
 
         // Calculate any zombie impacts here
         switch(type) {
             case PEA_PROJECTILE:
             case SNOW_PROJECTILE:
+                game_x += speed*dir;
+
+                if ((game_x > 1050.0) || (game_x < -1050.0))
+                    offscreen = true;
+
                 // We iterate through the loop forwards to get the closest zombie that is in hit range
                 for (uint16_t j = 0; j < myGame->myZombies[team].size(); j++) {
                     uint8_t status = myGame->myZombies[team][j].getStatus();
@@ -139,6 +157,12 @@ namespace fvu {
                         break;
                     }
                 }
+                break;
+            case SHOVEL_PARTICLE:
+                live_count++;
+                if (live_count == 30)
+                    offscreen = true;
+
                 break;
             default:
                 break;
