@@ -180,6 +180,46 @@ namespace fvu {
 
                 break;
 
+            case ZOMBIE_CONE_PARTICLE:
+                /* The object structure starts at the x/y location of the particle, and moves out in all directions */
+                local_anim.set_defaults();
+                anim.clear();anim.push_back(local_anim);
+                myObject = new Object(anim, anim_count, 0, 0, 0, 1, NULL);
+
+                // children[0] is the damaged zombie cone
+                local_anim.set_defaults();
+                local_anim.set_x(-10.0);
+                local_anim.set_y(20.0, -2.0, -40.0);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_CONE_3, ZOMBIE_HEAD_ACCESSORY_DEPTH, 0, myObject);
+
+            case REGULAR_HEAD_PARTICLE:
+                /* The object structure starts at the x/y location of the particle, and moves out in all directions */
+                local_anim.set_defaults();
+                anim.clear();anim.push_back(local_anim);
+                myObject = new Object(anim, anim_count, 0, 0, 0, 1, NULL);
+
+                local_anim.set_defaults();
+                local_anim.set_angle(-12.0, 0.25, 5.0, ANCHOR_S);
+                local_anim.set_xy(-24.5, 51.75);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_HEAD,ZOMBIE_HEAD_DEPTH, 2, myObject);
+
+
+                local_anim.set_defaults();
+                local_anim.set_angle(-2.0, 0.25, 3.0, ANCHOR_CENTER);
+                local_anim.set_xy(-5, 20.0);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_HAIR, ZOMBIE_HEAD_DEPTH, 0, myObject->children[0]);
+
+                // children[0][0][2][1] is the jaw
+                local_anim.set_defaults();
+                local_anim.set_angle(4.0, -0.2, -12.0, ANCHOR_NE);
+                local_anim.set_xy(10.2, -9.5);
+                anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);
+                local_anim.set_angle(4.0, -1.0, -12.0, ANCHOR_NE);anim.push_back(local_anim);
+                myObject->children[0]->children[1] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_JAW, ZOMBIE_HEAD_DEPTH, 0, myObject->children[0]);
+
 
         }
 
@@ -224,8 +264,18 @@ namespace fvu {
                 break;
 
             case REGULAR_ARM_PARTICLE:
+            case POLE_ARM_PARTICLE:
+            case FOOTBALL_ARM_PARTICLE:
                 live_count++;
                 if (live_count == 20)
+                    offscreen = true;
+
+                break;
+            case REGULAR_HEAD_PARTICLE:
+            case POLE_HEAD_PARTICLE:
+            case FOOTBALL_HEAD_PARTICLE:
+                live_count++;
+                if (live_count == 30)
                     offscreen = true;
 
                 break;

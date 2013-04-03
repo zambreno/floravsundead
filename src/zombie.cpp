@@ -1173,8 +1173,6 @@ namespace fvu {
         row = 25;
 
 
-
-
         fvu::Particle *local_particle;
 
         /* Transitions are zombie-specific, and usually will involve specific sprite swaps */
@@ -1184,6 +1182,12 @@ namespace fvu {
             case SCREEN_ZOMBIE:
             case BUCKET_ZOMBIE:
             case CONE_ZOMBIE:
+                myObject->children[0]->children[0]->children[2]->updateSprite(BLANK_SPRITE);
+                myObject->children[0]->children[0]->children[2]->children[0]->updateSprite(BLANK_SPRITE);
+                myObject->children[0]->children[0]->children[2]->children[1]->updateSprite(BLANK_SPRITE);
+                if (myObject->children[0]->children[0]->children[2]->children[1]->num_children == 1)
+                    myObject->children[0]->children[0]->children[2]->children[1]->children[0]->updateSprite(BLANK_SPRITE);
+
                 local_particle = new Particle(REGULAR_HEAD_PARTICLE, this);
                 myGame->myParticles[team].push_back(*local_particle);
                 break;
