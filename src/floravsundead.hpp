@@ -66,7 +66,7 @@
 #define BITE_FRAMES FRAME_RATE
 #define FREEZE_LENGTH 6*FRAME_RATE
 #define CHOMPER_EAT_COUNT 2000
-#define PLANT_MOVE_INACTIVE CHOMPER_EAT_COUNT
+#define PLANT_MOVE_INACTIVE CHOMPER_EAT_COUNT/2
 
 #define KILL_SCORE 5
 #define ZOMBIE_SCORE -10
@@ -87,9 +87,11 @@ namespace fvu {
             bool has_label;
             bool inv_pred;
             bool has_pred;
+            bool has_plant_pred;
             uint8_t pred;
             uint8_t cmd;
             uint16_t plant;
+            uint16_t plant_pred;
             uint32_t line;
             uint16_t opt[2];
     };

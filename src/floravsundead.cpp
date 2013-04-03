@@ -275,6 +275,138 @@ namespace fvu {
 
             // Evaluate predicate, to determine if command should even be executed
             pred_true = true;
+            if (mycmd->has_pred == true) {
+
+                switch (mycmd->pred) {
+                    case ALWAYS_PRED:
+                    default:
+                        pred_true = true;
+                        break;
+                    case NEVER_PRED:
+                        pred_true = false;
+                        break;
+                    // For our READY case, we can select all plants or a specific plant being ready
+                    case READY_PRED:
+                        if (mycmd->has_plant_pred == true) {
+                            for (uint16_t p = 0; p < myPlants[i].size(); p++) {
+                                if (myPlants[i][p].getID() == mycmd->plant_pred) {
+                                    if ((myPlants[i][p].getStatus() == PLANT_STATUS_INACTIVE) || (myPlants[i][p].action_count != 0)) {
+                                        pred_true = false;
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+                        else {
+                            for (uint16_t p = 0; p < myPlants[i].size(); p++) {
+                                // We can't count INACTIVE plants as not being ready in this context
+                                if (myPlants[i][p].action_count != 0) {
+                                    pred_true = false;
+                                    break;
+                                }
+                            }
+                        }
+                        break;
+
+                    // Are we alive or dead?
+                    case ALIVE_PRED:
+                        if (mycmd->has_plant_pred == true) {
+                            for (uint16_t p = 0; p < myPlants[i].size(); p++) {
+                                if (myPlants[i][p].getID() == mycmd->plant_pred) {
+                                    if (myPlants[i][p].getHealth() == 0) {
+                                        pred_true = false;
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+                        else {
+                            for (uint16_t p = 0; p < myPlants[i].size(); p++) {
+                                if (myPlants[i][p].getHealth() == 0) {
+                                    pred_true = false;
+                                    break;
+                                }
+                            }
+                        }
+
+                        break;
+
+                    case DEAD_PRED:
+                        if (mycmd->has_plant_pred == true) {
+                            for (uint16_t p = 0; p < myPlants[i].size(); p++) {
+                                if (myPlants[i][p].getID() == mycmd->plant_pred) {
+                                    if (myPlants[i][p].getHealth() != 0) {
+                                        pred_true = false;
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+                        else {
+                            for (uint16_t p = 0; p < myPlants[i].size(); p++) {
+                                if (myPlants[i][p].getHealth() != 0) {
+                                    pred_true = false;
+                                    break;
+                                }
+                            }
+                        }
+
+                        break;
+
+
+
+                    // Have we or any plants been damaged? This is an easy check
+                    case DAMAGE_PRED:
+                        if (mycmd->has_plant_pred == true) {
+                            for (uint16_t p = 0; p < myPlants[i].size(); p++) {
+                                if (myPlants[i][p].getID() == mycmd->plant_pred) {
+                                    if (myPlants[i][p].getHealth() == plantHealths[myPlants[i][p].getType()]) {
+                                        pred_true = false;
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+                        else {
+                            for (uint16_t p = 0; p < myPlants[i].size(); p++) {
+                                if (myPlants[i][p].getHealth() == plantHealths[myPlants[i][p].getType()]) {
+                                    pred_true = false;
+                                    break;
+                                }
+                            }
+                        }
+
+                        break;
+                    case EAT_PRED:
+                        break;
+                    case HIT_PRED:
+                        break;
+                    case SCORE_PRED:
+                        break;
+                    case WINNING_PRED:
+                        for (uint8_t i_team = 0; i_team < 4; i_team++) {
+                            if (myStatus.scores[i_team] > myStatus.scores[i]) {
+                                pred_true = false;
+                                break;
+                            }
+                        }
+                        break;
+                    case LOSING_PRED:
+                        for (uint8_t i_team = 0; i_team < 4; i_team++) {
+                            if (myStatus.scores[i_team] > myStatus.scores[i]) {
+                                pred_true = false;
+                                break;
+                            }
+                        }
+                        break;
+                }
+
+                // If the predicate was inverse, flip the result
+                if (mycmd->inv_pred == true) {
+                    pred_true = !pred_true;
+                }
+            }
+
 
             if (pred_true == true) {
 
@@ -285,7 +417,7 @@ namespace fvu {
 
                         for (uint16_t p = 0; p < myPlants[i].size(); p++) {
                             if (myPlants[i][p].getID() == mycmd->plant) {
-                                if (myPlants[i][p].action_count == 0) {
+                                if ((myPlants[i][p].getStatus() != PLANT_STATUS_INACTIVE) && (myPlants[i][p].getStatus() != PLANT_STATUS_DEFAULT) && (myPlants[i][p].action_count == 0))  {
                                     myPlants[i][p].fire();
                                     myPlants[i][p].action_count = plantSpeeds[myPlants[i][p].getType()];
                                 }
@@ -300,7 +432,7 @@ namespace fvu {
                         for (uint16_t p = 0; p < myPlants[i].size(); p++) {
                             if (myPlants[i][p].getID() == mycmd->plant) {
                                 // Are we ready to move?
-                                if (myPlants[i][p].action_count == 0) {
+                                if ((myPlants[i][p].getStatus() != PLANT_STATUS_INACTIVE) && (myPlants[i][p].action_count == 0)) {
                                     // Is there a free space where we want to move?
                                     if (myGame->plantGrid[i][mycmd->opt[0]-1][mycmd->opt[1]-1] == false) {
                                         myGame->plantGrid[i][mycmd->opt[0]-1][mycmd->opt[1]-1] = true;
@@ -328,7 +460,7 @@ namespace fvu {
             }
 
             // Advance the next command, after some per-command delay
-            if (mycmd->cmd != GOTO_CMD) {
+            if ((mycmd->cmd != GOTO_CMD) || (pred_true == false)) {
                 myTeams[i].cur_cmd++;
                 if (myTeams[i].cur_cmd >= myTeams[i].cmds.size()) {
                     myTeams[i].cmds_done = true;
@@ -588,6 +720,16 @@ namespace fvu {
                             }
                         }
                         if (plant_match == true) {
+
+                            // Did we duplicate a plant ID?
+                            for (uint16_t p2 = 0; p2 < myPlants[i_team].size(); p2++) {
+                                if (myPlants[i_team][p2].getID() == select_tok) {
+                                    printf("Error compiling %s, line %d\n", myConfig.team_fname[i_team], line_count);
+                                    printf("  duplicate plant ID - p%hu was already selected\n", select_tok);
+                                    raise_error(ERR_BADFILE2, myConfig.team_fname[i_team]);
+                                }
+                            }
+
                             myTeams[i_team].budget += plantCosts[p];
                             if (myTeams[i_team].budget > myStatus.budget) {
                                 printf("Error compiling %s, line %d\n", myConfig.team_fname[i_team], line_count);
@@ -729,22 +871,42 @@ namespace fvu {
                 pred_str[0] = 0;
                 bool has_pred = false;
                 bool inv_pred = false;
-                pred_ntok = sscanf(cmd_str, " if not %[^,], %[^\t\n]", pred_str, cmd_str2);
-                if (pred_ntok == 2) {
+                bool has_plant_pred = false;
+                uint16_t pred_tok;
+                uint16_t plant_pred = 0;
+                pred_ntok = sscanf(cmd_str, " if not p%hu.%[^,], %[^\t\n]", &pred_tok, pred_str, cmd_str2);
+                if (pred_ntok == 3) {
                     has_pred = true;
+                    has_plant_pred = true;
+                    plant_pred = pred_tok;
                     inv_pred = true;
                 }
                 else {
-                    pred_ntok = sscanf(cmd_str, " if %[^,], %[^\t\n]", pred_str, cmd_str2);
-                    if (pred_ntok == 2) {
+                    pred_ntok = sscanf(cmd_str, " if p%hu.%[^,], %[^\t\n]", &pred_tok, pred_str, cmd_str2);
+                    if (pred_ntok == 3) {
                         has_pred = true;
+                        has_plant_pred = true;
+                        plant_pred = pred_tok;
                         inv_pred = false;
                     }
                     else {
-                        sscanf(cmd_str, " %[^\t\n]", cmd_str2);
+                        pred_ntok = sscanf(cmd_str, " if not %[^,], %[^\t\n]", pred_str, cmd_str2);
+                        if (pred_ntok == 2) {
+                            has_pred = true;
+                            inv_pred = true;
+                        }
+                        else {
+                            pred_ntok = sscanf(cmd_str, " if %[^,], %[^\t\n]", pred_str, cmd_str2);
+                            if (pred_ntok == 2) {
+                                has_pred = true;
+                                inv_pred = false;
+                            }
+                            else {
+                                sscanf(cmd_str, " %[^\t\n]", cmd_str2);
+                            }
+                        }
                     }
                 }
-
                 // If there is a predicate, check if the condition is valid
                 bool pred_match = false;
                 uint8_t pred = ALWAYS_PRED;
@@ -834,6 +996,8 @@ namespace fvu {
                     strncpy(local_cmd->target_str, target_str, 16);
                 local_cmd->inv_pred = inv_pred;
                 local_cmd->has_pred = has_pred;
+                local_cmd->has_plant_pred = has_plant_pred;
+                local_cmd->plant_pred = plant_pred;
                 local_cmd->cmd = cmd;
                 local_cmd->pred = pred;
                 local_cmd->plant = plant;
@@ -849,6 +1013,22 @@ namespace fvu {
 
             // Only after the file is compiled can we do a second pass and verify the target strings and plant targets
             for (uint16_t i = 0; i < myTeams[i_team].cmds.size(); i++) {
+
+                if (myTeams[i_team].cmds[i].has_plant_pred == true) {
+                    bool plant_pred_match = false;
+                    for (uint16_t p = 0; p < myPlants[i_team].size(); p++) {
+                        if (myPlants[i_team][p].getID() == myTeams[i_team].cmds[i].plant_pred) {
+                            plant_pred_match = true;
+                            break;
+                        }
+                    }
+                    if (plant_pred_match == false) {
+                        printf("Error compiling %s, line %d\n", myConfig.team_fname[i_team], myTeams[i_team].cmds[i].line);
+                        printf("  command predicate plant target of p%hu not found\n", myTeams[i_team].cmds[i].plant_pred);
+                        raise_error(ERR_BADFILE2, myConfig.team_fname[i_team]);
+                    }
+                }
+
                 if (myTeams[i_team].cmds[i].cmd == GOTO_CMD) {
                     bool goto_valid = false;
                     for (uint16_t j = 0; j < myTeams[i_team].cmds.size(); j++) {
@@ -880,9 +1060,45 @@ namespace fvu {
                         raise_error(ERR_BADFILE2, myConfig.team_fname[i_team]);
                     }
 
+                    // Let's catch any invalid place commands now
+                    if (myTeams[i_team].cmds[i].cmd == PLACE_CMD) {
+                            bool place_valid = true;
+                            if ((myTeams[i_team].cmds[i].opt[0] == 1) && (myTeams[i_team].cmds[i].opt[1] == 1))
+                                place_valid = false;
+                            if ((myTeams[i_team].cmds[i].opt[0] <= 0) || (myTeams[i_team].cmds[i].opt[0] >= 6))
+                                place_valid = false;
+                            if ((myTeams[i_team].cmds[i].opt[1] <= 0) || (myTeams[i_team].cmds[i].opt[1] >= 11))
+                                place_valid = false;
+
+                            if (place_valid == false) {
+                                printf("Error compiling %s, line %d\n", myConfig.team_fname[i_team], myTeams[i_team].cmds[i].line);
+                                printf("  place target of p%hu (%hu, %hu) is invalid\n", myTeams[i_team].cmds[i].plant, myTeams[i_team].cmds[i].opt[0], myTeams[i_team].cmds[i].opt[1]);
+                                printf("  valid range for placement is ([1-5], [1-10]), and (1, 1) is also not allowed\n");
+                                raise_error(ERR_BADFILE2, myConfig.team_fname[i_team]);
+                            }
+                    }
 
                 }
             }
+
+
+
+            // Third pass, have we duplicated any labels?
+            for (uint16_t i = 0; i < myTeams[i_team].cmds.size(); i++) {
+                if (myTeams[i_team].cmds[i].has_label == true) {
+                    for (uint16_t j = 0; j < myTeams[i_team].cmds.size(); j++) {
+                        if (i == j) continue;
+                        if (myTeams[i_team].cmds[j].has_label == true) {
+                            if (!strcmp(myTeams[i_team].cmds[i].label_str, myTeams[i_team].cmds[j].label_str)) {
+                                printf("Error compiling %s, line %d\n", myConfig.team_fname[i_team], myTeams[i_team].cmds[j].line);
+                                printf("  duplicate command label of %s\n", myTeams[i_team].cmds[i].label_str);
+                                raise_error(ERR_BADFILE2, myConfig.team_fname[i_team]);
+                            }
+                        }
+                    }
+                }
+            }
+
 
             if (myConfig.debug_level > 50) {
                 printf("\nCommands are as follows: \n");
@@ -894,14 +1110,20 @@ namespace fvu {
                         printf("%9s | ", myTeams[i_team].cmds[i].label_str);
                     else
                         printf("%9s | ", "none");
-                    if (myTeams[i_team].cmds[i].has_pred == true)
-                        printf("%3s | ", "yes");
-                    else
+                    if (myTeams[i_team].cmds[i].has_pred == true) {
+                        if (myTeams[i_team].cmds[i].has_plant_pred == true)
+                            printf("%3hu | ", myTeams[i_team].cmds[i].plant_pred);
+                        else
+                            printf("%3s | ", "yes");
+                    }
+                    else {
                         printf("%3s | ", "no");
+                    }
                     if (myTeams[i_team].cmds[i].inv_pred == true)
                         printf("%4s | ", "yes");
                     else
                         printf("%4s | ", "no");
+
                     printf("%8s | ", predNames[myTeams[i_team].cmds[i].pred][0].c_str());
                     printf("%7s | ", cmdNames[myTeams[i_team].cmds[i].cmd][0].c_str());
                     printf("%4hu | ", myTeams[i_team].cmds[i].plant);

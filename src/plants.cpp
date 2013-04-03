@@ -61,7 +61,7 @@ namespace fvu {
         float x, y, z;
 
 
-        if (status == PLANT_STATUS_PLACED)
+        if ((status == PLANT_STATUS_PLACED) || (status == PLANT_STATUS_DEFAULT) || (status == PLANT_STATUS_DEFAULT))
             return;
 
         // In DEMO mode, we can do a pure depth sort of all the plants
@@ -1186,10 +1186,13 @@ namespace fvu {
         fvu::Particle *local_particle;
 
         if (move_count == 0) {
-            //status = PLANT_STATUS_INACTIVE;
-            local_particle = new Particle(SHOVEL_PARTICLE, this);
-            myGame->myParticles[team].push_back(*local_particle);
-            myGame->playSound(SFX_PLANT, 25);
+
+            if (status != PLANT_STATUS_DEFAULT) {
+                local_particle = new Particle(SHOVEL_PARTICLE, this);
+                myGame->myParticles[team].push_back(*local_particle);
+                delete local_particle;
+                myGame->playSound(SFX_PLANT, 25);
+            }
             move_count++;
         }
         else {

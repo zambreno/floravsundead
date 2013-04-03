@@ -15,7 +15,10 @@
 # select P#.plant_name
 
 select P1.peashooter
-select P2.gatling
+select P2.repeater
+select P3.gatling
+select P4.snowpea
+select P5.chomper
 #
 # Perform an initial (static) placement on the grid. Everything before the "Start: " label
 # will be evaluated before the game starts. Rows are in the range [1-5] and cols
@@ -23,8 +26,9 @@ select P2.gatling
 
 # place P# row, col
 
-place P1 2, 2
-place P2 3, 3
+place P1 2, 1
+place P2 2, 2
+
 
 # Specify the run-time commands. The valid commands are:
 # place, fire, goto.
@@ -35,28 +39,15 @@ place P2 3, 3
 # command. Execution will begin with the "Start: " command.
 #
 # fire a projectile from plant P1
-Start: fire P2
-move P1 2, 2
-fire P2
-fire P2
-fire P2
-fire P2
-move P1 3, 2
-fire P2
-fire P2
-fire P2
-fire P2
-move P1 4, 2
-fire P2
-fire P2
-fire P2
-move P1 5, 2
-fire P2
-fire P2
-fire P2
-move P1 1, 2
-fire P2
-fire P2
-fire P2
+Start: place P3 3, 3
+place P4 4, 4
+place P1 5, 5
+place P5 2, 10
+L1: if not P3.ready, goto L1
+place P3 3, 4
+place P4 4, 5
+place P1 5, 6
+place P5 2, 9
+L2: if not P3.ready, goto L2
 
 goto Start

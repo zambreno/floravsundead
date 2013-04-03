@@ -22,10 +22,14 @@ std::string predNames[NUM_PRED_TYPES][NUM_PRED_SPELLINGS] = {
     {"always", "true"},
     {"never", "false"},
     {"ready", "free"},
+    {"alive", "active"},
+    {"dead", "inactive"},
     {"damage", "damaged"},
     {"eaten", "eat"},
     {"hit", "contact"},
-    {"score", "scored"}
+    {"score", "scored"},
+    {"winning", "leading"},
+    {"losing", "trailing"}
     };
 
 
