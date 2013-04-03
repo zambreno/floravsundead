@@ -110,10 +110,11 @@ namespace fvu {
                 myObject = new Object(anim, anim_count, 0, 0, 0, 1, NULL);
 
                 // children[0] is the main shovel
+                game_y -= 25.0;
                 local_anim.set_defaults();
                 local_anim.set_xscale(-0.65);
                 local_anim.set_yscale(0.65);
-                local_anim.set_angle(-20.0, 2.0, 20.0, ANCHOR_NW);
+                local_anim.set_angle(-40.0, 4.0, 40.0, ANCHOR_NW);
                 anim.clear();anim.push_back(local_anim);
                 myObject->children[0] = new Object(anim, anim_count, TEX_PLANTS, SHOVEL_HI_RES, 0, 0, myObject);
 

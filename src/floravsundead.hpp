@@ -65,7 +65,7 @@
 #define DEMO_ZOMBIE_COUNT 40
 #define BITE_FRAMES FRAME_RATE
 #define FREEZE_LENGTH 6*FRAME_RATE
-#define CHOMPER_EAT_COUNT 3000
+#define CHOMPER_EAT_COUNT 2000
 #define PLANT_MOVE_INACTIVE CHOMPER_EAT_COUNT
 
 #define KILL_SCORE 5
@@ -141,6 +141,9 @@ namespace fvu {
             uint16_t budget;
             uint8_t main_song;
             bool day;
+            bool firstZombie;
+            bool end_music;
+            uint8_t vol_counter;
             uint16_t music_buffer;
     };
 

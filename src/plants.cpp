@@ -61,7 +61,10 @@ namespace fvu {
         float x, y, z;
 
 
-        // In DEMO mode, we can do a pure depth sort of all the zombies
+        if (status == PLANT_STATUS_PLACED)
+            return;
+
+        // In DEMO mode, we can do a pure depth sort of all the plants
         if (status == PLANT_STATUS_DEMO) {
             x = demo_x;
             y = demo_y;
@@ -1183,7 +1186,7 @@ namespace fvu {
         fvu::Particle *local_particle;
 
         if (move_count == 0) {
-            status = PLANT_STATUS_INACTIVE;
+            //status = PLANT_STATUS_INACTIVE;
             local_particle = new Particle(SHOVEL_PARTICLE, this);
             myGame->myParticles[team].push_back(*local_particle);
             myGame->playSound(SFX_PLANT, 25);
