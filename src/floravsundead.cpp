@@ -379,10 +379,72 @@ namespace fvu {
 
                         break;
                     case EAT_PRED:
+                        if (mycmd->has_plant_pred == true) {
+                            for (uint16_t p = 0; p < myPlants[i].size(); p++) {
+                                if (myPlants[i][p].getID() == mycmd->plant_pred) {
+                                    if (myPlants[i][p].getStatus() != PLANT_STATUS_INACTIVE) {
+                                        pred_true = false;
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+                        // Has any of our plants been eaten?
+                        else {
+                            pred_true = false;
+                            for (uint16_t p = 0; p < myPlants[i].size(); p++) {
+                                if (myPlants[i][p].getStatus() == PLANT_STATUS_INACTIVE) {
+                                    pred_true = true;
+                                    break;
+                                }
+                            }
+                        }
+
                         break;
                     case HIT_PRED:
+                        if (mycmd->has_plant_pred == true) {
+                            for (uint16_t p = 0; p < myPlants[i].size(); p++) {
+                                if (myPlants[i][p].getID() == mycmd->plant_pred) {
+                                    if (myPlants[i][p].has_hit == false) {
+                                        pred_true = false;
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+                        // Has any of our plants hit?
+                        else {
+                            pred_true = false;
+                            for (uint16_t p = 0; p < myPlants[i].size(); p++) {
+                                if (myPlants[i][p].has_hit == true) {
+                                    pred_true = true;
+                                    break;
+                                }
+                            }
+                        }
+
                         break;
                     case SCORE_PRED:
+                        if (mycmd->has_plant_pred == true) {
+                            for (uint16_t p = 0; p < myPlants[i].size(); p++) {
+                                if (myPlants[i][p].getID() == mycmd->plant_pred) {
+                                    if (myPlants[i][p].has_killed == false) {
+                                        pred_true = false;
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+                        // Has any of our plants scored/killed?
+                        else {
+                            pred_true = false;
+                            for (uint16_t p = 0; p < myPlants[i].size(); p++) {
+                                if (myPlants[i][p].has_killed == true) {
+                                    pred_true = true;
+                                    break;
+                                }
+                            }
+                        }
                         break;
                     case WINNING_PRED:
                         for (uint8_t i_team = 0; i_team < 4; i_team++) {

@@ -114,6 +114,7 @@ namespace fvu {
         row = myPlant->getRow();col = myPlant->getCol();
         team = myPlant->getTeam();
         offscreen = false;
+        plant_particle = true;
         frozen = false;
         live_count = 0;
 
@@ -191,6 +192,7 @@ namespace fvu {
         frozen = myZombie->getFrozen();
         row = myZombie->getRow();col = myZombie->getCol();
         team = myZombie->getTeam();
+        plant_particle = false;
         offscreen = false;
         live_count = 0;
 
@@ -243,7 +245,7 @@ namespace fvu {
                 local_x = myZombie->getObject()->children[0]->children[0]->children[0]->children[2]->children[0]->get_abs_x();
                 local_y = myZombie->getObject()->children[0]->children[0]->children[0]->children[2]->children[0]->get_abs_y();
                 local_anim.set_x(local_x);
-                local_anim.set_y(local_y, -2.0, local_y-40.0);
+                local_anim.set_y(local_y, -1.8, local_y-36.0);
                 anim.clear();anim.push_back(local_anim);
                 myObject->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_POLEVAULTER_OUTERARM_LOWER, 0, 1, myObject);
 
@@ -263,7 +265,7 @@ namespace fvu {
                 // children[0] is the football arm
                 // It originally is located at children[0][2][0][0]
                 local_anim.set_defaults();
-                local_x = myZombie->getObject()->children[0]->children[2]->children[0]->children[0]->get_abs_x();
+                local_x = myZombie->getObject()->children[0]->children[2]->children[0]->children[0]->get_abs_x()-20.0;
                 local_y = myZombie->getObject()->children[0]->children[2]->children[0]->children[0]->get_abs_y();
                 local_anim.set_x(local_x);
                 local_anim.set_y(local_y, -2.0, local_y-40.0);
@@ -271,13 +273,11 @@ namespace fvu {
                 myObject->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_FOOTBALL_LEFTARM_LOWER, 0, 1, myObject);
 
                 local_anim.set_defaults();
-                local_anim.set_xy(-4.0, -22.0);
+                local_anim.set_xy(-29, -1);
                 anim.clear();anim.push_back(local_anim);
                 myObject->children[0]->children[0] = new Object(anim, 0, TEX_ZOMBIES, ZOMBIE_FOOTBALL_LEFTARM_HAND, 1, 0, myObject->children[0]);
 
                 break;
-
-
 
 
 
@@ -401,6 +401,36 @@ namespace fvu {
 
 
 
+            case FOOTBALL_HEAD_PARTICLE:
+                /* The object structure starts at the x/y location of the particle, and moves out in all directions */
+                local_anim.set_defaults();
+                anim.clear();anim.push_back(local_anim);
+                myObject = new Object(anim, anim_count, 0, 0, 0, 1, NULL);
+
+                // children[0] is the pole zombie head
+                // It originally is located at children[0][2][1]
+                local_anim.set_defaults();
+                local_x = myZombie->getObject()->children[0]->children[2]->children[1]->get_abs_x()+20.0;
+                local_y = myZombie->getObject()->children[0]->children[2]->children[1]->get_abs_y();
+                local_anim.set_x(local_x, 2.0, local_x+60.0);
+                local_anim.set_y(local_y, -4.0, local_y-120.0);
+                local_anim.set_angle(0.0, -6.0, -180.0, ANCHOR_CENTER);
+                anim.clear();anim.push_back(local_anim);
+                local_anim.set_x(local_x+60.0, 2.0, local_x+80.0);
+                local_anim.set_y(local_y-120.0);
+                local_anim.set_angle(-180.0, -6.0, -240.0, ANCHOR_CENTER);
+                anim.push_back(local_anim);
+                myObject->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_FOOTBALL_HEAD, 0, 1, myObject);
+
+                local_anim.set_defaults();
+                local_anim.set_angle(4.0, -0.2, -12.0, ANCHOR_NE);
+                local_anim.set_xy(7.2, -7.5);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_JAW, 0, 0, myObject->children[0]);
+
+                break;
+
+
             case REGULAR_HEAD_PARTICLE:
                 /* The object structure starts at the x/y location of the particle, and moves out in all directions */
                 local_anim.set_defaults();
@@ -466,8 +496,11 @@ namespace fvu {
             case SNOW_PROJECTILE:
                 game_x += speed*dir;
 
-                if ((game_x > 1050.0) || (game_x < -1050.0))
+                if ((game_x > 1050.0) || (game_x < -1050.0)) {
                     offscreen = true;
+                    myPlant->has_hit = false;
+                    myPlant->has_killed = false;
+                }
 
                 // We iterate through the loop forwards to get the closest zombie that is in hit range
                 for (uint16_t j = 0; j < myGame->myZombies[team].size(); j++) {
@@ -476,6 +509,13 @@ namespace fvu {
                         (myGame->myZombies[team][j].getRow() == row) &&
                         (fabs(myGame->myZombies[team][j].getGameX() - game_x) < 15.0)) {
                         myGame->myZombies[team][j].shoot(this);
+                        myPlant->has_hit = true;
+                        if (myGame->myZombies[team][j].getHealth() == 0) {
+                            myPlant->has_killed = true;
+                        }
+                        else {
+                            myPlant->has_killed = false;
+                        }
                         offscreen = true;
                         break;
                     }

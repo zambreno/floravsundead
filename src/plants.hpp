@@ -71,6 +71,7 @@ namespace fvu {
             uint16_t action_count;
             bool has_fired;
             bool has_hit;
+            bool has_killed;
             // For portals only
             uint8_t dest_team;
             uint16_t dest_row, dest_col;

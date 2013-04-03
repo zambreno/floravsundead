@@ -46,6 +46,7 @@ namespace fvu {
             uint8_t getType() {return type;}
             uint16_t getRow() {return row;}
             uint16_t getCol() {return col;}
+            bool isPlant() {return plant_particle;}
             bool isOffscreen() {return offscreen;}
             bool operator< (const Particle &rhs) const;
 
@@ -56,10 +57,12 @@ namespace fvu {
             uint16_t live_count;
             float speed;
             bool offscreen;
+            bool has_hit;
             float game_x, game_y;
             float dir;
             uint8_t team;
             bool frozen;
+            bool plant_particle;
             fvu::Plant *myPlant;
             fvu::Zombie *myZombie;
             Object *myObject;

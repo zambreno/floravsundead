@@ -399,6 +399,10 @@ namespace fvu {
                     myZombies[i][j].draw(j);
                 }
             }
+            for (uint16_t j = 0; j < myParticles[i].size(); j++) {
+                if (myParticles[i][j].isPlant() == false)
+                    myParticles[i][j].draw(j);
+            }
         }
         glColor3ub(255, 255, 255);
 
@@ -411,7 +415,8 @@ namespace fvu {
                 }
             }
             for (uint16_t j = 0; j < myParticles[i].size(); j++) {
-                myParticles[i][j].draw(j);
+                if (myParticles[i][j].isPlant() == true)
+                    myParticles[i][j].draw(j);
             }
 
         }

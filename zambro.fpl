@@ -19,6 +19,7 @@ select P2.gatling
 select P3.gatling
 select P4.gatling
 select P5.gatling
+select P6.wallnut
 #
 # Perform an initial (static) placement on the grid. Everything before the "Start: " label
 # will be evaluated before the game starts. Rows are in the range [1-5] and cols
@@ -28,8 +29,9 @@ select P5.gatling
 place P1 1, 2
 place P2 1, 3
 place P3 1, 4
-place P4 4, 1
-place P5 5, 1
+place P4 2, 1
+place P5 2, 2
+place P6 4, 8
 
 # Specify the run-time commands. The valid commands are:
 # place, fire, goto.

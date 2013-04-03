@@ -23,11 +23,11 @@ budget 20000
 # Zombie, Flag, Conehead, Polevault, Buckethead, Newspaper, Screendoor, Football, Dancing, Yeti.
 # You can specify more than 1 of a type in a line.
 #
-select screen 1
-select polevault 1
+select football 1
+select polevault 2
+select screendoor 1
 select cone 1
-select polevault 1
-select regular 20
+select bucket 20
 
 # Specify the zombie placement and timing next. Each zombie is specified with
 # the entering lane in the range [0,4], and a delay from the previous zombie
@@ -38,7 +38,11 @@ select regular 20
 # can be placed.
 #
 place 0, 2500
-place 1, 1000
+place 0, 5000
+place 3, 0
+place 0, 5000
+place 0, 5000
+place 0, 5000
 place 2, 0
 place 3, 1000
 place 4, 5000

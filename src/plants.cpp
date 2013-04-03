@@ -156,6 +156,7 @@ namespace fvu {
         fire_count = 0;move_count = 0;
         has_fired = false;
         has_hit = false;
+        has_killed = false;
 
         /* Initialize plant information here so we can leave the rest of this function as object assembly */
         health = plantHealths[type];
@@ -1152,6 +1153,7 @@ namespace fvu {
 
                         // We can use the zombie::shoot()
                         if (has_hit == true) {
+                            has_killed = false;
                             local_particle = new Particle(CHOMP_PROJECTILE, this);
                             myGame->myZombies[team][i].shoot(local_particle);
                             myGame->playSound(SFX_BIGCHOMP, 25);
@@ -1162,6 +1164,7 @@ namespace fvu {
                             delete local_particle;
                         }
                         else {
+                            has_killed = false;
                             myObject->setMode(OBJECT_STATUS_DEMO);
                         }
                     }

@@ -999,6 +999,10 @@ namespace fvu {
                     myObject->children[0]->children[0]->children[4]->children[0]->children[0]->updateSprite(BLANK_SPRITE);
                     local_particle = new Particle(REGULAR_ARM_PARTICLE, this);
                     myGame->myParticles[team].push_back(*local_particle);
+                    if (type == FLAG_ZOMBIE) {
+                        myObject->children[0]->children[0]->children[3]->children[0]->children[0]->children[0]->updateSprite(ZOMBIE_FLAG_3);
+                    }
+
                 }
                 break;
             case POLE_ZOMBIE:
