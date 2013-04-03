@@ -22,7 +22,7 @@ select P1.peashooter
 
 # place P# row, col
 
-place P1 2, 1
+#place P1 2, 1
 
 # Specify the run-time commands. The valid commands are:
 # place, fire, goto.

@@ -33,16 +33,16 @@ select P12.peashooter
 
 # place P# row, col
 
-place P1 2, 1
-place P2 1, 2
-place P3 3, 2
-place P4 5, 1
-place P5 2, 2
-place P6 2, 5
-place P7 2, 9
-place P8 4, 8
-place P9 3, 8
-place P10 2, 4
+#place P1 2, 1
+#place P2 1, 2
+#place P3 3, 2
+#place P4 5, 1
+#place P5 2, 2
+#place P6 2, 5
+#place P7 2, 9
+#place P8 4, 8
+#place P9 3, 8
+#place P10 2, 4
 
 # Specify the run-time commands. The valid commands are:
 # place, fire, goto.

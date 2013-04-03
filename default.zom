@@ -41,16 +41,16 @@ select Conehead 3
 # and that certain zombies may have game-enforced limitations on which lane they
 # can be placed.
 #
-place 0, 2500
-place 1, 1000
-place 2, 0
-place 3, 1000
-place 4, 5000
-place 0, 0
-place 1, 500
-place 4, 1000
-place 2, -1
-place 1, 500
-place 0, 0
-place 3, 0
-place 4, 0
+#place 0, 2500
+#place 1, 1000
+#place 2, 0
+#place 3, 1000
+#place 4, 5000
+#place 0, 0
+#place 1, 500
+#place 4, 1000
+#place 2, -1
+#place 1, 500
+#place 0, 0
+#place 3, 0
+#place 4, 0
