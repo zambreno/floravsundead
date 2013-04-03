@@ -26,9 +26,17 @@ select P5.chomper
 
 # place P# row, col
 
+<<<<<<< HEAD
 place P1 2, 1
 place P2 2, 2
 
+=======
+
+place P1 2, 1
+place P1 2, 2
+place P2 3, 3
+
+>>>>>>> 2a5cdb0097f81809ad3106687fa4c559754b92b0
 
 # Specify the run-time commands. The valid commands are:
 # place, fire, goto.
