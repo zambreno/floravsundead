@@ -32,18 +32,64 @@ namespace fvu {
 
         float x, y, z;
 
-        // Particles should be in front of plants.
-        x = game_x;
-        y = game_y;
-        z = index;
 
-        // Put objects on a different depth level if they're on the bottom
-        if (team % 2 == 1) {
-            z += PARTICLE_BOTTOM_DEPTH;
+        // Frozen particles have their color modulated appropriately
+        if (frozen == true) {
+            glColor3ub(1, 145, 182);
         }
         else {
-            z += PARTICLE_TOP_DEPTH;
+            glColor3ub(255, 255, 255);
         }
+
+
+            x = game_x;
+            y = game_y;
+            z = index*5;
+
+            // Particles should be in front of plants and zombies
+            // Put objects on a different depth level if they're on the bottom
+            if (team % 2 == 1) {
+                switch (row) {
+                    case 0:
+                    default:
+                        z += PARTICLE_BOTTOMROW_1_DEPTH;
+                        break;
+                    case 1:
+                        z += PARTICLE_BOTTOMROW_2_DEPTH;
+                        break;
+                    case 2:
+                        z += PARTICLE_BOTTOMROW_3_DEPTH;
+                        break;
+                    case 3:
+                        z += PARTICLE_BOTTOMROW_4_DEPTH;
+                         break;
+                    case 4:
+                        z += PARTICLE_BOTTOMROW_5_DEPTH;
+                        break;
+                }
+            }
+            else {
+                switch (row) {
+                    case 0:
+                    default:
+                        z += PARTICLE_TOPROW_1_DEPTH;
+                        break;
+                    case 1:
+                        z += PARTICLE_TOPROW_2_DEPTH;
+                        break;
+                    case 2:
+                        z += PARTICLE_TOPROW_3_DEPTH;
+                        break;
+                    case 3:
+                        z += PARTICLE_TOPROW_4_DEPTH;
+                         break;
+                    case 4:
+                        z += PARTICLE_TOPROW_5_DEPTH;
+                        break;
+                }
+            }
+
+
 
         glPushMatrix();
         glTranslatef(x, y, z);
@@ -68,6 +114,7 @@ namespace fvu {
         row = myPlant->getRow();col = myPlant->getCol();
         team = myPlant->getTeam();
         offscreen = false;
+        frozen = false;
         live_count = 0;
 
         // game_x and game_y are a function of the parent plant (tweaked as needed)
@@ -136,10 +183,12 @@ namespace fvu {
     Particle::Particle(uint8_t mytype, fvu::Zombie *myZombie) {
 
         uint32_t anim_count = 0;
+        float local_x, local_y;
 
         status = PARTICLE_STATUS_ACTIVE;
         type = mytype;
         this->myZombie = myZombie;
+        frozen = myZombie->getFrozen();
         row = myZombie->getRow();col = myZombie->getCol();
         team = myZombie->getTeam();
         offscreen = false;
@@ -160,25 +209,77 @@ namespace fvu {
 
 
             case REGULAR_ARM_PARTICLE:
-            default:
                 /* The object structure starts at the x/y location of the particle, and moves out in all directions */
                 local_anim.set_defaults();
                 anim.clear();anim.push_back(local_anim);
                 myObject = new Object(anim, anim_count, 0, 0, 0, 1, NULL);
 
                 // children[0] is the zombie arm
+                // It originally is located at children[0][0][4][0]
                 local_anim.set_defaults();
-                local_anim.set_x(-10.0);
-                local_anim.set_y(0.0, -2.0, -40.0);
+                local_x = myZombie->getObject()->children[0]->children[0]->children[4]->children[0]->get_abs_x();
+                local_y = myZombie->getObject()->children[0]->children[0]->children[4]->children[0]->get_abs_y();
+                local_anim.set_x(local_x);
+                local_anim.set_y(local_y, -2.0, local_y-40.0);
                 anim.clear();anim.push_back(local_anim);
-                myObject->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_OUTERARM_LOWER,ZOMBIE_OUTERARM_LOWER_DEPTH, 1, myObject);
+                myObject->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_OUTERARM_LOWER, 0, 1, myObject);
 
                 local_anim.set_defaults();
                 local_anim.set_xy(-4.0, -22.0);
                 anim.clear();anim.push_back(local_anim);
-                myObject->children[0]->children[0] = new Object(anim, 0, TEX_ZOMBIES, ZOMBIE_OUTERARM_HAND, ZOMBIE_OUTERARM_HAND_DEPTH, 0, myObject->children[0]);
+                myObject->children[0]->children[0] = new Object(anim, 0, TEX_ZOMBIES, ZOMBIE_OUTERARM_HAND, 1, 0, myObject->children[0]);
 
                 break;
+
+            case POLE_ARM_PARTICLE:
+                /* The object structure starts at the x/y location of the particle, and moves out in all directions */
+                local_anim.set_defaults();
+                anim.clear();anim.push_back(local_anim);
+                myObject = new Object(anim, anim_count, 0, 0, 0, 1, NULL);
+
+                // children[0] is the pole arm
+                // It originally is located at children[0][0][0][2][0]
+                local_anim.set_defaults();
+                local_x = myZombie->getObject()->children[0]->children[0]->children[0]->children[2]->children[0]->get_abs_x();
+                local_y = myZombie->getObject()->children[0]->children[0]->children[0]->children[2]->children[0]->get_abs_y();
+                local_anim.set_x(local_x);
+                local_anim.set_y(local_y, -2.0, local_y-40.0);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_POLEVAULTER_OUTERARM_LOWER, 0, 1, myObject);
+
+                local_anim.set_defaults();
+                local_anim.set_xy(-4.0, -22.0);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0]->children[0] = new Object(anim, 0, TEX_ZOMBIES, ZOMBIE_OUTERARM_HAND, 1, 0, myObject->children[0]);
+
+                break;
+
+            case FOOTBALL_ARM_PARTICLE:
+                /* The object structure starts at the x/y location of the particle, and moves out in all directions */
+                local_anim.set_defaults();
+                anim.clear();anim.push_back(local_anim);
+                myObject = new Object(anim, anim_count, 0, 0, 0, 1, NULL);
+
+                // children[0] is the football arm
+                // It originally is located at children[0][2][0][0]
+                local_anim.set_defaults();
+                local_x = myZombie->getObject()->children[0]->children[2]->children[0]->children[0]->get_abs_x();
+                local_y = myZombie->getObject()->children[0]->children[2]->children[0]->children[0]->get_abs_y();
+                local_anim.set_x(local_x);
+                local_anim.set_y(local_y, -2.0, local_y-40.0);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_FOOTBALL_LEFTARM_LOWER, 0, 1, myObject);
+
+                local_anim.set_defaults();
+                local_anim.set_xy(-4.0, -22.0);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0]->children[0] = new Object(anim, 0, TEX_ZOMBIES, ZOMBIE_FOOTBALL_LEFTARM_HAND, 1, 0, myObject->children[0]);
+
+                break;
+
+
+
+
 
             case ZOMBIE_CONE_PARTICLE:
                 /* The object structure starts at the x/y location of the particle, and moves out in all directions */
@@ -187,11 +288,118 @@ namespace fvu {
                 myObject = new Object(anim, anim_count, 0, 0, 0, 1, NULL);
 
                 // children[0] is the damaged zombie cone
+                // It originally is located at children[0][0][2][2]
                 local_anim.set_defaults();
-                local_anim.set_x(-10.0);
-                local_anim.set_y(20.0, -2.0, -40.0);
+                local_x = myZombie->getObject()->children[0]->children[0]->children[2]->children[2]->get_abs_x()+20.0;
+                local_y = myZombie->getObject()->children[0]->children[0]->children[2]->children[2]->get_abs_y();
+                local_anim.set_x(local_x, 2.7, local_x+81.0);
+                local_anim.set_y(local_y, -2.7, local_y-81.0);
+                local_anim.set_angle(0.0, -3.0, -90.0, ANCHOR_S);
                 anim.clear();anim.push_back(local_anim);
-                myObject->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_CONE_3, ZOMBIE_HEAD_ACCESSORY_DEPTH, 0, myObject);
+                myObject->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_CONE_3, 0, 0, myObject);
+                break;
+
+
+            case ZOMBIE_SCREEN_PARTICLE:
+                /* The object structure starts at the x/y location of the particle, and moves out in all directions */
+                local_anim.set_defaults();
+                anim.clear();anim.push_back(local_anim);
+                myObject = new Object(anim, anim_count, 0, 0, 0, 1, NULL);
+
+                // children[0] is the damaged zombie screen
+                // It originally is located at children[0][0][4][0]
+                local_anim.set_defaults();
+                local_x = myZombie->getObject()->children[0]->children[0]->children[4]->children[0]->get_abs_x();
+                local_y = myZombie->getObject()->children[0]->children[0]->children[4]->children[0]->get_abs_y();
+                local_anim.set_x(local_x);
+                local_anim.set_y(local_y);
+                local_anim.set_angle(0.0, 3.0, 90.0, ANCHOR_S);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_SCREENDOOR_3, 0, 0, myObject);
+                break;
+
+
+
+            case ZOMBIE_BUCKET_PARTICLE:
+                /* The object structure starts at the x/y location of the particle, and moves out in all directions */
+                local_anim.set_defaults();
+                anim.clear();anim.push_back(local_anim);
+                myObject = new Object(anim, anim_count, 0, 0, 0, 1, NULL);
+
+                // children[0] is the damaged zombie bucket
+                // It originally is located at children[0][0][2][2]
+                local_anim.set_defaults();
+                local_x = myZombie->getObject()->children[0]->children[0]->children[2]->children[2]->get_abs_x()+20.0;
+                local_y = myZombie->getObject()->children[0]->children[0]->children[2]->children[2]->get_abs_y();
+                local_anim.set_x(local_x, 2.7, local_x+81.0);
+                local_anim.set_y(local_y, -2.7, local_y-81.0);
+                local_anim.set_angle(0.0, -3.0, -90.0, ANCHOR_S);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_BUCKET_3, 0, 0, myObject);
+                break;
+
+
+            case ZOMBIE_FOOTBALL_PARTICLE:
+                /* The object structure starts at the x/y location of the particle, and moves out in all directions */
+                local_anim.set_defaults();
+                anim.clear();anim.push_back(local_anim);
+                myObject = new Object(anim, anim_count, 0, 0, 0, 1, NULL);
+
+                // children[0] is the damaged zombie football helmet
+                // It originally is located at children[0][2][1][0]
+                local_anim.set_defaults();
+                local_x = myZombie->getObject()->children[0]->children[2]->children[1]->children[0]->get_abs_x()+20.0;
+                local_y = myZombie->getObject()->children[0]->children[2]->children[1]->children[0]->get_abs_y();
+                local_anim.set_x(local_x, 2.7, local_x+81.0);
+                local_anim.set_y(local_y, -2.7, local_y-81.0);
+                local_anim.set_angle(0.0, -3.0, -90.0, ANCHOR_S);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_FOOTBALL_HELMET_3, 0, 0, myObject);
+                break;
+
+
+
+
+
+            case POLE_HEAD_PARTICLE:
+                /* The object structure starts at the x/y location of the particle, and moves out in all directions */
+                local_anim.set_defaults();
+                anim.clear();anim.push_back(local_anim);
+                myObject = new Object(anim, anim_count, 0, 0, 0, 1, NULL);
+
+                // children[0] is the pole zombie head
+                // It originally is located at [0][0][0][0]
+                local_anim.set_defaults();
+                local_x = myZombie->getObject()->children[0]->children[0]->children[0]->children[0]->get_abs_x()+20.0;
+                local_y = myZombie->getObject()->children[0]->children[0]->children[0]->children[0]->get_abs_y();
+                local_anim.set_x(local_x, 2.0, local_x+60.0);
+                local_anim.set_y(local_y, -4.0, local_y-120.0);
+                local_anim.set_angle(0.0, -6.0, -180.0, ANCHOR_CENTER);
+                anim.clear();anim.push_back(local_anim);
+                local_anim.set_x(local_x+60.0, 2.0, local_x+80.0);
+                local_anim.set_y(local_y-120.0);
+                local_anim.set_angle(-180.0, -6.0, -240.0, ANCHOR_CENTER);
+                anim.push_back(local_anim);
+                myObject->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_HEAD, 0, 2, myObject);
+
+
+                local_anim.set_defaults();
+                local_anim.set_angle(-2.0, 0.0, 0.0, ANCHOR_CENTER);
+                local_anim.set_x(-7.0);
+                local_anim.set_y(14.0, -0.05, 12.0);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_POLEVAULTER_HAIR, 0, 0, myObject->children[0]);
+
+                local_anim.set_defaults();
+                local_anim.set_angle(4.0, -0.2, -12.0, ANCHOR_NE);
+                local_anim.set_xy(10.2, -9.5);
+                anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);
+                local_anim.set_angle(4.0, -1.0, -12.0, ANCHOR_NE);anim.push_back(local_anim);
+                myObject->children[0]->children[1] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_JAW, 0, 0, myObject->children[0]);
+
+                break;
+
+
 
             case REGULAR_HEAD_PARTICLE:
                 /* The object structure starts at the x/y location of the particle, and moves out in all directions */
@@ -199,26 +407,43 @@ namespace fvu {
                 anim.clear();anim.push_back(local_anim);
                 myObject = new Object(anim, anim_count, 0, 0, 0, 1, NULL);
 
+                // children[0] is the regular zombie head
+                // It originally is located at children[0][0][2]
                 local_anim.set_defaults();
-                local_anim.set_angle(-12.0, 0.25, 5.0, ANCHOR_S);
-                local_anim.set_xy(-24.5, 51.75);
+                local_x = myZombie->getObject()->children[0]->children[0]->children[2]->get_abs_x()+20.0;
+                local_y = myZombie->getObject()->children[0]->children[0]->children[2]->get_abs_y();
+                local_anim.set_x(local_x, 2.0, local_x+60.0);
+                local_anim.set_y(local_y, -4.0, local_y-120.0);
+                local_anim.set_angle(0.0, -6.0, -180.0, ANCHOR_CENTER);
                 anim.clear();anim.push_back(local_anim);
-                myObject->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_HEAD,ZOMBIE_HEAD_DEPTH, 2, myObject);
+                local_anim.set_x(local_x+60.0, 2.0, local_x+80.0);
+                local_anim.set_y(local_y-120.0);
+                local_anim.set_angle(-180.0, -6.0, -240.0, ANCHOR_CENTER);
+                anim.push_back(local_anim);
+                myObject->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_HEAD, 0, 2, myObject);
 
 
                 local_anim.set_defaults();
                 local_anim.set_angle(-2.0, 0.25, 3.0, ANCHOR_CENTER);
                 local_anim.set_xy(-5, 20.0);
                 anim.clear();anim.push_back(local_anim);
-                myObject->children[0]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_HAIR, ZOMBIE_HEAD_DEPTH, 0, myObject->children[0]);
+                myObject->children[0]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_HAIR, 1, 0, myObject->children[0]);
 
-                // children[0][0][2][1] is the jaw
                 local_anim.set_defaults();
                 local_anim.set_angle(4.0, -0.2, -12.0, ANCHOR_NE);
                 local_anim.set_xy(10.2, -9.5);
                 anim.clear();anim.push_back(local_anim);anim.push_back(local_anim);
                 local_anim.set_angle(4.0, -1.0, -12.0, ANCHOR_NE);anim.push_back(local_anim);
-                myObject->children[0]->children[1] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_JAW, ZOMBIE_HEAD_DEPTH, 0, myObject->children[0]);
+                myObject->children[0]->children[1] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_JAW, 1, 0, myObject->children[0]);
+
+                break;
+
+            default:
+                /* The object structure starts at the x/y location of the particle, and moves out in all directions */
+                local_anim.set_defaults();
+                anim.clear();anim.push_back(local_anim);
+                myObject = new Object(anim, anim_count, 0, 0, 0, 0, NULL);
+
 
 
         }
@@ -271,13 +496,23 @@ namespace fvu {
                     offscreen = true;
 
                 break;
+            case ZOMBIE_CONE_PARTICLE:
+            case ZOMBIE_BUCKET_PARTICLE:
+            case ZOMBIE_FOOTBALL_PARTICLE:
+            case ZOMBIE_SCREEN_PARTICLE:
+                live_count++;
+                if (live_count == 30)
+                    offscreen = true;
+
+                break;
             case REGULAR_HEAD_PARTICLE:
             case POLE_HEAD_PARTICLE:
             case FOOTBALL_HEAD_PARTICLE:
                 live_count++;
                 if (live_count == 30)
+                    myObject->setMode(OBJECT_STATUS_GAME);
+                if (live_count == 40)
                     offscreen = true;
-
                 break;
             default:
                 break;

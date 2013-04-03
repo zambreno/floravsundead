@@ -415,6 +415,7 @@ namespace fvu {
             }
 
         }
+        glColor3ub(255, 255, 255);
 
     }
 

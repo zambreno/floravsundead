@@ -170,6 +170,7 @@ namespace fvu {
         action_count = 0;
         special_count = 0;
         special_done = false;
+        death_count = 0;
         has_item = true;
         frozen_count = 0;
         frozen = false;
@@ -711,7 +712,7 @@ namespace fvu {
                     local_object->children[3]->children[0]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_INNERARM_HAND,ZOMBIE_INNERARM_HAND_DEPTH,0, local_object->children[3]->children[0]);
                 }
 
-                // children[0][0][4] is the outer arm. SCREEN_ZOMBIES have a difference outer arm
+                // children[0][0][4] is the outer arm. SCREEN_ZOMBIES have a different outer arm
                 if (type == SCREEN_ZOMBIE) {
                     local_anim.set_defaults();
                     local_anim.set_angle(8.0, 0.05, 13.0, ANCHOR_NE);
@@ -1091,6 +1092,11 @@ namespace fvu {
                     animation_struct local_anim;
                     fvu::Object *local_object = myObject->children[0]->children[0];
 
+
+                    local_particle = new Particle(ZOMBIE_SCREEN_PARTICLE, this);
+                    myGame->myParticles[team].push_back(*local_particle);
+
+
                     delete local_object->children[4]->children[0];
                     delete local_object->children[4];
                     local_anim.set_defaults();
@@ -1166,34 +1172,86 @@ namespace fvu {
     *****************************************************************************/
     void Zombie::die() {
 
-
-        myGame->playSound(SFX_LIMBS_POP, 25);
-        status = ZOMBIE_STATUS_INACTIVE;
-        myGame->myStatus.scores[team] += KILL_SCORE;
-        row = 25;
-
-
         fvu::Particle *local_particle;
 
-        /* Transitions are zombie-specific, and usually will involve specific sprite swaps */
+        /* Deaths are zombie-specific, and usually will involve specific sprite swaps */
         switch (type) {
             case REGULAR_ZOMBIE:
             case FLAG_ZOMBIE:
             case SCREEN_ZOMBIE:
             case BUCKET_ZOMBIE:
             case CONE_ZOMBIE:
-                myObject->children[0]->children[0]->children[2]->updateSprite(BLANK_SPRITE);
-                myObject->children[0]->children[0]->children[2]->children[0]->updateSprite(BLANK_SPRITE);
-                myObject->children[0]->children[0]->children[2]->children[1]->updateSprite(BLANK_SPRITE);
-                if (myObject->children[0]->children[0]->children[2]->children[1]->num_children == 1)
-                    myObject->children[0]->children[0]->children[2]->children[1]->children[0]->updateSprite(BLANK_SPRITE);
+                if (death_count == 0) {
+                    death_count++;
+                    myGame->playSound(SFX_LIMBS_POP, 25);
+                    myGame->myStatus.scores[team] += KILL_SCORE;
+                    myObject->children[0]->children[0]->children[2]->updateSprite(BLANK_SPRITE);
+                    myObject->children[0]->children[0]->children[2]->children[0]->updateSprite(BLANK_SPRITE);
+                    myObject->children[0]->children[0]->children[2]->children[1]->updateSprite(BLANK_SPRITE);
+                    if (myObject->children[0]->children[0]->children[2]->children[1]->num_children == 1)
+                        myObject->children[0]->children[0]->children[2]->children[1]->children[0]->updateSprite(BLANK_SPRITE);
 
-                local_particle = new Particle(REGULAR_HEAD_PARTICLE, this);
-                myGame->myParticles[team].push_back(*local_particle);
+                    local_particle = new Particle(REGULAR_HEAD_PARTICLE, this);
+                    myGame->myParticles[team].push_back(*local_particle);
+
+                }
+                else {
+                    // For now, we skip the conventional update in death mode
+                    myObject->update();
+                    death_count++;
+                    if (death_count == 31) {
+                        status = ZOMBIE_STATUS_INACTIVE;
+                        row = 25;
+                    }
+                }
+
                 break;
             case POLE_ZOMBIE:
+                if (death_count == 0) {
+                    death_count++;
+                    myGame->playSound(SFX_LIMBS_POP, 25);
+                    myGame->myStatus.scores[team] += KILL_SCORE;
+                    myObject->children[0]->children[0]->children[0]->children[0]->updateSprite(BLANK_SPRITE);
+                    myObject->children[0]->children[0]->children[0]->children[0]->children[0]->updateSprite(BLANK_SPRITE);
+                    myObject->children[0]->children[0]->children[0]->children[0]->children[1]->updateSprite(BLANK_SPRITE);
+
+                    local_particle = new Particle(POLE_HEAD_PARTICLE, this);
+                    myGame->myParticles[team].push_back(*local_particle);
+
+                }
+                else {
+                    // For now, we skip the conventional update in death mode
+                    myObject->update();
+                    death_count++;
+                    if (death_count == 31) {
+                        status = ZOMBIE_STATUS_INACTIVE;
+                        row = 25;
+                    }
+                }
+
                 break;
             case FOOTBALL_ZOMBIE:
+                if (death_count == 0) {
+                    death_count++;
+                    myGame->playSound(SFX_LIMBS_POP, 25);
+                    myGame->myStatus.scores[team] += KILL_SCORE;
+                    myObject->children[0]->children[2]->children[1]->updateSprite(BLANK_SPRITE);
+                    myObject->children[0]->children[2]->children[1]->children[1]->updateSprite(BLANK_SPRITE);
+
+                    local_particle = new Particle(FOOTBALL_HEAD_PARTICLE, this);
+                    myGame->myParticles[team].push_back(*local_particle);
+
+                }
+                else {
+                    // For now, we skip the conventional update in death mode
+                    myObject->update();
+                    death_count++;
+                    if (death_count == 31) {
+                        status = ZOMBIE_STATUS_INACTIVE;
+                        row = 25;
+                    }
+                }
+
                 break;
             case NEWS_ZOMBIE:
                 break;
@@ -1220,6 +1278,12 @@ namespace fvu {
             // If we're in the middle of a special operation, continue it
             if (special_count != 0) {
                 special();
+                return;
+            }
+
+            // If we're in the middle of dying, continue
+            if (death_count != 0) {
+                die();
                 return;
             }
 
@@ -1334,6 +1398,13 @@ namespace fvu {
         }
         else if (status == ZOMBIE_STATUS_EATING) {
 
+            // If we're in the middle of dying, continue
+            if (death_count != 0) {
+                die();
+                return;
+            }
+
+
             /* First, have we been hit recently? If so, check transitions / death conditions */
             while (!transitions.empty()) {
 
@@ -1347,11 +1418,9 @@ namespace fvu {
             }
 
             if (health <= 0) {
-                myGame->playSound(SFX_LIMBS_POP, 25);
-                status = ZOMBIE_STATUS_INACTIVE;
-                myGame->myStatus.scores[team] += KILL_SCORE;
-                row = 25;
+                die();
             }
+
 
             // Is the plant gone/moved?
             if (myGame->plantGrid[team][row][col] == false) {

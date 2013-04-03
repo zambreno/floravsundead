@@ -71,6 +71,8 @@ namespace fvu {
             void setMode(uint8_t mode);
             void update();
             void updateSprite(uint16_t mySprite) {sprite = mySprite;}
+            float get_abs_x();
+            float get_abs_y();
             Object(std::vector<animation_struct> anim, uint32_t anim_count, uint8_t texfile, uint16_t sprite, uint32_t depth, uint8_t num_children, Object *parent);
             ~Object();
             void draw();

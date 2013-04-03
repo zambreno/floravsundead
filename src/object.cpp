@@ -249,6 +249,37 @@ namespace fvu {
 
 
     /*****************************************************************************
+    * Function: Object::get_abs_x
+    * Description: Get the absolute value for the x location of an object.
+    * Useful function for creating particles in a particular position
+    *****************************************************************************/
+    float Object::get_abs_x() {
+        if (parent == NULL)
+            return 0.0;
+
+        else
+            return x+parent->x;
+
+    }
+
+
+    /*****************************************************************************
+    * Function: Object::get_abs_y
+    * Description: Get the absolute value for the y location of an object.
+    * Useful function for creating particles in a particular position
+    *****************************************************************************/
+    float Object::get_abs_y() {
+        if (parent == NULL)
+            return 0.0;
+
+        else
+            return y+parent->y;
+
+    }
+
+
+
+    /*****************************************************************************
     * Function: Object::setMode
     * Description: Transfers to a new mode for each object.
     *****************************************************************************/

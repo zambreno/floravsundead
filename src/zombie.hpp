@@ -70,9 +70,11 @@ namespace fvu {
             float getGameX() {return game_x;}
             float getGameY() {return game_y;}
             float getDir() {return dir;}
+            bool getFrozen() {return frozen;}
             void setDelay(int16_t val) {delay = val;}
             void shoot(fvu::Particle *myParticle);
             void special();
+            Object *getObject() {return myObject;}
             bool operator< (const Zombie &rhs) const;
 
         private:
@@ -91,6 +93,7 @@ namespace fvu {
             int16_t delay;
             uint16_t special_count;
             bool special_done;
+            uint16_t death_count;
             uint16_t frozen_count;
             bool frozen;
             Object *myObject;
