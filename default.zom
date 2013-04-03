@@ -26,7 +26,7 @@ budget 20000
 select screen 1
 select polevault 1
 select cone 1
-select bucket 1
+select polevault 1
 select regular 20
 
 # Specify the zombie placement and timing next. Each zombie is specified with
