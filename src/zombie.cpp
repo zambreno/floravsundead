@@ -1129,7 +1129,48 @@ namespace fvu {
     }
 
 
+    /*****************************************************************************
+    * Function: Zombie::die
+    * Description: When a transition event occurs, perform some zombie-specific
+    * update.
+    *****************************************************************************/
+    void Zombie::die() {
 
+
+        myGame->playSound(SFX_LIMBS_POP, 25);
+        status = ZOMBIE_STATUS_INACTIVE;
+        myGame->myStatus.scores[team] += KILL_SCORE;
+        row = 25;
+
+
+
+
+        fvu::Particle *local_particle;
+
+        /* Transitions are zombie-specific, and usually will involve specific sprite swaps */
+        switch (type) {
+            case REGULAR_ZOMBIE:
+            case FLAG_ZOMBIE:
+            case SCREEN_ZOMBIE:
+            case BUCKET_ZOMBIE:
+            case CONE_ZOMBIE:
+                local_particle = new Particle(REGULAR_ARM_PARTICLE, this);
+                myGame->myParticles[team].push_back(*local_particle);
+                break;
+            case POLE_ZOMBIE:
+                break;
+            case FOOTBALL_ZOMBIE:
+                break;
+            case NEWS_ZOMBIE:
+                break;
+            case DANCING_ZOMBIE:
+                break;
+            case YETI_ZOMBIE:
+                break;
+
+        }
+
+    }
 
     /*****************************************************************************
     * Function: Zombie::update
@@ -1170,10 +1211,7 @@ namespace fvu {
             }
 
             if (health <= 0) {
-                myGame->playSound(SFX_LIMBS_POP, 25);
-                status = ZOMBIE_STATUS_INACTIVE;
-                myGame->myStatus.scores[team] += KILL_SCORE;
-                row = 25;
+                die();
             }
 
 

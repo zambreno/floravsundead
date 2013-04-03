@@ -19,7 +19,7 @@
 
 
 /* Particle speeds.*/
-float particleSpeeds[NUM_PARTICLE_TYPE] = {5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0};
+float particleSpeeds[NUM_PARTICLE_TYPE] = {5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0};
 
 namespace fvu {
 
@@ -127,6 +127,63 @@ namespace fvu {
 
     }
 
+
+   /*****************************************************************************
+    * Function: Particle::Particle
+    * Description: Class constructor. Uses an enum type to set particle-specific
+    * parameters
+    *****************************************************************************/
+    Particle::Particle(uint8_t mytype, fvu::Zombie *myZombie) {
+
+        uint32_t anim_count = 0;
+
+        status = PARTICLE_STATUS_ACTIVE;
+        type = mytype;
+        this->myZombie = myZombie;
+        row = myZombie->getRow();col = myZombie->getCol();
+        team = myZombie->getTeam();
+        offscreen = false;
+        live_count = 0;
+
+        // game_x and game_y are a function of the parent plant (tweaked as needed)
+        dir = myZombie->getDir();
+        game_x = myZombie->getGameX();
+        game_y = myZombie->getGameY();
+
+        /* Initialize particle information here so we can leave the rest of this function as object assembly */
+        speed = particleSpeeds[type];
+
+        std::vector<animation_struct> anim;
+        animation_struct local_anim;
+
+        switch(type) {
+
+
+            case REGULAR_ARM_PARTICLE:
+                /* The object structure starts at the x/y location of the particle, and moves out in all directions */
+                local_anim.set_defaults();
+                anim.clear();anim.push_back(local_anim);
+                myObject = new Object(anim, anim_count, 0, 0, 0, 1, NULL);
+
+                // children[0] is the zombie arm
+                local_anim.set_defaults();
+                local_anim.set_y(0.0, -1.0, -50.0);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_OUTERARM_LOWER,ZOMBIE_OUTERARM_LOWER_DEPTH, 1, myObject);
+
+                local_anim.set_defaults();
+                local_anim.set_xy(-4.0, -22.0);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0]->children[0] = new Object(anim, 0, TEX_ZOMBIES, ZOMBIE_OUTERARM_HAND, ZOMBIE_OUTERARM_HAND_DEPTH, 0, myObject->children[0]);
+
+                break;
+
+            default:
+                break;
+
+        }
+
+    }
 
 
     /*****************************************************************************
