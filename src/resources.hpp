@@ -176,7 +176,7 @@ GATLINGPEA_HEAD, GATLINGPEA_HELMET, GATLINGPEA_MOUTH, GATLINGPEA_MOUTH_OVERLAY, 
 JALAPENO_BODY_2, JALAPENO_CHEEK, JALAPENO_EYE_1,JALAPENO_EYE_2, JALAPENO_EYEBROW_1,                                                                                             //23
 JALAPENO_EYEBROW_2, JALAPENO_MOUTH, JALAPENO_STEM, LILYPAD_BODY, MELONPULT_BLINK_1,                                                                                             //24
 /*MELONPULT_BLINK_2,  MELONPULT_BODY, MELONPULT_EYEBROW,*/ MELONPULT_MELON, MELONPULT_STALK,                                                                                    //25
-MONEYBAG, MONEYBAG_HI_RES, PEA_PARTICLES, PEA_SPLATS, PEASHOOTER_BACKLEAF,                                                                                                      //26
+MONEYBAG, MONEYBAG_HI_RES, PEA_PARTICLES_OLD, PEA_SPLATS_OLD, PEASHOOTER_BACKLEAF,                                                                                                      //26
 PEASHOOTER_BACKLEAF_LEFTTIP, PEASHOOTER_BACKLEAF_RIGHTTIP, PEASHOOTER_BLINK_1, PEASHOOTER_BLINK_2, PEASHOOTER_EYEBROW,                                                          //27
 PEASHOOTER_FRONTLEAF, PEASHOOTER_FRONTLEAF_LEFTTIP, PEASHOOTER_FRONTLEAF_RIGHTTIP, PEASHOOTER_HEAD, PEASHOOTER_HEADLEAF_2RDFARTHEST,                                            //28
 PEASHOOTER_HEADLEAF_3RDFARTHEST, PEASHOOTER_HEADLEAF_FARTHEST,PEASHOOTER_HEADLEAF_NEAREST, PEASHOOTER_HEADLEAF_TIP_BOTTOM, PEASHOOTER_HEADLEAF_TIP_TOP,                         //29
@@ -196,7 +196,7 @@ WALLNUT_BLINK1, WALLNUT_BLINK2, WALLNUT_BODY, WALLNUT_CRACKED_1, WALLNUT_CRACKED
 WALLNUT_TWITCH, BLANK_PLANT_SPRITE, WHITE_PLANT_SPRITE, SNOWPEA_BLINK_1, SNOWPEA_BLINK_2,                                                                                       //43
 SNOWPEA_CRYSTALS_1, SNOWPEA_CRYSTALS_2, SNOWPEA_CRYSTALS_3, SNOWPEA_HEAD, SNOWPEA_MOUTH,                                                                                        //44
 PROJECTILE_SNOW_PEA, CHOMPER_GROUNDLEAF_2_TIP, PEA_PARTICLES, PEA_SPLATS, SNOWPEA_PARTICLES,                                                                                    //45
-SNOWPEA_SPLATSWALLNUT_PARTICLES_LARGE, WALLNUT_PARTICLES_SMALL,                                                                                                                 //46                                   //46
+SNOWPEA_SPLATS, WALLNUT_PARTICLES_LARGE, WALLNUT_PARTICLES_SMALL,                                                                                                                 //46                                   //46
 NUM_PLANT_SPRITES} PLANT_SPRITE_ENUM ;
 extern uint16_t plant_object_spriteMap[][4];
 
