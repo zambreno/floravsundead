@@ -983,6 +983,9 @@ namespace fvu {
     void Zombie::updateTransition(uint16_t val) {
 
 
+        fvu::Particle *local_particle;
+
+
         /* Transitions are zombie-specific, and usually will involve specific sprite swaps */
         switch (type) {
             case REGULAR_ZOMBIE:
@@ -992,6 +995,18 @@ namespace fvu {
                     myObject->children[0]->children[0]->children[4]->updateSprite(ZOMBIE_OUTERARM_UPPER_2);
                     myObject->children[0]->children[0]->children[4]->children[0]->updateSprite(BLANK_SPRITE);
                     myObject->children[0]->children[0]->children[4]->children[0]->children[0]->updateSprite(BLANK_SPRITE);
+                    local_particle = new Particle(REGULAR_ARM_PARTICLE, this);
+                    myGame->myParticles[team].push_back(*local_particle);
+                }
+                break;
+            case POLE_ZOMBIE:
+                if (val == zombieTransitions[POLE_ZOMBIE][0]) {
+                    myGame->playSound(SFX_LIMBS_POP, 25);
+                    myObject->children[0]->children[0]->children[0]->children[2]->updateSprite(ZOMBIE_POLEVAULTER_OUTERARM_UPPER2);
+                    myObject->children[0]->children[0]->children[0]->children[2]->children[0]->updateSprite(BLANK_SPRITE);
+                    myObject->children[0]->children[0]->children[0]->children[2]->children[0]->children[0]->updateSprite(BLANK_SPRITE);
+                    local_particle = new Particle(POLE_ARM_PARTICLE, this);
+                    myGame->myParticles[team].push_back(*local_particle);
                 }
                 break;
             case BUCKET_ZOMBIE:
@@ -1003,6 +1018,8 @@ namespace fvu {
                 }
                 if (val == zombieTransitions[BUCKET_ZOMBIE][2]) {
                     myObject->children[0]->children[0]->children[2]->children[2]->updateSprite(BLANK_SPRITE);
+                    local_particle = new Particle(ZOMBIE_BUCKET_PARTICLE, this);
+                    myGame->myParticles[team].push_back(*local_particle);
                     has_item = false;
                 }
                 if (val == zombieTransitions[BUCKET_ZOMBIE][3]) {
@@ -1010,6 +1027,8 @@ namespace fvu {
                     myObject->children[0]->children[0]->children[4]->updateSprite(ZOMBIE_OUTERARM_UPPER_2);
                     myObject->children[0]->children[0]->children[4]->children[0]->updateSprite(BLANK_SPRITE);
                     myObject->children[0]->children[0]->children[4]->children[0]->children[0]->updateSprite(BLANK_SPRITE);
+                    local_particle = new Particle(REGULAR_ARM_PARTICLE, this);
+                    myGame->myParticles[team].push_back(*local_particle);
                 }
                 break;
             case FOOTBALL_ZOMBIE:
@@ -1021,12 +1040,17 @@ namespace fvu {
                 }
                 if (val == zombieTransitions[FOOTBALL_ZOMBIE][2]) {
                     myObject->children[0]->children[2]->children[1]->children[0]->updateSprite(BLANK_SPRITE);
+                    local_particle = new Particle(ZOMBIE_FOOTBALL_PARTICLE, this);
+                    myGame->myParticles[team].push_back(*local_particle);
+
                 }
                 if (val == zombieTransitions[FOOTBALL_ZOMBIE][3]) {
                     myGame->playSound(SFX_LIMBS_POP, 25);
                     myObject->children[0]->children[2]->children[0]->updateSprite(ZOMBIE_FOOTBALL_LEFTARM_UPPER_2);
                     myObject->children[0]->children[2]->children[0]->children[0]->updateSprite(BLANK_SPRITE);
                     myObject->children[0]->children[2]->children[0]->children[0]->children[0]->updateSprite(BLANK_SPRITE);
+                    local_particle = new Particle(FOOTBALL_ARM_PARTICLE, this);
+                    myGame->myParticles[team].push_back(*local_particle);
                 }
                 break;
             case CONE_ZOMBIE:
@@ -1038,6 +1062,8 @@ namespace fvu {
                 }
                 if (val == zombieTransitions[CONE_ZOMBIE][2]) {
                     myObject->children[0]->children[0]->children[2]->children[2]->updateSprite(BLANK_SPRITE);
+                    local_particle = new Particle(ZOMBIE_CONE_PARTICLE, this);
+                    myGame->myParticles[team].push_back(*local_particle);
                     has_item = false;
                 }
                 if (val == zombieTransitions[CONE_ZOMBIE][3]) {
@@ -1045,6 +1071,8 @@ namespace fvu {
                     myObject->children[0]->children[0]->children[4]->updateSprite(ZOMBIE_OUTERARM_UPPER_2);
                     myObject->children[0]->children[0]->children[4]->children[0]->updateSprite(BLANK_SPRITE);
                     myObject->children[0]->children[0]->children[4]->children[0]->children[0]->updateSprite(BLANK_SPRITE);
+                    local_particle = new Particle(REGULAR_ARM_PARTICLE, this);
+                    myGame->myParticles[team].push_back(*local_particle);
                 }
                 break;
             case SCREEN_ZOMBIE:
@@ -1118,6 +1146,8 @@ namespace fvu {
                     myObject->children[0]->children[0]->children[4]->updateSprite(ZOMBIE_OUTERARM_UPPER_2);
                     myObject->children[0]->children[0]->children[4]->children[0]->updateSprite(BLANK_SPRITE);
                     myObject->children[0]->children[0]->children[4]->children[0]->children[0]->updateSprite(BLANK_SPRITE);
+                    local_particle = new Particle(REGULAR_ARM_PARTICLE, this);
+                    myGame->myParticles[team].push_back(*local_particle);
                 }
                 break;
             default:
@@ -1154,7 +1184,7 @@ namespace fvu {
             case SCREEN_ZOMBIE:
             case BUCKET_ZOMBIE:
             case CONE_ZOMBIE:
-                local_particle = new Particle(REGULAR_ARM_PARTICLE, this);
+                local_particle = new Particle(REGULAR_HEAD_PARTICLE, this);
                 myGame->myParticles[team].push_back(*local_particle);
                 break;
             case POLE_ZOMBIE:

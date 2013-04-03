@@ -91,6 +91,7 @@ namespace fvu {
             myZombies[i].clear();
             myPlants[i].clear();
             myParticles[i].clear();
+            myTeams[i].cmds.clear();
         }
 
         init();

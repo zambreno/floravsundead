@@ -160,6 +160,7 @@ namespace fvu {
 
 
             case REGULAR_ARM_PARTICLE:
+            default:
                 /* The object structure starts at the x/y location of the particle, and moves out in all directions */
                 local_anim.set_defaults();
                 anim.clear();anim.push_back(local_anim);
@@ -167,7 +168,8 @@ namespace fvu {
 
                 // children[0] is the zombie arm
                 local_anim.set_defaults();
-                local_anim.set_y(0.0, -1.0, -50.0);
+                local_anim.set_x(-10.0);
+                local_anim.set_y(0.0, -2.0, -40.0);
                 anim.clear();anim.push_back(local_anim);
                 myObject->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_OUTERARM_LOWER,ZOMBIE_OUTERARM_LOWER_DEPTH, 1, myObject);
 
@@ -178,8 +180,6 @@ namespace fvu {
 
                 break;
 
-            default:
-                break;
 
         }
 
@@ -219,6 +219,13 @@ namespace fvu {
             case SHOVEL_PARTICLE:
                 live_count++;
                 if (live_count == 30)
+                    offscreen = true;
+
+                break;
+
+            case REGULAR_ARM_PARTICLE:
+                live_count++;
+                if (live_count == 20)
                     offscreen = true;
 
                 break;
