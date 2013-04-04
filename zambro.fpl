@@ -43,9 +43,9 @@ place P6 4, 8
 #
 # fire a projectile from plant P1
 Start: fire P1
-fire P2
-fire P3
-fire P4
-fire P5
+#fire P2
+#fire P3
+#fire P4
+#fire P5
 
 goto Start

@@ -24,7 +24,7 @@ budget 20000
 # You can specify more than 1 of a type in a line.
 #
 select newspaper 1
-select regular 2
+select screendoor 2
 select screendoor 1
 select cone 1
 select bucket 20
@@ -37,7 +37,7 @@ select bucket 20
 # and that certain zombies may have game-enforced limitations on which lane they
 # can be placed.
 #
-place 4, 2500
+place 0, 2500
 place 1, 0
 #place 0, 5000
 #place 3, 0

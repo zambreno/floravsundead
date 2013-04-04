@@ -361,7 +361,7 @@ namespace fvu {
 
                 // children[0] is the lower body, which extends to the rest of the body
                 local_anim.set_defaults();
-                local_anim.set_xy(0.0, 9.0);
+                local_anim.set_xy(15.0, 9.0);
                 anim.clear();anim.push_back(local_anim);
                 myObject->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_PAPER_LOWERBODY1, ZOMBIE_FRONTBODY_DEPTH, 2, myObject);
 
@@ -429,11 +429,11 @@ namespace fvu {
                 local_anim.set_defaults();
                 local_anim.set_xy(-8.0, -13.0);
                 anim.clear();anim.push_back(local_anim);
-                myObject->children[0]->children[1]->children[0]->children[0]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_PAPER_HANDS, ZOMBIE_OUTERARM_HAND_DEPTH, 2, myObject->children[0]->children[1]->children[0]->children[0]);
+                myObject->children[0]->children[1]->children[0]->children[0]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_PAPER_HANDS, ZOMBIE_OUTERARM_LOWER_DEPTH, 2, myObject->children[0]->children[1]->children[0]->children[0]);
 
                 // children[0][1][0][0][0][0] is a placeholder for the other hands
                 local_anim.set_defaults();
-                local_anim.set_xy(-20.0, -34.0);
+                local_anim.set_xy(-12.0, -24.0);
                 anim.clear();anim.push_back(local_anim);
                 myObject->children[0]->children[1]->children[0]->children[0]->children[0]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, BLANK_SPRITE, ZOMBIE_OUTERARM_HAND_DEPTH, 0, myObject->children[0]->children[1]->children[0]->children[0]->children[0]);
 
@@ -453,11 +453,11 @@ namespace fvu {
                 local_anim.set_defaults();
                 local_anim.set_xy(-11.0, -24.0);
                 anim.clear();anim.push_back(local_anim);
-                myObject->children[0]->children[1]->children[1]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_PAPER_LEFTARM_LOWER, ZOMBIE_OUTERARM_LOWER_DEPTH, 1, myObject->children[0]->children[1]->children[1]);
+                myObject->children[0]->children[1]->children[1]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_PAPER_LEFTARM_LOWER, ZOMBIE_OUTERARM_UPPER_DEPTH, 1, myObject->children[0]->children[1]->children[1]);
 
                 // children[0][1][1][0][0] is the lefthand (placeholder)
                 local_anim.set_defaults();
-                local_anim.set_xy(-11.0, -24.0);
+                local_anim.set_xy(-70.0, -18.0);
                 anim.clear();anim.push_back(local_anim);
                 myObject->children[0]->children[1]->children[1]->children[0]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, BLANK_SPRITE, ZOMBIE_OUTERARM_LOWER_DEPTH, 0, myObject->children[0]->children[1]->children[1]->children[0]);
 
@@ -502,7 +502,7 @@ namespace fvu {
 
                 // children[1] is the shadow
                 local_anim.set_defaults();
-                local_anim.set_xy(-15.0, -52.0);
+                local_anim.set_xy(0.0, -52.0);
                 anim.clear();anim.push_back(local_anim);
                 myObject->children[1] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_SHADOW, ZOMBIE_SHADOW_DEPTH, 0, myObject);
 
@@ -1239,6 +1239,45 @@ namespace fvu {
                     myGame->myParticles[team].push_back(*local_particle);
                 }
                 break;
+            case NEWS_ZOMBIE:
+                if (val == zombieTransitions[NEWS_ZOMBIE][0]) {
+                    myObject->children[0]->children[1]->children[0]->children[0]->children[0]->children[1]->updateSprite(ZOMBIE_PAPER_PAPER2);
+                }
+                if (val == zombieTransitions[NEWS_ZOMBIE][1]) {
+                    myObject->children[0]->children[1]->children[0]->children[0]->children[0]->children[1]->updateSprite(ZOMBIE_PAPER_PAPER3);
+                }
+                // When we lose the newspaper, which we can implement effectively with some sprite swaps and a particle.
+                if (val == zombieTransitions[NEWS_ZOMBIE][2]) {
+                    // Update the newspaper and arms
+                    myObject->children[0]->children[1]->children[0]->children[0]->children[0]->children[1]->updateSprite(BLANK_SPRITE);
+                    myObject->children[0]->children[1]->children[0]->children[0]->children[0]->updateSprite(BLANK_SPRITE);
+                    myObject->children[0]->children[1]->children[0]->children[0]->children[0]->children[0]->updateSprite(ZOMBIE_PAPER_HANDS2);
+                    myObject->children[0]->children[1]->children[1]->children[0]->children[0]->updateSprite(ZOMBIE_PAPER_HANDS3);
+
+                    // Update the head / eyes
+                    myObject->children[0]->children[1]->children[2]->updateSprite(ZOMBIE_PAPER_MADHEAD);
+                    myObject->children[0]->children[1]->children[2]->children[2]->updateSprite(BLANK_SPRITE);
+                    myObject->children[0]->children[1]->children[2]->children[3]->updateSprite(BLANK_SPRITE);
+
+                    local_particle = new Particle(ZOMBIE_NEWS_PARTICLE, this);
+                    myGame->myParticles[team].push_back(*local_particle);
+                    has_item = false;
+                    speed = 0.0; // Speed will increase after newspaper particle is done falling
+                    myGame->playSound(SFX_NEWSPAPER_RIP, 25);
+                    myGame->playSound(SFX_NEWSPAPER_RARRGH, 40);
+                }
+                if (val == zombieTransitions[NEWS_ZOMBIE][3]) {
+                    myGame->playSound(SFX_LIMBS_POP, 25);
+                    myObject->children[0]->children[1]->children[1]->updateSprite(ZOMBIE_PAPER_LEFTARM_UPPER2);
+                    myObject->children[0]->children[1]->children[1]->children[0]->updateSprite(BLANK_SPRITE);
+                    myObject->children[0]->children[1]->children[1]->children[0]->children[0]->updateSprite(BLANK_SPRITE);
+                    local_particle = new Particle(NEWS_ARM_PARTICLE, this);
+                    myGame->myParticles[team].push_back(*local_particle);
+                }
+                break;
+
+
+
             case SCREEN_ZOMBIE:
                 if (val == zombieTransitions[SCREEN_ZOMBIE][0]) {
                     myObject->children[0]->children[0]->children[4]->children[0]->updateSprite(ZOMBIE_SCREENDOOR_2);
@@ -1307,6 +1346,11 @@ namespace fvu {
                     anim.clear();anim.push_back(local_anim);
                     local_object->children[3]->children[0]->children[0] = new Object(anim, 0, TEX_ZOMBIES, ZOMBIE_INNERARM_HAND,ZOMBIE_INNERARM_HAND_DEPTH,0, local_object->children[3]->children[0]);
 
+                    // If we were already eating, get back to it
+                    if (status == ZOMBIE_STATUS_EATING) {
+                        local_object->children[3]->setMode(OBJECT_STATUS_ACTION);
+                        local_object->children[4]->setMode(OBJECT_STATUS_ACTION);
+                    }
 
                     has_item = false;
                 }
@@ -1343,6 +1387,7 @@ namespace fvu {
             case FLAG_ZOMBIE:
             case SCREEN_ZOMBIE:
             case BUCKET_ZOMBIE:
+            case DANCING_ZOMBIE:
             case CONE_ZOMBIE:
                 if (death_count == 0) {
                     death_count++;
@@ -1417,9 +1462,34 @@ namespace fvu {
 
                 break;
             case NEWS_ZOMBIE:
+                if (death_count == 0) {
+                    death_count++;
+                    myGame->playSound(SFX_LIMBS_POP, 25);
+                    myGame->myStatus.scores[team] += KILL_SCORE;
+                    myObject->children[0]->children[1]->children[2]->updateSprite(BLANK_SPRITE);
+                    myObject->children[0]->children[1]->children[2]->children[0]->updateSprite(BLANK_SPRITE);
+                    myObject->children[0]->children[1]->children[2]->children[1]->updateSprite(BLANK_SPRITE);
+                    myObject->children[0]->children[1]->children[2]->children[2]->updateSprite(BLANK_SPRITE);
+                    myObject->children[0]->children[1]->children[2]->children[3]->updateSprite(BLANK_SPRITE);
+                    myObject->children[0]->children[1]->children[2]->children[4]->updateSprite(BLANK_SPRITE);
+
+
+                    local_particle = new Particle(NEWS_HEAD_PARTICLE, this);
+                    myGame->myParticles[team].push_back(*local_particle);
+
+                }
+                else {
+                    // For now, we skip the conventional update in death mode
+                    myObject->update();
+                    death_count++;
+                    if (death_count == 31) {
+                        status = ZOMBIE_STATUS_INACTIVE;
+                        row = 25;
+                    }
+                }
+
                 break;
-            case DANCING_ZOMBIE:
-                break;
+
             case YETI_ZOMBIE:
                 break;
 

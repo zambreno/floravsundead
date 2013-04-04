@@ -61,6 +61,7 @@ namespace fvu {
             void die();
             uint8_t getStatus() {return status;}
             void setStatus(uint8_t val) {status = val;}
+            void setSpeed(float mySpeed) {speed = mySpeed;}
             uint8_t getType() {return type;}
             uint16_t getIndex() {return index;}
             int16_t getDelay() {return delay;}
