@@ -351,6 +351,164 @@ namespace fvu {
                 break;
 
 
+            case NEWS_ZOMBIE:
+                /* The object structure starts at the x/y location of the outer leg, and moves out in all directions */
+                local_anim.set_defaults();
+                anim.clear();
+                anim.push_back(local_anim);
+                myObject = new Object(anim, anim_count, 0, 0, 0, 2, NULL);
+
+
+                // children[0] is the lower body, which extends to the rest of the body
+                local_anim.set_defaults();
+                local_anim.set_xy(0.0, 9.0);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_PAPER_LOWERBODY1, ZOMBIE_FRONTBODY_DEPTH, 2, myObject);
+
+                // children[0][0] is the lowerbody2, which extends to the legs
+                local_anim.set_defaults();
+                local_anim.set_xy(7.0, -1.0);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_PAPER_LOWERBODY2, ZOMBIE_BACKBODY_DEPTH, 2, myObject->children[0]);
+
+                // children[0][0][0] is the outer / right leg, which uses he polevaulter sprite for some reason
+                local_anim.set_defaults();
+                local_anim.set_xy(3.0, -3.0);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0]->children[0]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_POLEVAULTER_OUTERLEG_UPPER, ZOMBIE_OUTERLEG_UPPER_DEPTH, 1, myObject->children[0]->children[0]);
+
+                // children[0][0][0][0] is the lower outer leg
+                local_anim.set_defaults();
+                local_anim.set_xy(-12.0, -23.0);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0]->children[0]->children[0]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_PAPER_RIGHTLEG_LOWER, ZOMBIE_OUTERLEG_LOWER_DEPTH, 1, myObject->children[0]->children[0]->children[0]);
+
+                // children[0][0][0][0][0] is the outer foot
+                local_anim.set_defaults();
+                local_anim.set_xy(-10.0, -16.0);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0]->children[0]->children[0]->children[0]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_PAPER_RIGHTFOOT, ZOMBIE_OUTERLEG_FOOT_DEPTH, 0, myObject->children[0]->children[0]->children[0]->children[0]);
+
+                // children[0][0][1] is the inner / left leg
+                local_anim.set_defaults();
+                local_anim.set_xy(28.0, -3.0);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0]->children[0]->children[1] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_PAPER_LEFTLEG_UPPER, ZOMBIE_INNERLEG_UPPER_DEPTH, 1, myObject->children[0]->children[0]);
+
+                // children[0][0][1][0] is the lower inner leg
+                local_anim.set_defaults();
+                local_anim.set_xy(-2.0, -30.0);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0]->children[0]->children[1]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_PAPER_LEFTLEG_LOWER, ZOMBIE_INNERLEG_LOWER_DEPTH, 1, myObject->children[0]->children[0]->children[1]);
+
+                // children[0][0][1][0][0] is the inner foot
+                local_anim.set_defaults();
+                local_anim.set_xy(-20.0, -19.0);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0]->children[0]->children[1]->children[0]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_PAPER_LEFTFOOT, ZOMBIE_INNERLEG_FOOT_DEPTH, 0, myObject->children[0]->children[0]->children[1]->children[0]);
+
+                // children[0][1] is the upperbody, which extends to the arms and head
+                local_anim.set_defaults();
+                local_anim.set_xy(-18.0, 17.0);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0]->children[1] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_PAPER_BODY, ZOMBIE_FRONTBODY_DEPTH, 3, myObject->children[0]);
+
+                // children[0][1][0] is the rightarm
+                local_anim.set_defaults();
+                local_anim.set_xy(-27.0, 24.0);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0]->children[1]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_PAPER_RIGHTARM_UPPER, ZOMBIE_INNERARM_UPPER_DEPTH, 1, myObject->children[0]->children[1]);
+
+                // children[0][1][0][0] is the rightarm lower
+                local_anim.set_defaults();
+                local_anim.set_xy(-22.0, -6.0);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0]->children[1]->children[0]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_PAPER_RIGHTARM_LOWER, ZOMBIE_INNERARM_LOWER_DEPTH, 1, myObject->children[0]->children[1]->children[0]);
+
+                // children[0][1][0][0][0] is the hands (both of them)
+                local_anim.set_defaults();
+                local_anim.set_xy(-8.0, -13.0);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0]->children[1]->children[0]->children[0]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_PAPER_HANDS, ZOMBIE_OUTERARM_HAND_DEPTH, 2, myObject->children[0]->children[1]->children[0]->children[0]);
+
+                // children[0][1][0][0][0][0] is a placeholder for the other hands
+                local_anim.set_defaults();
+                local_anim.set_xy(-20.0, -34.0);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0]->children[1]->children[0]->children[0]->children[0]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, BLANK_SPRITE, ZOMBIE_OUTERARM_HAND_DEPTH, 0, myObject->children[0]->children[1]->children[0]->children[0]->children[0]);
+
+                // children[0][1][0][0][0][1] is the newspaper
+                local_anim.set_defaults();
+                local_anim.set_xy(0.0, -11.0);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0]->children[1]->children[0]->children[0]->children[0]->children[1] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_PAPER_PAPER1, ZOMBIE_ACCESSORY_DEPTH, 0, myObject->children[0]->children[1]->children[0]->children[0]->children[0]);
+
+                // children[0][1][1] is the leftarm
+                local_anim.set_defaults();
+                local_anim.set_xy(23.0, 31.0);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0]->children[1]->children[1] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_PAPER_LEFTARM_UPPER, ZOMBIE_OUTERARM_UPPER_DEPTH, 1, myObject->children[0]->children[1]);
+
+                // children[0][1][1][0] is the leftarm lower
+                local_anim.set_defaults();
+                local_anim.set_xy(-11.0, -24.0);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0]->children[1]->children[1]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_PAPER_LEFTARM_LOWER, ZOMBIE_OUTERARM_LOWER_DEPTH, 1, myObject->children[0]->children[1]->children[1]);
+
+                // children[0][1][1][0][0] is the lefthand (placeholder)
+                local_anim.set_defaults();
+                local_anim.set_xy(-11.0, -24.0);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0]->children[1]->children[1]->children[0]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, BLANK_SPRITE, ZOMBIE_OUTERARM_LOWER_DEPTH, 0, myObject->children[0]->children[1]->children[1]->children[0]);
+
+                // children[0][1][2] is the head
+                local_anim.set_defaults();
+                local_anim.set_xy(-27.0, 59.0);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0]->children[1]->children[2] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_PAPER_HEAD_LOOK, ZOMBIE_HEADFRONT_DEPTH, 5, myObject->children[0]->children[1]);
+
+                // children[0][1][2][0] is the hairpiece
+                local_anim.set_defaults();
+                local_anim.set_xy(4.0, 30.0);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0]->children[1]->children[2]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_PAPER_HAIRPIECE, ZOMBIE_HEADFRONT_DEPTH, 0, myObject->children[0]->children[1]->children[2]);
+
+                // children[0][1][2][1] is the jaw
+                local_anim.set_defaults();
+                local_anim.set_xy(10.0, -9.0);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0]->children[1]->children[2]->children[1] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_JAW, ZOMBIE_HEADFRONT_DEPTH, 0, myObject->children[0]->children[1]->children[2]);
+
+                // children[0][1][2][2] is the first eye
+                local_anim.set_defaults();
+                local_anim.set_xy(22.0, 13.0);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0]->children[1]->children[2]->children[2] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_EYE, ZOMBIE_HEADFRONT_DEPTH, 0, myObject->children[0]->children[1]->children[2]);
+
+                // children[0][1][2][3] is the second eye
+                local_anim.set_defaults();
+                local_anim.set_xscale(0.65);
+                local_anim.set_yscale(0.65);
+                local_anim.set_xy(2.0, 15.0);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0]->children[1]->children[2]->children[3] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_EYE, ZOMBIE_HEADFRONT_DEPTH, 0, myObject->children[0]->children[1]->children[2]);
+
+                // children[0][1][2][4] is the glasses
+                local_anim.set_defaults();
+                local_anim.set_xy(-1.0, 5.0);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0]->children[1]->children[2]->children[4] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_PAPER_GLASSES, ZOMBIE_HEADFRONT_DEPTH, 0, myObject->children[0]->children[1]->children[2]);
+
+
+                // children[1] is the shadow
+                local_anim.set_defaults();
+                local_anim.set_xy(-15.0, -52.0);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[1] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_SHADOW, ZOMBIE_SHADOW_DEPTH, 0, myObject);
+
+                break;
+
+
             case POLE_ZOMBIE:
                 /* The object structure starts at the x/y location of the outer leg, and moves out in all directions */
                 local_anim.set_defaults();
