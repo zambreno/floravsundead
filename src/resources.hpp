@@ -195,8 +195,12 @@ TALLNUT_BLINK_1, TALLNUT_BLINK_2, TALLNUT_BODY, TALLNUT_CRACKED_1, TALLNUT_CRACK
 WALLNUT_BLINK1, WALLNUT_BLINK2, WALLNUT_BODY, WALLNUT_CRACKED_1, WALLNUT_CRACKED_2,                                                                                             //42
 WALLNUT_TWITCH, BLANK_PLANT_SPRITE, WHITE_PLANT_SPRITE, SNOWPEA_BLINK_1, SNOWPEA_BLINK_2,                                                                                       //43
 SNOWPEA_CRYSTALS_1, SNOWPEA_CRYSTALS_2, SNOWPEA_CRYSTALS_3, SNOWPEA_HEAD, SNOWPEA_MOUTH,                                                                                        //44
-PROJECTILE_SNOW_PEA, CHOMPER_GROUNDLEAF_2_TIP, PEA_PARTICLES, PEA_SPLATS, SNOWPEA_PARTICLES,                                                                                    //45
-SNOWPEA_SPLATS, WALLNUT_PARTICLES_LARGE, WALLNUT_PARTICLES_SMALL,                                                                                                                 //46                                   //46
+PROJECTILE_SNOW_PEA, CHOMPER_GROUNDLEAF_2_TIP, PEA_PARTICLES_1, PEA_PARTICLES_2, PEA_PARTICLES_3,                                                                               //48
+PEA_SPLATS_1,  PEA_SPLATS_2,  PEA_SPLATS_3,  PEA_SPLATS_4, SNOWPEA_PARTICLES_1,                                                                                                 //49
+SNOWPEA_PARTICLES_2, SNOWPEA_PARTICLES_3, SNOWPEA_SPLATS_1, SNOWPEA_SPLATS_2, SNOWPEA_SPLATS_3,                                                                                 //50
+SNOWPEA_SPLATS_4, WALLNUT_PARTICLES_LARGE_1, WALLNUT_PARTICLES_LARGE_2, WALLNUT_PARTICLES_LARGE_3, WALLNUT_PARTICLES_LARGE_4,                                                   //51
+WALLNUT_PARTICLES_LARGE_5, WALLNUT_PARTICLES_SMALL_1, WALLNUT_PARTICLES_SMALL_2,WALLNUT_PARTICLES_SMALL_3,WALLNUT_PARTICLES_SMALL_4,                                            //52
+WALLNUT_PARTICLES_SMALL_5,                                                                                                                                                      //53
 NUM_PLANT_SPRITES} PLANT_SPRITE_ENUM ;
 extern uint16_t plant_object_spriteMap[][4];
 
