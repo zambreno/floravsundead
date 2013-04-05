@@ -1615,7 +1615,10 @@ namespace fvu {
                             }
                             // We neither want to eat or jump over the plant. It must be a portal. Check game_x values first
                             if ((do_eat == false) && (do_special == false)) {
-                                if (game_x >= (left_gridWidths[col+1]-30)) {
+                                if (game_x < (left_gridWidths[col]-30)) {
+                                    col++;
+                                }
+                                else {
                                     /* Portal mechanics:
                                      * 1. Play a sound
                                      * 2. Take a bite out of the portal (so they don't last forever)
@@ -1624,18 +1627,22 @@ namespace fvu {
                                      *    so that this one is next. Also, if the team is currently done with zombies,
                                      *    reset that as well.
                                      * 4. Place the zombie on the new team. Update its health.
-                                     * 5. Delete the old zombie
+                                     * 5. Delete the old zombie. We have to update our team's zombie_index accordingly as well.
                                      */
-                                    myGame->playSound(SFX_PORTAL, 25);
+                                    myGame->playSound(SFX_PORTAL, 50);
                                     myGame->myPlants[team][i].bite();
+
 
                                     fvu::Zombie *new_zombie;
                                     uint8_t new_type;
                                     uint16_t new_index;
+                                    uint16_t my_index = index;
                                     uint8_t new_location = row;
+                                    uint8_t my_team = team;
                                     uint8_t dest_team = myGame->myPlants[team][i].dest_team;
                                     new_type = type;
                                     new_index = myGame->myTeams[dest_team].zombie_index;
+
                                     for (uint16_t j = 0; j < myGame->myZombies[dest_team].size(); j++) {
                                         uint16_t old_index = myGame->myZombies[dest_team][j].getIndex();
                                         if (old_index >= new_index) {
@@ -1649,11 +1656,26 @@ namespace fvu {
                                     new_zombie->setHealth(health);
                                     myGame->myZombies[dest_team].insert(myGame->myZombies[dest_team].end(), 1, *new_zombie);
 
+
                                     // Erasing like this is generally an inefficient operation.
-                                    for (uint16_t j = 0; j < myGame->myZombies[team].size(); j++) {
-                                        if (myGame->myZombies[team][j].getIndex() == index) {
-                                            myGame->myZombies[team].erase(myGame->myZombies[team].begin()+j);
+                                    for (uint16_t j = 0; j < myGame->myZombies[my_team].size(); j++) {
+                                        if (myGame->myZombies[my_team][j].getIndex() == my_index) {
+                                            myGame->myZombies[my_team].erase(myGame->myZombies[my_team].begin()+j);
+                                            break;
                                         }
+                                    }
+
+                                    // Update my zombies since we are losing a zombie at index
+                                    for (uint16_t j = 0; j < myGame->myZombies[my_team].size(); j++) {
+                                        uint16_t old_index = myGame->myZombies[my_team][j].getIndex();
+                                        if (old_index > my_index) {
+                                            myGame->myZombies[my_team][j].setIndex(old_index-1);
+                                        }
+                                    }
+
+                                    // Reset our zombie_index if erasing has put it past the size() of the zombie array
+                                    if (myGame->myTeams[my_team].zombie_index > myGame->myZombies[my_team].size()) {
+                                        myGame->myTeams[my_team].zombie_index--;
                                     }
 
                                 }
@@ -1708,7 +1730,11 @@ namespace fvu {
                             }
                             // We neither want to eat or jump over the plant. It must be a portal. Check game_x values first
                             if ((do_eat == false) && (do_special == false)) {
-                                if (game_x <= (right_gridWidths[col+1]+30)) {
+
+                                if (game_x > (right_gridWidths[col]+30)) {
+                                    col++;
+                                }
+                                else {
                                     /* Portal mechanics:
                                      * 1. Play a sound
                                      * 2. Take a bite out of the portal (so they don't last forever)
@@ -1717,25 +1743,31 @@ namespace fvu {
                                      *    so that this one is next. Also, if the team is currently done with zombies,
                                      *    reset that as well.
                                      * 4. Place the zombie on the new team. Update its health.
-                                     * 5. Delete the old zombie
+                                     * 5. Delete the old zombie. We have to update our team's zombie_index accordingly as well.
                                      */
-                                    myGame->playSound(SFX_PORTAL, 25);
+                                    myGame->playSound(SFX_PORTAL, 50);
                                     myGame->myPlants[team][i].bite();
+
 
                                     fvu::Zombie *new_zombie;
                                     uint8_t new_type;
                                     uint16_t new_index;
+                                    uint16_t my_index = index;
                                     uint8_t new_location = row;
+                                    uint8_t my_team = team;
                                     uint8_t dest_team = myGame->myPlants[team][i].dest_team;
                                     new_type = type;
+
                                     new_index = myGame->myTeams[dest_team].zombie_index;
+                                    myGame->myTeams[dest_team].zombies_done = false;
+
                                     for (uint16_t j = 0; j < myGame->myZombies[dest_team].size(); j++) {
                                         uint16_t old_index = myGame->myZombies[dest_team][j].getIndex();
                                         if (old_index >= new_index) {
                                             myGame->myZombies[dest_team][j].setIndex(old_index+1);
                                         }
                                     }
-                                    myGame->myTeams[dest_team].zombies_done = false;
+
                                     new_zombie = new Zombie(new_type, new_index);
                                     new_zombie->place(new_location, 0, dest_team);
                                     new_zombie->endDemo();
@@ -1743,12 +1775,26 @@ namespace fvu {
                                     myGame->myZombies[dest_team].insert(myGame->myZombies[dest_team].end(), 1, *new_zombie);
 
                                     // Erasing like this is generally an inefficient operation.
-                                    for (uint16_t j = 0; j < myGame->myZombies[team].size(); j++) {
-                                        if (myGame->myZombies[team][j].getIndex() == index) {
-                                            myGame->myZombies[team].erase(myGame->myZombies[team].begin()+j);
+                                    for (uint16_t j = 0; j < myGame->myZombies[my_team].size(); j++) {
+                                        if (myGame->myZombies[my_team][j].getIndex() == my_index) {
+                                            myGame->myZombies[my_team].erase(myGame->myZombies[my_team].begin()+j);
+                                            break;
                                         }
                                     }
 
+                                    // Update my zombies since we are losing a zombie at index
+                                    for (uint16_t j = 0; j < myGame->myZombies[my_team].size(); j++) {
+                                        uint16_t old_index = myGame->myZombies[my_team][j].getIndex();
+                                        if (old_index > my_index) {
+                                            myGame->myZombies[my_team][j].setIndex(old_index-1);
+                                        }
+                                    }
+
+
+                                    // Reset our zombie_index if erasing has put it past the size() of the zombie array
+                                    if (myGame->myTeams[my_team].zombie_index > myGame->myZombies[my_team].size()) {
+                                        myGame->myTeams[my_team].zombie_index--;
+                                    }
 
                                 }
                             }

@@ -56,20 +56,20 @@ place P10 2, 4
 Start: fire P1
 #
 # fire a projectile from plant P2
-fire P2
+#fire P2
 #
 # if we've hit a zombie, continue firing
 #if hit, fire P3
 #if not hit, goto L2
-fire P4
-fire P6
-bite P9
+#fire P4
+#fire P6
+#bite P9
 #
 # L2 is a label that the previous code jumped to
 # In this case, if one of our plants is damaged, move things around
 L2: if damaged, move P3 1, 3
-fire P4
-fire P6
-fire P10
+#fire P4
+#fire P6
+#fire P10
 # Loop back to the start.
 goto Start

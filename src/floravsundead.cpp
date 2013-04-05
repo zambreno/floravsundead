@@ -825,10 +825,10 @@ namespace fvu {
                                             local_plant->dest_team = 2;
                                         case 2:
                                             break;
-                                            local_plant->dest_team = 0;
+                                            local_plant->dest_team = 1;
                                         case 3:
                                             break;
-                                            local_plant->dest_team = 1;
+                                            local_plant->dest_team = 0;
                                     }
                                 }
                             }

@@ -1270,7 +1270,9 @@ namespace fvu {
             }
 
             if (health <= 0) {
-                myGame->playSound(SFX_GULP, 50);
+                if (type != PLANT_PORTAL) {
+                    myGame->playSound(SFX_GULP, 50);
+                }
                 status = PLANT_STATUS_INACTIVE;
                 myGame->plantGrid[team][row][col] = false;
             }
