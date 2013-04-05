@@ -1268,7 +1268,8 @@ namespace fvu {
                     break;
                 }
             }
-
+/* Error-Causing code below */
+/*
             if (health <= 0) {
                 if (type != PLANT_PORTAL) {
                     myGame->playSound(SFX_GULP, 50);
@@ -1276,7 +1277,7 @@ namespace fvu {
                 status = PLANT_STATUS_INACTIVE;
                 myGame->plantGrid[team][row][col] = false;
             }
-
+*/
         }
 
         myObject->update();
