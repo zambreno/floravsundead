@@ -37,7 +37,7 @@ select bucket 20
 # and that certain zombies may have game-enforced limitations on which lane they
 # can be placed.
 #
-place 0, 2500
+place 3, 2500
 place 1, 0
 #place 0, 5000
 #place 3, 0
