@@ -74,7 +74,6 @@ namespace fvu {
             bool has_killed;
             // For portals only
             uint8_t dest_team;
-            uint16_t dest_row, dest_col;
 
         private:
             uint8_t type;

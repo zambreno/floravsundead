@@ -190,10 +190,11 @@ namespace fvu {
             std::vector<fvu::Zombie> myZombies[4];
             std::vector<fvu::Plant> myPlants[4];
             std::vector<fvu::Particle> myParticles[4];
+            fvu::Team myTeams[4];
+
 
         private:
             fvu::Config myConfig;
-            fvu::Team myTeams[4];
             sf::Time myTime;
             sf::ContextSettings mySettings;
             sf::RenderWindow myWindow;

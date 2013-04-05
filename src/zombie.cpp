@@ -1054,7 +1054,9 @@ namespace fvu {
         // A chomp is an invisible particle specifically to destroy a zombie
         if (myParticle->getType() == CHOMP_PROJECTILE) {
             health = 0;
+            row = 25;
             status = ZOMBIE_STATUS_INACTIVE;
+            myGame->myStatus.scores[team] += KILL_SCORE;
             return;
         }
 
@@ -1585,14 +1587,22 @@ namespace fvu {
                         // We've entered a grid in which there is a plant
                         if (myGame->plantGrid[team][row][col] == true) {
                             bool do_eat = true;
-                            if ((type == POLE_ZOMBIE) && (special_done == false)) {
-                                for (uint16_t i = 0; i < myGame->myPlants[team].size(); i++) {
-                                    if ((myGame->myPlants[team][i].getRow() == row) && (myGame->myPlants[team][i].getCol() == col)) {
-                                        if ((myGame->myPlants[team][i].getType() != TALLNUT_PLANT) && (myGame->myPlants[team][i].getType() != PORTAL_PLANT)){
-                                            do_eat = false;
-                                        }
-                                        break;
+                            bool do_special = false;
+                            uint16_t i;
+                            for (i = 0; i < myGame->myPlants[team].size(); i++) {
+                                if ((myGame->myPlants[team][i].getRow() == row) && (myGame->myPlants[team][i].getCol() == col)) {
+                                    // Pole zombies jump before they eat (unless it's a tallnut)
+                                    if ((type == POLE_ZOMBIE) && (special_done == false) && (myGame->myPlants[team][i].getType() != TALLNUT_PLANT)){
+                                        do_eat = false;
+                                        do_special = true;
                                     }
+                                    // Don't eat or jump over portals
+                                    if (myGame->myPlants[team][i].getType() == PORTAL_PLANT) {
+                                        do_eat = false;
+                                        do_special = false;
+                                    }
+                                    break;
+
                                 }
                             }
 
@@ -1600,8 +1610,53 @@ namespace fvu {
                                 status = ZOMBIE_STATUS_EATING;
                                 myObject->setMode(OBJECT_STATUS_ACTION);
                             }
-                            else {
+                            else if (do_special == true) {
                                 special();
+                            }
+                            // We neither want to eat or jump over the plant. It must be a portal. Check game_x values first
+                            if ((do_eat == false) && (do_special == false)) {
+                                if (game_x >= (left_gridWidths[col+1]-30)) {
+                                    /* Portal mechanics:
+                                     * 1. Play a sound
+                                     * 2. Take a bite out of the portal (so they don't last forever)
+                                     * 3. Create a new zombie on the dest_team of the portal. This new zombie
+                                     *    should be the 'next' one on that team, so figure out the cur_index and update
+                                     *    so that this one is next. Also, if the team is currently done with zombies,
+                                     *    reset that as well.
+                                     * 4. Place the zombie on the new team. Update its health.
+                                     * 5. Delete the old zombie
+                                     */
+                                    myGame->playSound(SFX_PORTAL, 25);
+                                    myGame->myPlants[team][i].bite();
+
+                                    fvu::Zombie *new_zombie;
+                                    uint8_t new_type;
+                                    uint16_t new_index;
+                                    uint8_t new_location = row;
+                                    uint8_t dest_team = myGame->myPlants[team][i].dest_team;
+                                    new_type = type;
+                                    new_index = myGame->myTeams[dest_team].zombie_index;
+                                    for (uint16_t j = 0; j < myGame->myZombies[dest_team].size(); j++) {
+                                        uint16_t old_index = myGame->myZombies[dest_team][j].getIndex();
+                                        if (old_index >= new_index) {
+                                            myGame->myZombies[dest_team][j].setIndex(old_index+1);
+                                        }
+                                    }
+                                    myGame->myTeams[dest_team].zombies_done = false;
+                                    new_zombie = new Zombie(new_type, new_index);
+                                    new_zombie->place(new_location, 0, dest_team);
+                                    new_zombie->endDemo();
+                                    new_zombie->setHealth(health);
+                                    myGame->myZombies[dest_team].insert(myGame->myZombies[dest_team].end(), 1, *new_zombie);
+
+                                    // Erasing like this is generally an inefficient operation.
+                                    for (uint16_t j = 0; j < myGame->myZombies[team].size(); j++) {
+                                        if (myGame->myZombies[team][j].getIndex() == index) {
+                                            myGame->myZombies[team].erase(myGame->myZombies[team].begin()+j);
+                                        }
+                                    }
+
+                                }
                             }
                         }
                     }
@@ -1625,14 +1680,22 @@ namespace fvu {
                         // We've entered a grid in which there is a plant
                         if (myGame->plantGrid[team][row][col] == true) {
                             bool do_eat = true;
-                            if ((type == POLE_ZOMBIE) && (special_done == false)) {
-                                for (uint16_t i = 0; i < myGame->myPlants[team].size(); i++) {
-                                    if ((myGame->myPlants[team][i].getRow() == row) && (myGame->myPlants[team][i].getCol() == col)) {
-                                        if (myGame->myPlants[team][i].getType() != TALLNUT_PLANT) {
-                                            do_eat = false;
-                                        }
-                                        break;
+                            bool do_special = false;
+                            uint16_t i;
+                            for (i = 0; i < myGame->myPlants[team].size(); i++) {
+                                if ((myGame->myPlants[team][i].getRow() == row) && (myGame->myPlants[team][i].getCol() == col)) {
+                                    // Pole zombies jump before they eat (unless it's a tallnut)
+                                    if ((type == POLE_ZOMBIE) && (special_done == false) && (myGame->myPlants[team][i].getType() != TALLNUT_PLANT)){
+                                        do_eat = false;
+                                        do_special = true;
                                     }
+                                    // Don't eat or jump over portals
+                                    if (myGame->myPlants[team][i].getType() == PORTAL_PLANT) {
+                                        do_eat = false;
+                                        do_special = false;
+                                    }
+                                    break;
+
                                 }
                             }
 
@@ -1640,8 +1703,54 @@ namespace fvu {
                                 status = ZOMBIE_STATUS_EATING;
                                 myObject->setMode(OBJECT_STATUS_ACTION);
                             }
-                            else {
+                            else if (do_special == true) {
                                 special();
+                            }
+                            // We neither want to eat or jump over the plant. It must be a portal. Check game_x values first
+                            if ((do_eat == false) && (do_special == false)) {
+                                if (game_x <= (right_gridWidths[col+1]+30)) {
+                                    /* Portal mechanics:
+                                     * 1. Play a sound
+                                     * 2. Take a bite out of the portal (so they don't last forever)
+                                     * 3. Create a new zombie on the dest_team of the portal. This new zombie
+                                     *    should be the 'next' one on that team, so figure out the cur_index and update
+                                     *    so that this one is next. Also, if the team is currently done with zombies,
+                                     *    reset that as well.
+                                     * 4. Place the zombie on the new team. Update its health.
+                                     * 5. Delete the old zombie
+                                     */
+                                    myGame->playSound(SFX_PORTAL, 25);
+                                    myGame->myPlants[team][i].bite();
+
+                                    fvu::Zombie *new_zombie;
+                                    uint8_t new_type;
+                                    uint16_t new_index;
+                                    uint8_t new_location = row;
+                                    uint8_t dest_team = myGame->myPlants[team][i].dest_team;
+                                    new_type = type;
+                                    new_index = myGame->myTeams[dest_team].zombie_index;
+                                    for (uint16_t j = 0; j < myGame->myZombies[dest_team].size(); j++) {
+                                        uint16_t old_index = myGame->myZombies[dest_team][j].getIndex();
+                                        if (old_index >= new_index) {
+                                            myGame->myZombies[dest_team][j].setIndex(old_index+1);
+                                        }
+                                    }
+                                    myGame->myTeams[dest_team].zombies_done = false;
+                                    new_zombie = new Zombie(new_type, new_index);
+                                    new_zombie->place(new_location, 0, dest_team);
+                                    new_zombie->endDemo();
+                                    new_zombie->setHealth(health);
+                                    myGame->myZombies[dest_team].insert(myGame->myZombies[dest_team].end(), 1, *new_zombie);
+
+                                    // Erasing like this is generally an inefficient operation.
+                                    for (uint16_t j = 0; j < myGame->myZombies[team].size(); j++) {
+                                        if (myGame->myZombies[team][j].getIndex() == index) {
+                                            myGame->myZombies[team].erase(myGame->myZombies[team].begin()+j);
+                                        }
+                                    }
+
+
+                                }
                             }
                         }
                     }

@@ -34,7 +34,7 @@ std::string plantNames[NUM_PLANT_TYPE][NUM_PLANT_SPELLINGS] = {
 /* Plant costs */
 uint16_t plantCosts[NUM_PLANT_TYPE] = {100, 200, 450, 175, 150, 50, 125, 700};
 /* Plant healths */
-int16_t plantHealths[NUM_PLANT_TYPE] = {9, 9, 9, 9, 9, 72, 144, 1};
+int16_t plantHealths[NUM_PLANT_TYPE] = {9, 9, 9, 9, 9, 72, 144, 5};
 /* Plant speeds. This variable is plant-specific */
 uint16_t plantSpeeds[NUM_PLANT_TYPE] = {80, 40, 20, 80, 300, 1, 1, 1};
 /* Plant transitions */
@@ -61,8 +61,10 @@ namespace fvu {
         float x, y, z;
 
 
-        if ((status == PLANT_STATUS_PLACED) || (status == PLANT_STATUS_DEFAULT) || (status == PLANT_STATUS_DEFAULT))
+        if ((status == PLANT_STATUS_PLACED) || (status == PLANT_STATUS_DEFAULT) || (status == PLANT_STATUS_INACTIVE))
             return;
+
+
 
         // In DEMO mode, we can do a pure depth sort of all the plants
         if (status == PLANT_STATUS_DEMO) {
@@ -85,6 +87,12 @@ namespace fvu {
             x = game_x;
             y = game_y;
             z = index*PLANT_DEPTH_RANGE;
+
+            // One-off for the portal types, which need to be in front all the time essentially
+            if (type == PORTAL_PLANT) {
+                z = 0;
+            }
+
 
             // Put objects on a different depth level if they're on the bottom
             if (team % 2 == 1) {
@@ -130,6 +138,7 @@ namespace fvu {
 
 
         }
+
 
         glPushMatrix();
         glTranslatef(x, y, z);
@@ -1139,6 +1148,7 @@ namespace fvu {
 
                         // Did we chomp a zombie? If so, act accordingly
                         has_hit = false;
+                        has_killed = false;
                         uint16_t i;
                         for (i = 0; i < myGame->myZombies[team].size(); i++) {
                             if ((myGame->myZombies[team][i].getRow() == row) && (myGame->myZombies[team][i].getCol() == col)) {
@@ -1153,7 +1163,7 @@ namespace fvu {
 
                         // We can use the zombie::shoot()
                         if (has_hit == true) {
-                            has_killed = false;
+                            has_killed = true;
                             local_particle = new Particle(CHOMP_PROJECTILE, this);
                             myGame->myZombies[team][i].shoot(local_particle);
                             myGame->playSound(SFX_BIGCHOMP, 25);
@@ -1164,7 +1174,6 @@ namespace fvu {
                             delete local_particle;
                         }
                         else {
-                            has_killed = false;
                             myObject->setMode(OBJECT_STATUS_DEMO);
                         }
                     }
@@ -1242,6 +1251,8 @@ namespace fvu {
                     myObject->children[0]->children[0]->children[0]->children[4]->children[0]->children[0]->updateSprite(BLANK_SPRITE);
                     myObject->children[0]->children[0]->children[0]->children[4]->children[0]->children[0]->children[0]->updateSprite(BLANK_SPRITE);
                     myObject->setMode(OBJECT_STATUS_DEMO);
+                    has_hit = false;
+                    has_killed = false;
                 }
             }
 
