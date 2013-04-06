@@ -1629,7 +1629,7 @@ namespace fvu {
                                      * 4. Place the zombie on the new team. Update its health.
                                      * 5. Delete the old zombie. We have to update our team's zombie_index accordingly as well.
                                      */
-                                    myGame->playSound(SFX_PORTAL, 50);
+                                    myGame->playSound(SFX_PORTAL, 75);
                                     myGame->myPlants[team][i].bite();
 
 
@@ -1745,7 +1745,7 @@ namespace fvu {
                                      * 4. Place the zombie on the new team. Update its health.
                                      * 5. Delete the old zombie. We have to update our team's zombie_index accordingly as well.
                                      */
-                                    myGame->playSound(SFX_PORTAL, 50);
+                                    myGame->playSound(SFX_PORTAL, 75);
                                     myGame->myPlants[team][i].bite();
 
 

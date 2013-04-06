@@ -48,7 +48,7 @@ select P12.peashooter
 # place, fire, goto.
 # Each command can be made optional based on your team's condition. Prefix the
 # instruction with "if" or "if not" and query the state, from the following options:
-# ready, damaged, eaten, hit, score, winning, losing.
+# ready, damaged, eaten, hit, score, winning, losing, empty.
 # Each command can also be identified with a label that can be the target of a "goto"
 # command. Execution will begin with the "Start: " command.
 #

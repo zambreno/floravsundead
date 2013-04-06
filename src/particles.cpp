@@ -169,6 +169,10 @@ namespace fvu {
                 break;
 
             default:
+                /* The object structure starts at the x/y location of the particle, and moves out in all directions */
+                local_anim.set_defaults();
+                anim.clear();anim.push_back(local_anim);
+                myObject = new Object(anim, anim_count, 0, 0, 0, 0, NULL);
                 break;
 
         }
@@ -556,7 +560,7 @@ namespace fvu {
                 local_anim.set_defaults();
                 anim.clear();anim.push_back(local_anim);
                 myObject = new Object(anim, anim_count, 0, 0, 0, 0, NULL);
-
+                break;
 
 
         }
@@ -570,6 +574,8 @@ namespace fvu {
     *****************************************************************************/
     void Particle::update() {
 
+
+        fvu::Particle *local_particle;
 
         myObject->update();
 
@@ -593,6 +599,14 @@ namespace fvu {
                         (fabs(myGame->myZombies[team][j].getGameX() - game_x) < 15.0)) {
                         myGame->myZombies[team][j].shoot(this);
                         myPlant->has_hit = true;
+                        if (type == PEA_PROJECTILE) {
+                            local_particle = new Particle(PEA_PARTICLE, &myGame->myZombies[team][j]);
+                        }
+                        else {
+                            local_particle = new Particle(SNOW_PARTICLE, &myGame->myZombies[team][j]);
+                        }
+                        myGame->myParticles[team].push_back(*local_particle);
+                        delete local_particle;
                         if (myGame->myZombies[team][j].getHealth() == 0) {
                             myPlant->has_killed = true;
                         }
@@ -646,6 +660,7 @@ namespace fvu {
                     offscreen = true;
                 break;
             default:
+                offscreen = true;
                 break;
         }
 

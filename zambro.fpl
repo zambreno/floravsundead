@@ -14,11 +14,11 @@
 #
 # select P#.plant_name
 
-select P1.h_portal
+select P1.d_portal
 select P2.d_portal
-select P3.v_portal
-select P4.portal
-select P5.portal
+select P3.d_portal
+select P4.d_portal
+select P5.d_portal
 select P6.wallnut
 #
 # Perform an initial (static) placement on the grid. Everything before the "Start: " label
@@ -26,11 +26,11 @@ select P6.wallnut
 # are in the range [1-10]. Grid 1, 1 is reserved for the scoreboard.
 
 # place P# row, col
-place P1 1, 2
-place P2 2, 1
+place P1 1, 6
+place P2 2, 7
 place P3 3, 8
-place P4 4, 8
-place P5 5, 8
+place P4 4, 7
+place P5 5, 6
 #place P6 4, 8
 
 # Specify the run-time commands. The valid commands are:

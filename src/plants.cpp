@@ -1054,19 +1054,33 @@ namespace fvu {
     void Plant::updateTransition(uint16_t val) {
 
 
+        fvu::Particle *local_particle;
+
         /* Transitions are plant-specific, and usually will involve specific sprite swaps */
         switch (type) {
             case WALLNUT_PLANT:
                 if (val == plantTransitions[WALLNUT_PLANT][0])
                     myObject->children[0]->updateSprite(WALLNUT_CRACKED_1);
+                    local_particle = new Particle(WALLNUT_BIG_PARTICLE, this);
+                    myGame->myParticles[team].push_back(*local_particle);
+                    delete local_particle;
                 if (val == plantTransitions[WALLNUT_PLANT][1])
                     myObject->children[0]->updateSprite(WALLNUT_CRACKED_2);
+                    local_particle = new Particle(WALLNUT_BIG_PARTICLE, this);
+                    myGame->myParticles[team].push_back(*local_particle);
+                    delete local_particle;
                 break;
             case TALLNUT_PLANT:
                 if (val == plantTransitions[TALLNUT_PLANT][0])
                     myObject->children[0]->updateSprite(TALLNUT_CRACKED_1);
+                    local_particle = new Particle(WALLNUT_BIG_PARTICLE, this);
+                    myGame->myParticles[team].push_back(*local_particle);
+                    delete local_particle;
                 if (val == plantTransitions[TALLNUT_PLANT][1])
                     myObject->children[0]->updateSprite(TALLNUT_CRACKED_2);
+                    local_particle = new Particle(WALLNUT_BIG_PARTICLE, this);
+                    myGame->myParticles[team].push_back(*local_particle);
+                    delete local_particle;
                 break;
 
             default:
@@ -1084,10 +1098,16 @@ namespace fvu {
     *****************************************************************************/
     void Plant::bite() {
 
+        fvu::Particle *local_particle;
         health--;
 
         // WALLNUT_PLANTS and TALLNUT_PLANTS stop moving once bitten
         if ((type == WALLNUT_PLANT) || (type == TALLNUT_PLANT)) {
+
+            local_particle = new Particle(WALLNUT_LITTLE_PARTICLE, this);
+            myGame->myParticles[team].push_back(*local_particle);
+            delete local_particle;
+
             myObject->children[0]->anim[OBJECT_STATUS_DEMO].delta_angle = 0.0;
             myObject->children[0]->anim[OBJECT_STATUS_DEMO].delta_yscale = 0.0;
             myObject->setMode(OBJECT_STATUS_DEMO);
@@ -1213,6 +1233,9 @@ namespace fvu {
                 move_count = 0;
                 status = PLANT_STATUS_GAME;
                 myGame->playSound(SFX_PLANT2, 25);
+                local_particle = new Particle(PLANTING_PARTICLE, this);
+                myGame->myParticles[team].push_back(*local_particle);
+                delete local_particle;
             }
         }
     }

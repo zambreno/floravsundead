@@ -29,7 +29,8 @@ std::string predNames[NUM_PRED_TYPES][NUM_PRED_SPELLINGS] = {
     {"hit", "contact"},
     {"score", "scored"},
     {"winning", "leading"},
-    {"losing", "trailing"}
+    {"losing", "trailing"},
+    {"empty", "free"}
     };
 
 

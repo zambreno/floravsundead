@@ -462,6 +462,35 @@ namespace fvu {
                             }
                         }
                         break;
+                    // Is a particular plant's row (or all rows) zombie-free?
+                    case EMPTY_PRED:
+                        uint8_t myrow=5;
+                        if (mycmd->has_plant_pred == true) {
+                            for (uint16_t p = 0; p < myPlants[i].size(); p++) {
+                                if (myPlants[i][p].getID() == mycmd->plant_pred) {
+                                    myrow = myPlants[i][p].getRow();
+                                    break;
+                                }
+                            }
+                            for (uint16_t z = 0; z < myZombies[i].size(); z++) {
+                                if (myZombies[i][z].getRow() == myrow) {
+                                    pred_true = false;
+                                    break;
+                                }
+                            }
+                        }
+                        else {
+                            for (uint16_t z = 0; z < myZombies[i].size(); z++) {
+                                if ((myZombies[i][z].getStatus() == ZOMBIE_STATUS_GAME) || (myZombies[i][z].getStatus() == ZOMBIE_STATUS_EATING)) {
+                                    pred_true = false;
+                                    break;
+                                }
+                            }
+
+                        }
+
+                        break;
+
                 }
 
                 // If the predicate was inverse, flip the result
@@ -807,7 +836,7 @@ namespace fvu {
                                     local_plant->dest_team = (i_team + 2) % 4;
                                 }
                                 else if (i == 2) { // V_PORTAL
-                                    if ((i_team % 1) == 1) {
+                                    if ((i_team % 2) == 1) {
                                         local_plant->dest_team = i_team - 1;
                                     }
                                     else {
