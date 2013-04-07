@@ -519,7 +519,7 @@ namespace fvu {
                 /* The object structure starts at the x/y location of the particle, and moves out in all directions */
                 local_anim.set_defaults();
                 anim.clear();anim.push_back(local_anim);
-                myObject = new Object(anim, anim_count, 0, 0, 0, 2, NULL);
+                myObject = new Object(anim, anim_count, 0, 0, 0, 1, NULL);
 
                 // children[0] is the damaged zombie newspaper
                 // It originally is located at children[0][1][0][0][0][0][1]
@@ -532,7 +532,17 @@ namespace fvu {
                 anim.clear();anim.push_back(local_anim);
                 myObject->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_PAPER_PAPER3, 0, 0, myObject);
 
-                // children[1] is the question mark
+                break;
+
+            case ZOMBIE_QUESTION_PARTICLE:
+                frozen = false;
+
+                /* The object structure starts at the x/y location of the particle, and moves out in all directions */
+                local_anim.set_defaults();
+                anim.clear();anim.push_back(local_anim);
+                myObject = new Object(anim, anim_count, 0, 0, 0, 1, NULL);
+
+                // children[0] is the question mark
                 // It originally is located above the head at children[0][1][2]
                 local_anim.set_defaults();
                 local_x = myZombie->getObject()->children[0]->children[1]->children[2]->get_abs_x() + 50.0;
@@ -543,7 +553,7 @@ namespace fvu {
                     local_anim.set_xscale(-1.0);
                 }
                 anim.clear();anim.push_back(local_anim);
-                myObject->children[1] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_QUESTIONMARK, 0, 0, myObject);
+                myObject->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_QUESTIONMARK, 0, 0, myObject);
                 break;
 
 
@@ -830,6 +840,7 @@ namespace fvu {
             case ZOMBIE_FOOTBALL_PARTICLE:
             case ZOMBIE_SCREEN_PARTICLE:
             case ZOMBIE_NEWS_PARTICLE:
+            case ZOMBIE_QUESTION_PARTICLE:
                 live_count++;
                 if (live_count == 30) {
                     offscreen = true;

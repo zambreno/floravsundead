@@ -7,7 +7,7 @@
 
 # Set the day/night mode and the background music, in the range [1,5]
 #
-day 1
+day 2
 
 # Set the run-time. The game ends either when the clock goes down to 0
 # or when there are no zombies remaining.

@@ -1148,6 +1148,7 @@ namespace fvu {
                             local_particle = new Particle(PEA_PROJECTILE, this);
                         }
                         myGame->myParticles[team].push_back(*local_particle);
+                        delete local_particle;
                         myGame->playSound(SFX_THROW, 25);
                         has_fired = true;
                         fire_count = 0;

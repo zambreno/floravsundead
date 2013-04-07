@@ -404,6 +404,7 @@ namespace fvu {
         }
         glColor3ub(255, 255, 255);
 
+
         glBindTexture(GL_TEXTURE_2D, myTextures[TEX_PLANTS].texHandle);
         for (uint8_t i = 0; i < 4; i++) {
             for (uint16_t j = 0; j < myPlants[i].size(); j++) {
@@ -416,9 +417,8 @@ namespace fvu {
                 if (myParticles[i][j].isPlant() == true)
                     myParticles[i][j].draw(j);
             }
-
+            glColor3ub(255, 255, 255);
         }
-        glColor3ub(255, 255, 255);
 
     }
 

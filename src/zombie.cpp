@@ -1181,6 +1181,8 @@ namespace fvu {
                     myObject->children[0]->children[0]->children[4]->children[0]->children[0]->updateSprite(BLANK_SPRITE);
                     local_particle = new Particle(REGULAR_ARM_PARTICLE, this);
                     myGame->myParticles[team].push_back(*local_particle);
+                    delete local_particle;
+
                     if (type == FLAG_ZOMBIE) {
                         myObject->children[0]->children[0]->children[3]->children[0]->children[0]->children[0]->updateSprite(ZOMBIE_FLAG_3);
                     }
@@ -1195,6 +1197,8 @@ namespace fvu {
                     myObject->children[0]->children[0]->children[0]->children[2]->children[0]->children[0]->updateSprite(BLANK_SPRITE);
                     local_particle = new Particle(POLE_ARM_PARTICLE, this);
                     myGame->myParticles[team].push_back(*local_particle);
+                    delete local_particle;
+
                 }
                 break;
             case BUCKET_ZOMBIE:
@@ -1208,6 +1212,7 @@ namespace fvu {
                     myObject->children[0]->children[0]->children[2]->children[2]->updateSprite(BLANK_SPRITE);
                     local_particle = new Particle(ZOMBIE_BUCKET_PARTICLE, this);
                     myGame->myParticles[team].push_back(*local_particle);
+                    delete local_particle;
                     has_item = false;
                 }
                 if (val == zombieTransitions[BUCKET_ZOMBIE][3]) {
@@ -1217,6 +1222,7 @@ namespace fvu {
                     myObject->children[0]->children[0]->children[4]->children[0]->children[0]->updateSprite(BLANK_SPRITE);
                     local_particle = new Particle(REGULAR_ARM_PARTICLE, this);
                     myGame->myParticles[team].push_back(*local_particle);
+                    delete local_particle;
                 }
                 break;
             case FOOTBALL_ZOMBIE:
@@ -1230,6 +1236,7 @@ namespace fvu {
                     myObject->children[0]->children[2]->children[1]->children[0]->updateSprite(BLANK_SPRITE);
                     local_particle = new Particle(ZOMBIE_FOOTBALL_PARTICLE, this);
                     myGame->myParticles[team].push_back(*local_particle);
+                    delete local_particle;
 
                 }
                 if (val == zombieTransitions[FOOTBALL_ZOMBIE][3]) {
@@ -1239,6 +1246,7 @@ namespace fvu {
                     myObject->children[0]->children[2]->children[0]->children[0]->children[0]->updateSprite(BLANK_SPRITE);
                     local_particle = new Particle(FOOTBALL_ARM_PARTICLE, this);
                     myGame->myParticles[team].push_back(*local_particle);
+                    delete local_particle;
                 }
                 break;
             case CONE_ZOMBIE:
@@ -1252,6 +1260,8 @@ namespace fvu {
                     myObject->children[0]->children[0]->children[2]->children[2]->updateSprite(BLANK_SPRITE);
                     local_particle = new Particle(ZOMBIE_CONE_PARTICLE, this);
                     myGame->myParticles[team].push_back(*local_particle);
+                    delete local_particle;
+
                     has_item = false;
                 }
                 if (val == zombieTransitions[CONE_ZOMBIE][3]) {
@@ -1261,6 +1271,7 @@ namespace fvu {
                     myObject->children[0]->children[0]->children[4]->children[0]->children[0]->updateSprite(BLANK_SPRITE);
                     local_particle = new Particle(REGULAR_ARM_PARTICLE, this);
                     myGame->myParticles[team].push_back(*local_particle);
+                    delete local_particle;
                 }
                 break;
             case NEWS_ZOMBIE:
@@ -1285,7 +1296,13 @@ namespace fvu {
 
                     local_particle = new Particle(ZOMBIE_NEWS_PARTICLE, this);
                     myGame->myParticles[team].push_back(*local_particle);
+                    delete local_particle;
                     has_item = false;
+
+                    local_particle = new Particle(ZOMBIE_QUESTION_PARTICLE, this);
+                    myGame->myParticles[team].push_back(*local_particle);
+                    delete local_particle;
+
                     speed = 0.0; // Speed will increase after newspaper particle is done falling
                     myGame->playSound(SFX_NEWSPAPER_RIP, 25);
                     myGame->playSound(SFX_NEWSPAPER_RARRGH, 40);
@@ -1297,6 +1314,7 @@ namespace fvu {
                     myObject->children[0]->children[1]->children[1]->children[0]->children[0]->updateSprite(BLANK_SPRITE);
                     local_particle = new Particle(NEWS_ARM_PARTICLE, this);
                     myGame->myParticles[team].push_back(*local_particle);
+                    delete local_particle;
                 }
                 break;
 
@@ -1321,6 +1339,7 @@ namespace fvu {
 
                     local_particle = new Particle(ZOMBIE_SCREEN_PARTICLE, this);
                     myGame->myParticles[team].push_back(*local_particle);
+                    delete local_particle;
 
 
                     delete local_object->children[4]->children[0];
@@ -1385,6 +1404,8 @@ namespace fvu {
                     myObject->children[0]->children[0]->children[4]->children[0]->children[0]->updateSprite(BLANK_SPRITE);
                     local_particle = new Particle(REGULAR_ARM_PARTICLE, this);
                     myGame->myParticles[team].push_back(*local_particle);
+                    delete local_particle;
+
                 }
                 break;
             default:
@@ -1425,6 +1446,8 @@ namespace fvu {
 
                     local_particle = new Particle(REGULAR_HEAD_PARTICLE, this);
                     myGame->myParticles[team].push_back(*local_particle);
+                    delete local_particle;
+
 
                 }
                 else {
@@ -1449,6 +1472,8 @@ namespace fvu {
 
                     local_particle = new Particle(POLE_HEAD_PARTICLE, this);
                     myGame->myParticles[team].push_back(*local_particle);
+                    delete local_particle;
+
 
                 }
                 else {
@@ -1472,6 +1497,8 @@ namespace fvu {
 
                     local_particle = new Particle(FOOTBALL_HEAD_PARTICLE, this);
                     myGame->myParticles[team].push_back(*local_particle);
+                    delete local_particle;
+
 
                 }
                 else {
@@ -1500,6 +1527,8 @@ namespace fvu {
 
                     local_particle = new Particle(NEWS_HEAD_PARTICLE, this);
                     myGame->myParticles[team].push_back(*local_particle);
+                    delete local_particle;
+
 
                 }
                 else {
