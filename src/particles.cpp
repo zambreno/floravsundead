@@ -180,30 +180,78 @@ namespace fvu {
 
             case WALLNUT_BIG_PARTICLE:
                 /* The object structure starts at the x/y location of the particle, and moves out in all directions */
+                /* The object structure starts at the x/y location of the particle, and moves out in all directions */
                 local_anim.set_defaults();
                 anim.clear();anim.push_back(local_anim);
-                myObject = new Object(anim, anim_count, 0, 0, 0, 0, NULL);
+                myObject = new Object(anim, anim_count, 0, 0, 0, 7, NULL);
+
+                // children[0-6] are the cracked nut particles.
+                // It originally is located at children[0] which is the body of the wallnut/tallnut
+                particle_rand = rand() % 15;
+                local_x = myPlant->getObject()->children[0]->get_abs_x() - particle_rand;
+                local_y = myPlant->getObject()->children[0]->get_abs_y()+20.0;
+
+                for (uint8_t i = 0; i < 7; i++) {
+                    local_anim.set_defaults();
+                    local_x -= particle_rand;
+                    local_y += particle_rand / 4;
+                    local_anim.set_x(local_x, -1.3333333, local_x-20.0);
+                    local_anim.set_y(local_y, -1.3333333, local_y-20.0);
+                    local_anim.set_xscale(1.25);
+                    local_anim.set_yscale(1.25);
+                    local_anim.set_angle(particle_rand*i, 6.0, particle_rand*i+90.0);
+                    anim.clear();anim.push_back(local_anim);
+                    myObject->children[i] = new Object(anim, anim_count, TEX_PLANTS, WALLNUT_PARTICLES_LARGE_1+particle_rand%5, 0, 0, myObject);
+                    particle_rand++;
+                    if ((i % 3) == 0)
+                        local_y -= particle_rand/2;
+                }
+
+
                 break;
 
             case WALLNUT_LITTLE_PARTICLE:
                 /* The object structure starts at the x/y location of the particle, and moves out in all directions */
                 local_anim.set_defaults();
                 anim.clear();anim.push_back(local_anim);
-                myObject = new Object(anim, anim_count, 0, 0, 0, 1, NULL);
+                myObject = new Object(anim, anim_count, 0, 0, 0, 3, NULL);
 
-                // children[0-7] are the eating particles.
+                // children[0-2] are the eating particles.
                 // It originally is located at children[0] which is the body of the wallnut/tallnut
-                particle_rand = rand() % 15;
-                local_x = myPlant->getObject()->children[0]->get_abs_x()+50.0;
-                local_y = myPlant->getObject()->children[0]->get_abs_y()+70.0;
-                for (uint8_t i = 0; i < 1; i++) {
-                    local_anim.set_defaults();
-                    local_anim.set_x(local_x+(1.0*particle_rand-7.5));
-                    local_anim.set_y(local_y+(1.0*particle_rand-7.5));
-                    anim.clear();anim.push_back(local_anim);
-                    myObject->children[i] = new Object(anim, anim_count, TEX_PLANTS, WALLNUT_PARTICLES_SMALL_1+particle_rand%5, 0, 0, myObject);
-                    particle_rand+=5;
-                }
+                particle_rand = rand() % 10 + 3;
+                local_x = myPlant->getObject()->children[0]->get_abs_x()+25.0 - particle_rand;
+                local_y = myPlant->getObject()->children[0]->get_abs_y()+80.0;
+
+                local_anim.set_defaults();
+                local_anim.set_x(local_x, -1.33333, local_x-20.0);
+                local_anim.set_y(local_y, -2.66667, local_y-40.0);
+                local_anim.set_xscale(2.0);
+                local_anim.set_yscale(2.0);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0] = new Object(anim, anim_count, TEX_PLANTS, WALLNUT_PARTICLES_SMALL_1+particle_rand%5, 0, 0, myObject);
+                particle_rand++;
+
+                local_x += particle_rand;
+                local_y += particle_rand;
+                local_anim.set_defaults();
+                local_anim.set_x(local_x, -1.33333, local_x-20.0);
+                local_anim.set_y(local_y, -2.66667, local_y-40.0);
+                local_anim.set_xscale(2.0);
+                local_anim.set_yscale(2.0);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[1] = new Object(anim, anim_count, TEX_PLANTS, WALLNUT_PARTICLES_SMALL_1+particle_rand%5, 0, 0, myObject);
+                particle_rand++;
+
+                local_x += particle_rand;
+                local_y -= particle_rand/2;
+                local_anim.set_defaults();
+                local_anim.set_x(local_x, -1.33333, local_x-20.0);
+                local_anim.set_y(local_y, -2.66667, local_y-40.0);
+                local_anim.set_xscale(2.0);
+                local_anim.set_yscale(2.0);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[2] = new Object(anim, anim_count, TEX_PLANTS, WALLNUT_PARTICLES_SMALL_1+particle_rand%5, 0, 0, myObject);
+
 
                 break;
 
@@ -229,6 +277,7 @@ namespace fvu {
 
         uint32_t anim_count = 0;
         float local_x, local_y;
+        int8_t particle_rand;
 
         status = PARTICLE_STATUS_ACTIVE;
         type = mytype;
@@ -260,8 +309,9 @@ namespace fvu {
 
             case PEA_PARTICLE:
                 plant_particle = true;
-                game_x += 10.0;
-                game_y += 30.0;
+                particle_rand = rand() % 10 - 7;
+                game_x += 10.0 + particle_rand;
+                game_y += 30.0 + particle_rand;
                 /* The object structure starts at the x/y location of the particle, and moves out in all directions */
                 local_anim.set_defaults();
                 anim.clear();anim.push_back(local_anim);
@@ -322,8 +372,9 @@ namespace fvu {
 
             case SNOW_PARTICLE:
                 plant_particle = true;
-                game_x += 10.0;
-                game_y += 30.0;
+                particle_rand = rand() % 20 - 10;
+                game_x += 10.0 + particle_rand;
+                game_y += 30.0 + particle_rand;
                 /* The object structure starts at the x/y location of the particle, and moves out in all directions */
                 local_anim.set_defaults();
                 anim.clear();anim.push_back(local_anim);
@@ -817,6 +868,11 @@ namespace fvu {
 
             case WALLNUT_BIG_PARTICLE:
             case WALLNUT_LITTLE_PARTICLE:
+                live_count++;
+                if (live_count == 15)
+                    offscreen = true;
+
+                break;
             case PLANTING_PARTICLE:
             case PEA_PARTICLE:
             case SNOW_PARTICLE:
