@@ -14,8 +14,8 @@
 #
 # select P#.plant_name
 
-select P1.d_portal
-select P2.d_portal
+select P1.peashooter
+select P2.peashooter
 select P3.d_portal
 select P4.d_portal
 select P5.d_portal

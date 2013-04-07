@@ -107,6 +107,8 @@ namespace fvu {
     Particle::Particle(uint8_t mytype, fvu::Plant *myPlant) {
 
         uint32_t anim_count = 0;
+        uint8_t particle_rand;
+        float local_x, local_y;
 
         status = PARTICLE_STATUS_ACTIVE;
         type = mytype;
@@ -168,6 +170,44 @@ namespace fvu {
 
                 break;
 
+
+            case PLANTING_PARTICLE:
+                /* The object structure starts at the x/y location of the particle, and moves out in all directions */
+                local_anim.set_defaults();
+                anim.clear();anim.push_back(local_anim);
+                myObject = new Object(anim, anim_count, 0, 0, 0, 0, NULL);
+                break;
+
+            case WALLNUT_BIG_PARTICLE:
+                /* The object structure starts at the x/y location of the particle, and moves out in all directions */
+                local_anim.set_defaults();
+                anim.clear();anim.push_back(local_anim);
+                myObject = new Object(anim, anim_count, 0, 0, 0, 0, NULL);
+                break;
+
+            case WALLNUT_LITTLE_PARTICLE:
+                /* The object structure starts at the x/y location of the particle, and moves out in all directions */
+                local_anim.set_defaults();
+                anim.clear();anim.push_back(local_anim);
+                myObject = new Object(anim, anim_count, 0, 0, 0, 1, NULL);
+
+                // children[0-7] are the eating particles.
+                // It originally is located at children[0] which is the body of the wallnut/tallnut
+                particle_rand = rand() % 15;
+                local_x = myPlant->getObject()->children[0]->get_abs_x()+50.0;
+                local_y = myPlant->getObject()->children[0]->get_abs_y()+70.0;
+                for (uint8_t i = 0; i < 1; i++) {
+                    local_anim.set_defaults();
+                    local_anim.set_x(local_x+(1.0*particle_rand-7.5));
+                    local_anim.set_y(local_y+(1.0*particle_rand-7.5));
+                    anim.clear();anim.push_back(local_anim);
+                    myObject->children[i] = new Object(anim, anim_count, TEX_PLANTS, WALLNUT_PARTICLES_SMALL_1+particle_rand%5, 0, 0, myObject);
+                    particle_rand+=5;
+                }
+
+                break;
+
+
             default:
                 /* The object structure starts at the x/y location of the particle, and moves out in all directions */
                 local_anim.set_defaults();
@@ -211,7 +251,135 @@ namespace fvu {
         std::vector<animation_struct> anim;
         animation_struct local_anim;
 
+        static uint8_t peasplat_offset = 0;
+        static uint8_t snowsplat_offset = 0;
+
         switch(type) {
+
+
+
+            case PEA_PARTICLE:
+                plant_particle = true;
+                game_x += 10.0;
+                game_y += 30.0;
+                /* The object structure starts at the x/y location of the particle, and moves out in all directions */
+                local_anim.set_defaults();
+                anim.clear();anim.push_back(local_anim);
+                myObject = new Object(anim, anim_count, 0, 0, 0, 6, NULL);
+
+                // children[0] is the pea splat
+                local_anim.set_defaults();
+                local_anim.set_xscale(1.0, 0.025, 1.25);
+                local_anim.set_yscale(1.0, 0.025, 1.25);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0] = new Object(anim, anim_count, TEX_PLANTS, PEA_SPLATS_1+peasplat_offset, 0, 0, myObject);
+
+                // children[1] is the first pea particle
+                local_anim.set_defaults();
+                local_anim.set_xy(25.0, 25.0);
+                local_anim.set_xscale(1.0, 0.025, 1.25);
+                local_anim.set_yscale(1.0, 0.025, 1.25);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[1] = new Object(anim, anim_count, TEX_PLANTS, PEA_PARTICLES_1, 0, 0, myObject);
+
+                // children[2] is the second pea particle
+                local_anim.set_defaults();
+                local_anim.set_xy(0.0, 25.0);
+                local_anim.set_xscale(1.0, 0.025, 1.25);
+                local_anim.set_yscale(1.0, 0.025, 1.25);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[2] = new Object(anim, anim_count, TEX_PLANTS, PEA_PARTICLES_2, 0, 0, myObject);
+
+                // children[3] is the third pea particle
+                local_anim.set_defaults();
+                local_anim.set_xy(-10.0, 25.0);
+                local_anim.set_xscale(1.0, 0.025, 1.25);
+                local_anim.set_yscale(1.0, 0.025, 1.25);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[3] = new Object(anim, anim_count, TEX_PLANTS, PEA_PARTICLES_3, 0, 0, myObject);
+
+                // children[4] is the fourth pea particle
+                local_anim.set_defaults();
+                local_anim.set_xy(25.0, -10.0);
+                local_anim.set_xscale(1.0, 0.025, 1.25);
+                local_anim.set_yscale(1.0, 0.025, 1.25);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[4] = new Object(anim, anim_count, TEX_PLANTS, PEA_PARTICLES_2, 0, 0, myObject);
+
+
+                // children[5] is the fifth pea particle
+                local_anim.set_defaults();
+                local_anim.set_xy(-10.0, -10.0);
+                local_anim.set_xscale(1.0, 0.025, 1.25);
+                local_anim.set_yscale(1.0, 0.025, 1.25);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[5] = new Object(anim, anim_count, TEX_PLANTS, PEA_PARTICLES_1, 0, 0, myObject);
+
+                peasplat_offset++;peasplat_offset %= 4;
+
+                break;
+
+
+            case SNOW_PARTICLE:
+                plant_particle = true;
+                game_x += 10.0;
+                game_y += 30.0;
+                /* The object structure starts at the x/y location of the particle, and moves out in all directions */
+                local_anim.set_defaults();
+                anim.clear();anim.push_back(local_anim);
+                myObject = new Object(anim, anim_count, 0, 0, 0, 6, NULL);
+
+                // children[0] is the pea splat
+                local_anim.set_defaults();
+                local_anim.set_xscale(1.0, 0.025, 1.25);
+                local_anim.set_yscale(1.0, 0.025, 1.25);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0] = new Object(anim, anim_count, TEX_PLANTS, SNOWPEA_SPLATS_1+snowsplat_offset, 0, 0, myObject);
+
+                // children[1] is the first pea particle
+                local_anim.set_defaults();
+                local_anim.set_xy(25.0, 25.0);
+                local_anim.set_xscale(1.0, 0.025, 1.25);
+                local_anim.set_yscale(1.0, 0.025, 1.25);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[1] = new Object(anim, anim_count, TEX_PLANTS, SNOWPEA_PARTICLES_1, 0, 0, myObject);
+
+                // children[2] is the second pea particle
+                local_anim.set_defaults();
+                local_anim.set_xy(0.0, 25.0);
+                local_anim.set_xscale(1.0, 0.025, 1.25);
+                local_anim.set_yscale(1.0, 0.025, 1.25);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[2] = new Object(anim, anim_count, TEX_PLANTS, SNOWPEA_PARTICLES_2, 0, 0, myObject);
+
+                // children[3] is the third pea particle
+                local_anim.set_defaults();
+                local_anim.set_xy(-10.0, 25.0);
+                local_anim.set_xscale(1.0, 0.025, 1.25);
+                local_anim.set_yscale(1.0, 0.025, 1.25);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[3] = new Object(anim, anim_count, TEX_PLANTS, SNOWPEA_PARTICLES_3, 0, 0, myObject);
+
+                // children[4] is the fourth pea particle
+                local_anim.set_defaults();
+                local_anim.set_xy(25.0, -10.0);
+                local_anim.set_xscale(1.0, 0.025, 1.25);
+                local_anim.set_yscale(1.0, 0.025, 1.25);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[4] = new Object(anim, anim_count, TEX_PLANTS, SNOWPEA_PARTICLES_2, 0, 0, myObject);
+
+
+                // children[5] is the fifth pea particle
+                local_anim.set_defaults();
+                local_anim.set_xy(-10.0, -10.0);
+                local_anim.set_xscale(1.0, 0.025, 1.25);
+                local_anim.set_yscale(1.0, 0.025, 1.25);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[5] = new Object(anim, anim_count, TEX_PLANTS, SNOWPEA_PARTICLES_1, 0, 0, myObject);
+
+                snowsplat_offset++;snowsplat_offset %= 4;
+
+                break;
 
 
             case REGULAR_ARM_PARTICLE:
@@ -351,12 +519,11 @@ namespace fvu {
                 /* The object structure starts at the x/y location of the particle, and moves out in all directions */
                 local_anim.set_defaults();
                 anim.clear();anim.push_back(local_anim);
-                myObject = new Object(anim, anim_count, 0, 0, 0, 1, NULL);
+                myObject = new Object(anim, anim_count, 0, 0, 0, 2, NULL);
 
                 // children[0] is the damaged zombie newspaper
                 // It originally is located at children[0][1][0][0][0][0][1]
-
-                    local_anim.set_defaults();
+                local_anim.set_defaults();
                 local_x = myZombie->getObject()->children[0]->children[1]->children[0]->children[0]->children[0]->children[1]->get_abs_x();
                 local_y = myZombie->getObject()->children[0]->children[1]->children[0]->children[0]->children[0]->children[1]->get_abs_y();
                 local_anim.set_x(local_x);
@@ -364,7 +531,21 @@ namespace fvu {
                 local_anim.set_angle(0.0, -3.0, -90.0, ANCHOR_S);
                 anim.clear();anim.push_back(local_anim);
                 myObject->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_PAPER_PAPER3, 0, 0, myObject);
+
+                // children[1] is the question mark
+                // It originally is located above the head at children[0][1][2]
+                local_anim.set_defaults();
+                local_x = myZombie->getObject()->children[0]->children[1]->children[2]->get_abs_x() + 50.0;
+                local_y = myZombie->getObject()->children[0]->children[1]->children[2]->get_abs_y() + 50.0;
+                local_anim.set_x(local_x);
+                local_anim.set_y(local_y);
+                if (myZombie->getDir() < 0.0) {
+                    local_anim.set_xscale(-1.0);
+                }
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[1] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_QUESTIONMARK, 0, 0, myObject);
                 break;
+
 
 
             case ZOMBIE_BUCKET_PARTICLE:
@@ -622,8 +803,18 @@ namespace fvu {
                 live_count++;
                 if (live_count == 30)
                     offscreen = true;
-
                 break;
+
+            case WALLNUT_BIG_PARTICLE:
+            case WALLNUT_LITTLE_PARTICLE:
+            case PLANTING_PARTICLE:
+            case PEA_PARTICLE:
+            case SNOW_PARTICLE:
+                live_count++;
+                if (live_count == 10)
+                    offscreen = true;
+                break;
+
 
             case REGULAR_ARM_PARTICLE:
             case POLE_ARM_PARTICLE:

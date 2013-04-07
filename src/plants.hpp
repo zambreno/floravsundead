@@ -67,6 +67,7 @@ namespace fvu {
             float getDir() {return dir;}
             void bite();
             void move();
+            Object *getObject() {return myObject;}
             bool operator< (const Plant &rhs) const;
             uint16_t action_count;
             bool has_fired;
