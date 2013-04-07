@@ -175,11 +175,39 @@ namespace fvu {
                 /* The object structure starts at the x/y location of the particle, and moves out in all directions */
                 local_anim.set_defaults();
                 anim.clear();anim.push_back(local_anim);
-                myObject = new Object(anim, anim_count, 0, 0, 0, 0, NULL);
+                myObject = new Object(anim, anim_count, 0, 0, 0, 8, NULL);
+
+                // children[0-7] are the dirt particles.
+                // It originally is located at children[0] which is the body of the plant
+                particle_rand = rand() % 15;
+                local_x = myPlant->getObject()->children[0]->get_abs_x() - 20.0 - particle_rand;
+                local_y = myPlant->getObject()->children[0]->get_abs_y()+10.0;
+
+                for (uint8_t i = 0; i < 8; i++) {
+                    local_anim.set_defaults();
+                    local_x -= particle_rand;
+                    local_y -= particle_rand / 4;
+                    local_anim.set_x(local_x, -1.3333333, local_x-20.0);
+                    if ((i % 2) == 1) {
+                        local_anim.set_x(local_x, 1.3333333, local_x+20.0);
+                    }
+                    local_anim.set_y(local_y, -1.3333333, local_y-20.0);
+                    local_anim.set_xscale(1.05);
+                    local_anim.set_yscale(1.05);
+                    local_anim.set_angle(particle_rand*i, 6.0, particle_rand*i+90.0);
+                    anim.clear();anim.push_back(local_anim);
+                    myObject->children[i] = new Object(anim, anim_count, TEX_PLANTS, DIRT_SMALL_1+particle_rand%7, 0, 0, myObject);
+                    particle_rand++;
+                    if ((i % 3) == 0) {
+                        local_y += particle_rand/2;
+                        local_x += 2*particle_rand;
+                    }
+                }
+
+
                 break;
 
             case WALLNUT_BIG_PARTICLE:
-                /* The object structure starts at the x/y location of the particle, and moves out in all directions */
                 /* The object structure starts at the x/y location of the particle, and moves out in all directions */
                 local_anim.set_defaults();
                 anim.clear();anim.push_back(local_anim);
@@ -868,12 +896,12 @@ namespace fvu {
 
             case WALLNUT_BIG_PARTICLE:
             case WALLNUT_LITTLE_PARTICLE:
+            case PLANTING_PARTICLE:
                 live_count++;
                 if (live_count == 15)
                     offscreen = true;
 
                 break;
-            case PLANTING_PARTICLE:
             case PEA_PARTICLE:
             case SNOW_PARTICLE:
                 live_count++;

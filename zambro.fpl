@@ -26,11 +26,11 @@ select P6.wallnut
 # are in the range [1-10]. Grid 1, 1 is reserved for the scoreboard.
 
 # place P# row, col
-place P1 1, 6
-place P2 2, 7
-place P3 3, 8
-place P4 4, 7
-place P5 5, 6
+#place P1 1, 6
+#place P2 2, 7
+#place P3 3, 8
+#place P4 4, 7
+#place P5 5, 6
 #place P6 4, 8
 
 # Specify the run-time commands. The valid commands are:
@@ -43,7 +43,16 @@ place P5 5, 6
 #
 # fire a projectile from plant P1
 Start: fire P1
-fire P2
+place P1 1, 6
+place P2 2, 7
+place P3 3, 8
+place P4 4, 7
+place P5 5, 6
+place P2 2, 2
+place P3 3, 2
+place P4 4, 2
+place P5 5, 2
+#fire P2
 #fire P3
 #fire P4
 #fire P5
