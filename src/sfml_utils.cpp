@@ -422,7 +422,6 @@ namespace fvu {
 
     }
 
-
     /*****************************************************************************
     * Function: Game::processEvents
     * Description: Processes keyboard and other SFML events.
