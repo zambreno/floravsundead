@@ -75,6 +75,7 @@ namespace fvu {
             myTeams[i].cur_cmd = 0;
             myTeams[i].zombies_done = false;
             myTeams[i].cmds_done = false;
+            myTeams[i].groan_counter = rand() % 256;
         }
 
     }
@@ -246,15 +247,23 @@ namespace fvu {
 
                 myZombies[i][j].setStatus(ZOMBIE_STATUS_ACTIVE);
                 myTeams[i].zombie_index++;
+                myTeams[i].groan_counter++;
                 if (myStatus.firstZombie == true) {
                     playSound(SFX_AWOOGA, 100);
                     myStatus.firstZombie = false;
                 }
-                // Play a sound for those "final wave" zombies
-                else if (myZombies[i][j].getDelay() == -1) {
-                    playSound(SFX_FINALWAVE, 100);
+                else {
+                    // Play a sound for those "final wave" zombies
+                    if (myZombies[i][j].getDelay() == -1) {
+                        playSound(SFX_FINALWAVE, 100);
+                    }
+                    // Otherwise play a random zombie groan
+                    else {
+                        if (((myTeams[i].groan_counter % 7) == 0) && (myTeams[i].zombie_index > 7)) {
+                            playSound(SFX_GROAN+(myTeams[i].groan_counter % 11), 50);
+                        }
+                    }
                 }
-
 
             }
 
