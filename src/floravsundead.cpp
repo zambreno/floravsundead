@@ -281,8 +281,6 @@ namespace fvu {
             // Grab the current command
             fvu::cmd_type *mycmd = &myTeams[i].cmds[myTeams[i].cur_cmd];
 
-            printf("executing command %u.%3hu\n", i, myTeams[i].cur_cmd);
-
             // Evaluate predicate, to determine if command should even be executed
             bool pred_true = true;
             if (mycmd->has_pred == true) {
@@ -302,8 +300,6 @@ namespace fvu {
                                 if (myPlants[i][p].getID() == mycmd->plant_pred) {
                                     if ((myPlants[i][p].getStatus() == PLANT_STATUS_INACTIVE) || (myPlants[i][p].getStatus() == PLANT_STATUS_DEFAULT) ||(myPlants[i][p].action_count != 0)) {
                                         pred_true = false;
-                                        printf("plant %u was found to be not ready\n", mycmd->plant_pred);
-                                        printf("status is %u, action_count is %u\n", myPlants[i][p].getStatus(), myPlants[i][p].action_count);
                                     }
                                     break;
                                 }
@@ -486,7 +482,6 @@ namespace fvu {
                             for (uint16_t z = 0; z < myZombies[i].size(); z++) {
                                 if ((myZombies[i][z].getRow() == myrow) && ((myZombies[i][z].getStatus() == ZOMBIE_STATUS_ACTIVE) || (myZombies[i][z].getStatus() == ZOMBIE_STATUS_EATING))) {
                                     pred_true = false;
-                                    printf("plant %u was found not empty\n", mycmd->plant_pred);
                                     break;
                                 }
                             }
@@ -495,7 +490,6 @@ namespace fvu {
                             for (uint16_t z = 0; z < myZombies[i].size(); z++) {
                                 if ((myZombies[i][z].getStatus() == ZOMBIE_STATUS_ACTIVE) || (myZombies[i][z].getStatus() == ZOMBIE_STATUS_EATING)) {
                                     pred_true = false;
-                                    printf("game was found not empty\n");
                                     break;
                                 }
                             }
@@ -541,11 +535,14 @@ namespace fvu {
                                     // Is there a free space where we want to move?
                                     if (myGame->plantGrid[i][mycmd->opt[0]-1][mycmd->opt[1]-1] == false) {
                                         myGame->plantGrid[i][mycmd->opt[0]-1][mycmd->opt[1]-1] = true;
-                                        myGame->plantGrid[i][myPlants[i][p].getRow()][myPlants[i][p].getCol()] = false;
-                                        bool first_plant = (myPlants[i][p].getStatus() == PLANT_STATUS_DEFAULT);
+                                        bool first_planting = true;
+                                        if (myPlants[i][p].getStatus() != PLANT_STATUS_DEFAULT) {
+                                            first_planting = false;
+                                            myGame->plantGrid[i][myPlants[i][p].getRow()][myPlants[i][p].getCol()] = false;
+                                        }
                                         myPlants[i][p].move();
                                         myPlants[i][p].place(i, mycmd->opt[0], mycmd->opt[1]);
-                                        if (first_plant == false) {
+                                        if (first_planting == false) {
                                             myPlants[i][p].action_count = PLANT_MOVE_INACTIVE;
                                         }
                                     }
