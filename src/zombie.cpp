@@ -1714,10 +1714,10 @@ namespace fvu {
                                         }
                                     }
 
-                                    // Reset our zombie_index if erasing has put it past the size() of the zombie array
-                                    if (myGame->myTeams[my_team].zombie_index > myGame->myZombies[my_team].size()) {
+                                    // Reset our zombie_index no matter what, since we have decreased every other index
+                                    //if (myGame->myTeams[my_team].zombie_index > myGame->myZombies[my_team].size()) {
                                         myGame->myTeams[my_team].zombie_index--;
-                                    }
+                                    //}
 
                                 }
                             }

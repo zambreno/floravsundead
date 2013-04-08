@@ -376,9 +376,10 @@ namespace fvu {
                             }
                         }
                         else {
+                            pred_true = false;
                             for (uint16_t p = 0; p < myPlants[i].size(); p++) {
-                                if (myPlants[i][p].getHealth() == plantHealths[myPlants[i][p].getType()]) {
-                                    pred_true = false;
+                                if (myPlants[i][p].getHealth() < plantHealths[myPlants[i][p].getType()]) {
+                                    pred_true = true;
                                     break;
                                 }
                             }

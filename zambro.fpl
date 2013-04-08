@@ -79,17 +79,19 @@ fire P10
 
 if P2.damaged, place P17 2, 5
 if P3.damaged, place P16 3, 5
+if not P16.ready, goto L2
+if not P17.ready, goto L2
 if P4.damaged, place P17 4, 5
-if P5.damaged, place P18 5, 5
+if P5.damaged, place P16 5, 5
 if not damaged, goto L1
 
 
 # Did our chompers score? We might be busy, might as well place snowpeas
 L2: fire P16
 fire P17
-if not P16.score, goto L2
+if not P16.score, goto Start
 place P11 2, 3
-if not P17.score, goto L2
+if not P17.score, goto L1
 place P12 3, 3
 fire P11
 fire P12
@@ -97,7 +99,7 @@ if not P4.empty, place P13 4, 3
 if not P5.empty, place P14 5, 3
 fire P13
 fire P14
-
+goto L2
 
 
 goto Start
