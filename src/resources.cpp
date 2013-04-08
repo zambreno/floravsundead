@@ -37,16 +37,16 @@ std::string predNames[NUM_PRED_TYPES][NUM_PRED_SPELLINGS] = {
 
 /* Sound effect files */
 std::string sfxFiles[NUM_SFX] = {
+    "audio/sfx/winmusic.ogg",
+    "audio/sfx/gulp.ogg",
+    "audio/sfx/yuck.ogg",
+    "audio/sfx/yuck2.ogg",
     "audio/sfx/groan.ogg",
     "audio/sfx/groan2.ogg",
     "audio/sfx/groan3.ogg",
     "audio/sfx/groan4.ogg",
     "audio/sfx/groan5.ogg",
     "audio/sfx/groan6.ogg",
-    "audio/sfx/winmusic.ogg",
-    "audio/sfx/gulp.ogg",
-    "audio/sfx/yuck.ogg",
-    "audio/sfx/yuck2.ogg",
     "audio/sfx/sukhbir.ogg",
     "audio/sfx/sukhbir2.ogg",
     "audio/sfx/sukhbir3.ogg",
@@ -80,7 +80,9 @@ std::string sfxFiles[NUM_SFX] = {
     "audio/sfx/newspaper_rarrgh2.ogg",
     "audio/sfx/newspaper_rip.ogg",
     "audio/sfx/throw.ogg",
-    "audio/sfx/throw2.ogg"
+    "audio/sfx/throw2.ogg",
+    "audio/sfx/plastichit.ogg",
+    "audio/sfx/plastichit2.ogg"
     };
 
 /* Music files */

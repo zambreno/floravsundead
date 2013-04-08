@@ -119,6 +119,7 @@ namespace fvu {
             uint16_t cur_cmd;
             bool zombies_done;
             bool cmds_done;
+            uint8_t groan_counter;
             std::vector<fvu::cmd_type> cmds;
     };
 

@@ -1077,19 +1077,18 @@ namespace fvu {
                 }
                 break;
             case CONE_ZOMBIE:
+                myGame->playSound(SFX_SPLAT, 25);
                 if (has_item) {
-                    myGame->playSound(SFX_SPLAT2, 25);
-                }
-                else {
-                    myGame->playSound(SFX_SPLAT, 25);
+                    myGame->playSound(SFX_PLASTICHIT, 25);
                 }
                 break;
+            case FOOTBALL_ZOMBIE:
+                myGame->playSound(SFX_PLASTICHIT2, 25);
+                break;
             case SCREEN_ZOMBIE:
+                myGame->playSound(SFX_SPLAT, 25);
                 if (has_item) {
                     myGame->playSound(SFX_SHIELDHIT2, 25);
-                }
-                else {
-                    myGame->playSound(SFX_SPLAT, 25);
                 }
                 break;
         }
