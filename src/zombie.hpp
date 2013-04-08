@@ -71,6 +71,8 @@ namespace fvu {
             uint16_t getCol() {return col;}
             uint8_t getTeam() {return team;}
             uint16_t getHealth() {return health;}
+            float getDemoX() {return demo_x;}
+            float getDemoY() {return demo_y;}
             float getGameX() {return game_x;}
             float getGameY() {return game_y;}
             float getDir() {return dir;}

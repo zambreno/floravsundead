@@ -281,10 +281,10 @@ namespace fvu {
             // Grab the current command
             fvu::cmd_type *mycmd = &myTeams[i].cmds[myTeams[i].cur_cmd];
 
-            bool pred_true = false;
+            printf("executing command %u.%3hu\n", i, myTeams[i].cur_cmd);
 
             // Evaluate predicate, to determine if command should even be executed
-            pred_true = true;
+            bool pred_true = true;
             if (mycmd->has_pred == true) {
 
                 switch (mycmd->pred) {
@@ -300,8 +300,10 @@ namespace fvu {
                         if (mycmd->has_plant_pred == true) {
                             for (uint16_t p = 0; p < myPlants[i].size(); p++) {
                                 if (myPlants[i][p].getID() == mycmd->plant_pred) {
-                                    if ((myPlants[i][p].getStatus() == PLANT_STATUS_INACTIVE) || (myPlants[i][p].action_count != 0)) {
+                                    if ((myPlants[i][p].getStatus() == PLANT_STATUS_INACTIVE) || (myPlants[i][p].getStatus() == PLANT_STATUS_DEFAULT) ||(myPlants[i][p].action_count != 0)) {
                                         pred_true = false;
+                                        printf("plant %u was found to be not ready\n", mycmd->plant_pred);
+                                        printf("status is %u, action_count is %u\n", myPlants[i][p].getStatus(), myPlants[i][p].action_count);
                                     }
                                     break;
                                 }
@@ -482,16 +484,18 @@ namespace fvu {
                                 }
                             }
                             for (uint16_t z = 0; z < myZombies[i].size(); z++) {
-                                if (myZombies[i][z].getRow() == myrow) {
+                                if ((myZombies[i][z].getRow() == myrow) && ((myZombies[i][z].getStatus() == ZOMBIE_STATUS_ACTIVE) || (myZombies[i][z].getStatus() == ZOMBIE_STATUS_EATING))) {
                                     pred_true = false;
+                                    printf("plant %u was found not empty\n", mycmd->plant_pred);
                                     break;
                                 }
                             }
                         }
                         else {
                             for (uint16_t z = 0; z < myZombies[i].size(); z++) {
-                                if ((myZombies[i][z].getStatus() == ZOMBIE_STATUS_GAME) || (myZombies[i][z].getStatus() == ZOMBIE_STATUS_EATING)) {
+                                if ((myZombies[i][z].getStatus() == ZOMBIE_STATUS_ACTIVE) || (myZombies[i][z].getStatus() == ZOMBIE_STATUS_EATING)) {
                                     pred_true = false;
+                                    printf("game was found not empty\n");
                                     break;
                                 }
                             }
@@ -538,9 +542,12 @@ namespace fvu {
                                     if (myGame->plantGrid[i][mycmd->opt[0]-1][mycmd->opt[1]-1] == false) {
                                         myGame->plantGrid[i][mycmd->opt[0]-1][mycmd->opt[1]-1] = true;
                                         myGame->plantGrid[i][myPlants[i][p].getRow()][myPlants[i][p].getCol()] = false;
+                                        bool first_plant = (myPlants[i][p].getStatus() == PLANT_STATUS_DEFAULT);
                                         myPlants[i][p].move();
                                         myPlants[i][p].place(i, mycmd->opt[0], mycmd->opt[1]);
-                                        myPlants[i][p].action_count = PLANT_MOVE_INACTIVE;
+                                        if (first_plant == false) {
+                                            myPlants[i][p].action_count = PLANT_MOVE_INACTIVE;
+                                        }
                                     }
                                 }
                                 break;
@@ -682,7 +689,7 @@ namespace fvu {
             if (myStatus.pan >= 352.5) {
                 myStatus.pan = 352.5;
                 pause_cnt++;
-                if (pause_cnt > 5000) {
+                if (pause_cnt > 50) {
                     dir = -dir;
                     pause_cnt = 0;
                 }
@@ -789,13 +796,6 @@ namespace fvu {
                 select_ntok = sscanf(linebuf, " %s p%hu.%s", select_str1, &select_tok, select_str2);
                 if (select_ntok == 3) {
 
-                    // Selection commands have to come before everything else
-                    if (select_done == true) {
-                        printf("Error compiling %s, line %d\n", myConfig.team_fname[i_team], line_count);
-                        printf("  cannot select plants at run-time\n");
-                        raise_error(ERR_BADFILE2, myConfig.team_fname[i_team]);
-                    }
-
                     for (uint8_t i = 0; i < NUM_CMD_SPELLINGS; i++) {
                         if (!strcmp(select_str1, cmdNames[SELECT_CMD][i].c_str())) {
                             select_match = true;
@@ -803,12 +803,23 @@ namespace fvu {
                         }
                     }
 
+                    // Selection commands have to come before everything else
+                    if ((select_match == true) && (select_done == true)) {
+                        printf("Error compiling %s, line %d\n", myConfig.team_fname[i_team], line_count);
+                        printf("  cannot select plants at run-time\n");
+                        raise_error(ERR_BADFILE2, myConfig.team_fname[i_team]);
+                    }
+
+
                     // We should have matched a valid select command at this point
-                    if (select_match == false) {
+                   /* if ((select_match == false) && (select_done == false)) {
                         printf("Error compiling %s, line %d\n", myConfig.team_fname[i_team], line_count);
                         printf("  select command is invalid\n");
                         printf("  command was %s\n", linebuf);
                         raise_error(ERR_BADFILE2, myConfig.team_fname[i_team]);
+                    }*/
+                    if (select_match == false) {
+                        goto L1;
                     }
 
                     // It's a valid command, let's see what we selected
@@ -889,7 +900,7 @@ namespace fvu {
                     continue;
                 }
 
-                select_done = true;
+                L1: select_done = true;
 
                 // Until we reach the start line, we do not support predicates
                 fvu::cmd_type *local_cmd;

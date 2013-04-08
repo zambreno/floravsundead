@@ -1003,6 +1003,19 @@ namespace fvu {
                 dir = 1.0;
                 break;
         }
+
+        // We run this loop a few times to attempt to get rid of all equivalent random rolls
+        for (uint8_t k = 1; k < 10; k++) {
+            for (uint16_t i = 0; i < myGame->myZombies[team].size(); i++) {
+                if (myGame->myZombies[team][i].getStatus() == ZOMBIE_STATUS_PLACED) {
+                    if ((myGame->myZombies[team][i].getDemoX() == demo_x) && (myGame->myZombies[team][i].getDemoY() == demo_y)) {
+                        demo_x -= 1.0*k;
+                        demo_y += 1.0*k;
+                    }
+                }
+            }
+        }
+
         this->team = team;
         this->delay = delay;
         status = ZOMBIE_STATUS_PLACED;
@@ -1941,7 +1954,7 @@ namespace fvu {
             if (demo_y == rhs.demo_y) {
                 return (fabsf(demo_x) > fabsf(rhs.demo_x));
             }
-            else return (demo_y < rhs.demo_y);
+            else return (fabsf(demo_y) < fabsf(rhs.demo_y));
         }
         else {
             if (game_y == rhs.game_y) {

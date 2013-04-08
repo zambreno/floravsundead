@@ -160,7 +160,7 @@ namespace fvu {
         status = PLANT_STATUS_DEFAULT;
         type = mytype;
         id = myid;
-        row = 0;col = 0;
+        row = 25;col = 25;
         action_count = 0;
         fire_count = 0;move_count = 0;
         has_fired = false;

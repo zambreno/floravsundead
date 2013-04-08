@@ -337,6 +337,7 @@ namespace fvu {
 
             case PEA_PARTICLE:
                 plant_particle = true;
+                frozen = false;
                 particle_rand = rand() % 10 - 7;
                 game_x += 10.0 + particle_rand;
                 game_y += 30.0 + particle_rand;
@@ -400,6 +401,7 @@ namespace fvu {
 
             case SNOW_PARTICLE:
                 plant_particle = true;
+                frozen = true;
                 particle_rand = rand() % 20 - 10;
                 game_x += 10.0 + particle_rand;
                 game_y += 30.0 + particle_rand;
