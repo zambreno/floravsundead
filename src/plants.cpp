@@ -194,19 +194,11 @@ namespace fvu {
                 // children[0] is the outer glow
                 local_anim.set_defaults();
                 local_anim.set_xy(-30.0, -47.0);
-                local_anim.set_xscale(1.0, 0.05, 1.15);
+                local_anim.set_xscale(1.0, 0.005, 1.15);
                 local_anim.set_yscale(0.9);
                 anim.clear();anim.push_back(local_anim);
                 myObject->children[0] = new Object(anim, anim_count, TEX_PLANTS, PORTAL_CIRCLE_GLOW, PLANTHEAD_DEPTH, 0, myObject);
 
-
-                // children[2] is the outer circle
-                local_anim.set_defaults();
-                local_anim.set_xy(-42.0, -47.0);
-                local_anim.set_xscale(1.0, 0.005, 1.15);
-                local_anim.set_yscale(0.9);
-                anim.clear();anim.push_back(local_anim);
-                myObject->children[2] = new Object(anim, anim_count, TEX_PLANTS, PORTAL_CIRCLE_OUTER, PLANTHEAD_DEPTH, 0, myObject);
 
                 // children[1] is the inner circle
                 local_anim.set_defaults();
@@ -216,6 +208,13 @@ namespace fvu {
                 anim.clear();anim.push_back(local_anim);
                 myObject->children[1] = new Object(anim, anim_count, TEX_PLANTS, PORTAL_CIRCLE_CENTER, PLANTHEAD_DEPTH, 0, myObject);
 
+                // children[2] is the outer circle
+                local_anim.set_defaults();
+                local_anim.set_xy(-42.0, -47.0);
+                local_anim.set_xscale(1.0, 0.005, 1.15);
+                local_anim.set_yscale(0.9);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[2] = new Object(anim, anim_count, TEX_PLANTS, PORTAL_CIRCLE_OUTER, PLANTHEAD_DEPTH, 0, myObject);
 
 
                 break;

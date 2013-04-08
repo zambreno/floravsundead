@@ -24,10 +24,10 @@ budget 2750
 # You can specify more than 1 of a type in a line.
 #
 select regular 5
-select cone 1
+select news 1
 select regular 1
 select cone 2
-select flag 1
+select football 1
 select regular 2
 select cone 1
 select bucket 1
