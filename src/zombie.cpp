@@ -1079,29 +1079,29 @@ namespace fvu {
             case REGULAR_ZOMBIE:
             case FLAG_ZOMBIE:
             default:
-                myGame->playSound(SFX_SPLAT, 25);
+                myGame->playSound(SFX_SPLAT, 25, false);
                 break;
             case BUCKET_ZOMBIE:
                 if (has_item) {
-                    myGame->playSound(SFX_SHIELDHIT, 25);
+                    myGame->playSound(SFX_SHIELDHIT, 25, false);
                 }
                 else {
-                    myGame->playSound(SFX_SPLAT, 25);
+                    myGame->playSound(SFX_SPLAT, 25, false);
                 }
                 break;
             case CONE_ZOMBIE:
-                myGame->playSound(SFX_SPLAT, 25);
+                myGame->playSound(SFX_SPLAT, 25, false);
                 if (has_item) {
-                    myGame->playSound(SFX_PLASTICHIT, 25);
+                    myGame->playSound(SFX_PLASTICHIT, 25, false);
                 }
                 break;
             case FOOTBALL_ZOMBIE:
-                myGame->playSound(SFX_PLASTICHIT2, 25);
+                myGame->playSound(SFX_PLASTICHIT2, 25, false);
                 break;
             case SCREEN_ZOMBIE:
-                myGame->playSound(SFX_SPLAT, 25);
+                myGame->playSound(SFX_SPLAT, 25, false);
                 if (has_item) {
-                    myGame->playSound(SFX_SHIELDHIT2, 25);
+                    myGame->playSound(SFX_SHIELDHIT2, 25, false);
                 }
                 break;
         }
@@ -1111,7 +1111,7 @@ namespace fvu {
             if (frozen == false) {
                 frozen = true;
                 speed /= 2.0;
-                myGame->playSound(SFX_FROZEN, 25);
+                myGame->playSound(SFX_FROZEN, 25, false);
             }
             frozen_count = FREEZE_LENGTH;
         }
@@ -1131,7 +1131,7 @@ namespace fvu {
             case POLE_ZOMBIE:
                 if (special_count == 0) {
                     myObject->setMode(OBJECT_STATUS_SPECIAL);
-                    myGame->playSound(SFX_POLEVAULT, 25);
+                    myGame->playSound(SFX_POLEVAULT, 25, true);
                     special_count++;
                 }
                 else {
@@ -1187,7 +1187,7 @@ namespace fvu {
             case REGULAR_ZOMBIE:
             case FLAG_ZOMBIE:
                 if (val == zombieTransitions[REGULAR_ZOMBIE][0]) {
-                    myGame->playSound(SFX_LIMBS_POP, 25);
+                    myGame->playSound(SFX_LIMBS_POP, 25, false);
                     myObject->children[0]->children[0]->children[4]->updateSprite(ZOMBIE_OUTERARM_UPPER_2);
                     myObject->children[0]->children[0]->children[4]->children[0]->updateSprite(BLANK_SPRITE);
                     myObject->children[0]->children[0]->children[4]->children[0]->children[0]->updateSprite(BLANK_SPRITE);
@@ -1203,7 +1203,7 @@ namespace fvu {
                 break;
             case POLE_ZOMBIE:
                 if (val == zombieTransitions[POLE_ZOMBIE][0]) {
-                    myGame->playSound(SFX_LIMBS_POP, 25);
+                    myGame->playSound(SFX_LIMBS_POP, 25, false);
                     myObject->children[0]->children[0]->children[0]->children[2]->updateSprite(ZOMBIE_POLEVAULTER_OUTERARM_UPPER2);
                     myObject->children[0]->children[0]->children[0]->children[2]->children[0]->updateSprite(BLANK_SPRITE);
                     myObject->children[0]->children[0]->children[0]->children[2]->children[0]->children[0]->updateSprite(BLANK_SPRITE);
@@ -1228,7 +1228,7 @@ namespace fvu {
                     has_item = false;
                 }
                 if (val == zombieTransitions[BUCKET_ZOMBIE][3]) {
-                    myGame->playSound(SFX_LIMBS_POP, 25);
+                    myGame->playSound(SFX_LIMBS_POP, 25, false);
                     myObject->children[0]->children[0]->children[4]->updateSprite(ZOMBIE_OUTERARM_UPPER_2);
                     myObject->children[0]->children[0]->children[4]->children[0]->updateSprite(BLANK_SPRITE);
                     myObject->children[0]->children[0]->children[4]->children[0]->children[0]->updateSprite(BLANK_SPRITE);
@@ -1252,7 +1252,7 @@ namespace fvu {
 
                 }
                 if (val == zombieTransitions[FOOTBALL_ZOMBIE][3]) {
-                    myGame->playSound(SFX_LIMBS_POP, 25);
+                    myGame->playSound(SFX_LIMBS_POP, 25, false);
                     myObject->children[0]->children[2]->children[0]->updateSprite(ZOMBIE_FOOTBALL_LEFTARM_UPPER_2);
                     myObject->children[0]->children[2]->children[0]->children[0]->updateSprite(BLANK_SPRITE);
                     myObject->children[0]->children[2]->children[0]->children[0]->children[0]->updateSprite(BLANK_SPRITE);
@@ -1277,7 +1277,7 @@ namespace fvu {
                     has_item = false;
                 }
                 if (val == zombieTransitions[CONE_ZOMBIE][3]) {
-                    myGame->playSound(SFX_LIMBS_POP, 25);
+                    myGame->playSound(SFX_LIMBS_POP, 25, false);
                     myObject->children[0]->children[0]->children[4]->updateSprite(ZOMBIE_OUTERARM_UPPER_2);
                     myObject->children[0]->children[0]->children[4]->children[0]->updateSprite(BLANK_SPRITE);
                     myObject->children[0]->children[0]->children[4]->children[0]->children[0]->updateSprite(BLANK_SPRITE);
@@ -1316,11 +1316,11 @@ namespace fvu {
                     delete local_particle;
 
                     speed = 0.0; // Speed will increase after newspaper particle is done falling
-                    myGame->playSound(SFX_NEWSPAPER_RIP, 25);
-                    myGame->playSound(SFX_NEWSPAPER_RARRGH, 40);
+                    myGame->playSound(SFX_NEWSPAPER_RIP, 25, false);
+                    myGame->playSound(SFX_NEWSPAPER_RARRGH, 40, true);
                 }
                 if (val == zombieTransitions[NEWS_ZOMBIE][3]) {
-                    myGame->playSound(SFX_LIMBS_POP, 25);
+                    myGame->playSound(SFX_LIMBS_POP, 25, false);
                     myObject->children[0]->children[1]->children[1]->updateSprite(ZOMBIE_PAPER_LEFTARM_UPPER2);
                     myObject->children[0]->children[1]->children[1]->children[0]->updateSprite(BLANK_SPRITE);
                     myObject->children[0]->children[1]->children[1]->children[0]->children[0]->updateSprite(BLANK_SPRITE);
@@ -1410,7 +1410,7 @@ namespace fvu {
                     has_item = false;
                 }
                 if (val == zombieTransitions[SCREEN_ZOMBIE][3]) {
-                    myGame->playSound(SFX_LIMBS_POP, 25);
+                    myGame->playSound(SFX_LIMBS_POP, 25, false);
                     myObject->children[0]->children[0]->children[4]->updateSprite(ZOMBIE_OUTERARM_UPPER_2);
                     myObject->children[0]->children[0]->children[4]->children[0]->updateSprite(BLANK_SPRITE);
                     myObject->children[0]->children[0]->children[4]->children[0]->children[0]->updateSprite(BLANK_SPRITE);
@@ -1448,7 +1448,7 @@ namespace fvu {
             case CONE_ZOMBIE:
                 if (death_count == 0) {
                     death_count++;
-                    myGame->playSound(SFX_LIMBS_POP, 25);
+                    myGame->playSound(SFX_LIMBS_POP, 25, false);
                     myGame->myStatus.scores[team] += KILL_SCORE;
                     myObject->children[0]->children[0]->children[2]->updateSprite(BLANK_SPRITE);
                     myObject->children[0]->children[0]->children[2]->children[0]->updateSprite(BLANK_SPRITE);
@@ -1476,7 +1476,7 @@ namespace fvu {
             case POLE_ZOMBIE:
                 if (death_count == 0) {
                     death_count++;
-                    myGame->playSound(SFX_LIMBS_POP, 25);
+                    myGame->playSound(SFX_LIMBS_POP, 25, false);
                     myGame->myStatus.scores[team] += KILL_SCORE;
                     myObject->children[0]->children[0]->children[0]->children[0]->updateSprite(BLANK_SPRITE);
                     myObject->children[0]->children[0]->children[0]->children[0]->children[0]->updateSprite(BLANK_SPRITE);
@@ -1502,7 +1502,7 @@ namespace fvu {
             case FOOTBALL_ZOMBIE:
                 if (death_count == 0) {
                     death_count++;
-                    myGame->playSound(SFX_LIMBS_POP, 25);
+                    myGame->playSound(SFX_LIMBS_POP, 25, false);
                     myGame->myStatus.scores[team] += KILL_SCORE;
                     myObject->children[0]->children[2]->children[1]->updateSprite(BLANK_SPRITE);
                     myObject->children[0]->children[2]->children[1]->children[1]->updateSprite(BLANK_SPRITE);
@@ -1527,7 +1527,7 @@ namespace fvu {
             case NEWS_ZOMBIE:
                 if (death_count == 0) {
                     death_count++;
-                    myGame->playSound(SFX_LIMBS_POP, 25);
+                    myGame->playSound(SFX_LIMBS_POP, 25, false);
                     myGame->myStatus.scores[team] += KILL_SCORE;
                     myObject->children[0]->children[1]->children[2]->updateSprite(BLANK_SPRITE);
                     myObject->children[0]->children[1]->children[2]->children[0]->updateSprite(BLANK_SPRITE);
@@ -1670,7 +1670,7 @@ namespace fvu {
                                      * 4. Place the zombie on the new team. Update its health.
                                      * 5. Delete the old zombie. We have to update our team's zombie_index accordingly as well.
                                      */
-                                    myGame->playSound(SFX_PORTAL, 75);
+                                    myGame->playSound(SFX_PORTAL, 75, true);
                                     myGame->myPlants[team][i].bite();
 
 
@@ -1786,7 +1786,7 @@ namespace fvu {
                                      * 4. Place the zombie on the new team. Update its health.
                                      * 5. Delete the old zombie. We have to update our team's zombie_index accordingly as well.
                                      */
-                                    myGame->playSound(SFX_PORTAL, 75);
+                                    myGame->playSound(SFX_PORTAL, 75, true);
                                     myGame->myPlants[team][i].bite();
 
 
@@ -1886,7 +1886,7 @@ namespace fvu {
                 for (uint16_t i = 0; i < myGame->myPlants[team].size(); i++) {
                     if ((myGame->myPlants[team][i].getRow() == row) && (myGame->myPlants[team][i].getCol() == col)) {
                                                 myGame->myPlants[team][i].bite();
-                        myGame->playSound(SFX_CHOMP+chomp_counter, 25);
+                        myGame->playSound(SFX_CHOMP+chomp_counter, 25, false);
                         chomp_counter++;
                         chomp_counter %= 3;
                         action_count = 0;

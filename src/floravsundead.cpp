@@ -249,18 +249,18 @@ namespace fvu {
                 myTeams[i].zombie_index++;
                 myTeams[i].groan_counter++;
                 if (myStatus.firstZombie == true) {
-                    playSound(SFX_AWOOGA, 100);
+                    playSound(SFX_AWOOGA, 100, true);
                     myStatus.firstZombie = false;
                 }
                 else {
                     // Play a sound for those "final wave" zombies
                     if (myZombies[i][j].getDelay() == -1) {
-                        playSound(SFX_FINALWAVE, 100);
+                        playSound(SFX_FINALWAVE, 100, true);
                     }
                     // Otherwise play a random zombie groan
                     else {
                         if (((myTeams[i].groan_counter % 7) == 0) && (myTeams[i].zombie_index > 7)) {
-                            playSound(SFX_GROAN+(myTeams[i].groan_counter % 11), 50);
+                            playSound(SFX_GROAN+(myTeams[i].groan_counter % 11), 50, false);
                         }
                     }
                 }
@@ -620,7 +620,7 @@ namespace fvu {
             myMusic[1].setVolume(myStatus.vol_counter);
             if (myStatus.vol_counter == 0) {
                 myMusic[1].stop();
-                playSound(SFX_WINMUSIC, 100);
+                playSound(SFX_WINMUSIC, 100, true);
                 myStatus.end_music = true;
                 printf("\n\n---------------------------------\n");
                 printf("-- Final %s scores\n", EXEC_NAME);

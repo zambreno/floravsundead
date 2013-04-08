@@ -7,7 +7,7 @@
 
 # Set the day/night mode and the background music, in the range [1,5]
 #
-day 1
+day 5
 
 # Set the run-time. The game ends either when the clock goes down to 0
 # or when there are no zombies remaining.
@@ -24,10 +24,10 @@ budget 2750
 # You can specify more than 1 of a type in a line.
 #
 select regular 5
-select news 1
+select football 1
 select regular 1
 select cone 2
-select football 1
+select flag 1
 select regular 2
 select cone 1
 select bucket 1

@@ -1148,7 +1148,7 @@ namespace fvu {
                         }
                         myGame->myParticles[team].push_back(*local_particle);
                         delete local_particle;
-                        myGame->playSound(SFX_THROW, 25);
+                        myGame->playSound(SFX_THROW, 25, false);
                         has_fired = true;
                         fire_count = 0;
                         myObject->setMode(OBJECT_STATUS_DEMO);
@@ -1186,7 +1186,7 @@ namespace fvu {
                             has_killed = true;
                             local_particle = new Particle(CHOMP_PROJECTILE, this);
                             myGame->myZombies[team][i].shoot(local_particle);
-                            myGame->playSound(SFX_BIGCHOMP, 25);
+                            myGame->playSound(SFX_BIGCHOMP, 25, true);
                             myObject->setMode(OBJECT_STATUS_WINNING);
                             myObject->children[0]->children[0]->children[0]->children[4]->children[0]->children[0]->updateSprite(ZOMBIE_INNERARM_LOWER);
                             myObject->children[0]->children[0]->children[0]->children[4]->children[0]->children[0]->children[0]->updateSprite(ZOMBIE_INNERARM_HAND);
@@ -1223,7 +1223,7 @@ namespace fvu {
                 local_particle = new Particle(SHOVEL_PARTICLE, this);
                 myGame->myParticles[team].push_back(*local_particle);
                 delete local_particle;
-                myGame->playSound(SFX_PLANT, 25);
+                myGame->playSound(SFX_PLANT, 25, false);
             }
             move_count++;
         }
@@ -1232,7 +1232,7 @@ namespace fvu {
             if (move_count == 60) {
                 move_count = 0;
                 status = PLANT_STATUS_GAME;
-                myGame->playSound(SFX_PLANT2, 25);
+                myGame->playSound(SFX_PLANT2, 25, false);
                 local_particle = new Particle(PLANTING_PARTICLE, this);
                 myGame->myParticles[team].push_back(*local_particle);
                 delete local_particle;
@@ -1294,7 +1294,7 @@ namespace fvu {
 
             if (health <= 0) {
                 if (type != PORTAL_PLANT) {
-                    myGame->playSound(SFX_GULP, 50);
+                    myGame->playSound(SFX_GULP, 50, true);
                 }
                 status = PLANT_STATUS_INACTIVE;
                 myGame->plantGrid[team][row][col] = false;
