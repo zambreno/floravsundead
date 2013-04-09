@@ -202,7 +202,7 @@ namespace fvu {
 
                 // children[1] is the inner circle
                 local_anim.set_defaults();
-                local_anim.set_xy(-10.0, -47.0);
+                local_anim.set_xy(-13.0, -36.0);
                 local_anim.set_xscale(1.0, 0.005, 1.15);
                 local_anim.set_yscale(0.9);
                 anim.clear();anim.push_back(local_anim);
@@ -210,7 +210,7 @@ namespace fvu {
 
                 // children[2] is the outer circle
                 local_anim.set_defaults();
-                local_anim.set_xy(-42.0, -47.0);
+                local_anim.set_xy(-32.0, -47.0);
                 local_anim.set_xscale(1.0, 0.005, 1.15);
                 local_anim.set_yscale(0.9);
                 anim.clear();anim.push_back(local_anim);
