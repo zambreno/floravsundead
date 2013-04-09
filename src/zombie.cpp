@@ -1739,9 +1739,9 @@ namespace fvu {
                             bool do_special = false;
                             uint16_t i;
                             for (i = 0; i < myGame->myPlants[team].size(); i++) {
-                                if ((myGame->myPlants[team][i].getRow() == row) && (myGame->myPlants[team][i].getCol() == col)) {
+                                if ((myGame->myPlants[team][i].getRow() == row) && (myGame->myPlants[team][i].getCol() == col) && (myGame->myPlants[team][i].getStatus() == PLANT_STATUS_GAME)) {
                                     // Pole zombies jump before they eat (unless it's a tallnut)
-                                    if ((type == POLE_ZOMBIE) && (special_done == false) && (myGame->myPlants[team][i].getType() != TALLNUT_PLANT)){
+                                    if ((type == POLE_ZOMBIE) && (special_done == false) && (myGame->myPlants[team][i].getType() != TALLNUT_PLANT) ){
                                         do_eat = false;
                                         do_special = true;
                                     }
@@ -1859,7 +1859,7 @@ namespace fvu {
                             bool do_special = false;
                             uint16_t i;
                             for (i = 0; i < myGame->myPlants[team].size(); i++) {
-                                if ((myGame->myPlants[team][i].getRow() == row) && (myGame->myPlants[team][i].getCol() == col)) {
+                                if ((myGame->myPlants[team][i].getRow() == row) && (myGame->myPlants[team][i].getCol() == col) && (myGame->myPlants[team][i].getStatus() == PLANT_STATUS_GAME)) {
                                     // Pole zombies jump before they eat (unless it's a tallnut)
                                     if ((type == POLE_ZOMBIE) && (special_done == false) && (myGame->myPlants[team][i].getType() != TALLNUT_PLANT)){
                                         do_eat = false;
@@ -2001,8 +2001,8 @@ namespace fvu {
             action_count++;
             if (action_count > BITE_FRAMES) {
                 for (uint16_t i = 0; i < myGame->myPlants[team].size(); i++) {
-                    if ((myGame->myPlants[team][i].getRow() == row) && (myGame->myPlants[team][i].getCol() == col)) {
-                                                myGame->myPlants[team][i].bite();
+                    if ((myGame->myPlants[team][i].getRow() == row) && (myGame->myPlants[team][i].getCol() == col) && (myGame->myPlants[team][i].getStatus() == PLANT_STATUS_GAME)) {
+                        myGame->myPlants[team][i].bite();
                         myGame->playSound(SFX_CHOMP+chomp_counter, 25, false);
                         chomp_counter++;
                         chomp_counter %= 3;

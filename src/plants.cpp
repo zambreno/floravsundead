@@ -1258,6 +1258,8 @@ namespace fvu {
 
 
         /* Check all the active plants and if their current health has triggered a transition */
+
+
         if (status == PLANT_STATUS_GAME) {
 
             // If we're in the middle of a fire operation, continue it
@@ -1297,6 +1299,7 @@ namespace fvu {
                 }
                 status = PLANT_STATUS_INACTIVE;
                 myGame->plantGrid[team][row][col] = false;
+                row = 26;col = 26;
             }
 
         }
