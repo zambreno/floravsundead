@@ -182,7 +182,7 @@ namespace fvu {
                 // children[0] is the spiral
                 local_anim.set_defaults();
                 local_anim.set_x(-17.0, -1.0, -37.0);
-                local_anim.set_y(10.0, -1.0, -10.0);
+                local_anim.set_y(-20.0, 1.0, 10.0);
                 local_anim.set_xscale(0.0, 0.01, 0.2);
                 local_anim.set_yscale(0.0, 0.01, 0.2);
                 local_anim.set_angle(0.0, 9.0, 360.0, ANCHOR_CENTER);
