@@ -58,6 +58,8 @@ namespace fvu {
             uint8_t getType() {return type;}
             uint16_t getRow() {return row;}
             int16_t getHealth() {return health;}
+            void setStatus(uint8_t val) {status = val;}
+            void setHealth(int16_t myhealth) {health = myhealth;}
             void setRow(uint16_t myrow) {row = myrow;}
             void setCol(uint16_t mycol) {col = mycol;}
             uint16_t getCol() {return col;}

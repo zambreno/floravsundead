@@ -1278,7 +1278,7 @@ namespace fvu {
             case POLE_ZOMBIE:
                 if (special_count == 0) {
                     myObject->setMode(OBJECT_STATUS_SPECIAL);
-                    myGame->playSound(SFX_POLEVAULT, 25, true);
+                    myGame->playSound(SFX_POLEVAULT, 40, true);
                     special_count++;
                 }
                 else {
@@ -1309,6 +1309,33 @@ namespace fvu {
                         myObject->children[0]->children[0]->children[0]->children[1]->anim[OBJECT_STATUS_ACTION].set_x(-12.0);
                         myObject->setMode(OBJECT_STATUS_GAME);
                         //col--;
+                    }
+                }
+                break;
+            // YETI_ZOMBIE jumps up and when he lands, destroys all remaining plants in the row.
+            case YETI_ZOMBIE:
+                if (special_count == 0) {
+                    myObject->setMode(OBJECT_STATUS_SPECIAL);
+                    myGame->playSound(SFX_LOWGROAN, 100, true);
+                    special_count++;
+                }
+                else {
+                    myObject->update();
+                    special_count++;
+                    if (special_count > 30) {
+                        game_y -= 6.0;
+                    }
+                    else {
+                        game_y += 6.0;
+                    }
+                    if (special_count == 60) {
+                        special_count = 0;
+                        special_done = true;
+                        myObject->setMode(OBJECT_STATUS_GAME);
+                        myGame->playSound(SFX_DOOMSHROOM, 75, true);
+                        fvu::Particle *local_particle = new Particle(YETI_BOOM_PARTICLE, this);
+                        myGame->myParticles[team].push_back(*local_particle);
+                        delete local_particle;
                     }
                 }
                 break;
@@ -1348,6 +1375,18 @@ namespace fvu {
 
                 }
                 break;
+             case YETI_ZOMBIE:
+                if (val == zombieTransitions[YETI_ZOMBIE][0]) {
+                    myGame->playSound(SFX_LIMBS_POP, 25, false);
+                    myObject->children[0]->children[2]->updateSprite(ZOMBIE_YETI_OUTERARM_UPPER_2);
+                    myObject->children[0]->children[2]->children[0]->updateSprite(BLANK_SPRITE);
+                    myObject->children[0]->children[2]->children[0]->children[0]->updateSprite(BLANK_SPRITE);
+                    local_particle = new Particle(YETI_ARM_PARTICLE, this);
+                    myGame->myParticles[team].push_back(*local_particle);
+                    delete local_particle;
+                }
+                break;
+
             case POLE_ZOMBIE:
                 if (val == zombieTransitions[POLE_ZOMBIE][0]) {
                     myGame->playSound(SFX_LIMBS_POP, 25, false);
@@ -1646,6 +1685,28 @@ namespace fvu {
                 }
 
                 break;
+            case YETI_ZOMBIE:
+                if (death_count == 0) {
+                    death_count++;
+                    myGame->playSound(SFX_LIMBS_POP, 25, false);
+                    myGame->myStatus.scores[team] += KILL_SCORE;
+                    myObject->children[0]->children[0]->updateSprite(BLANK_SPRITE);
+                    myObject->children[0]->children[0]->children[0]->updateSprite(BLANK_SPRITE);
+
+                    local_particle = new Particle(YETI_HEAD_PARTICLE, this);
+                    myGame->myParticles[team].push_back(*local_particle);
+                    delete local_particle;
+                }
+                else {
+                    // For now, we skip the conventional update in death mode
+                    myObject->update();
+                    death_count++;
+                    if (death_count == 31) {
+                        status = ZOMBIE_STATUS_INACTIVE;
+                        row = 25;
+                    }
+                }
+                break;
             case FOOTBALL_ZOMBIE:
                 if (death_count == 0) {
                     death_count++;
@@ -1702,8 +1763,6 @@ namespace fvu {
 
                 break;
 
-            case YETI_ZOMBIE:
-                break;
 
         }
 
@@ -1875,7 +1934,9 @@ namespace fvu {
                             }
                         }
                     }
-
+                    else if ((type == YETI_ZOMBIE) && (col <= 7) && (special_done == false)) {
+                        special();
+                    }
                     // Keep walking for this iteration
                     game_x += speed;
                     break;
@@ -1997,7 +2058,9 @@ namespace fvu {
                             }
                         }
                     }
-
+                    else if ((type == YETI_ZOMBIE) && (col <= 7) && (special_done == false)) {
+                        special();
+                    }
                     // Keep walking for this iteration
                     game_x -= speed;
                     break;

@@ -506,6 +506,30 @@ namespace fvu {
 
                 break;
 
+            case YETI_ARM_PARTICLE:
+                /* The object structure starts at the x/y location of the particle, and moves out in all directions */
+                local_anim.set_defaults();
+                anim.clear();anim.push_back(local_anim);
+                myObject = new Object(anim, anim_count, 0, 0, 0, 1, NULL);
+
+                // children[0] is the yeti arm
+                // It originally is located at children[0][2][0]
+                local_anim.set_defaults();
+                local_x = myZombie->getObject()->children[0]->children[2]->children[0]->get_abs_x();
+                local_y = myZombie->getObject()->children[0]->children[2]->children[0]->get_abs_y();
+                local_anim.set_x(local_x);
+                local_anim.set_y(local_y, -2.0, local_y-40.0);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_YETI_OUTERARM_LOWER, 0, 1, myObject);
+
+                local_anim.set_defaults();
+                local_anim.set_xy(0.0, -17.0);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0]->children[0] = new Object(anim, 0, TEX_ZOMBIES, ZOMBIE_YETI_OUTERARM_HAND, 1, 0, myObject->children[0]);
+
+                break;
+
+
             case POLE_ARM_PARTICLE:
                 /* The object structure starts at the x/y location of the particle, and moves out in all directions */
                 local_anim.set_defaults();
@@ -847,6 +871,37 @@ namespace fvu {
 
                 break;
 
+            case YETI_HEAD_PARTICLE:
+                /* The object structure starts at the x/y location of the particle, and moves out in all directions */
+                local_anim.set_defaults();
+                anim.clear();anim.push_back(local_anim);
+                myObject = new Object(anim, anim_count, 0, 0, 0, 1, NULL);
+
+                // children[0] is the regular zombie head
+                // It originally is located at children[0][0]
+                local_anim.set_defaults();
+                local_x = myZombie->getObject()->children[0]->children[0]->get_abs_x()+20.0;
+                local_y = myZombie->getObject()->children[0]->children[0]->get_abs_y();
+                local_anim.set_x(local_x, 2.0, local_x+60.0);
+                local_anim.set_y(local_y, -4.0, local_y-120.0);
+                local_anim.set_angle(0.0, -6.0, -180.0, ANCHOR_CENTER);
+                anim.clear();anim.push_back(local_anim);
+                local_anim.set_x(local_x+60.0, 2.0, local_x+80.0);
+                local_anim.set_y(local_y-120.0);
+                local_anim.set_angle(-180.0, -6.0, -240.0, ANCHOR_CENTER);
+                anim.push_back(local_anim);
+                myObject->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_YETI_HEAD, 0, 1, myObject);
+
+                local_anim.set_defaults();
+                local_anim.set_xy(20.0, -10.0);
+                local_anim.set_y(-10.0, -0.12, -13.0);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0]->children[0] = new Object(anim, anim_count, TEX_ZOMBIES, ZOMBIE_YETI_JAW, 0, 0, myObject->children[0]);
+
+                break;
+
+
+
             default:
                 /* The object structure starts at the x/y location of the particle, and moves out in all directions */
                 local_anim.set_defaults();
@@ -873,6 +928,36 @@ namespace fvu {
 
         // Calculate any zombie impacts here
         switch(type) {
+
+            case YETI_BOOM_PARTICLE:
+                live_count++;
+                if (live_count == 20) {
+                    if (col == 0) {
+                        offscreen = true;
+                    }
+                    else {
+                        live_count = 0;
+                        col--;
+                        for (uint16_t i = 0; i < myGame->myPlants[team].size(); i++) {
+                            if ((myGame->myPlants[team][i].getRow() == row) && (myGame->myPlants[team][i].getCol() == col) && (myGame->myPlants[team][i].getStatus() == PLANT_STATUS_GAME)) {
+                                local_particle = new Particle(PLANTING_PARTICLE, &myGame->myPlants[team][i]);
+                                myGame->myParticles[team].push_back(*local_particle);
+                                delete local_particle;
+                                myGame->myPlants[team][i].setHealth(0);
+                                myGame->myPlants[team][i].setStatus(PLANT_STATUS_INACTIVE);
+                                myGame->plantGrid[team][row][col] = false;
+                                myGame->myPlants[team][i].setRow(27);
+                                myGame->myPlants[team][i].setCol(27);
+                                myGame->playSound(SFX_CHERRYBOMB, 25, true);
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                break;
+
+
             case PEA_PROJECTILE:
             case SNOW_PROJECTILE:
                 game_x += speed*dir;
@@ -944,6 +1029,7 @@ namespace fvu {
             case POLE_ARM_PARTICLE:
             case FOOTBALL_ARM_PARTICLE:
             case NEWS_ARM_PARTICLE:
+            case YETI_ARM_PARTICLE:
                 live_count++;
                 if (live_count == 20)
                     offscreen = true;
@@ -969,6 +1055,7 @@ namespace fvu {
             case POLE_HEAD_PARTICLE:
             case FOOTBALL_HEAD_PARTICLE:
             case NEWS_HEAD_PARTICLE:
+            case YETI_HEAD_PARTICLE:
                 live_count++;
                 if (live_count == 30)
                     myObject->setMode(OBJECT_STATUS_GAME);

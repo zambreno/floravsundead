@@ -82,7 +82,10 @@ std::string sfxFiles[NUM_SFX] = {
     "audio/sfx/throw.ogg",
     "audio/sfx/throw2.ogg",
     "audio/sfx/plastichit.ogg",
-    "audio/sfx/plastichit2.ogg"
+    "audio/sfx/plastichit2.ogg",
+    "audio/sfx/cherrybomb.ogg",
+    "audio/sfx/doomshroom.ogg",
+    "audio/sfx/lowgroan.ogg"
     };
 
 /* Music files */
