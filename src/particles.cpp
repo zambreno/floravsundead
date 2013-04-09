@@ -171,6 +171,25 @@ namespace fvu {
                 break;
 
 
+            case PORTAL_PARTICLE:
+
+                /* The object structure starts at the x/y location of the particle, and moves out in all directions */
+                local_anim.set_defaults();
+                anim.clear();anim.push_back(local_anim);
+                myObject = new Object(anim, anim_count, 0, 0, 0, 1, NULL);
+
+
+                // children[0] is the spiral
+                local_anim.set_defaults();
+                local_anim.set_xy(-13.0, -10.0);
+                local_anim.set_xscale(0.2, 0.0, 0.2);
+                local_anim.set_yscale(0.0, 0.01, 0.2);
+                local_anim.set_angle(0.0, 9.0, 360.0, ANCHOR_CENTER);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[0] = new Object(anim, anim_count, TEX_PLANTS, PORTAL_SPIRAL, 0, 0, myObject);
+                break;
+
+
             case PLANTING_PARTICLE:
                 /* The object structure starts at the x/y location of the particle, and moves out in all directions */
                 local_anim.set_defaults();
@@ -895,6 +914,14 @@ namespace fvu {
                 if (live_count == 30)
                     offscreen = true;
                 break;
+
+            case PORTAL_PARTICLE:
+                live_count++;
+                if (live_count == 40)
+                    offscreen = true;
+                break;
+
+
 
             case WALLNUT_BIG_PARTICLE:
             case WALLNUT_LITTLE_PARTICLE:

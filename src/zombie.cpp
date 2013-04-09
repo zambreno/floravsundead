@@ -1673,6 +1673,11 @@ namespace fvu {
                                     myGame->playSound(SFX_PORTAL, 75, true);
                                     myGame->myPlants[team][i].bite();
 
+                                    fvu::Particle *local_particle;
+                                    local_particle = new Particle(PORTAL_PARTICLE, &myGame->myPlants[team][i]);
+                                    myGame->myParticles[team].push_back(*local_particle);
+                                    delete local_particle;
+
 
                                     fvu::Zombie *new_zombie;
                                     uint8_t new_type;
@@ -1789,6 +1794,10 @@ namespace fvu {
                                     myGame->playSound(SFX_PORTAL, 75, true);
                                     myGame->myPlants[team][i].bite();
 
+                                    fvu::Particle *local_particle;
+                                    local_particle = new Particle(PORTAL_PARTICLE, &myGame->myPlants[team][i]);
+                                    myGame->myParticles[team].push_back(*local_particle);
+                                    delete local_particle;
 
                                     fvu::Zombie *new_zombie;
                                     uint8_t new_type;
