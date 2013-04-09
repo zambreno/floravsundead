@@ -7,7 +7,7 @@
 
 # Set the day/night mode and the background music, in the range [1,5]
 #
-day 2
+day 5
 
 # Set the run-time. The game ends either when the clock goes down to 0
 # or when there are no zombies remaining.
@@ -17,17 +17,29 @@ time 180000
 # Set the total budget for plants. Note that the game-supplied zombie file has an
 # unlimited budget (for zombies), so we are specifying the per-team budget here.
 #
-budget 20000
+budget 2750
 
 # Select the blocks next. The currently valid options are:
 # Zombie, Flag, Conehead, Polevault, Buckethead, Newspaper, Screendoor, Football, Dancing, Yeti.
 # You can specify more than 1 of a type in a line.
 #
-select cone 5
-select news 4
-select news 1
-select news 1
-select news 20
+select regular 5
+select football 1
+select regular 1
+select cone 2
+select flag 1
+select regular 2
+select cone 1
+select bucket 1
+select polevault 1
+select regular 1
+select cone 3
+select bucket 1
+select regular 1
+select flag 1
+select screendoor 2
+select cone 2
+select buckethead 2
 
 # Specify the zombie placement and timing next. Each zombie is specified with
 # the entering lane in the range [0,4], and a delay from the previous zombie
@@ -37,24 +49,31 @@ select news 20
 # and that certain zombies may have game-enforced limitations on which lane they
 # can be placed.
 #
-place 3, 1500
-place 1, 500
-place 2, 100
-place 4, 250
+place 2, 1000
+place 3, 1000
+place 1, 1000
 place 0, 1000
-#place 0, 5000
-#place 3, 0
-#place 0, 5000
-#place 0, 5000
-#place 0, 5000
-#place 2, 0
-#place 3, 1000
-#place 4, 5000
-#place 0, 0
-#place 1, 500
-#place 4, 1000
-#place 2, -1
-#place 1, 500
-#place 0, 0
-#place 3, 0
-#place 4, 0
+place 4, 0
+place 2, 500
+place 3, 1500
+place 1, 1000
+place 3, 0
+place 2, -1
+place 4, 500
+place 2, 0
+place 1, 2000
+place 3, 1500
+place 0, 0
+place 1, 1000
+place 2, 0
+place 3, 0
+place 4, 1500
+place 3, 1000
+place 0, 0
+place 2, -1
+place 1, 100
+place 3, 0
+place 0, 0
+place 4, 200
+place 2, 0
+place 3, 0

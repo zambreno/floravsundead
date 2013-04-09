@@ -175,7 +175,6 @@ namespace fvu {
             void drawMap();
             void drawScoreboard();
             void processEvents();
-            void drawYeti();
 
             /* Utility functions (utils.cpp) */
             void print_help();

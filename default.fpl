@@ -33,7 +33,7 @@ select P12.peashooter
 
 # place P# row, col
 
-place P1 2, 1
+place P7 2, 7
 #place P2 1, 2
 #place P3 3, 2
 #place P4 5, 1
