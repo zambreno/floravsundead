@@ -201,7 +201,7 @@ SNOWPEA_PARTICLES_2, SNOWPEA_PARTICLES_3, SNOWPEA_SPLATS_1, SNOWPEA_SPLATS_2, SN
 SNOWPEA_SPLATS_4, WALLNUT_PARTICLES_LARGE_1, WALLNUT_PARTICLES_LARGE_2, WALLNUT_PARTICLES_LARGE_3, WALLNUT_PARTICLES_LARGE_4,                                                   //51
 WALLNUT_PARTICLES_LARGE_5, WALLNUT_PARTICLES_SMALL_1, WALLNUT_PARTICLES_SMALL_2,WALLNUT_PARTICLES_SMALL_3,WALLNUT_PARTICLES_SMALL_4,                                            //52
 WALLNUT_PARTICLES_SMALL_5, DIRT_SMALL_1, DIRT_SMALL_2, DIRT_SMALL_3, DIRT_SMALL_4,                                                                                              //53
-DIRT_SMALL_5, DIRT_SMALL_6, DIRT_SMALL_7, DIRT_SMALL_8,                                                                                                                         //54
+DIRT_SMALL_5, DIRT_SMALL_6, DIRT_SMALL_7, DIRT_SMALL_8, PORTAL_SPIRAL,                                                                                                          //54
 NUM_PLANT_SPRITES} PLANT_SPRITE_ENUM ;                                                                                                                                          //55
 extern uint16_t plant_object_spriteMap[][4];
 

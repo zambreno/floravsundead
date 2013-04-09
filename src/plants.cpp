@@ -216,7 +216,13 @@ namespace fvu {
                 anim.clear();anim.push_back(local_anim);
                 myObject->children[2] = new Object(anim, anim_count, TEX_PLANTS, PORTAL_CIRCLE_OUTER, PLANTHEAD_DEPTH, 0, myObject);
 
-
+                // children[3] is the spiral
+                local_anim.set_defaults();
+                local_anim.set_xy(-13.0, -10.0);
+                local_anim.set_xscale(0.2);
+                local_anim.set_yscale(0.2);
+                anim.clear();anim.push_back(local_anim);
+                myObject->children[2] = new Object(anim, anim_count, TEX_PLANTS, PORTAL_SPIRAL, PLANTHEAD_DEPTH, 0, myObject);
                 break;
 
             case WALLNUT_PLANT:
