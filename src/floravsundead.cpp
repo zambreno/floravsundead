@@ -137,8 +137,8 @@ namespace fvu {
                     drawScoreboard();
                     drawMap();
                     //myTime = myClock.getElapsedTime();
-                    //myTime = sf::milliseconds(1000/FRAME_RATE);
-                    myStatus.time_ms -= 1000/FRAME_RATE;//myTime.asMilliseconds();
+                    myTime = sf::milliseconds(1000/FRAME_RATE);
+                    myStatus.time_ms -= myTime.asMilliseconds();
                     if (myStatus.time_ms <= 0) {
                         myStatus.time_ms = 0;
                         myStatus.mode = GAME_END;
