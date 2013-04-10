@@ -1907,7 +1907,7 @@ namespace fvu {
                                     new_zombie->endDemo();
                                     new_zombie->setHealth(health);
                                     myGame->myZombies[dest_team].insert(myGame->myZombies[dest_team].end(), 1, *new_zombie);
-
+                                    delete new_zombie;
 
                                     // Erasing like this is generally an inefficient operation.
                                     for (uint16_t j = 0; j < myGame->myZombies[my_team].size(); j++) {
@@ -2031,6 +2031,7 @@ namespace fvu {
                                     new_zombie->endDemo();
                                     new_zombie->setHealth(health);
                                     myGame->myZombies[dest_team].insert(myGame->myZombies[dest_team].end(), 1, *new_zombie);
+                                    delete new_zombie;
 
                                     // Erasing like this is generally an inefficient operation.
                                     for (uint16_t j = 0; j < myGame->myZombies[my_team].size(); j++) {
@@ -2050,9 +2051,9 @@ namespace fvu {
 
 
                                     // Reset our zombie_index if erasing has put it past the size() of the zombie array
-                                    if (myGame->myTeams[my_team].zombie_index > myGame->myZombies[my_team].size()) {
+                                    //if (myGame->myTeams[my_team].zombie_index > myGame->myZombies[my_team].size()) {
                                         myGame->myTeams[my_team].zombie_index--;
-                                    }
+                                    //}
 
                                 }
                             }
