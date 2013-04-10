@@ -57,6 +57,8 @@ place P18 2, 1
 # Strategy: wait until zombie appears to place and fire various shooters
 # Dynamic placement of resources whenever feasible
 Start: if not P1.empty, place P6 1, 2
+fire P11
+Loop: if P11.hit, goto Loop
 if not P2.empty, place P7 2, 2
 if not P3.empty, place P8 3, 2
 if not P4.empty, place P9 4, 2
