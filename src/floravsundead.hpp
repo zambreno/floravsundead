@@ -54,6 +54,8 @@
 #define ERR_UNDEFINED 100
 
 #define FRAME_RATE 60
+#define SORT_DEMO_FRAMES 100
+#define SORT_GAME_FRAMES 5
 #define NUM_SOUNDS 64
 #define SCREEN_WIDTH_DEFAULT 1920
 #define SCREEN_HEIGHT_DEFAULT 1080
@@ -197,6 +199,7 @@ namespace fvu {
         private:
             fvu::Config myConfig;
             sf::Time myTime;
+            uint32_t framecount;
             sf::ContextSettings mySettings;
             sf::RenderWindow myWindow;
             sf::Music myMusic[2];

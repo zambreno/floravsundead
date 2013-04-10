@@ -602,8 +602,8 @@ namespace fvu {
             printf("\tOpenGL v%u.%u\n\n", mySettings.majorVersion, mySettings.minorVersion);
         }
 
-        //myWindow.setVerticalSyncEnabled(true);
-        myWindow.setFramerateLimit(FRAME_RATE);
+        myWindow.setVerticalSyncEnabled(true);
+        //myWindow.setFramerateLimit(FRAME_RATE);
 
 
         /* Configure OpenGL default state */

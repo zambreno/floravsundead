@@ -14,8 +14,8 @@
 				<Option compiler="gcc" />
 				<Option parameters="-D 60  stringanbu.fpl rocker.fpl zambro.fpl default.fpl" />
 				<Compiler>
-					<Add option="-O2" />
-					<Add option="-g" />
+					<Add option="-fexpensive-optimizations" />
+					<Add option="-O3" />
 					<Add option="-DSFML_STATIC" />
 					<Add directory="./include" />
 				</Compiler>
@@ -32,6 +32,8 @@
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="-fexpensive-optimizations" />
+			<Add option="-O3" />
 			<Add option="-Wall" />
 		</Compiler>
 		<Unit filename="floravsundead.cpp" />

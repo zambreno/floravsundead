@@ -1094,7 +1094,7 @@ namespace fvu {
     * Description: Places the zombie (both for demo mode and regular game mode)
     * based on the location and delay values
     *****************************************************************************/
-    void Zombie::place(int16_t location, int16_t delay, uint8_t team) {
+    void Zombie::place(int16_t location, int32_t delay, uint8_t team) {
 
         static uint16_t place_count = 0;
         row = location;

@@ -23,7 +23,7 @@ budget 2750
 # Zombie, Flag, Conehead, Polevault, Buckethead, Newspaper, Screendoor, Football, Dancing, Yeti.
 # You can specify more than 1 of a type in a line.
 #
-select regular 5
+select football 5
 select football 1
 select regular 1
 select cone 2
@@ -49,8 +49,11 @@ select buckethead 2
 # and that certain zombies may have game-enforced limitations on which lane they
 # can be placed.
 #
-place 2, 1000
-place 3, 1000
+place 0, 5000
+place 1, 5000
+place 2, 5000
+place 3, 5000
+place 4, 5000
 place 1, 1000
 place 0, 1000
 place 4, 0
@@ -74,6 +77,3 @@ place 2, -1
 place 1, 100
 place 3, 0
 place 0, 0
-place 4, 200
-place 2, 0
-place 3, 0

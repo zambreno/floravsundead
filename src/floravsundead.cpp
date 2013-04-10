@@ -66,6 +66,8 @@ namespace fvu {
         myStatus.end_music = false;
         myStatus.vol_counter = 110;
         myMusic[1].setVolume(myStatus.vol_counter);
+        myTime = sf::Time::Zero;
+        framecount = 0;
         for (uint8_t i = 0; i < 4; i++) {
             myStatus.scores[i] = 0;
             myTeams[i].budget = 0;
@@ -134,13 +136,14 @@ namespace fvu {
                     drawWorld();
                     drawScoreboard();
                     drawMap();
-                    myTime = myClock.getElapsedTime();
+                    //myTime = myClock.getElapsedTime();
+                    myTime = sf::milliseconds(1000/FRAME_RATE);
                     myStatus.time_ms -= myTime.asMilliseconds();
                     if (myStatus.time_ms <= 0) {
                         myStatus.time_ms = 0;
                         myStatus.mode = GAME_END;
                     }
-                    myClock.restart();
+                    //myClock.restart();
                    break;
                 case GAME_END:
                     endGame();
@@ -184,7 +187,7 @@ namespace fvu {
         // Zombie loop: grab the next zombie for each team. Note that they are sorted
         // graphically, so we have to perform a linear search based on zombie_index
         // We want the timestamps to be consistent for each team.
-        int16_t elapsed_ms = myClock.getElapsedTime().asMilliseconds();
+        int32_t elapsed_ms = myTime.asMilliseconds();
         for (uint16_t i = 0; i < 4; i++) {
 
             // If we're done with zombies, continue
@@ -235,7 +238,7 @@ namespace fvu {
             // otherwise, count down until we our individual zombie delay is <= 0
             else {
                 sendZombie = false;
-                int16_t mydelay = myZombies[i][j].getDelay();
+                int32_t mydelay = myZombies[i][j].getDelay();
                 mydelay -= elapsed_ms;
                 if (mydelay <= 0) {
                     mydelay = 0;
@@ -597,14 +600,19 @@ namespace fvu {
             }
 
 
+            if (framecount % SORT_GAME_FRAMES == 0) {
+
             /* Sort each zombie based on the custom zombie function */
             std::stable_sort(myZombies[i].begin(), myZombies[i].end());
             /* Sort each plant as well */
             std::stable_sort(myPlants[i].begin(), myPlants[i].end());
             /* Sort each particle as well */
             std::stable_sort(myParticles[i].begin(), myParticles[i].end());
+            }
 
         }
+
+        framecount++;
     }
 
 
@@ -653,11 +661,15 @@ namespace fvu {
                 myPlants[i][j].updateDemo();
             }
 
-            /* Sort each zombie based on the custom zombie function */
-            std::stable_sort(myZombies[i].begin(), myZombies[i].end());
-            /* Sort each plant as well */
-            std::stable_sort(myPlants[i].begin(), myPlants[i].end());
+            if (framecount % SORT_DEMO_FRAMES == 0) {
+                /* Sort each zombie based on the custom zombie function */
+                std::stable_sort(myZombies[i].begin(), myZombies[i].end());
+                /* Sort each plant as well */
+                std::stable_sort(myPlants[i].begin(), myPlants[i].end());
+            }
         }
+
+        framecount++;
 
     }
 
@@ -710,6 +722,7 @@ namespace fvu {
                 myMusic[0].stop();
                 myMusic[1].play();
                 myClock.restart();
+                framecount = 0;
                 /* Relocate the zombies so that they start using game_x, and game_y */
                 for (uint8_t i = 0; i < 4; i++) {
                     for (uint16_t j = 0; j < myZombies[i].size(); j++) {
