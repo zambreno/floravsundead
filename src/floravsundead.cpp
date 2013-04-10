@@ -183,6 +183,8 @@ namespace fvu {
 
         // Zombie loop: grab the next zombie for each team. Note that they are sorted
         // graphically, so we have to perform a linear search based on zombie_index
+        // We want the timestamps to be consistent for each team.
+        int16_t elapsed_ms = myClock.getElapsedTime().asMilliseconds();
         for (uint16_t i = 0; i < 4; i++) {
 
             // If we're done with zombies, continue
@@ -213,7 +215,7 @@ namespace fvu {
             }
 
             // We should send any zombies that are ready
-            if (myZombies[i][j].getStatus() != ZOMBIE_STATUS_GAME) {
+            if ((j >= myZombies[i].size()) || (myZombies[i][j].getStatus() != ZOMBIE_STATUS_GAME)) {
                 continue;
             }
             // A delay of -1 means we wait for all previous zombies to be
@@ -234,7 +236,7 @@ namespace fvu {
             else {
                 sendZombie = false;
                 int16_t mydelay = myZombies[i][j].getDelay();
-                mydelay -= myClock.getElapsedTime().asMilliseconds();
+                mydelay -= elapsed_ms;
                 if (mydelay <= 0) {
                     mydelay = 0;
                     sendZombie = true;
@@ -244,7 +246,6 @@ namespace fvu {
             }
 
             if (sendZombie == true) {
-
                 myZombies[i][j].setStatus(ZOMBIE_STATUS_ACTIVE);
                 myTeams[i].zombie_index++;
                 myTeams[i].groan_counter++;

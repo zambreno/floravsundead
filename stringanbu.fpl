@@ -58,7 +58,7 @@ Start: fire P1
 #if not hit, goto L2
 #fire P4
 #fire P6
-#bite P9
+bite P9
 #
 # L2 is a label that the previous code jumped to
 # In this case, if one of our plants is damaged, move things around
