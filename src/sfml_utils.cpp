@@ -393,7 +393,7 @@ namespace fvu {
         glBindTexture(GL_TEXTURE_2D, myTextures[TEX_ZOMBIES].texHandle);
         for (uint8_t i = 0; i < 4; i++) {
             for (uint16_t j = 0; j < myZombies[i].size(); j++) {
-                if (myZombies[i][j].getStatus() != ZOMBIE_STATUS_INACTIVE) {
+                if ((myZombies[i][j].getStatus() != ZOMBIE_STATUS_INACTIVE) && (myZombies[i][j].getStatus() != ZOMBIE_STATUS_GAME)) {
                     myZombies[i][j].draw(j);
                 }
             }
