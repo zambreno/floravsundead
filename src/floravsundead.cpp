@@ -137,10 +137,10 @@ namespace fvu {
                     drawScoreboard();
                     drawMap();
                     //myTime = myClock.getElapsedTime();
-                    myTime = sf::milliseconds(1000/FRAME_RATE);
-                    myStatus.time_ms -= myTime.asMilliseconds();
-                    if (myStatus.time_ms <= 0) {
-                        myStatus.time_ms = 0;
+                    //myTime = sf::milliseconds(1000/FRAME_RATE);
+                    myStatus.time_ms -= 1000.0/FRAME_RATE;//myTime.asMilliseconds();
+                    if (myStatus.time_ms <= 0.0) {
+                        myStatus.time_ms = 0.0;
                         myStatus.mode = GAME_END;
                     }
                     //myClock.restart();
@@ -187,7 +187,8 @@ namespace fvu {
         // Zombie loop: grab the next zombie for each team. Note that they are sorted
         // graphically, so we have to perform a linear search based on zombie_index
         // We want the timestamps to be consistent for each team.
-        int32_t elapsed_ms = myTime.asMilliseconds();
+        //int32_t elapsed_ms = myTime.asMilliseconds();
+        float elapsed_ms = 1000.0/FRAME_RATE;
         for (uint16_t i = 0; i < 4; i++) {
 
             // If we're done with zombies, continue
@@ -224,7 +225,7 @@ namespace fvu {
             // A delay of -1 means we wait for all previous zombies to be
             // inactive
             bool sendZombie = true;
-            if (myZombies[i][j].getDelay() == -1) {
+            if (myZombies[i][j].getDelay() == -1.0) {
                 for (uint16_t k = 0; k < myZombies[i].size(); k++) {
                     if ((myZombies[i][k].getStatus() != ZOMBIE_STATUS_GAME) &&
                         (myZombies[i][k].getStatus() != ZOMBIE_STATUS_INACTIVE) &&
@@ -238,10 +239,10 @@ namespace fvu {
             // otherwise, count down until we our individual zombie delay is <= 0
             else {
                 sendZombie = false;
-                int32_t mydelay = myZombies[i][j].getDelay();
+                float mydelay = myZombies[i][j].getDelay();
                 mydelay -= elapsed_ms;
-                if (mydelay <= 0) {
-                    mydelay = 0;
+                if (mydelay <= 0.0) {
+                    mydelay = 0.0;
                     sendZombie = true;
                 }
                 myZombies[i][j].setDelay(mydelay);
@@ -1391,7 +1392,7 @@ namespace fvu {
                 }
 
                 for (uint8_t i = 0; i < 4; i++) {
-                    myZombies[i][zombie_counter].place(place_tok, delay_tok, i);
+                    myZombies[i][zombie_counter].place(place_tok, 1.0*delay_tok, i);
                 }
                 zombie_counter++;
             }

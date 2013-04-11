@@ -52,7 +52,7 @@ namespace fvu {
             Zombie(uint8_t type, uint16_t index);
             //~Zombie() {delete myObject;}
             void update();
-            void place(int16_t location, int32_t delay, uint8_t team);
+            void place(int16_t location, float delay, uint8_t team);
             void move(float delta_x, float delta_y);
             void endDemo();
             void updateDemo();
@@ -66,7 +66,7 @@ namespace fvu {
             uint8_t getType() {return type;}
             uint16_t getIndex() {return index;}
             void setIndex(uint16_t myindex) {index = myindex;}
-            int32_t getDelay() {return delay;}
+            float getDelay() {return delay;}
             uint16_t getRow() {return row;}
             uint16_t getCol() {return col;}
             uint8_t getTeam() {return team;}
@@ -96,7 +96,7 @@ namespace fvu {
             uint8_t team;
             bool has_item;
             uint16_t action_count;
-            int32_t delay;
+            float delay;
             uint16_t special_count;
             bool special_done;
             uint16_t death_count;

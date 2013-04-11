@@ -142,7 +142,7 @@ namespace fvu {
             float pan, pan_prev;
             MODE_TYPE mode;
             int16_t scores[4];
-            int32_t time_ms;
+            float time_ms;
             uint16_t budget;
             uint8_t main_song;
             bool day;

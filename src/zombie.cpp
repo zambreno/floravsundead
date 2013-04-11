@@ -1094,7 +1094,7 @@ namespace fvu {
     * Description: Places the zombie (both for demo mode and regular game mode)
     * based on the location and delay values
     *****************************************************************************/
-    void Zombie::place(int16_t location, int32_t delay, uint8_t team) {
+    void Zombie::place(int16_t location, float delay, uint8_t team) {
 
         static uint16_t place_count = 0;
         row = location;
@@ -1151,17 +1151,6 @@ namespace fvu {
                 break;
         }
 
-        // We run this loop a few times to attempt to get rid of all equivalent random rolls
-        for (uint8_t k = 1; k < 10; k++) {
-            for (uint16_t i = 0; i < myGame->myZombies[team].size(); i++) {
-                if (myGame->myZombies[team][i].getStatus() == ZOMBIE_STATUS_PLACED) {
-                    if ((myGame->myZombies[team][i].getDemoX() == demo_x) && (myGame->myZombies[team][i].getDemoY() == demo_y)) {
-                        demo_x -= 1.0*k;
-                        demo_y += 1.0*k;
-                    }
-                }
-            }
-        }
 
         this->team = team;
         this->delay = delay;
