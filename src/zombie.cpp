@@ -1243,7 +1243,7 @@ namespace fvu {
         }
 
         // Were we hit by a SNOW_PROJECTILE? If we still have our screen door it doesn't matter.
-        if ((myParticle->getType() == SNOW_PROJECTILE) && ((type != SCREEN_ZOMBIE) || (has_item == false))) {
+        if ((myParticle->getType() == SNOW_PROJECTILE) && ((type != SCREEN_ZOMBIE) || ((type == SCREEN_ZOMBIE) && (has_item == false)))) {
             if (frozen == false) {
                 frozen = true;
                 speed /= 2.0;
@@ -2065,6 +2065,16 @@ namespace fvu {
             }
 
 
+            // Are we still frozen? If so decrease the count appropriately
+            if (frozen_count != 0) {
+                frozen_count--;
+                if (frozen_count == 0) {
+                    frozen = false;
+                    speed *= 2.0;
+                }
+            }
+
+
             /* First, have we been hit recently? If so, check transitions / death conditions */
             while (!transitions.empty()) {
 
@@ -2106,6 +2116,18 @@ namespace fvu {
 
         }
         else if (status == ZOMBIE_STATUS_WINNING) {
+
+
+            // Are we still frozen? If so decrease the count appropriately
+            if (frozen_count != 0) {
+                frozen_count--;
+                if (frozen_count == 0) {
+                    frozen = false;
+                    speed *= 2.0;
+                }
+            }
+
+
 
             bool gameover = true;
             if (fabs(game_x - final_x) >= speed) {
