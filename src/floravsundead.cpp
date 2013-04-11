@@ -1429,6 +1429,21 @@ namespace fvu {
         }
         fclose(zom_file);
 
+
+        if (myConfig.debug_level > 50) {
+            printf("\nCommands are as follows: \n");
+            printf("   ID    |   TYPE  | LANE  |  DELAY |  \n");
+            for (uint16_t i = 0; i < myZombies[0].size(); i++) {
+                printf("zom-%03u: | ", myZombies[0][i].getIndex());
+                printf(" %3u    |", myZombies[0][i].getType());
+                printf("   %u   |", myZombies[0][i].getRow());
+                printf("  %4.0f  |", myZombies[0][i].getDelay());
+                printf("\n");
+            }
+            printf("\n");
+        }
+
+
         return;
     }
 
