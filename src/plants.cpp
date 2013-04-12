@@ -34,7 +34,7 @@ std::string plantNames[NUM_PLANT_TYPE][NUM_PLANT_SPELLINGS] = {
 /* Plant costs */
 uint16_t plantCosts[NUM_PLANT_TYPE] = {100, 300, 450, 175, 150, 75, 200, 700};
 /* Plant healths */
-int16_t plantHealths[NUM_PLANT_TYPE] = {9, 9, 9, 9, 9, 72, 144, 5};
+int16_t plantHealths[NUM_PLANT_TYPE] = {9, 9, 9, 9, 9, 50, 100, 7};
 /* Plant speeds. This variable is plant-specific */
 uint16_t plantSpeeds[NUM_PLANT_TYPE] = {80, 40, 20, 80, 300, 1, 1, 1};
 /* Plant transitions */
@@ -44,8 +44,10 @@ uint16_t plantTransitions[NUM_PLANT_TYPE][NUM_PLANT_TRANSITIONS] = {
     {0, 0, 0},
     {0, 0, 0},
     {0, 0, 0},
-    {48, 24, 0},
-    {96, 48, 0},
+    {34, 17, 0},
+    {68, 34, 0},
+    //{48, 24, 0},
+    //{96, 48, 0},
     {0, 0, 0}
     };
 
