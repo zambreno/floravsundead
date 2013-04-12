@@ -32,7 +32,7 @@ std::string plantNames[NUM_PLANT_TYPE][NUM_PLANT_SPELLINGS] = {
 
 
 /* Plant costs */
-uint16_t plantCosts[NUM_PLANT_TYPE] = {100, 200, 450, 175, 150, 50, 125, 700};
+uint16_t plantCosts[NUM_PLANT_TYPE] = {100, 300, 450, 175, 150, 75, 200, 700};
 /* Plant healths */
 int16_t plantHealths[NUM_PLANT_TYPE] = {9, 9, 9, 9, 9, 72, 144, 5};
 /* Plant speeds. This variable is plant-specific */

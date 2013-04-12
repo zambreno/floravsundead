@@ -17,7 +17,7 @@ time 240000
 # Set the total budget for plants. Note that the game-supplied zombie file has an
 # unlimited budget (for zombies), so we are specifying the per-team budget here.
 #
-budget 2750
+budget 2500
 
 # Select the blocks next. The currently valid options are:
 # Zombie, Flag, Conehead, Polevault, Buckethead, Newspaper, Screendoor, Football, Dancing, Yeti.

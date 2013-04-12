@@ -27,8 +27,8 @@ select P10.peashooter
 select P11.snowpea
 select P12.snowpea
 select P13.snowpea
-select P14.snowpea
-select P15.snowpea
+#select P14.snowpea
+#select P15.snowpea
 select P16.chomper
 select P17.chomper
 select P18.portal
@@ -98,9 +98,9 @@ place P12 3, 3
 fire P11
 fire P12
 if not P4.empty, place P13 4, 3
-if not P5.empty, place P14 5, 3
+#if not P5.empty, place P14 5, 3
 fire P13
-fire P14
+#fire P14
 goto L2
 
 

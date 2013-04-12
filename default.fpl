@@ -18,7 +18,7 @@ select P1.wallnut
 select P2.wallnut
 select P3.wallnut
 select P4.wallnut
-select P5.wallnut
+select P5.tallnut
 select P6.peashooter
 select P7.peashooter
 select P8.peashooter
@@ -29,13 +29,8 @@ select P12.repeater
 select P13.repeater
 select P14.repeater
 select P15.repeater
-select P16.tallnut
-select P17.tallnut
-select P18.tallnut
-select P19.tallnut
-select P20.tallnut
-select P21.tallnut
-select P22.wallnut
+#select P16.wallnut
+
 #
 # Perform an initial (static) placement on the grid. Everything before the "Start: " label
 # will be evaluated before the game starts. Rows are in the range [1-5] and cols
@@ -44,11 +39,11 @@ select P22.wallnut
 # place P# row, col
 # Strategy: static placement for everything but P21, P22
 # Tallnuts first
-place P16 1, 6
-place P17 2, 6
-place P18 3, 6
-place P19 4, 6
-place P20 5, 6
+#place P16 1, 6
+#place P17 2, 6
+#place P18 3, 6
+#place P19 4, 6
+#place P20 5, 6
 # Wallnuts next
 place P1 1, 5
 place P2 2, 5
@@ -87,25 +82,5 @@ if not P12.empty, fire P12
 if not P13.empty, fire P13
 if not P14.empty, fire P14
 if not P15.empty, fire P15
-Row1_Tallnut: if P1.damaged, place P21 1, 4
-if P1.damaged, goto L1
-Row2_Tallnut: if P2.damaged, place P21 2, 4
-if P2.damaged, goto L1
-Row3_Tallnut: if P3.damaged, place P21 3, 4
-if P3.damaged, goto L1
-Row4_Tallnut: if P4.damaged, place P21 4, 4
-if P4.damaged, goto L1
-Row5_Tallnut: if P5.damaged, place P21 5, 4
-if P5.damaged, goto L1
-L1: if empty, goto L1
-if not P21.damaged, goto L2
-Row2_Wallnut: if not P12.empty, place P22 2, 1
-if not P12.empty, goto L2
-Row3_Wallnut: if not P13.empty, place P22 3, 1
-if not P13.empty, goto L2
-Row4_Wallnut: if not P14.empty, place P22 4, 1
-if not P14.empty, goto L2
-Row5_Wallnut: if not P15.empty, place P22 5, 1
-if not P15.empty, goto L2
 L2: if empty, goto L2
 goto Start
