@@ -288,8 +288,10 @@ namespace fvu {
 
             // Evaluate predicate, to determine if command should even be executed
             bool pred_true = true;
+
             if (mycmd->has_pred == true) {
 
+                uint8_t myrow, mycol;
                 switch (mycmd->pred) {
                     case ALWAYS_PRED:
                     default:
@@ -477,7 +479,7 @@ namespace fvu {
                         break;
                     // Is a particular plant's row (or all rows) zombie-free?
                     case EMPTY_PRED:
-                        uint8_t myrow=5;
+                        myrow=5;
                         if (mycmd->has_plant_pred == true) {
                             for (uint16_t p = 0; p < myPlants[i].size(); p++) {
                                 if (myPlants[i][p].getID() == mycmd->plant_pred) {
@@ -500,6 +502,42 @@ namespace fvu {
                                 }
                             }
 
+                        }
+
+                        break;
+                    // Has a zombie passed us up?
+                    case PASSED_PRED:
+                        myrow = 5;
+                        mycol = 0;
+                        pred_true = false;
+                        if (mycmd->has_plant_pred == true) {
+                            for (uint16_t p = 0; p < myPlants[i].size(); p++) {
+                                if (myPlants[i][p].getID() == mycmd->plant_pred) {
+                                    myrow = myPlants[i][p].getRow();
+                                    mycol = myPlants[i][p].getCol();
+                                    break;
+                                }
+                            }
+                            for (uint16_t z = 0; z < myZombies[i].size(); z++) {
+                                if ((myZombies[i][z].getRow() == myrow) && (myZombies[i][z].getCol() < mycol) &&((myZombies[i][z].getStatus() == ZOMBIE_STATUS_ACTIVE) || (myZombies[i][z].getStatus() == ZOMBIE_STATUS_EATING))) {
+                                    pred_true = true;
+                                    break;
+                                }
+                            }
+                        }
+                        else {
+                            for (uint16_t p = 0; p < myPlants[i].size(); p++) {
+                                myrow = myPlants[i][p].getRow();
+                                mycol = myPlants[i][p].getCol();
+                                for (uint16_t z = 0; z < myZombies[i].size(); z++) {
+                                    if ((myZombies[i][z].getRow() == myrow) && (myZombies[i][z].getCol() < mycol) &&((myZombies[i][z].getStatus() == ZOMBIE_STATUS_ACTIVE) || (myZombies[i][z].getStatus() == ZOMBIE_STATUS_EATING))) {
+                                        pred_true = true;
+                                        break;
+                                    }
+                                }
+                                if (pred_true == true)
+                                    break;
+                            }
                         }
 
                         break;
