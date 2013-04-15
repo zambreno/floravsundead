@@ -44,7 +44,7 @@ place P2 2, 6
 place P3 3, 6
 place P4 4, 6
 place P5 5, 6
-place P18 2, 1
+place P18 1, 9
 
 # Specify the run-time commands. The valid commands are:
 # place, fire, goto.

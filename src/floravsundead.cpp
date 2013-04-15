@@ -1428,7 +1428,11 @@ namespace fvu {
                     printf("  select zombie count - %d, place zombie request - %d", myZombies[0].size(), zombie_counter+1);
                     raise_error(ERR_BADFILE3, myConfig.zom_fname);
                 }
-
+                if (place_tok > 4) {
+                    printf("Error compiling %s, line %d\n", myConfig.zom_fname, line_count);
+                    printf("  Valid zombie placement is in range [0, 4]\n");
+                    raise_error(ERR_BADFILE3, myConfig.zom_fname);
+                }
                 for (uint8_t i = 0; i < 4; i++) {
                     myZombies[i][zombie_counter].place(place_tok, 1.0*delay_tok, i);
                 }
