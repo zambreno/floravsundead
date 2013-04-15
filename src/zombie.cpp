@@ -1242,6 +1242,7 @@ namespace fvu {
                 break;
         }
 
+
         // Were we hit by a SNOW_PROJECTILE? If we still have our screen door it doesn't matter.
         if ((myParticle->getType() == SNOW_PROJECTILE) && ((type != SCREEN_ZOMBIE) || ((type == SCREEN_ZOMBIE) && (has_item == false)))) {
             if (frozen == false) {

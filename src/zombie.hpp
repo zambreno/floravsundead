@@ -62,7 +62,7 @@ namespace fvu {
             uint8_t getStatus() {return status;}
             void setStatus(uint8_t val) {status = val;}
             void setSpeed(float mySpeed) {speed = mySpeed;}
-            void setHealth(uint16_t myhealth) {health = myhealth;}
+            void setHealth(int16_t myhealth) {health = myhealth;}
             uint8_t getType() {return type;}
             uint16_t getIndex() {return index;}
             void setIndex(uint16_t myindex) {index = myindex;}
@@ -70,7 +70,7 @@ namespace fvu {
             uint16_t getRow() {return row;}
             uint16_t getCol() {return col;}
             uint8_t getTeam() {return team;}
-            uint16_t getHealth() {return health;}
+            int16_t getHealth() {return health;}
             float getDemoX() {return demo_x;}
             float getDemoY() {return demo_y;}
             float getGameX() {return game_x;}
@@ -86,7 +86,7 @@ namespace fvu {
         private:
             uint8_t type;
             uint8_t status;
-            uint16_t health;
+            int16_t health;
             uint16_t index;
             uint16_t row, col;
             float speed;
