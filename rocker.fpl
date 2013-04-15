@@ -14,33 +14,32 @@
 #
 # select P#.plant_name
 
-select P1.chomper
-select P2.wallnut
-select P3.wallnut
-select P4.wallnut
-select P5.wallnut
+select P1.gatling
+select P2.gatling
+select P3.gatling
+select P4.gatling
+select P5.gatling
 select P6.wallnut
-select P7.Repeater
-select P8.Repeater
-select P9.Repeater
-select P10.Repeater
-select P11.Repeater
+select P7.wallnut
+select P8.wallnut
+
+
 #
 # Perform an initial (static) placement on the grid. Everything before the "Start: " label
 # will be evaluated before the game starts. Rows are in the range [1-5] and cols
 # are in the range [1-10]. Grid 1, 1 is reserved for the scoreboard.
 
 # place P# row, col
-place P2 1, 9
-place P3 2, 9
-place P4 3, 9
-place P5 4, 9
-place P6 5, 9
-place P7 1, 2
-place P8 2, 2
-place P9 3, 2
-place P10 4, 2
-place P11 5, 2
+place P1 1, 2
+place P2 2, 2
+place P3 3, 2
+place P4 4, 2
+place P5 5, 2
+place P6 2, 5
+place P7 3, 5
+place P8 4, 5
+
+
 
 # Specify the run-time commands. The valid commands are:
 # place, fire, goto.
@@ -51,39 +50,11 @@ place P11 5, 2
 # command. Execution will begin with the "Start: " command.
 #
 
-#As soon as the first wallnut is damaged, chomp the zombie hitting it
-
 #fire the gatlings
-Start: if P7.ready, fire P7
-if P8.ready, fire P8
-if P9.ready, fire P9
-if P10.ready,fire P10
-if P11.ready,fire P11
-if not ready, goto Start
-
-#place the chomper behind the first damaged wallnut
-if P2.damaged, place P1 1, 8
-if P3.damaged, place P1 2, 8
-if P4.damaged, place P1 3, 8
-if P5.damaged, place P1 4, 8
-if P6.damaged, place P1 5, 8
-if not damaged, goto Start
-
-
-if P2.passed, place P1 1, 5
-if P3.passed, place P1 2, 5
-if P4.passed, place P1 3, 5
-if P5.passed, place P1 4, 5
-if P6.passed, place P1 5, 5
-if not passed, goto Start
-
-
-#fire the chomper
-if P1.ready, fire P1
-if not ready, goto Start
-
-#If the chomper is ever damaged, move it back
-if P1.damaged, place P1 1, 3
-if not damaged, goto Start
+Start: if P1.ready, fire P1
+if P2.ready, fire P2
+if P3.ready, fire P3
+if P4.ready,fire P4
+if P5.ready,fire P5
 
 goto Start
