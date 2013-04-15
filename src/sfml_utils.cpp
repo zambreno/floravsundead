@@ -591,7 +591,7 @@ namespace fvu {
         }
 
         myWindow.create(sf::VideoMode(myConfig.screen_width, myConfig.screen_height,
-                        myConfig.screen_depth), WINDOW_TITLE, sf::Style::Fullscreen);
+                        myConfig.screen_depth), WINDOW_TITLE/*, sf::Style::Fullscreen*/);
 
         mySettings = myWindow.getSettings();
         if (myConfig.debug_level > 3) {
