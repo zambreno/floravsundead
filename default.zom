@@ -1,6 +1,6 @@
 # Joseph Zambreno
 # Iowa State University
-# default.zom - default FloravsUndead Zombie file
+# round1.zom - 1st round FloravsUndead Zombie file
 
 # The '#' symbol denotes comments.
 # Comments are only detected at the beginning of a line
@@ -23,7 +23,23 @@ budget 2500
 # Zombie, Flag, Conehead, Polevault, Buckethead, Newspaper, Screendoor, Football, Dancing, Yeti.
 # You can specify more than 1 of a type in a line.
 #
-select polevault 5
+select regular 5
+select regular 1
+select regular 2
+select cone 1
+select flag 1
+select regular 2
+select regular 1
+select cone 1
+select polevault 2
+select regular 2
+select cone 1
+select bucket 1
+select regular 1
+select flag 1
+select screendoor 2
+select cone 2
+select buckethead 2
 
 # Specify the zombie placement and timing next. Each zombie is specified with
 # the entering lane in the range [0,4], and a delay from the previous zombie
@@ -33,8 +49,31 @@ select polevault 5
 # and that certain zombies may have game-enforced limitations on which lane they
 # can be placed.
 #
-place 1, 0
 place 2, 0
+place 3, 3500
+place 4, 3500
+place 0, 3000
+place 1, 0
+place 2, 3000
 place 3, 0
+place 4, 2500
+place 1, 4000
+place 2, -1
+place 0, 1000
+place 3, 1000
+place 2, 0
+place 1, 5000
+place 4, 3500
+place 2, 3000
+place 3, 0
+place 1, 1000
+place 2, 1000
+place 4, 4000
+place 3, 0
+place 2, 0
+place 3, -1
+place 2, 0
 place 4, 0
-place 0, 0
+place 1, 0
+place 3, 3000
+place 1, 3000

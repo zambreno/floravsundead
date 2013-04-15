@@ -12,7 +12,7 @@
 				<Option object_output=".objs/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="-D 60  stringanbu.fpl rocker.fpl zambro.fpl default.fpl" />
+				<Option parameters="-D 60 default.fpl" />
 				<Compiler>
 					<Add option="-fexpensive-optimizations" />
 					<Add option="-O3" />
