@@ -921,14 +921,14 @@ namespace fvu {
                                             local_plant->dest_team = 3;
                                             break;
                                         case 1:
-                                            break;
                                             local_plant->dest_team = 2;
+                                            break;
                                         case 2:
-                                            break;
                                             local_plant->dest_team = 1;
-                                        case 3:
                                             break;
+                                        case 3:
                                             local_plant->dest_team = 0;
+                                            break;
                                     }
                                 }
                             }
