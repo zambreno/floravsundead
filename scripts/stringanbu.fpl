@@ -1,6 +1,6 @@
 # Joseph Zambreno
 # Iowa State University
-# stringanbu.fpl - Mason's Flora Programming Language file
+# default.fpl - default Flora Programming Language file
 
 # The '#' symbol denotes comments.
 # Comments are only detected at the beginning of a line
@@ -13,31 +13,60 @@
 #
 # select P#.plant_name
 
-select P1.peashooter
-select P2.peashooter
-select P3.repeater
-select P4.snowpea
-select P5.chomper
-select P7.wallnut
-select P8.portal
+select P1.tallnut
+select P2.tallnut
+select P3.tallnut
+select P4.tallnut
+select P5.tallnut
+select P6.chomper
+select P7.chomper
+select P8.chomper
 select P9.chomper
-select P11.peashooter
-select P12.peashooter
+select P10.chomper
+select P11.snowpea
+select P12.snowpea
+select P13.snowpea
+select P14.snowpea
+#select P15.snowpea
+#select P16.gatling
+#select P17.gatling
+#select P18.gatling
+#select P19.peashooter
+#select P20.portal
 #
 # Perform an initial (static) placement on the grid. Everything before the "Start: " label
 # will be evaluated before the game starts. Rows are in the range [1-5] and cols
 # are in the range [1-10]. Grid 1, 1 is reserved for the scoreboard.
 
 # place P# row, col
+# Placing Initial tallnuts
+place P1 1,7
+place P2 2,7
+place P3 3,7
+place P4 4,7
+place P5 5,7
 
-place P1 2, 1
-place P2 1, 2
-place P3 3, 2
-place P4 5, 1
-place P5 2, 2
-place P7 1, 9
-place P8 2, 9
-place P9 3, 8
+#Placing Initial Chompers
+place P6 1,6
+place P7 2,6
+place P8 3,6
+place P9 4,6
+place P10 5,6
+
+#Placing Initial Chompers
+place P11 1,5
+place P12 2,5
+place P13 3,5
+place P14 4,5
+#place P15 5,5
+
+#Placing Initial Chompers
+#place P16 2,4
+#place P17 3,4
+#place P18 4,4
+#place P19 5,4
+#place P20 1,8
+
 
 # Specify the run-time commands. The valid commands are:
 # place, fire, goto.
@@ -48,24 +77,19 @@ place P9 3, 8
 # command. Execution will begin with the "Start: " command.
 #
 # fire a projectile from plant P1
-Start: fire P1
-#
-# fire a projectile from plant P2
-#fire P2
-#
-# if we've hit a zombie, continue firing
-#if hit, fire P3
-#if not hit, goto L2
-#fire P4
-#fire P6
-bite P9
-#
-# L2 is a label that the previous code jumped to
-# In this case, if one of our plants is damaged, move things around
-L2: if damaged, move P3 1, 3
-#fire P4
-#fire P6
-#fire P10
-# Loop back to the start.
+Start: fire P6
+fire P7
+fire  P8
+fire  P9
+fire  P10
+fire P11
+fire P12
+fire P13
+fire P14
+#fire P15
+#fire P16
+#fire P17
+#fire P18
+#fire P19
 goto Start
 
