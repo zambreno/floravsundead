@@ -11,7 +11,7 @@ day 1
 
 # Set the run-time. The game ends either when the clock goes down to 0
 # or when there are no zombies remaining.
-time 240000
+time 270000
 
 
 # Set the total budget for plants. Note that the game-supplied zombie file has an
@@ -40,6 +40,9 @@ select flag 1
 select screendoor 2
 select cone 2
 select buckethead 2
+select flag 1
+select screendoor 5
+select news 5
 
 # Specify the zombie placement and timing next. Each zombie is specified with
 # the entering lane in the range [0,4], and a delay from the previous zombie
@@ -75,5 +78,16 @@ place 3, -1
 place 2, 0
 place 4, 0
 place 1, 0
-place 3, 3000
+place 0, 3000
 place 1, 3000
+place 1, -1
+place 0, 3000
+place 1, 1000
+place 2, 1000
+place 3, 1000
+place 4, 1000
+place 0, 5000
+place 1, 1000
+place 2, 1000
+place 3, 1000
+place 4, 1000

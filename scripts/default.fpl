@@ -18,7 +18,7 @@ select P1.wallnut
 select P2.wallnut
 select P3.wallnut
 select P4.wallnut
-select P5.tallnut
+select P5.wallnut
 select P6.peashooter
 select P7.peashooter
 select P8.peashooter
@@ -29,7 +29,6 @@ select P12.repeater
 select P13.repeater
 select P14.repeater
 select P15.repeater
-#select P16.wallnut
 
 #
 # Perform an initial (static) placement on the grid. Everything before the "Start: " label
@@ -38,29 +37,23 @@ select P15.repeater
 
 # place P# row, col
 # Strategy: static placement for everything but P21, P22
-# Tallnuts first
-#place P16 1, 6
-#place P17 2, 6
-#place P18 3, 6
-#place P19 4, 6
-#place P20 5, 6
-# Wallnuts next
-place P1 1, 5
+# Wallnuts first
+place P1 1, 4
 place P2 2, 5
-place P3 3, 5
+place P3 3, 4
 place P4 4, 5
-place P5 5, 5
+place P5 5, 4
 # Peashooters next
 place P6 1, 3
-place P7 2, 3
+place P7 2, 2
 place P8 3, 3
-place P9 4, 3
+place P9 4, 2
 place P10 5, 3
 # Repeaters next
 place P11 1, 2
-place P12 2, 2
+place P12 2, 3
 place P13 3, 2
-place P14 4, 2
+place P14 4, 3
 place P15 5, 2
 
 # Specify the run-time commands. The valid commands are:
@@ -71,7 +64,9 @@ place P15 5, 2
 # Each command can also be identified with a label that can be the target of a "goto"
 # command. Execution will begin with the "Start: " command.
 #
-# Strategy: continued firing loop (because why not?), move P21, P22 as last defense
+# Strategy: continued firing loop (because why not?)
+# This will likely do well on very early levels
+# 
 Start: if not P6.empty, fire P6
 if not P7.empty, fire P7
 if not P8.empty, fire P8
