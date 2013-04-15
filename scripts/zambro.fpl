@@ -1,0 +1,107 @@
+
+# Joseph Zambreno
+# Iowa State University
+# zambro.fpl - Joe's sample Flora Programming Language file
+
+# The '#' symbol denotes comments.
+# Comments are only detected at the beginning of a line
+
+
+# Select/buy the plants first. The valid options are:
+# Peashooter, Repeater, Gatling, Snowpea, Chomper, Wallnut, Tallnut, Portal. You are limited by a total budget.
+#
+# Each type has their own cost and strengths - see the documentation for more detail.
+#
+# select P#.plant_name
+
+select P1.wallnut
+select P2.wallnut
+select P3.wallnut
+select P4.wallnut
+select P5.wallnut
+select P6.peashooter
+select P7.peashooter
+select P8.peashooter
+select P9.peashooter
+select P10.peashooter
+select P11.snowpea
+select P12.snowpea
+select P13.snowpea
+#select P14.snowpea
+#select P15.snowpea
+select P16.chomper
+select P17.chomper
+select P18.portal
+#
+# Perform an initial (static) placement on the grid. Everything before the "Start: " label
+# will be evaluated before the game starts. Rows are in the range [1-5] and cols
+# are in the range [1-10]. Grid 1, 1 is reserved for the scoreboard.
+
+# place P# row, col
+# Strategy: place wallnuts such that they form an initial line of defense. Chompers will protect
+place P1 1, 6
+place P2 2, 6
+place P3 3, 6
+place P4 4, 6
+place P5 5, 6
+place P18 1, 9
+
+# Specify the run-time commands. The valid commands are:
+# place, fire, goto.
+# Each command can be made optional based on your team's condition. Prefix the
+# instruction with "if" or "if not" and query the state, from the following options:
+# ready, alive, damaged, eaten, hit, score, winning, empty.
+# Each command can also be identified with a label that can be the target of a "goto"
+# command. Execution will begin with the "Start: " command.
+#
+# Strategy: wait until zombie appears to place and fire various shooters
+# Dynamic placement of resources whenever feasible
+Start: if not P1.empty, place P6 1, 2
+fire P11
+Loop: if P11.hit, goto Loop
+if not P2.empty, place P7 2, 2
+if not P3.empty, place P8 3, 2
+if not P4.empty, place P9 4, 2
+if not P5.empty, place P10 5, 2
+if empty, goto Start
+
+# Has someone taken a bite of our wallnuts? Place helper chompers if possible
+# There's no reason not to be firing our peashooters as available
+L1: if P1.damaged, place P16 1, 5
+L1a: if not P6.ready, goto Start
+fire P6
+L1b: if not P7.ready, goto Start
+fire P7
+L1c: if not P8.ready, goto Start
+fire P8
+L1d: if not P9.ready, goto Start
+fire P9
+L1e: if not P10.ready, goto Start
+fire P10
+
+if P2.damaged, place P17 2, 5
+if P3.damaged, place P16 3, 5
+if not P16.ready, goto L2
+if not P17.ready, goto L2
+if P4.damaged, place P17 4, 5
+if P5.damaged, place P16 5, 5
+if not damaged, goto L1
+
+
+# Did our chompers score? We might be busy, might as well place snowpeas
+L2: fire P16
+fire P17
+if not P16.score, goto Start
+place P11 2, 3
+if not P17.score, goto L1
+place P12 3, 3
+fire P11
+fire P12
+if not P4.empty, place P13 4, 3
+#if not P5.empty, place P14 5, 3
+fire P13
+#fire P14
+goto L2
+
+
+goto Start
