@@ -1,7 +1,7 @@
 
 # Joseph Zambreno
 # Iowa State University
-# default.fpl - default Flora Programming Language file
+# defense.fpl - Defensive-themed Flora Programming Language file
 
 # The '#' symbol denotes comments.
 # Comments are only detected at the beginning of a line
@@ -14,68 +14,71 @@
 #
 # select P#.plant_name
 
-select P1.wallnut
+select P1.chomper
 select P2.wallnut
 select P3.wallnut
 select P4.wallnut
 select P5.wallnut
-select P6.peashooter
-select P7.peashooter
-select P8.peashooter
-select P9.peashooter
-select P10.peashooter
-select P11.repeater
-select P12.repeater
-select P13.repeater
-select P14.repeater
-select P15.repeater
-
+select P6.wallnut
+select P7.Repeater
+select P8.Repeater
+select P9.Repeater
+select P10.Repeater
+select P11.Repeater
 #
 # Perform an initial (static) placement on the grid. Everything before the "Start: " label
 # will be evaluated before the game starts. Rows are in the range [1-5] and cols
 # are in the range [1-10]. Grid 1, 1 is reserved for the scoreboard.
 
 # place P# row, col
-# Strategy: static placement for everything but P21, P22
-# Wallnuts first
-place P1 1, 7
-place P2 2, 8
-place P3 3, 7
-place P4 4, 8
-place P5 5, 7
-# Peashooters next
-place P6 1, 5
-place P7 2, 4
-place P8 3, 5
-place P9 4, 4
-place P10 5, 5
-# Repeaters next
-place P11 1, 4
-place P12 2, 5
-place P13 3, 4
-place P14 4, 5
-place P15 5, 4
+place P2 1, 9
+place P3 2, 9
+place P4 3, 9
+place P5 4, 9
+place P6 5, 9
+place P7 1, 2
+place P8 2, 2
+place P9 3, 2
+place P10 4, 2
+place P11 5, 2
 
 # Specify the run-time commands. The valid commands are:
 # place, fire, goto.
 # Each command can be made optional based on your team's condition. Prefix the
 # instruction with "if" or "if not" and query the state, from the following options:
-# ready, alive, damaged, eaten, hit, score, winning, empty.
+# ready, damaged, eaten, hit, score.
 # Each command can also be identified with a label that can be the target of a "goto"
 # command. Execution will begin with the "Start: " command.
 #
-# Strategy: continued firing loop (because why not?)
-# This will likely do well on very early levels
-# 
-Start: if not P6.empty, fire P6
-if not P7.empty, fire P7
-if not P8.empty, fire P8
-if not P9.empty, fire P9
-if not P10.empty, fire P10
-if not P11.empty, fire P11
-if not P12.empty, fire P12
-if not P13.empty, fire P13
-if not P14.empty, fire P14
-if not P15.empty, fire P15
-L2: if empty, goto L2
+
+#As soon as the first wallnut is damaged, chomp the zombie hitting it
+
+#fire the gatlings
+Start: if P7.ready, fire P7
+if P8.ready, fire P8
+if P9.ready, fire P9
+if P10.ready,fire P10
+if P11.ready,fire P11
+
+#place the chomper behind the first damaged wallnut
+if P2.damaged, place P1 1, 8
+if P3.damaged, place P1 2, 8
+if P4.damaged, place P1 3, 8
+if P5.damaged, place P1 4, 8
+if P6.damaged, place P1 5, 8
+if not damaged, goto Start
+
+#fire the chomper
+if P1.ready, fire P1
+
+#place chomper behind passed wallnuts
+if P2.passed, place P1 1, 5
+if P3.passed, place P1 2, 5
+if P4.passed, place P1 3, 5
+if P5.passed, place P1 4, 5
+if P6.passed, place P1 5, 5
+
+#If the chomper is ever damaged, move it back
+if P1.damaged, place P1 1, 3
+
 goto Start
