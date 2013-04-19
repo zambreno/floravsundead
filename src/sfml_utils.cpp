@@ -433,7 +433,7 @@ namespace fvu {
         while (myWindow.pollEvent(event)) {
             if (event.type == sf::Event::KeyPressed) {
                 switch (event.key.code) {
-                    case sf::Keyboard::Num1:
+/*                    case sf::Keyboard::Num1:
                         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Dash))
                             myStatus.scores[0]--;
                         else
@@ -456,7 +456,7 @@ namespace fvu {
                             myStatus.scores[3]--;
                         else
                             myStatus.scores[3]++;
-                        break;
+                        break;*/
                     case sf::Keyboard::Escape:
                     case sf::Keyboard::Q:
                         myWindow.close();

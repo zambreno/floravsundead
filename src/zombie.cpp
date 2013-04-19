@@ -1202,10 +1202,14 @@ namespace fvu {
 
         // A chomp is an invisible particle specifically to destroy a zombie
         if (myParticle->getType() == CHOMP_PROJECTILE) {
-            health = 0;
-            row = 25;
-            status = ZOMBIE_STATUS_INACTIVE;
-            myGame->myStatus.scores[team] += KILL_SCORE;
+
+            // Are we already dead? Don't double-count
+            if (health > 0) {
+                health = 0;
+                row = 25;
+                status = ZOMBIE_STATUS_INACTIVE;
+                myGame->myStatus.scores[team] += KILL_SCORE;
+            }
             return;
         }
 

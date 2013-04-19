@@ -479,7 +479,7 @@ namespace fvu {
                         break;
                     // Is a particular plant's row (or all rows) zombie-free?
                     case EMPTY_PRED:
-                        myrow=5;
+                        myrow=7;
                         if (mycmd->has_plant_pred == true) {
                             for (uint16_t p = 0; p < myPlants[i].size(); p++) {
                                 if (myPlants[i][p].getID() == mycmd->plant_pred) {
@@ -493,6 +493,7 @@ namespace fvu {
                                     break;
                                 }
                             }
+
                         }
                         else {
                             for (uint16_t z = 0; z < myZombies[i].size(); z++) {

@@ -68,12 +68,12 @@ place P16 3, 3
 Start: if not P6.empty, fire P6
 if not P8.empty, fire P8
 if P9.alive, fire P9
-if not P10.empty, fire P10
+fire P10
 if P11.damaged, fire P11
 if not P12.empty, fire P12
 if winning, fire P14
 fire P15
-if not winning, move P3 4, 2
+if P3.damaged, move P3 4, 2
 P16_notready: if not P16.ready, goto P16_notready
 fire p16
 Wait_Label: if empty, goto Wait_Label
